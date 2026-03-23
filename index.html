@@ -50,8 +50,8 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28p
 .logo-icon::after{content:'';position:absolute;inset:4px;background:var(--accent);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
 .logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
 .logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
-nav{display:flex;align-items:stretch;flex:1;overflow-x:auto}
-.nav-tab{font-family:var(--head);font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:0 16px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;gap:7px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0}
+nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
+.nav-tab{font-family:var(--head);font-weight:700;font-size:0.68rem;letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);padding:0 10px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:5px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
 .nav-tab:hover{color:var(--text2)}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
@@ -92,7 +92,7 @@ select option{background:var(--bg3)}
 /* ── TABLE ── */
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:0.77rem}
-thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:60px}
+thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
 thead th:hover{color:var(--text2)}
 thead th.sorted{color:var(--accent3)}
 tbody tr{border-bottom:1px solid var(--border2);transition:background 0.1s}
@@ -240,16 +240,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="logo-icon"></div>
     <div class="logo-text">
       <h1>Unmanned Systems Tracker</h1>
-      <p>OSINT · UKRAINE WAR 2022–PRESENT</p>
+      <p>UKRAINE WAR 2022–PRESENT</p>
     </div>
   </div>
   <nav>
-    <button class="nav-tab active" onclick="showTab('intro',this)">📋 Introduction</button>
-    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV Strikes <span class="tab-count" id="usv-count">—</span></button>
-    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations <span class="tab-count" id="ugv-count">—</span></button>
+    <button class="nav-tab active" onclick="showTab('intro',this)">📋 Intro</button>
+    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV <span class="tab-count" id="usv-count">—</span></button>
+    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV <span class="tab-count" id="ugv-count">—</span></button>
     <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Kills <span class="tab-count" id="uav-count">0</span></button>
     <button class="nav-tab" onclick="showTab('rl',this)">💀 Russia Losses</button>
-    <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources & Support</button>
+    <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
   <div class="header-right">
     <div class="live-dot"></div>
@@ -397,7 +397,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <p><b>Inclusion criteria:</b> Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted where it exists but is not required for inclusion.</p>
     <p><b>Damage classification:</b> A consistent taxonomy is applied across all entries. <b>Sunk</b> = total loss, vessel confirmed on seabed. <b>Destroyed</b> = total loss confirmed on land or in air. <b>Damaged</b> = partial damage, target operational or repairable. <b>Shot Down</b> = aerial asset destroyed in flight. <b>Disrupted</b> = infrastructure or operation temporarily put out of action.</p>
     <p><b>Personnel casualty figures:</b> This tracker uses Mediazona/BBC News Russian confirmed-by-name figures as its primary KIA metric — the most rigorous publicly available methodology, cross-checked against Russia's National Probate Registry. These figures are always a floor, not a ceiling. Statistical estimates from Meduza/Mediazona's probate registry model are cited alongside for context.</p>
-    <p><b>Limitations:</b> Fog of war means some entries carry uncertainty. Where damage is disputed or unconfirmed by Russia, this is noted. Kill Board figures are estimates — precise battlefield losses cannot be independently verified. Figures from different sources often conflict and are presented with source attribution so readers can assess reliability themselves.</p>
     <div class="source-chips">
       <span class="source-chip">Wikipedia / OSINT community</span>
       <span class="source-chip">Kyiv Independent</span>
@@ -574,14 +573,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <p class="source-card-desc">The gold standard for equipment loss tracking — every entry in the Oryx database is individually photo or video confirmed. Tracks Russian and Ukrainian losses of tanks, AFVs, aircraft, and naval vessels. Ceased updating in 2025 but the historical record remains essential.</p>
       <a href="https://www.oryxspioenkop.com/2022/02/attack-on-europe-documenting-equipment.html" target="_blank" rel="noopener" class="source-card-link">oryxspioenkop.com ↗</a>
     </div>
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🛥</span>
-        <div><div class="source-card-name">Oryx — Naval Losses</div><div class="source-card-type">Photo-confirmed ship losses</div></div>
-      </div>
-      <p class="source-card-desc">Oryx's dedicated naval loss tracker for the Russia-Ukraine war. Documents Russian and Ukrainian naval vessels with photo confirmation. Includes the Black Sea Fleet's progressive degradation from 2022–2024.</p>
-      <a href="https://www.oryxspioenkop.com/2022/03/list-of-naval-losses-during-2022.html" target="_blank" rel="noopener" class="source-card-link">Oryx Naval Losses ↗</a>
-    </div>
   </div>
 
   <!-- NAVAL / USV TRACKING -->
@@ -602,22 +593,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       </div>
       <p class="source-card-desc">Consistently the best English-language specialist defence reporting on USV and UGV developments. Well-sourced, sceptical of unverified claims, and fast to cover new platform developments. Used extensively as a secondary verification source for this tracker.</p>
       <a href="https://www.twz.com/" target="_blank" rel="noopener" class="source-card-link">twz.com ↗</a>
-    </div>
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🌊</span>
-        <div><div class="source-card-name">Naval Warfare — Wikipedia</div><div class="source-card-type">Comprehensive conflict record</div></div>
-      </div>
-      <p class="source-card-desc">Wikipedia's naval warfare article for the Russian invasion of Ukraine is unusually well-sourced and maintained, with citations to primary sources for each major engagement. Useful as a starting point for cross-referencing individual incidents.</p>
-      <a href="https://en.wikipedia.org/wiki/Naval_warfare_in_the_Russian_invasion_of_Ukraine" target="_blank" rel="noopener" class="source-card-link">Wikipedia Naval Warfare ↗</a>
-    </div>
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🤖</span>
-        <div><div class="source-card-name">385th USV Brigade — Wikipedia</div><div class="source-card-type">Unit history · confirmed operations</div></div>
-      </div>
-      <p class="source-card-desc">Wikipedia's article on the world's first dedicated USV military unit — Ukraine's 385th Naval Unmanned Surface Vehicles Brigade. Documents confirmed operational history from formation through 2024–25 operations.</p>
-      <a href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener" class="source-card-link">Wikipedia 385th Brigade ↗</a>
     </div>
   </div>
 
