@@ -4,16 +4,14 @@
  * Scrapes https://sbs-group.army/en/ using Playwright (headless Chromium)
  * then writes new entries to the UAV tab of your Google Sheet.
  *
- * Runs daily via GitHub Actions. New rows are appended only —
- * existing data is never overwritten.
+ * Runs daily via GitHub Actions.
  */
 
 const { chromium } = require('@playwright/test');
 const { google }   = require('googleapis');
 
-// ── CONFIG ────────────────────────────────────────────────
-const TARGET_URL    = 'https://sbs-group.army/en/';
-const SHEET_TAB     = 'UAV';   // must match your Google Sheet tab name exactly
+const TARGET_URL     = 'https://sbs-group.army/en/';
+const SHEET_TAB      = 'UAV';
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
 // ── GOOGLE SHEETS AUTH ────────────────────────────────────
@@ -24,32 +22,6 @@ async function getSheetsClient() {
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
   return google.sheets({ version: 'v4', auth });
-}
-
-// ── READ EXISTING DATA (to avoid duplicates) ──────────────
-async function getExistingRows(sheets) {
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: SPREADSHEET_ID,
-    range: `${SHEET_TAB}!A:A`,  // just the date column
-  });
-  const rows = res.data.values || [];
-  // Return a Set of existing row identifiers (date + target combined)
-  return new Set(rows.slice(1).map(r => r[0]));
-}
-
-// ── APPEND NEW ROWS ───────────────────────────────────────
-async function appendRows(sheets, rows) {
-  if (!rows.length) {
-    console.log('No new rows to append.');
-    return;
-  }
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SPREADSHEET_ID,
-    range: `${SHEET_TAB}!A:I`,
-    valueInputOption: 'USER_ENTERED',
-    requestBody: { values: rows },
-  });
-  console.log(`Appended ${rows.length} new rows.`);
 }
 
 // ── ENSURE HEADERS EXIST ──────────────────────────────────
@@ -72,9 +44,86 @@ async function ensureHeaders(sheets) {
   }
 }
 
-// ── SCRAPE THE SITE ───────────────────────────────────────
+// ── READ EXISTING ROWS ────────────────────────────────────
+async function getExistingRows(sheets) {
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: SPREADSHEET_ID,
+    range: `${SHEET_TAB}!A:C`,
+  });
+  const rows = res.data.values || [];
+  return new Set(rows.slice(1).map(r => `${r[0]}|${r[2]}`));
+}
+
+// ── APPEND NEW ROWS ───────────────────────────────────────
+async function appendRows(sheets, rows) {
+  if (!rows.length) {
+    console.log('No new rows to append.');
+    return;
+  }
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: SPREADSHEET_ID,
+    range: `${SHEET_TAB}!A:I`,
+    valueInputOption: 'USER_ENTERED',
+    requestBody: { values: rows },
+  });
+  console.log(`Appended ${rows.length} new rows.`);
+}
+
+// ── SCRAPE ONE UNIT PAGE ──────────────────────────────────
+async function scrapeUnit(page, unitName) {
+  console.log(`\n--- Scraping unit: ${unitName} ---`);
+  const results = [];
+
+  // Wait for content to load after navigation
+  await page.waitForTimeout(3000);
+
+  // Log the page text to understand structure
+  const bodyText = await page.evaluate(() => document.body.innerText);
+  console.log(`Page text sample (${unitName}):\n`, bodyText.slice(0, 1500));
+
+  // Try to find any stats/kill data — look for numbers and target words
+  // Common patterns: tank, APC, personnel, artillery, drone, helicopter
+  const targetKeywords = ['tank', 'apc', 'personnel', 'artillery', 'drone',
+    'helicopter', 'vehicle', 'destroyed', 'damaged', 'armored', 'infantry'];
+
+  const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+  for (const line of lines) {
+    const lower = line.toLowerCase();
+    if (targetKeywords.some(kw => lower.includes(kw))) {
+      console.log('Potential kill data line:', line);
+    }
+  }
+
+  // Take screenshot per unit
+  await page.screenshot({
+    path: `screenshot-${unitName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`,
+    fullPage: true
+  });
+
+  // Log all visible text blocks with numbers
+  const numberedBlocks = await page.evaluate(() => {
+    const all = [...document.querySelectorAll('*')];
+    return all
+      .filter(el => el.children.length === 0 && /\d/.test(el.innerText))
+      .map(el => ({
+        tag: el.tagName,
+        classes: el.className,
+        text: el.innerText.trim().slice(0, 200)
+      }))
+      .filter(el => el.text.length > 0)
+      .slice(0, 50);
+  });
+
+  console.log('Numbered elements found:');
+  numberedBlocks.forEach(b => console.log(`  [${b.tag}] "${b.text}" (${b.classes})`));
+
+  return results;
+}
+
+// ── MAIN SCRAPE ───────────────────────────────────────────
 async function scrape() {
-  console.log(`Launching browser and navigating to ${TARGET_URL}...`);
+  console.log(`Launching browser...`);
 
   const browser = await chromium.launch({
     headless: true,
@@ -84,69 +133,65 @@ async function scrape() {
   const context = await browser.newContext({
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
     locale: 'en-US',
+    viewport: { width: 1280, height: 900 },
   });
 
   const page = await context.newPage();
+  const allRows = [];
 
   try {
-    // Navigate and wait for content to load
-    await page.goto(TARGET_URL, {
-      waitUntil: 'networkidle',
-      timeout: 60000,
-    });
-
-    // Give JS-rendered content extra time to appear
+    // Load main page
+    await page.goto(TARGET_URL, { waitUntil: 'networkidle', timeout: 60000 });
     await page.waitForTimeout(3000);
 
-    // ── Try to extract table/list data ──
-    // The site may render data as a table, cards, or list —
-    // we try multiple selectors and log what we find
-    console.log('Page loaded. Extracting data...');
+    console.log('Main page loaded. Looking for unit links...');
 
-    // Log the page structure to understand what's there
-    const pageTitle = await page.title();
-    console.log('Page title:', pageTitle);
-
-    // Take a screenshot for debugging (saved as artifact)
-    await page.screenshot({ path: 'screenshot.png', fullPage: true });
-    console.log('Screenshot saved.');
-
-    // Try to find any table rows
-    const tableRows = await page.$$eval('table tbody tr', rows =>
-      rows.map(row => {
-        const cells = [...row.querySelectorAll('td')].map(td => td.innerText.trim());
-        return cells;
-      })
-    ).catch(() => []);
-
-    console.log(`Found ${tableRows.length} table rows`);
-
-    // Try to find list items or cards
-    const listItems = await page.$$eval('[class*="kill"], [class*="record"], [class*="hit"], [class*="item"], [class*="card"], [class*="entry"], [class*="row"]', items =>
-      items.map(el => el.innerText.trim())
-    ).catch(() => []);
-
-    console.log(`Found ${listItems.length} list/card items`);
-
-    // Log full page text for structure analysis
-    const bodyText = await page.evaluate(() => document.body.innerText);
-    console.log('--- PAGE TEXT SAMPLE (first 2000 chars) ---');
-    console.log(bodyText.slice(0, 2000));
-    console.log('-------------------------------------------');
-
-    // Log all class names on the page to find data containers
-    const allClasses = await page.evaluate(() => {
-      const classes = new Set();
-      document.querySelectorAll('*').forEach(el => {
-        el.classList.forEach(c => classes.add(c));
-      });
-      return [...classes].slice(0, 100);
+    // Find all clickable unit links/buttons
+    const unitLinks = await page.evaluate(() => {
+      const links = [...document.querySelectorAll('a')];
+      return links
+        .map(a => ({ href: a.href, text: a.innerText.trim() }))
+        .filter(l => l.href && l.text && l.href !== window.location.href)
+        .slice(0, 30);
     });
-    console.log('Classes found on page:', allClasses.join(', '));
+
+    console.log('Unit links found:');
+    unitLinks.forEach(l => console.log(`  "${l.text}" -> ${l.href}`));
+
+    // Also log all buttons
+    const buttons = await page.evaluate(() => {
+      return [...document.querySelectorAll('button, [role="button"], [class*="btn"]')]
+        .map(b => ({ text: b.innerText.trim(), classes: b.className }))
+        .filter(b => b.text)
+        .slice(0, 20);
+    });
+    console.log('Buttons found:');
+    buttons.forEach(b => console.log(`  "${b.text}" (${b.classes})`));
+
+    // Try clicking the first unit that looks like a brigade/regiment
+    const unitKeywords = ['birds', 'achilles', 'rarog', 'k-2', 'fenix', 'nemesis',
+      'hawks', 'svarog', 'raid', 'brigade', 'regiment', 'battalion'];
+
+    let clicked = false;
+    for (const link of unitLinks) {
+      const lower = link.text.toLowerCase();
+      if (unitKeywords.some(kw => lower.includes(kw))) {
+        console.log(`\nClicking unit: "${link.text}" -> ${link.href}`);
+        await page.goto(link.href, { waitUntil: 'networkidle', timeout: 30000 });
+        const unitRows = await scrapeUnit(page, link.text);
+        allRows.push(...unitRows);
+        clicked = true;
+        break; // just one unit for now to understand the structure
+      }
+    }
+
+    if (!clicked) {
+      console.log('No unit link clicked — scraping main page directly');
+      await scrapeUnit(page, 'main');
+    }
 
     await browser.close();
-
-    return { tableRows, listItems, bodyText };
+    return allRows;
 
   } catch (err) {
     console.error('Scrape error:', err.message);
@@ -156,74 +201,22 @@ async function scrape() {
   }
 }
 
-// ── PARSE ROWS INTO SHEET FORMAT ──────────────────────────
-// This function maps scraped data to the sheet columns:
-// date | system | target | type | loc | outcome | notes | src | srcl
-//
-// You will likely need to adjust the field mapping below once
-// we see the actual page structure from the first run.
-function parseRows(scrapedData) {
-  const { tableRows } = scrapedData;
-  const parsed = [];
-
-  for (const cells of tableRows) {
-    if (!cells.length) continue;
-
-    // ── ADJUST THIS MAPPING once you see the real column order ──
-    // Current assumption: date | target | type | location | outcome
-    // Update field indices after first run reveals real structure
-    const row = [
-      cells[0] || '',   // date
-      'FPV/UAV',        // system (default until we know from data)
-      cells[1] || '',   // target
-      cells[2] || '',   // type
-      cells[3] || '',   // loc
-      cells[4] || '',   // outcome
-      '',               // notes
-      TARGET_URL,       // src
-      'USF Pidrakhuyka',// srcl
-    ];
-
-    parsed.push(row);
-  }
-
-  return parsed;
-}
-
 // ── MAIN ──────────────────────────────────────────────────
 async function main() {
-  // Validate env vars
-  if (!SPREADSHEET_ID) {
-    throw new Error('SPREADSHEET_ID environment variable not set');
-  }
-  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON environment variable not set');
-  }
+  if (!SPREADSHEET_ID) throw new Error('SPREADSHEET_ID not set');
+  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON not set');
 
-  // 1. Scrape the site
-  const scrapedData = await scrape();
+  const rows = await scrape();
+  console.log(`\nTotal rows scraped: ${rows.length}`);
 
-  // 2. Parse into sheet rows
-  const newRows = parseRows(scrapedData);
-  console.log(`Parsed ${newRows.length} rows from scrape`);
-
-  // 3. Connect to Google Sheets
   const sheets = await getSheetsClient();
-
-  // 4. Ensure headers are in place
   await ensureHeaders(sheets);
 
-  // 5. Get existing row keys to avoid duplicates
   const existing = await getExistingRows(sheets);
-  console.log(`${existing.size} existing rows in sheet`);
+  const toAppend = rows.filter(r => !existing.has(`${r[0]}|${r[2]}`));
+  console.log(`New rows to append: ${toAppend.length}`);
 
-  // 6. Filter to only new rows
-  const toAppend = newRows.filter(row => !existing.has(row[0]));
-  console.log(`${toAppend.length} new rows to add`);
-
-  // 7. Append new rows
   await appendRows(sheets, toAppend);
-
   console.log('Done.');
 }
 
