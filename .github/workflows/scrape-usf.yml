@@ -19,22 +19,19 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: |
-          cd scripts
-          npm install
+        working-directory: scripts
+        run: npm install
 
       - name: Install Playwright browsers
-        run: |
-          cd scripts
-          npx playwright install chromium --with-deps
+        working-directory: scripts
+        run: npx playwright install chromium --with-deps
 
       - name: Run scraper
+        working-directory: scripts
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        run: |
-          cd scripts
-          node scrape-usf.js
+        run: node scrape-usf.js
 
       - name: Log result
         run: echo "Scrape complete"
