@@ -1,15 +1,15 @@
 /**
  * USF Pidrakhuyka Kill Board Scraper
  * -----------------------------------
- * Scrapes https://sbs-group.army/en/ using Playwright (headless Chromium)
- * then writes new entries to the UAV tab of your Google Sheet.
+ * Scrapes https://sbs-group.army/en/subdivision/usf_grouping
+ * then writes entries to the UAV tab of your Google Sheet.
  * Runs daily via GitHub Actions.
  */
 
 const { chromium } = require('@playwright/test');
 const { google }   = require('googleapis');
 
-const TARGET_URL     = 'https://sbs-group.army/en/';
+const TARGET_URL     = 'https://sbs-group.army/en/subdivision/usf_grouping';
 const SHEET_TAB      = 'UAV';
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
@@ -67,7 +67,7 @@ async function appendRows(sheets, rows) {
 
 // ── SCRAPE ────────────────────────────────────────────────
 async function scrape() {
-  console.log('Launching browser...');
+  console.log(`Navigating to: ${TARGET_URL}`);
 
   const browser = await chromium.launch({
     headless: true,
@@ -81,11 +81,12 @@ async function scrape() {
   });
 
   const page = await context.newPage();
-  const allRows = [];
 
   try {
     await page.goto(TARGET_URL, { waitUntil: 'networkidle', timeout: 60000 });
-    await page.waitForTimeout(4000);
+
+    // Extra wait for JS-rendered content
+    await page.waitForTimeout(5000);
 
     // Dismiss cookie banner if present
     const gotIt = page.locator('button:has-text("Got it")');
@@ -94,90 +95,87 @@ async function scrape() {
       await page.waitForTimeout(1000);
     }
 
-    // ── Find unit cards ──────────────────────────────────
-    // Cards are divs containing an H1 with the unit name
-    const unitNames = await page.$$eval('h1', els =>
-      els.map(el => el.innerText.trim()).filter(t => t.length > 0 && t.length < 40)
+    console.log('Page title:', await page.title());
+    console.log('URL after load:', page.url());
+
+    // ── Full page text ──────────────────────────────────
+    const bodyText = await page.evaluate(() => document.body.innerText);
+    console.log('\n=== FULL PAGE TEXT ===');
+    console.log(bodyText.slice(0, 5000));
+    console.log('=== END PAGE TEXT ===\n');
+
+    // ── All leaf elements with content ──────────────────
+    const allElements = await page.evaluate(() => {
+      const results = [];
+      document.querySelectorAll('*').forEach(el => {
+        if (el.children.length > 0) return;
+        const text = el.innerText?.trim() || '';
+        if (!text || text.length > 500 || text.length < 1) return;
+        results.push({
+          tag: el.tagName,
+          classes: el.className?.toString().slice(0, 100) || '',
+          text: text.slice(0, 300),
+        });
+      });
+      return results.slice(0, 100);
+    });
+
+    console.log(`\n=== ALL LEAF ELEMENTS (${allElements.length}) ===`);
+    allElements.forEach(e => console.log(`[${e.tag}] "${e.text}" :: ${e.classes}`));
+
+    // ── Screenshot ──────────────────────────────────────
+    await page.screenshot({ path: 'usf-grouping.png', fullPage: true });
+    console.log('\nScreenshot saved: usf-grouping.png');
+
+    // ── Try to find any table, list, or grid of kills ───
+    const tables = await page.$$eval('table', ts =>
+      ts.map(t => t.innerText?.trim().slice(0, 500))
     );
-    console.log('Unit H1s found:', unitNames);
-
-    // Click each unit card and scrape the resulting data
-    for (const unitName of unitNames) {
-      try {
-        console.log(`\n=== Clicking unit: ${unitName} ===`);
-
-        // Re-find the h1 on the current page and click its parent card
-        const h1 = page.locator(`h1`).filter({ hasText: unitName }).first();
-        if (!await h1.isVisible()) {
-          console.log(`  ${unitName}: h1 not visible, skipping`);
-          continue;
-        }
-
-        // Click the card (parent element of h1)
-        await h1.click();
-        await page.waitForTimeout(3000);
-
-        // Check if the page changed — look for new content
-        const pageText = await page.evaluate(() => document.body.innerText);
-        console.log(`  Page text after click (first 800 chars):\n`, pageText.slice(0, 800));
-
-        // Log URL in case it navigated
-        console.log('  Current URL:', page.url());
-
-        // Look for any kill statistics — numbers next to target type words
-        const statsBlocks = await page.evaluate(() => {
-          const results = [];
-          // Look for elements that contain both a number and a military target word
-          const militaryWords = ['tank', 'apc', 'artillery', 'personnel', 'drone',
-            'helicopter', 'vehicle', 'manpower', 'gun', 'mortar', 'radar',
-            'truck', 'boat', 'aircraft', 'missile', 'launcher'];
-
-          document.querySelectorAll('*').forEach(el => {
-            if (el.children.length > 0) return;
-            const text = el.innerText?.trim() || '';
-            if (!text || text.length > 300) return;
-            const lower = text.toLowerCase();
-            const hasNumber = /\d/.test(text);
-            const hasMilWord = militaryWords.some(w => lower.includes(w));
-            if (hasNumber || hasMilWord) {
-              results.push({
-                tag: el.tagName,
-                classes: el.className.slice(0, 80),
-                text: text.slice(0, 200),
-              });
-            }
-          });
-          return results.slice(0, 60);
-        });
-
-        console.log(`  Stats blocks found (${statsBlocks.length}):`);
-        statsBlocks.forEach(b => console.log(`    [${b.tag}] "${b.text}" (${b.classes})`));
-
-        // Take a screenshot for this unit
-        await page.screenshot({
-          path: `unit-${unitName.replace(/[^a-z0-9]/gi,'_').toLowerCase()}.png`,
-          fullPage: true,
-        });
-
-        // Navigate back to main page for next unit
-        await page.goto(TARGET_URL, { waitUntil: 'networkidle', timeout: 30000 });
-        await page.waitForTimeout(2000);
-
-        // Dismiss cookie banner again if it reappears
-        const gotItAgain = page.locator('button:has-text("Got it")');
-        if (await gotItAgain.isVisible()) await gotItAgain.click();
-        await page.waitForTimeout(1000);
-
-      } catch (unitErr) {
-        console.error(`  Error scraping ${unitName}:`, unitErr.message);
-      }
+    if (tables.length) {
+      console.log('\n=== TABLES FOUND ===');
+      tables.forEach((t, i) => console.log(`Table ${i}:`, t));
     }
 
+    // ── Check for any data attributes ───────────────────
+    const dataAttrs = await page.evaluate(() => {
+      const results = [];
+      document.querySelectorAll('[data-*]').forEach(el => {
+        const attrs = [...el.attributes]
+          .filter(a => a.name.startsWith('data-'))
+          .map(a => `${a.name}="${a.value}"`)
+          .join(' ');
+        if (attrs) results.push({ tag: el.tagName, attrs, text: el.innerText?.trim().slice(0, 100) });
+      });
+      return results.slice(0, 30);
+    });
+    if (dataAttrs.length) {
+      console.log('\n=== DATA ATTRIBUTES ===');
+      dataAttrs.forEach(d => console.log(`[${d.tag}] ${d.attrs} :: "${d.text}"`));
+    }
+
+    // ── Check network requests for API calls ────────────
+    console.log('\n=== INTERCEPTED API CALLS ===');
+    const apiCalls = [];
+    page.on('request', req => {
+      const url = req.url();
+      if (url.includes('api') || url.includes('json') || url.includes('data') ||
+          url.includes('kill') || url.includes('stat') || url.includes('report')) {
+        apiCalls.push({ method: req.method(), url });
+      }
+    });
+
+    // Reload with network interception active
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.waitForTimeout(3000);
+
+    apiCalls.forEach(c => console.log(`${c.method} ${c.url}`));
+    if (!apiCalls.length) console.log('No obvious API calls detected');
+
     await browser.close();
-    return allRows;
+    return []; // Return empty for now — will fill in once we see the structure
 
   } catch (err) {
-    console.error('Fatal scrape error:', err.message);
+    console.error('Scrape error:', err.message);
     await page.screenshot({ path: 'error.png' }).catch(() => {});
     await browser.close();
     throw err;
@@ -197,7 +195,6 @@ async function main() {
 
   const existing = await getExistingRows(sheets);
   const toAppend = rows.filter(r => !existing.has(`${r[0]}|${r[2]}`));
-  console.log(`New rows to append: ${toAppend.length}`);
   await appendRows(sheets, toAppend);
   console.log('Done.');
 }
