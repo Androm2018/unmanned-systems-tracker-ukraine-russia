@@ -694,7 +694,7 @@ let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
 //  FETCH
 // ═══════════════════════════════════════════════════════════
 async function fetchTab(tab) {
-  if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
+  if(!SCRIPT_URL||SCRIPT_URL.startsWith('https://script.google.com/macros/s/AKfycbzWLX6DF8VxV41OQt4rUyCvhaHH0dimr2LBRgys89TWiouYEhvlDVcACwQMbU3uaSWGCA/exec'))return null;
   try{
     const res=await fetch(`${SCRIPT_URL}?tab=${tab}&t=${Date.now()}`);
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
