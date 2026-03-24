@@ -485,20 +485,42 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="section-title">UAV <span>Kill Board</span></div>
       <div class="section-sub">CONFIRMED UKRAINIAN UAV STRIKES · SOURCE: USF PIDRAKHUYKA OFFICIAL KILL BOARD · 2025–PRESENT</div>
     </div>
-    <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ EXPORT CSV</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <select id="uav-period" onchange="renderUAV()" style="font-family:var(--mono);font-size:0.7rem;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:2px;outline:none">
+        <option value="">All periods</option>
+        <option value="yearly_2025">2025 Annual</option>
+        <option value="2026">2026 Daily</option>
+      </select>
+      <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ EXPORT CSV</button>
+    </div>
   </div>
-  <div class="controls">
-    <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="uav-search" placeholder="target, type, location…" oninput="renderUAV()"></div>
-    <div class="ctrl-group"><span class="ctrl-label">Target Type</span><select id="uav-type" onchange="renderUAV()"><option value="">All types</option><option>Tank / AFV</option><option>Artillery</option><option>Air defence</option><option>Drone / Aircraft</option><option>Logistics</option><option>Personnel</option><option>Fortification</option><option>Electronics</option><option>Other</option></select></div>
-    <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="uav-year" onchange="renderUAV()"><option value="">All</option><option>2025</option><option>2026</option></select></div>
-    <span class="result-count">Showing <b id="uav-rc">—</b> events</span>
+
+  <!-- HEADLINE STATS (shown for single-period view) -->
+  <div id="uav-headlines" class="kb-grid" style="margin-bottom:20px"></div>
+
+  <!-- DETAIL BREAKDOWN -->
+  <div class="kb-section-title">TARGET BREAKDOWN</div>
+  <div class="controls" style="margin-bottom:12px">
+    <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="uav-search" placeholder="target, type…" oninput="renderUAV()"></div>
+    <div class="ctrl-group"><span class="ctrl-label">Type</span><select id="uav-type" onchange="renderUAV()"><option value="">All types</option><option>Tank / AFV</option><option>Artillery</option><option>Air defence</option><option>Drone / Aircraft</option><option>Logistics</option><option>Personnel</option><option>Fortification</option><option>Electronics</option><option>Operations</option><option>Summary</option><option>Other</option></select></div>
+    <span class="result-count">Showing <b id="uav-rc">—</b> records</span>
   </div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th onclick="sortUAV(0)">Date ↕</th><th>UAV System</th><th onclick="sortUAV(2)">Target ↕</th><th onclick="sortUAV(3)">Type ↕</th><th>Location</th><th>Outcome</th><th>Notes</th><th>Source</th></tr></thead>
-      <tbody id="uav-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
+      <thead><tr>
+        <th onclick="sortUAV(0)">Period ↕</th>
+        <th onclick="sortUAV(2)">Target / Metric ↕</th>
+        <th onclick="sortUAV(3)">Type ↕</th>
+        <th onclick="sortUAV(5)">Result ↕</th>
+        <th>Notes</th>
+        <th>Source</th>
+      </tr></thead>
+      <tbody id="uav-body"><tr><td colspan="6"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
     </table>
     <div id="uav-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
+  </div>
+  <div style="margin-top:16px" class="disclaimer">
+    <b>SOURCE:</b> <a class="src-link" href="https://sbs-group.army/en/subdivision/usf_grouping" target="_blank" rel="noopener">USF Pidrakhuyka Official Kill Board ↗</a> · Unmanned Systems Forces of Ukraine · Verified hits only · Updated daily for current period · Annual/monthly totals updated periodically
   </div>
 </div>
 
@@ -859,38 +881,113 @@ function renderUGV(){
 function sortUGV(c){ugvSort={col:c,asc:ugvSort.col===c?!ugvSort.asc:true};renderUGV()}
 
 // ═══════════════════════════════════════════════════════════
-//  UAV TABLE
+//  UAV KILL BOARD
 // ═══════════════════════════════════════════════════════════
 let uavSort={col:0,asc:true};
+
+function fmtPeriod(d){
+  if(!d)return'—';
+  if(d==='yearly_2025')return'2025 Annual';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d))return fmtDate(d);
+  return d;
+}
+
+// Render headline stat cards for a given period
+function renderUAVHeadlines(periodRows){
+  const el=document.getElementById('uav-headlines');
+  if(!el)return;
+
+  // Pick out the key summary rows
+  const find=(label)=>{
+    const r=periodRows.find(r=>r.target&&r.target.toLowerCase().includes(label.toLowerCase()));
+    return r?r.outcome:'—';
+  };
+
+  const totalDamaged  = find('total damaged');
+  const strikeFlights = find('strike flights');
+  const reconFlights  = find('recon flights');
+  const personnelHit  = find('enemy personnel hit');
+  const killed        = find('enemy personnel killed');
+  const wounded       = find('enemy personnel wounded');
+
+  // Only show if we have summary data
+  if(totalDamaged==='—'&&strikeFlights==='—'){el.innerHTML='';return;}
+
+  const icons={red:'💀',amber:'✈',green:'🎯',blue:'📡'};
+  el.innerHTML=`
+    <div class="kb-card" data-icon="🎯">
+      <div class="kb-card-label">Total Targets Damaged</div>
+      <div class="kb-card-value amber">${totalDamaged}</div>
+      <div class="kb-card-sub">All categories combined</div>
+    </div>
+    <div class="kb-card" data-icon="✈">
+      <div class="kb-card-label">Strike Flights</div>
+      <div class="kb-card-value green">${strikeFlights}</div>
+      <div class="kb-card-sub">Combat UAV sorties</div>
+    </div>
+    <div class="kb-card" data-icon="📡">
+      <div class="kb-card-label">Recon Flights</div>
+      <div class="kb-card-value blue">${reconFlights}</div>
+      <div class="kb-card-sub">Reconnaissance sorties</div>
+    </div>
+    <div class="kb-card" data-icon="💀">
+      <div class="kb-card-label">Enemy Personnel Hit</div>
+      <div class="kb-card-value red">${personnelHit}</div>
+      <div class="kb-card-sub">${killed} killed · ${wounded} wounded</div>
+    </div>`;
+}
+
 function renderUAV(){
-  const s=document.getElementById('uav-search').value.toLowerCase();
-  const tp=document.getElementById('uav-type').value;
-  const y=document.getElementById('uav-year').value;
-  let rows=UAV_DATA.filter(r=>{
-    if(s&&![r.target,r.type,r.loc,r.notes,r.system].join(' ').toLowerCase().includes(s))return false;
+  const s   = document.getElementById('uav-search').value.toLowerCase();
+  const tp  = document.getElementById('uav-type').value;
+  const per = document.getElementById('uav-period').value;
+
+  let rows = UAV_DATA.filter(r=>{
+    if(s&&![r.target,r.type,r.notes].join(' ').toLowerCase().includes(s))return false;
     if(tp&&r.type!==tp)return false;
-    if(y&&!(r.date||'').startsWith(y))return false;
+    if(per){
+      if(per==='2026'&&!(r.date||'').startsWith('2026'))return false;
+      if(per!=='2026'&&r.date!==per)return false;
+    }
     return true;
   });
+
   const k=['date','system','target','type','loc','outcome'];
   rows.sort((a,b)=>{const va=a[k[uavSort.col]]||'',vb=b[k[uavSort.col]]||'';return uavSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
+
   document.getElementById('uav-rc').textContent=rows.length;
-  document.getElementById('uav-count').textContent=rows.length;
-  const body=document.getElementById('uav-body');
-  const nores=document.getElementById('uav-nores');
+  document.getElementById('uav-count').textContent=UAV_DATA.length;
+
+  // Render headline cards if a specific period is selected
+  if(per){
+    renderUAVHeadlines(rows);
+  } else {
+    const el=document.getElementById('uav-headlines');
+    if(el)el.innerHTML='';
+  }
+
+  const body  = document.getElementById('uav-body');
+  const nores = document.getElementById('uav-nores');
   if(!rows.length){body.innerHTML='';nores.style.display='block';return}
   nores.style.display='none';
-  body.innerHTML=rows.map((r,i)=>`
-    <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
-      <td class="cell-date">${fmtDate(r.date)}</td>
-      <td><span class="model-tag">${r.system||'—'}</span></td>
-      <td class="cell-target">${r.target||'—'}</td>
+
+  // Separate summary rows from detail rows for display
+  const summaryTypes = new Set(['Summary','Operations','Personnel']);
+
+  body.innerHTML=rows.map((r,i)=>{
+    const isSummary = summaryTypes.has(r.type);
+    const bgStyle = isSummary ? 'background:var(--bg3);' : '';
+    return `
+    <tr style="animation:fadeIn 0.2s ${i*0.016}s both;${bgStyle}">
+      <td class="cell-date">${fmtPeriod(r.date)}</td>
+      <td class="cell-target" style="font-size:0.85rem">${r.target||'—'}</td>
       <td class="cell-type">${r.type||'—'}</td>
-      <td class="cell-loc">${r.loc||'—'}</td>
-      <td>${outcomeBadge(r.outcome)}</td>
+      <td>${isSummary
+        ? `<span class="badge b-disrupted">${r.outcome||'—'}</span>`
+        : outcomeBadge(r.outcome)}</td>
       <td class="cell-notes">${r.notes||''}</td>
       <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
-    </tr>`).join('');
+    </tr>`}).join('');
 }
 function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
 
