@@ -133,10 +133,69 @@ async function extractData(page, periodLabel, periodParam) {
   }
   console.log(`  Extracted ${nonZero} categories with activity`);
 
+  // ── Also extract summary headline figures ────────────────
+  const summary = await page.evaluate(() => {
+    const allSpans = [...document.querySelectorAll('span')];
+    const texts = allSpans.map(s => (s.innerText || '').trim());
+    const result = { totalDamaged: 0, totalDestroyed: 0, personnel: 0, killed: 0, wounded: 0, strikeFlights: 0, reconFlights: 0 };
+
+    for (let i = 0; i < texts.length; i++) {
+      const t = texts[i];
+      const next = texts[i + 1] || '';
+      const prev = texts[i - 1] || '';
+
+      if (/^\d+$/.test(t)) {
+        const n = parseInt(t, 10);
+        const label = next.toLowerCase();
+        const prevLabel = prev.toLowerCase();
+        if (label.includes('damaged targets'))   result.totalDamaged   = n;
+        if (label.includes('incl. destroyed') && prevLabel.includes('damaged targets') || (label.includes('incl. destroyed') && result.totalDamaged > 0 && result.totalDestroyed === 0)) result.totalDestroyed = n;
+        if (label.includes('enemy personnel') || label.includes('strike flights') === false && next.toLowerCase().includes('enemy personnel')) result.personnel = n;
+        if (label.includes('killed') || label.includes('incl. killed')) result.killed   = n;
+        if (label.includes('wounded') || label.includes('incl. wounded')) result.wounded  = n;
+        if (label.includes('strike flights'))    result.strikeFlights  = n;
+        if (label.includes('recon flights'))     result.reconFlights   = n;
+      }
+    }
+    return result;
+  });
+
+  console.log(`  Summary: ${summary.totalDamaged} damaged, ${summary.totalDestroyed} destroyed, ${summary.personnel} personnel (${summary.killed} KIA, ${summary.wounded} WIA)`);
+
   // Build rows — use period param as the "date" so it's identifiable
-  // e.g. "2025 (yearly)" or "2025-06 (monthly)"
-  const dateKey = periodParam; // used as unique key in sheet
+  const dateKey = periodParam;
   const rows = [];
+
+  // Add summary row first
+  if (summary.totalDamaged > 0 || summary.totalDestroyed > 0) {
+    rows.push([
+      dateKey,
+      'FPV / UAV (USF)',
+      'TOTAL — All targets',
+      'Summary',
+      'Eastern Front',
+      `${summary.totalDestroyed} destroyed, ${summary.totalDamaged} damaged`,
+      `Period: ${periodLabel}. Total damaged: ${summary.totalDamaged}. Total destroyed: ${summary.totalDestroyed}. Strike flights: ${summary.strikeFlights}. Recon flights: ${summary.reconFlights}.`,
+      `${BASE_URL}/?period=${periodParam}`,
+      SOURCE_LABEL,
+    ]);
+  }
+
+  // Add personnel row
+  if (summary.personnel > 0) {
+    rows.push([
+      dateKey,
+      'FPV / UAV (USF)',
+      'Enemy personnel (summary)',
+      'Personnel',
+      'Eastern Front',
+      `${summary.killed} killed, ${summary.wounded} wounded (${summary.personnel} total hit)`,
+      `Period: ${periodLabel}. Total personnel hit: ${summary.personnel}. Killed: ${summary.killed}. Wounded: ${summary.wounded}.`,
+      `${BASE_URL}/?period=${periodParam}`,
+      SOURCE_LABEL,
+    ]);
+  }
+
   for (const category of TARGET_CATEGORIES) {
     const vals = extracted[category];
     if (!vals || (vals.damaged === 0 && vals.destroyed === 0)) continue;
