@@ -735,15 +735,9 @@ async function loadAll() {
 // ═══════════════════════════════════════════════════════════
 function fmtDate(s){
   if(!s)return'—';
-  // Handle both YYYY-MM-DD and full date strings
-  const d=new Date(s);
-  if(!isNaN(d)){
-    const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return`${d.getUTCDate()} ${m[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
-  }
   const p=s.split('-');
-  const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return`${parseInt(p[2])||''} ${mn[(+p[1]||1)-1]||''} ${p[0]||''}`.trim();
+  const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return`${parseInt(p[2])||''} ${m[(+p[1]||1)-1]||''} ${p[0]||''}`.trim();
 }
 function dmgBadge(d){
   const m={'Sunk':'b-sunk','Damaged':'b-damaged','Destroyed':'b-destroyed','Shot Down':'b-shotdown','Disrupted':'b-disrupted'};
