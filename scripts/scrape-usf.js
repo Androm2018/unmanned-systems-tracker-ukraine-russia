@@ -1,9 +1,8 @@
 /**
- * USF Pidrakhuyka Kill Board Scraper — PRODUCTION
- * -------------------------------------------------
- * Scrapes https://sbs-group.army/en/subdivision/usf_grouping
- * Extracts daily kill data by target category and writes to Google Sheets UAV tab.
- * Runs daily via GitHub Actions. Only appends new dates — never overwrites.
+ * USF Pidrakhuyka Kill Board Scraper — PRODUCTION v3
+ * ---------------------------------------------------
+ * Navigates directly to the USF grouping page and extracts
+ * daily kill statistics by reading spans in document order.
  */
 
 const { chromium } = require('@playwright/test');
@@ -14,7 +13,6 @@ const SOURCE_LABEL   = 'USF Pidrakhuyka';
 const SHEET_TAB      = 'UAV';
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
-// Target categories to extract — in the order they appear on the page
 const TARGET_CATEGORIES = [
   'Enemy personnel',
   'Drone launch positions',
@@ -56,7 +54,6 @@ async function getSheetsClient() {
   return google.sheets({ version: 'v4', auth });
 }
 
-// ── ENSURE HEADERS ────────────────────────────────────────
 async function ensureHeaders(sheets) {
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
@@ -76,18 +73,15 @@ async function ensureHeaders(sheets) {
   }
 }
 
-// ── READ EXISTING ROWS ────────────────────────────────────
 async function getExistingKeys(sheets) {
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
     range: `${SHEET_TAB}!A:C`,
   });
   const rows = res.data.values || [];
-  // Key = date|target — prevents duplicates if run twice on same day
   return new Set(rows.slice(1).map(r => `${(r[0]||'').trim()}|${(r[2]||'').trim()}`));
 }
 
-// ── APPEND ROWS ───────────────────────────────────────────
 async function appendRows(sheets, rows) {
   if (!rows.length) { console.log('No new rows to append.'); return; }
   await sheets.spreadsheets.values.append({
@@ -99,14 +93,29 @@ async function appendRows(sheets, rows) {
   console.log(`Appended ${rows.length} new rows.`);
 }
 
-// ── CONVERT DATE FORMAT ───────────────────────────────────
-// Site shows DD.MM.YYYY → convert to YYYY-MM-DD for consistency
 function convertDate(raw) {
   const parts = raw.trim().split('.');
-  if (parts.length === 3) {
-    return `${parts[2]}-${parts[1]}-${parts[0]}`;
-  }
+  if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
   return raw;
+}
+
+function categoriseTarget(category) {
+  const c = category.toLowerCase();
+  if (c.includes('personnel'))                                              return 'Personnel';
+  if (c.includes('tank'))                                                   return 'Tank / AFV';
+  if (c.includes('apc') || c.includes('ifv') || c.includes('acv'))         return 'Tank / AFV';
+  if (c.includes('artillery') || c.includes('gun') || c.includes('howitzer')
+    || c.includes('mortar') || c.includes('mrls'))                         return 'Artillery';
+  if (c.includes('sam') || c.includes('spad') || c.includes('radar')
+    || c.includes('ew'))                                                    return 'Air defence';
+  if (c.includes('shahed') || c.includes('gerbera') || c.includes('wing')
+    || c.includes('copter') || c.includes('drone') || c.includes('launch')) return 'Drone / Aircraft';
+  if (c.includes('vehicle') || c.includes('motorcycle') || c.includes('buggy')) return 'Logistics';
+  if (c.includes('depot') || c.includes('ammo') || c.includes('fuel'))     return 'Logistics';
+  if (c.includes('shelter') || c.includes('dugout')
+    || c.includes('infrastructure'))                                        return 'Fortification';
+  if (c.includes('antenna') || c.includes('network') || c.includes('camera')) return 'Electronics';
+  return 'Other';
 }
 
 // ── SCRAPE ────────────────────────────────────────────────
@@ -128,7 +137,7 @@ async function scrape() {
   try {
     console.log(`Navigating to: ${DATA_URL}`);
     await page.goto(DATA_URL, { waitUntil: 'networkidle', timeout: 60000 });
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(4000);
 
     // Dismiss cookie banner
     const gotIt = page.locator('button:has-text("Got it")');
@@ -141,7 +150,7 @@ async function scrape() {
     const rawDate = await page.evaluate(() => {
       const els = [...document.querySelectorAll('p, span')];
       for (const el of els) {
-        const t = el.innerText?.trim() || '';
+        const t = (el.innerText || '').trim();
         if (/^\d{2}\.\d{2}\.\d{4}$/.test(t)) return t;
       }
       return null;
@@ -149,81 +158,81 @@ async function scrape() {
 
     if (!rawDate) throw new Error('Could not find date on page');
     const date = convertDate(rawDate);
-    console.log(`Date found: ${rawDate} → ${date}`);
+    console.log(`Date: ${rawDate} → ${date}`);
 
-    // ── Extract all target rows ───────────────────────────
-    // Structure: SPAN[label] followed by SPAN[damaged] SPAN[destroyed]
-    // Label spans have the class containing 'flex items-center'
+    // ── Extract data using sequential span reading ────────
+    // Strategy: get ALL span innerText values in document order.
+    // When we see a category label, the next two numeric spans
+    // are damaged and destroyed counts.
     const extracted = await page.evaluate((categories) => {
-      const results = {};
+      // Get all spans in document order with their text
       const allSpans = [...document.querySelectorAll('span')];
+      const texts = allSpans.map(s => (s.innerText || '').trim());
 
-      for (const span of allSpans) {
-        const text = span.innerText?.trim();
-        if (!text || !categories.includes(text)) continue;
+      const results = {};
 
-        // Find the next sibling spans with numbers
-        let sibling = span.parentElement?.nextElementSibling;
-        let damaged = null;
-        let destroyed = null;
+      for (let i = 0; i < texts.length; i++) {
+        const text = texts[i];
+        if (!categories.includes(text)) continue;
 
-        // Look up to 3 siblings forward for number spans
-        let attempts = 0;
-        while (sibling && attempts < 3) {
-          const spans = sibling.querySelectorAll('span');
-          const nums = [...spans].map(s => s.innerText?.trim()).filter(t => /^\d+$/.test(t));
-          if (nums.length >= 2) {
-            damaged   = parseInt(nums[0], 10);
-            destroyed = parseInt(nums[1], 10);
-            break;
-          } else if (nums.length === 1 && damaged === null) {
-            damaged = parseInt(nums[0], 10);
+        // Found a category label — look ahead for the next two numbers
+        let damaged   = 0;
+        let destroyed = 0;
+        let numsFound = 0;
+
+        for (let j = i + 1; j < Math.min(i + 15, texts.length); j++) {
+          const t = texts[j];
+          if (/^\d+$/.test(t)) {
+            if (numsFound === 0) damaged   = parseInt(t, 10);
+            if (numsFound === 1) destroyed = parseInt(t, 10);
+            numsFound++;
+            if (numsFound >= 2) break;
           }
-          sibling = sibling.nextElementSibling;
-          attempts++;
+          // Stop if we hit another category label
+          if (numsFound === 0 && categories.includes(t)) break;
         }
 
-        results[text] = { damaged: damaged ?? 0, destroyed: destroyed ?? 0 };
+        results[text] = { damaged, destroyed };
       }
+
       return results;
     }, TARGET_CATEGORIES);
 
+    // ── Log results ───────────────────────────────────────
     console.log('\nExtracted data:');
-    Object.entries(extracted).forEach(([cat, vals]) => {
-      console.log(`  ${cat}: damaged=${vals.damaged} destroyed=${vals.destroyed}`);
-    });
+    let nonZero = 0;
+    for (const [cat, vals] of Object.entries(extracted)) {
+      if (vals.damaged > 0 || vals.destroyed > 0) {
+        console.log(`  ✓ ${cat}: damaged=${vals.damaged} destroyed=${vals.destroyed}`);
+        nonZero++;
+      }
+    }
+    console.log(`  (${nonZero} categories with activity, ${Object.keys(extracted).length} total extracted)`);
 
     // ── Build sheet rows ──────────────────────────────────
-    // One row per category, only include rows where damaged > 0
-    // Columns: date | system | target | type | loc | outcome | notes | src | srcl
     const rows = [];
     for (const category of TARGET_CATEGORIES) {
       const vals = extracted[category];
       if (!vals) continue;
-
-      // Skip zero rows to keep the sheet clean
       if (vals.damaged === 0 && vals.destroyed === 0) continue;
 
       const outcome = vals.destroyed > 0
         ? `${vals.destroyed} destroyed, ${vals.damaged} damaged`
         : `${vals.damaged} damaged`;
 
-      const notes = `Daily USF Grouping total. Damaged: ${vals.damaged}. Destroyed: ${vals.destroyed}.`;
-
       rows.push([
-        date,                    // date (YYYY-MM-DD)
-        'FPV / UAV (USF)',       // system
-        category,                // target
-        categoriseTarget(category), // type
-        'Eastern Front',         // loc
-        outcome,                 // outcome
-        notes,                   // notes
-        DATA_URL,                // src
-        SOURCE_LABEL,            // srcl
+        date,
+        'FPV / UAV (USF)',
+        category,
+        categoriseTarget(category),
+        'Eastern Front',
+        outcome,
+        `Damaged: ${vals.damaged}. Destroyed: ${vals.destroyed}. Source: USF Pidrakhuyka daily report.`,
+        DATA_URL,
+        SOURCE_LABEL,
       ]);
     }
 
-    console.log(`\nRows with activity today: ${rows.length}`);
     await browser.close();
     return rows;
 
@@ -233,23 +242,6 @@ async function scrape() {
     await browser.close();
     throw err;
   }
-}
-
-// ── CATEGORISE TARGET TYPE ────────────────────────────────
-function categoriseTarget(category) {
-  const c = category.toLowerCase();
-  if (c.includes('personnel') || c.includes('killed') || c.includes('wounded')) return 'Personnel';
-  if (c.includes('tank'))          return 'Tank / AFV';
-  if (c.includes('apc') || c.includes('ifv') || c.includes('acv')) return 'Tank / AFV';
-  if (c.includes('artillery') || c.includes('gun') || c.includes('howitzer') || c.includes('mortar') || c.includes('mrls')) return 'Artillery';
-  if (c.includes('sam') || c.includes('spad') || c.includes('radar') || c.includes('ew')) return 'Air defence';
-  if (c.includes('shahed') || c.includes('gerbera') || c.includes('drone') || c.includes('wing') || c.includes('copter')) return 'Drone / Aircraft';
-  if (c.includes('vehicle') || c.includes('motorcycle') || c.includes('buggy') || c.includes('truck')) return 'Logistics';
-  if (c.includes('depot') || c.includes('ammo') || c.includes('fuel')) return 'Logistics';
-  if (c.includes('shelter') || c.includes('dugout') || c.includes('infrastructure')) return 'Fortification';
-  if (c.includes('antenna') || c.includes('network') || c.includes('camera')) return 'Electronics';
-  if (c.includes('launch')) return 'Drone / Aircraft';
-  return 'Other';
 }
 
 // ── MAIN ──────────────────────────────────────────────────
