@@ -1,20 +1,35 @@
 /**
- * USF Pidrakhuyka Kill Board — HISTORICAL BACKFILL v4
- * ---------------------------------------------------
- * Clicks "Previous Period" and waits for the date to actually
- * change before extracting data. Handles SPA navigation.
+ * USF Pidrakhuyka Kill Board — PERIOD SCRAPER
+ * --------------------------------------------
+ * Scrapes yearly/monthly period URLs directly instead of
+ * trying to navigate day by day. Much more reliable.
+ *
+ * Periods available on the site:
+ * - yearly_2025
+ * - monthly: 2025_06, 2025_07, ... 2026_03 etc.
+ *
+ * Run once manually via GitHub Actions to backfill history.
  */
 
 const { chromium } = require('@playwright/test');
 const { google }   = require('googleapis');
 
-const DATA_URL       = 'https://sbs-group.army/en/subdivision/usf_grouping';
+const BASE_URL       = 'https://sbs-group.army/en/subdivision/usf_grouping';
 const SOURCE_LABEL   = 'USF Pidrakhuyka';
 const SHEET_TAB      = 'UAV';
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
-// Site launched July 2025 — don't go further back than this
-const START_DATE = new Date('2025-07-01');
+// Periods to scrape — add more as needed
+// Format matches the site's URL parameter
+const PERIODS = [
+  // Full 2025 year
+  { param: 'yearly_2025', label: '2025 (Full Year)' },
+  // 2026 months scraped so far by daily scraper — skip these
+  // Add monthly periods here if you want month-by-month breakdown too:
+  // { param: 'monthly_2025_06', label: 'Jun 2025' },
+  // { param: 'monthly_2025_07', label: 'Jul 2025' },
+  // etc.
+];
 
 const TARGET_CATEGORIES = [
   'Enemy personnel','Drone launch positions','Antennas','SAMs, SPADs',
@@ -68,43 +83,26 @@ async function appendRows(sheets, rows) {
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: rows },
   });
-  console.log(`  ✓ Wrote ${rows.length} rows to sheet`);
+  console.log(`  ✓ Wrote ${rows.length} rows`);
 }
 
 // ── HELPERS ───────────────────────────────────────────────
-function convertDate(raw) {
-  const p = raw.trim().split('.');
-  return p.length === 3 ? `${p[2]}-${p[1]}-${p[0]}` : raw;
-}
-
 function categoriseTarget(category) {
   const c = category.toLowerCase();
-  if (c.includes('personnel'))                                               return 'Personnel';
+  if (c.includes('personnel'))                                                return 'Personnel';
   if (c.includes('tank') || c.includes('apc') || c.includes('ifv') || c.includes('acv')) return 'Tank / AFV';
   if (c.includes('artillery') || c.includes('gun') || c.includes('howitzer') || c.includes('mortar') || c.includes('mrls')) return 'Artillery';
   if (c.includes('sam') || c.includes('spad') || c.includes('radar') || c.includes('ew')) return 'Air defence';
   if (c.includes('shahed') || c.includes('gerbera') || c.includes('wing') || c.includes('copter') || c.includes('drone') || c.includes('launch')) return 'Drone / Aircraft';
   if (c.includes('vehicle') || c.includes('motorcycle') || c.includes('buggy')) return 'Logistics';
-  if (c.includes('depot') || c.includes('ammo') || c.includes('fuel'))      return 'Logistics';
+  if (c.includes('depot') || c.includes('ammo') || c.includes('fuel'))       return 'Logistics';
   if (c.includes('shelter') || c.includes('dugout') || c.includes('infrastructure')) return 'Fortification';
   if (c.includes('antenna') || c.includes('network') || c.includes('camera')) return 'Electronics';
   return 'Other';
 }
 
-// ── GET DATE FROM PAGE ────────────────────────────────────
-async function getPageDate(page) {
-  return page.evaluate(() => {
-    const els = [...document.querySelectorAll('p, span')];
-    for (const el of els) {
-      const t = (el.innerText || '').trim();
-      if (/^\d{2}\.\d{2}\.\d{4}$/.test(t)) return t;
-    }
-    return null;
-  });
-}
-
 // ── EXTRACT DATA FROM CURRENT PAGE ───────────────────────
-async function extractData(page, date) {
+async function extractData(page, periodLabel, periodParam) {
   const extracted = await page.evaluate((categories) => {
     const allSpans = [...document.querySelectorAll('span')];
     const texts = allSpans.map(s => (s.innerText || '').trim());
@@ -128,6 +126,16 @@ async function extractData(page, date) {
     return results;
   }, TARGET_CATEGORIES);
 
+  // Log what we found
+  let nonZero = 0;
+  for (const [cat, vals] of Object.entries(extracted)) {
+    if (vals.damaged > 0 || vals.destroyed > 0) nonZero++;
+  }
+  console.log(`  Extracted ${nonZero} categories with activity`);
+
+  // Build rows — use period param as the "date" so it's identifiable
+  // e.g. "2025 (yearly)" or "2025-06 (monthly)"
+  const dateKey = periodParam; // used as unique key in sheet
   const rows = [];
   for (const category of TARGET_CATEGORIES) {
     const vals = extracted[category];
@@ -136,17 +144,22 @@ async function extractData(page, date) {
       ? `${vals.destroyed} destroyed, ${vals.damaged} damaged`
       : `${vals.damaged} damaged`;
     rows.push([
-      date, 'FPV / UAV (USF)', category, categoriseTarget(category),
-      'Eastern Front', outcome,
-      `Damaged: ${vals.damaged}. Destroyed: ${vals.destroyed}. Source: USF Pidrakhuyka daily report.`,
-      DATA_URL, SOURCE_LABEL,
+      dateKey,
+      'FPV / UAV (USF)',
+      category,
+      categoriseTarget(category),
+      'Eastern Front',
+      outcome,
+      `Period: ${periodLabel}. Damaged: ${vals.damaged}. Destroyed: ${vals.destroyed}. Source: USF Pidrakhuyka.`,
+      `${BASE_URL}/?period=${periodParam}`,
+      SOURCE_LABEL,
     ]);
   }
   return rows;
 }
 
-// ── MAIN SCRAPE ───────────────────────────────────────────
-async function scrape(sheets, existingKeys) {
+// ── SCRAPE ────────────────────────────────────────────────
+async function scrape() {
   console.log('Launching browser...');
   const browser = await chromium.launch({
     headless: true,
@@ -158,122 +171,37 @@ async function scrape(sheets, existingKeys) {
     viewport: { width: 1280, height: 900 },
   });
   const page = await context.newPage();
+  const allRows = [];
 
   try {
-    console.log(`Navigating to ${DATA_URL}...`);
-    await page.goto(DATA_URL, { waitUntil: 'networkidle', timeout: 60000 });
-    await page.waitForTimeout(3000);
+    for (const period of PERIODS) {
+      const url = `${BASE_URL}/?period=${period.param}`;
+      console.log(`\nScraping: ${period.label} → ${url}`);
 
-    // Dismiss cookie banner
-    const gotIt = page.locator('button:has-text("Got it")');
-    if (await gotIt.isVisible().catch(() => false)) {
-      await gotIt.click();
-      await page.waitForTimeout(500);
-    }
+      await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
+      await page.waitForTimeout(3000);
 
-    let totalWritten = 0;
-    let pagesProcessed = 0;
-    const pendingRows = [];
-
-    while (true) {
-      // Get current date
-      const rawDate = await getPageDate(page);
-      if (!rawDate) { console.log('No date found, stopping.'); break; }
-
-      const isoDate = convertDate(rawDate);
-      const pageDate = new Date(isoDate);
-
-      // Stop if we've gone past our start date
-      if (pageDate < START_DATE) {
-        console.log(`Reached ${rawDate} (before start date), stopping.`);
-        break;
-      }
-
-      pagesProcessed++;
-      const sampleKey = `${isoDate}|Enemy personnel`;
-
-      if (existingKeys.has(sampleKey)) {
-        console.log(`  ${rawDate}: already in sheet, skipping`);
-      } else {
-        const rows = await extractData(page, isoDate);
-        if (rows.length > 0) {
-          console.log(`  ${rawDate}: ${rows.length} categories with activity`);
-          pendingRows.push(...rows);
-          rows.forEach(r => existingKeys.add(`${r[0]}|${r[2]}`));
-        } else {
-          console.log(`  ${rawDate}: no activity recorded`);
-        }
-      }
-
-      // Write to sheet every 20 pages
-      if (pendingRows.length >= 100) {
-        await appendRows(sheets, pendingRows.splice(0));
-        totalWritten += pendingRows.length;
-      }
-
-      // ── Navigate to previous day ──────────────────────
-      // "Previous Period" is an H2 but the click handler is on its PARENT div
-      // So we find the H2 then click its parent
-      const prevH2 = page.locator('h2').filter({ hasText: 'Previous Period' }).first();
-      const prevVisible = await prevH2.isVisible().catch(() => false);
-
-      if (!prevVisible) {
-        console.log('Previous Period element not found, stopping.');
-        break;
-      }
-
-      // Click the parent div which has the actual click handler
-      await prevH2.evaluate(el => el.parentElement.click());
-      console.log(`  Clicked parent of Previous Period H2`);
-
-      // Wait up to 8 seconds for the date on the page to change
-      let dateChanged = false;
-      for (let i = 0; i < 16; i++) {
+      // Dismiss cookie banner
+      const gotIt = page.locator('button:has-text("Got it")');
+      if (await gotIt.isVisible().catch(() => false)) {
+        await gotIt.click();
         await page.waitForTimeout(500);
-        const newDate = await getPageDate(page);
-        if (newDate && newDate !== rawDate) {
-          dateChanged = true;
-          break;
-        }
       }
 
-      if (!dateChanged) {
-        console.log(`  Date did not change after clicking Previous Period (stuck on ${rawDate})`);
-        console.log('  Trying to reload and navigate...');
+      // Log page text for debugging
+      const bodyText = await page.evaluate(() => document.body.innerText);
+      console.log(`  Page sample:\n${bodyText.slice(0, 400)}`);
 
-        // Try reloading the page with a date parameter
-        const parts = rawDate.split('.');
-        const prevDay = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-        prevDay.setDate(prevDay.getDate() - 1);
-        const pd = prevDay.toISOString().slice(0, 10).split('-');
-        const prevDDMMYYYY = `${pd[2]}.${pd[1]}.${pd[0]}`;
-
-        // Log current page HTML around "Previous Period" for debugging
-        const h2Info = await page.evaluate(() => {
-          const h2s = [...document.querySelectorAll('h2')];
-          return h2s.map(h => ({
-            text: h.innerText?.trim(),
-            classes: h.className,
-            onclick: h.getAttribute('onclick'),
-            parent: h.parentElement?.tagName + '.' + h.parentElement?.className?.slice(0,50)
-          }));
-        });
-        console.log('  H2 elements:', JSON.stringify(h2Info, null, 2));
-        break;
-      }
+      const rows = await extractData(page, period.label, period.param);
+      console.log(`  → ${rows.length} rows extracted`);
+      allRows.push(...rows);
     }
 
-    // Write any remaining rows
-    if (pendingRows.length > 0) {
-      await appendRows(sheets, pendingRows);
-      totalWritten += pendingRows.length;
-    }
-
-    console.log(`\nBackfill complete. Pages processed: ${pagesProcessed}. Total rows written: ${totalWritten}`);
     await browser.close();
+    return allRows;
 
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error('Scrape error:', err.message);
     await page.screenshot({ path: 'error.png' }).catch(() => {});
     await browser.close();
     throw err;
@@ -288,9 +216,17 @@ async function main() {
   const sheets = await getSheetsClient();
   await ensureHeaders(sheets);
   const existingKeys = await getExistingKeys(sheets);
-  console.log(`Already have ${existingKeys.size} rows in sheet`);
+  console.log(`Existing rows in sheet: ${existingKeys.size}`);
 
-  await scrape(sheets, existingKeys);
+  const rows = await scrape();
+  console.log(`\nTotal rows scraped: ${rows.length}`);
+
+  // Filter out any already in sheet
+  const toAppend = rows.filter(r => !existingKeys.has(`${r[0]}|${r[2]}`));
+  console.log(`New rows to write: ${toAppend.length}`);
+
+  await appendRows(sheets, toAppend);
+  console.log('Done.');
 }
 
 main().catch(err => {
