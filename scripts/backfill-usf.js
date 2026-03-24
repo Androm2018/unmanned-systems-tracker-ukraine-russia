@@ -1,7 +1,7 @@
 /**
- * USF 2025 Annual Scraper
+ * USF 2025 Annual Scraper — Final Version
  * Scrapes https://sbs-group.army/en/subdivision/usf_grouping/?period=yearly_2025
- * and writes ALL label+number pairs to the UAV sheet.
+ * and writes all data to UAV sheet.
  */
 
 const { chromium } = require('@playwright/test');
@@ -11,7 +11,6 @@ const URL_2025       = 'https://sbs-group.army/en/subdivision/usf_grouping/?peri
 const SHEET_TAB      = 'UAV';
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 
-// ── SHEETS ────────────────────────────────────────────────
 async function getSheetsClient() {
   const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
   const auth = new google.auth.GoogleAuth({
@@ -21,30 +20,30 @@ async function getSheetsClient() {
 }
 
 async function writeRows(sheets, rows) {
-  // Clear existing yearly_2025 rows first
+  // Get existing rows, remove any old yearly_2025 entries, re-write
   const existing = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
     range: `${SHEET_TAB}!A:I`,
   });
   const allRows = existing.data.values || [];
-  
-  // Find rows that are NOT yearly_2025 to keep
   const keepRows = allRows.filter(r => r[0] !== 'yearly_2025');
-  
-  // Rewrite sheet with headers + kept rows + new rows
   const headers = ['date','system','target','type','loc','outcome','notes','src','srcl'];
   const newData = [headers, ...keepRows.slice(1), ...rows];
-  
   await sheets.spreadsheets.values.update({
     spreadsheetId: SPREADSHEET_ID,
     range: `${SHEET_TAB}!A1`,
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: newData },
   });
-  console.log(`Wrote ${rows.length} yearly_2025 rows`);
+  console.log(`Wrote ${rows.length} rows`);
 }
 
-function categoriseTarget(label) {
+function parseNum(str) {
+  // Handle numbers with spaces: "167 920" -> 167920
+  return parseInt((str || '').replace(/\s/g, ''), 10) || 0;
+}
+
+function categorise(label) {
   const c = label.toLowerCase();
   if (c.includes('personnel') || c.includes('killed') || c.includes('wounded')) return 'Personnel';
   if (c.includes('tank') || c.includes('apc') || c.includes('ifv') || c.includes('acv')) return 'Tank / AFV';
@@ -65,13 +64,11 @@ async function main() {
 
   console.log('Launching browser...');
   const browser = await chromium.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   const context = await browser.newContext({
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    locale: 'en-US',
-    viewport: { width: 1280, height: 900 },
+    locale: 'en-US', viewport: { width: 1280, height: 900 },
   });
   const page = await context.newPage();
 
@@ -80,131 +77,160 @@ async function main() {
     await page.goto(URL_2025, { waitUntil: 'networkidle', timeout: 60000 });
     await page.waitForTimeout(4000);
 
-    // Dismiss cookie banner
     const gotIt = page.locator('button:has-text("Got it")');
-    if (await gotIt.isVisible().catch(() => false)) {
-      await gotIt.click();
-      await page.waitForTimeout(500);
-    }
+    if (await gotIt.isVisible().catch(() => false)) { await gotIt.click(); await page.waitForTimeout(500); }
 
-    // Log full page text so we can see what's there
+    // Print full page text for verification
     const fullText = await page.evaluate(() => document.body.innerText);
-    console.log('\n=== FULL PAGE TEXT ===');
-    console.log(fullText);
-    console.log('=== END ===\n');
+    console.log('\n=== FULL PAGE TEXT ===\n' + fullText.slice(0, 3000) + '\n=== END ===\n');
 
-    // Strategy: read ALL span text in document order.
-    // The page structure is: label span followed by two number spans (damaged, destroyed)
-    // We collect every (label, num1, num2) triplet we can find.
-    const allData = await page.evaluate(() => {
-      const spans = [...document.querySelectorAll('span')];
-      const texts = spans.map(s => (s.innerText || '').trim()).filter(t => t.length > 0);
-      
-      const results = [];
-      const numericLabels = new Set([
-        'damaged targets', 'incl. destroyed', 'strike flights', 'recon flights',
-        'enemy personnel', 'including killed', 'incl. killed', 'incl. wounded',
-      ]);
+    // Extract using innerText of the whole page split into lines
+    // This avoids all the hidden-span duplication issues
+    const extracted = await page.evaluate(() => {
+      // Use the rendered page text, split by newline
+      const lines = document.body.innerText
+        .split('\n')
+        .map(l => l.trim())
+        .filter(l => l.length > 0);
 
-      // Walk through all spans looking for patterns
-      for (let i = 0; i < texts.length; i++) {
-        const t = texts[i];
-        
-        // Skip clock digits, dates, etc.
-        if (/^\d{1,2}$/.test(t) && texts[i+1] === ':') continue; // clock
-        if (/^\d{2}\.\d{2}\.\d{4}$/.test(t)) continue; // date
-        if (t === ':') continue;
-        
-        // Is this a label we know?
-        const lower = t.toLowerCase();
-        if (numericLabels.has(lower)) {
-          // Find the number before this label
-          const prevNum = texts[i-1];
-          if (/^\d+$/.test(prevNum)) {
-            results.push({ label: t, value: parseInt(prevNum, 10) });
-          }
-          continue;
-        }
-
-        // Is this a category label followed by two numbers?
-        const militaryTerms = [
-          'enemy personnel', 'drone launch positions', 'antennas', 'sams, spads',
-          'radars (system)', 'radars (portable)', 'ew (system)', 'ew (car + portable)',
-          'enemy wings', 'shaheds and gerberas', 'tanks', 'apcs, ifvs, acvs',
-          'guns, howitzers', 'self-propelled artillery', 'mortars', 'mrls',
-          'light, heavy, special-purpose vehicles', 'motorcycles and military buggies',
-          'ammo, fuel and equipment depots', 'strategic infrastructure',
-          'tactical infrastructure', 'shelters', 'dugouts', 'network equipment',
-          'cameras', 'enemy copter drones', 'enemy unmanned robotic complexes', 'other'
-        ];
-        
-        if (militaryTerms.includes(lower)) {
-          // Look ahead for two numbers
-          let damaged = null, destroyed = null, numsFound = 0;
-          for (let j = i + 1; j < Math.min(i + 20, texts.length); j++) {
-            if (/^\d+$/.test(texts[j])) {
-              if (numsFound === 0) damaged   = parseInt(texts[j], 10);
-              if (numsFound === 1) destroyed = parseInt(texts[j], 10);
-              numsFound++;
-              if (numsFound >= 2) break;
-            }
-            // Stop if we hit another category
-            if (militaryTerms.includes((texts[j] || '').toLowerCase()) && numsFound > 0) break;
-          }
-          if (damaged !== null) {
-            results.push({ label: t, damaged, destroyed: destroyed || 0 });
-          }
+      // Remove duplicates while preserving order (hidden spans cause duplication)
+      const seen = new Set();
+      const deduped = [];
+      for (const line of lines) {
+        if (!seen.has(line)) {
+          seen.add(line);
+          deduped.push(line);
         }
       }
-      
-      return results;
+
+      return deduped;
     });
 
-    console.log('\n=== EXTRACTED DATA ===');
-    allData.forEach(d => console.log(JSON.stringify(d)));
-    console.log(`=== ${allData.length} items ===\n`);
+    console.log('\n=== DEDUPED LINES ===');
+    extracted.forEach((l, i) => console.log(`${i}: ${l}`));
+    console.log('=== END ===\n');
 
-    // Convert to sheet rows
-    const rows = [];
-    for (const item of allData) {
-      if (item.damaged !== undefined) {
-        // Category row with damaged/destroyed
-        const outcome = item.destroyed > 0
-          ? `${item.destroyed} destroyed, ${item.damaged} damaged`
-          : `${item.damaged} damaged`;
-        rows.push([
-          'yearly_2025',
-          'FPV / UAV (USF)',
-          item.label,
-          categoriseTarget(item.label),
-          'Eastern Front',
-          outcome,
-          `2025 Annual Total. Damaged: ${item.damaged}. Destroyed: ${item.destroyed}.`,
-          URL_2025,
-          'USF Pidrakhuyka',
-        ]);
-      } else if (item.value !== undefined) {
-        // Summary stat row
-        rows.push([
-          'yearly_2025',
-          'FPV / UAV (USF)',
-          item.label,
-          categoriseTarget(item.label),
-          'Eastern Front',
-          String(item.value),
-          `2025 Annual Total. Value: ${item.value}.`,
-          URL_2025,
-          'USF Pidrakhuyka',
-        ]);
+    // Now parse lines into label/value pairs
+    // Numbers may have spaces (e.g. "167 920") - treat consecutive digit+space+digit as one number
+    const isNum = (s) => /^[\d\s]+$/.test(s) && /\d/.test(s);
+    const toNum = (s) => parseInt(s.replace(/\s/g, ''), 10);
+
+    // Summary section labels (value comes BEFORE label in page order)
+    const summaryLabels = {
+      'damaged targets':  'total_damaged',
+      'incl. destroyed':  'total_destroyed',
+      'strike flights':   'strike_flights',
+      'recon flights':    'recon_flights',
+      'enemy personnel':  'personnel_total',
+      'including killed': 'personnel_killed',
+      'incl. killed':     'personnel_killed',
+      'incl. wounded':    'personnel_wounded',
+    };
+
+    // Category labels (two values follow: damaged, destroyed)
+    const categoryLabels = [
+      'Enemy personnel', 'Drone launch positions', 'Antennas', 'SAMs, SPADs',
+      'Radars (system)', 'Radars (portable)', 'EW (system)', 'EW (car + portable)',
+      'Enemy wings', 'Shaheds and Gerberas', 'Tanks', 'APCs, IFVs, ACVs',
+      'Guns, howitzers', 'Self-propelled artillery', 'Mortars', 'MRLS',
+      'Light, Heavy, Special-purpose vehicles', 'Motorcycles and military buggies',
+      'Ammo, fuel and equipment depots', 'Strategic infrastructure',
+      'Tactical infrastructure', 'Shelters', 'Dugouts', 'Network equipment',
+      'Cameras', 'Enemy copter drones', 'Enemy unmanned robotic complexes', 'Other',
+    ];
+    const catSet = new Set(categoryLabels.map(c => c.toLowerCase()));
+
+    const summary = {};
+    const categories = {};
+    const seenCats = new Set();
+
+    for (let i = 0; i < extracted.length; i++) {
+      const line = extracted[i];
+      const lower = line.toLowerCase();
+
+      // Summary label — look back for a number
+      if (summaryLabels[lower]) {
+        const key = summaryLabels[lower];
+        if (!summary[key]) {
+          // Look backward up to 3 lines for a number
+          for (let j = i - 1; j >= Math.max(0, i - 3); j--) {
+            if (isNum(extracted[j])) {
+              summary[key] = toNum(extracted[j]);
+              break;
+            }
+          }
+        }
+        continue;
+      }
+
+      // Category label — look forward for two numbers
+      if (catSet.has(lower) && !seenCats.has(lower)) {
+        seenCats.add(lower);
+        let damaged = null, destroyed = null, found = 0;
+        for (let j = i + 1; j < Math.min(i + 10, extracted.length); j++) {
+          if (isNum(extracted[j])) {
+            if (found === 0) damaged   = toNum(extracted[j]);
+            if (found === 1) destroyed = toNum(extracted[j]);
+            found++;
+            if (found >= 2) break;
+          }
+          if (catSet.has((extracted[j] || '').toLowerCase()) && found > 0) break;
+        }
+        if (damaged !== null) {
+          categories[line] = { damaged, destroyed: destroyed || 0 };
+        }
       }
     }
 
-    console.log(`Built ${rows.length} sheet rows`);
+    console.log('\n=== SUMMARY ===');
+    console.log(JSON.stringify(summary, null, 2));
+    console.log('\n=== CATEGORIES ===');
+    Object.entries(categories).forEach(([k, v]) => console.log(`${k}: damaged=${v.damaged} destroyed=${v.destroyed}`));
 
+    // Build sheet rows
+    const rows = [];
+    const src = URL_2025;
+    const srcl = 'USF Pidrakhuyka';
+    const period = 'yearly_2025';
+
+    // Summary headline rows
+    const summaryItems = [
+      { label: 'Total damaged targets',    type: 'Summary',    value: summary.total_damaged,       note: `Total targets damaged in 2025` },
+      { label: 'Total destroyed targets',  type: 'Summary',    value: summary.total_destroyed,     note: `Total targets destroyed in 2025` },
+      { label: 'Strike flights',           type: 'Operations', value: summary.strike_flights,       note: `Total strike flights in 2025` },
+      { label: 'Recon flights',            type: 'Operations', value: summary.recon_flights,        note: `Total reconnaissance flights in 2025` },
+      { label: 'Enemy personnel hit',      type: 'Personnel',  value: summary.personnel_total,     note: `Total enemy personnel hit in 2025` },
+      { label: 'Enemy personnel killed',   type: 'Personnel',  value: summary.personnel_killed,    note: `Enemy personnel confirmed killed in 2025` },
+      { label: 'Enemy personnel wounded',  type: 'Personnel',  value: summary.personnel_wounded,   note: `Enemy personnel wounded in 2025` },
+    ];
+
+    for (const item of summaryItems) {
+      if (!item.value) continue;
+      rows.push([
+        period, 'FPV / UAV (USF)', item.label, item.type,
+        'Eastern Front', String(item.value), `2025 Annual Total. ${item.note}.`, src, srcl,
+      ]);
+    }
+
+    // Category detail rows
+    for (const [label, vals] of Object.entries(categories)) {
+      if (vals.damaged === 0 && vals.destroyed === 0) continue;
+      const outcome = vals.destroyed > 0
+        ? `${vals.destroyed} destroyed, ${vals.damaged} damaged`
+        : `${vals.damaged} damaged`;
+      rows.push([
+        period, 'FPV / UAV (USF)', label, categorise(label),
+        'Eastern Front', outcome,
+        `2025 Annual Total. Damaged: ${vals.damaged}. Destroyed: ${vals.destroyed}.`,
+        src, srcl,
+      ]);
+    }
+
+    console.log(`\nTotal rows to write: ${rows.length}`);
     await browser.close();
 
     if (rows.length === 0) {
-      console.log('No rows to write — check page text above for structure');
+      console.log('No rows extracted — see page text above');
       return;
     }
 
@@ -220,7 +246,4 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error('Fatal:', err);
-  process.exit(1);
-});
+main().catch(err => { console.error('Fatal:', err); process.exit(1); });
