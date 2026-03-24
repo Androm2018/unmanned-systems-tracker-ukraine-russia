@@ -221,7 +221,7 @@ async function scrape() {
         : `${vals.damaged} damaged`;
 
       rows.push([
-        date,
+        "'" + date,
         'FPV / UAV (USF)',
         category,
         categoriseTarget(category),
