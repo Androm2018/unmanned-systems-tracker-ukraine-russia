@@ -303,32 +303,29 @@ async function scrapeByNavigation(page, sheets, existingKeys) {
       }
     }
 
-    // Click "Previous Period" to go back one day
-    const prevButton = page.locator('text=Previous Period, text=Previous, [class*="prev"], [class*="previous"]').first();
-    const prevVisible = await prevButton.isVisible().catch(() => false);
+    // Click "Previous Period" — it's an H2 on this site
+    // Confirmed from diagnostic logs: [H2] "Previous Period"
+    const prevEl = page.locator('h2, button, a, div, span').filter({ hasText: 'Previous Period' }).first();
+    const prevVisible = await prevEl.isVisible().catch(() => false);
 
     if (prevVisible) {
-      await prevButton.click();
-      await page.waitForTimeout(2500);
+      console.log('  Clicking Previous Period...');
+      await prevEl.click();
+      await page.waitForTimeout(3000);
     } else {
-      // Try finding any button that implies going backward
-      const buttons = await page.evaluate(() => {
-        return [...document.querySelectorAll('button, a')]
-          .map(b => ({ text: b.innerText?.trim(), classes: b.className }))
-          .filter(b => b.text && b.text.length < 30);
-      });
-      console.log('  Available buttons:', buttons.map(b => b.text).join(' | '));
+      // Log all h2s for debugging
+      const h2s = await page.evaluate(() =>
+        [...document.querySelectorAll('h2')].map(el => el.innerText?.trim())
+      );
+      console.log('  H2s on page:', h2s.join(' | '));
 
-      // Look for prev/back/left navigation
-      const backBtn = page.locator('button, a').filter({
-        hasText: /prev|back|earlier|before|←|‹/i
-      }).first();
-
-      if (await backBtn.isVisible().catch(() => false)) {
-        await backBtn.click();
-        await page.waitForTimeout(2500);
+      // Broader search for any element with backward navigation text
+      const anyPrev = page.locator('h2, h3, button, a, div').filter({ hasText: /previous period/i }).first();
+      if (await anyPrev.isVisible().catch(() => false)) {
+        await anyPrev.click();
+        await page.waitForTimeout(3000);
       } else {
-        console.log('  No Previous Period button found — stopping navigation.');
+        console.log('  No Previous Period element found — stopping.');
         break;
       }
     }
