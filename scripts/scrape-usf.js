@@ -209,8 +209,52 @@ async function scrape() {
     }
     console.log(`  (${nonZero} categories with activity, ${Object.keys(extracted).length} total extracted)`);
 
+    // ── Extract summary headline figures ─────────────────────
+    const summary = await page.evaluate(() => {
+      const allSpans = [...document.querySelectorAll('span')];
+      const texts = allSpans.map(s => (s.innerText || '').trim());
+      const result = { totalDamaged: 0, totalDestroyed: 0, personnel: 0, killed: 0, wounded: 0, strikeFlights: 0, reconFlights: 0 };
+      for (let i = 0; i < texts.length; i++) {
+        const t = texts[i];
+        const next = (texts[i + 1] || '').toLowerCase();
+        if (!/[0-9]/.test(t) || t !== String(parseInt(t,10))) continue;
+        const n = parseInt(t, 10);
+        if (next.includes('damaged targets'))   { result.totalDamaged   = n; continue; }
+        if (next.includes('incl. destroyed') && result.totalDamaged > 0 && result.totalDestroyed === 0) { result.totalDestroyed = n; continue; }
+        if (next.includes('enemy personnel'))   { result.personnel      = n; continue; }
+        if (next.includes('killed'))            { result.killed         = n; continue; }
+        if (next.includes('wounded'))           { result.wounded        = n; continue; }
+        if (next.includes('strike flights'))    { result.strikeFlights  = n; continue; }
+        if (next.includes('recon flights'))     { result.reconFlights   = n; continue; }
+      }
+      return result;
+    });
+
+    console.log(`Summary: ${summary.totalDamaged} damaged, ${summary.totalDestroyed} destroyed, ${summary.personnel} personnel (${summary.killed} KIA, ${summary.wounded} WIA)`);
+
     // ── Build sheet rows ──────────────────────────────────
     const rows = [];
+
+    // Summary row
+    if (summary.totalDamaged > 0 || summary.totalDestroyed > 0) {
+      rows.push([
+        date, 'FPV / UAV (USF)', 'TOTAL — All targets', 'Summary', 'Eastern Front',
+        `${summary.totalDestroyed} destroyed, ${summary.totalDamaged} damaged`,
+        `Daily total. Damaged: ${summary.totalDamaged}. Destroyed: ${summary.totalDestroyed}. Strike flights: ${summary.strikeFlights}. Recon flights: ${summary.reconFlights}.`,
+        DATA_URL, SOURCE_LABEL,
+      ]);
+    }
+
+    // Personnel summary row
+    if (summary.personnel > 0) {
+      rows.push([
+        date, 'FPV / UAV (USF)', 'Enemy personnel (summary)', 'Personnel', 'Eastern Front',
+        `${summary.killed} killed, ${summary.wounded} wounded (${summary.personnel} total hit)`,
+        `Personnel hit: ${summary.personnel}. Killed: ${summary.killed}. Wounded: ${summary.wounded}.`,
+        DATA_URL, SOURCE_LABEL,
+      ]);
+    }
+
     for (const category of TARGET_CATEGORIES) {
       const vals = extracted[category];
       if (!vals) continue;
@@ -221,15 +265,10 @@ async function scrape() {
         : `${vals.damaged} damaged`;
 
       rows.push([
-        "'" + date,
-        'FPV / UAV (USF)',
-        category,
-        categoriseTarget(category),
-        'Eastern Front',
-        outcome,
+        date, 'FPV / UAV (USF)', category, categoriseTarget(category),
+        'Eastern Front', outcome,
         `Damaged: ${vals.damaged}. Destroyed: ${vals.destroyed}. Source: USF Pidrakhuyka daily report.`,
-        DATA_URL,
-        SOURCE_LABEL,
+        DATA_URL, SOURCE_LABEL,
       ]);
     }
 
