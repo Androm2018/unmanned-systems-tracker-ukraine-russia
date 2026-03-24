@@ -212,17 +212,19 @@ async function scrape(sheets, existingKeys) {
       }
 
       // ── Navigate to previous day ──────────────────────
-      // Find the "Previous Period" H2 and click it
-      const prevEl = page.locator('h2').filter({ hasText: 'Previous Period' }).first();
-      const prevVisible = await prevEl.isVisible().catch(() => false);
+      // "Previous Period" is an H2 but the click handler is on its PARENT div
+      // So we find the H2 then click its parent
+      const prevH2 = page.locator('h2').filter({ hasText: 'Previous Period' }).first();
+      const prevVisible = await prevH2.isVisible().catch(() => false);
 
       if (!prevVisible) {
         console.log('Previous Period element not found, stopping.');
         break;
       }
 
-      // Click and wait for the DATE to change — this is the key fix
-      await prevEl.click();
+      // Click the parent div which has the actual click handler
+      await prevH2.evaluate(el => el.parentElement.click());
+      console.log(`  Clicked parent of Previous Period H2`);
 
       // Wait up to 8 seconds for the date on the page to change
       let dateChanged = false;
