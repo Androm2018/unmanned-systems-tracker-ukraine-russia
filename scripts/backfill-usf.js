@@ -216,7 +216,7 @@ async function extractData(page, date) {
       : `${vals.damaged} damaged`;
 
     rows.push([
-      date,
+      "'" + date,
       'FPV / UAV (USF)',
       category,
       categoriseTarget(category),
