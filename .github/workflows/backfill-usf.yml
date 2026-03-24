@@ -1,0 +1,36 @@
+name: Backfill USF Kill Board (run once)
+
+on:
+  workflow_dispatch:  # manual trigger only — run this once from Actions tab
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120  # backfilling months of data takes time
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: scripts
+        run: npm install
+
+      - name: Install Playwright browsers
+        working-directory: scripts
+        run: npx playwright install chromium --with-deps
+
+      - name: Run backfill
+        working-directory: scripts
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+        run: node backfill-usf.js
+
+      - name: Done
+        run: echo "Backfill complete"
