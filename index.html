@@ -483,27 +483,22 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="section-header">
     <div>
       <div class="section-title">UAV <span>Kill Board</span></div>
-      <div class="section-sub">CONFIRMED UKRAINIAN UAV STRIKES RESULTING IN EQUIPMENT KILLS · 2022–PRESENT</div>
+      <div class="section-sub">CONFIRMED UKRAINIAN UAV STRIKES · SOURCE: USF PIDRAKHUYKA OFFICIAL KILL BOARD · 2025–PRESENT</div>
     </div>
-    <button class="btn btn-accent" disabled style="opacity:0.4;cursor:not-allowed">⬇ EXPORT CSV</button>
+    <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ EXPORT CSV</button>
   </div>
   <div class="controls">
-    <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="uav-search" placeholder="target, unit, location…" oninput="renderUAV()" disabled></div>
-    <div class="ctrl-group"><span class="ctrl-label">Target Type</span><select id="uav-type" onchange="renderUAV()" disabled><option value="">All types</option><option>Tank / AFV</option><option>Artillery</option><option>Air defence</option><option>Logistics</option><option>Personnel</option><option>Aircraft</option></select></div>
-    <div class="ctrl-group"><span class="ctrl-label">UAV System</span><select id="uav-system" onchange="renderUAV()" disabled><option value="">All systems</option></select></div>
-    <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="uav-year" onchange="renderUAV()" disabled><option value="">All</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
-    <span class="result-count">Showing <b id="uav-rc">0</b> events</span>
+    <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="uav-search" placeholder="target, type, location…" oninput="renderUAV()"></div>
+    <div class="ctrl-group"><span class="ctrl-label">Target Type</span><select id="uav-type" onchange="renderUAV()"><option value="">All types</option><option>Tank / AFV</option><option>Artillery</option><option>Air defence</option><option>Drone / Aircraft</option><option>Logistics</option><option>Personnel</option><option>Fortification</option><option>Electronics</option><option>Other</option></select></div>
+    <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="uav-year" onchange="renderUAV()"><option value="">All</option><option>2025</option><option>2026</option></select></div>
+    <span class="result-count">Showing <b id="uav-rc">—</b> events</span>
   </div>
-  <div class="empty-state">
-    <div class="empty-icon">✈</div>
-    <div class="empty-title">Data Collection In Progress</div>
-    <div class="empty-desc">UAV kill data is being compiled from Ukrainian military sources, HUR/ZSU official releases, and OSINT-verified footage.<br><br>Each entry will track: Date · UAV System · Target · Target Type · Location · Outcome · Source verification link.<br><br>The table below will populate automatically once data is available.</div>
-  </div>
-  <div class="table-wrap" style="margin-top:20px">
+  <div class="table-wrap">
     <table>
-      <thead><tr><th>Date</th><th>UAV System</th><th>Target</th><th>Target Type</th><th>Location</th><th>Outcome</th><th>Notes</th><th>Source</th></tr></thead>
-      <tbody id="uav-body"><tr><td colspan="8"><div class="no-results" style="display:block;padding:24px 0">// AWAITING DATA //</div></td></tr></tbody>
+      <thead><tr><th onclick="sortUAV(0)">Date ↕</th><th>UAV System</th><th onclick="sortUAV(2)">Target ↕</th><th onclick="sortUAV(3)">Type ↕</th><th>Location</th><th>Outcome</th><th>Notes</th><th>Source</th></tr></thead>
+      <tbody id="uav-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
     </table>
+    <div id="uav-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
   </div>
 </div>
 
@@ -682,7 +677,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 // ═══════════════════════════════════════════════════════════
 //  CONFIG
 // ═══════════════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWLX6DF8VxV41OQt4rUyCvhaHH0dimr2LBRgys89TWiouYEhvlDVcACwQMbU3uaSWGCA/exec';
+const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
 
 // ═══════════════════════════════════════════════════════════
 //  STATE
@@ -694,7 +689,7 @@ let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
 //  FETCH
 // ═══════════════════════════════════════════════════════════
 async function fetchTab(tab) {
-  if(!SCRIPT_URL||SCRIPT_URL.startsWith('https://script.google.com/macros/s/AKfycbzWLX6DF8VxV41OQt4rUyCvhaHH0dimr2LBRgys89TWiouYEhvlDVcACwQMbU3uaSWGCA/exec'))return null;
+  if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
   try{
     const res=await fetch(`${SCRIPT_URL}?tab=${tab}&t=${Date.now()}`);
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
@@ -845,9 +840,40 @@ function renderUGV(){
 function sortUGV(c){ugvSort={col:c,asc:ugvSort.col===c?!ugvSort.asc:true};renderUGV()}
 
 // ═══════════════════════════════════════════════════════════
-//  UAV (empty ready for data)
+//  UAV TABLE
 // ═══════════════════════════════════════════════════════════
-function renderUAV(){document.getElementById('uav-rc').textContent=UAV_DATA.length}
+let uavSort={col:0,asc:true};
+function renderUAV(){
+  const s=document.getElementById('uav-search').value.toLowerCase();
+  const tp=document.getElementById('uav-type').value;
+  const y=document.getElementById('uav-year').value;
+  let rows=UAV_DATA.filter(r=>{
+    if(s&&![r.target,r.type,r.loc,r.notes,r.system].join(' ').toLowerCase().includes(s))return false;
+    if(tp&&r.type!==tp)return false;
+    if(y&&!(r.date||'').startsWith(y))return false;
+    return true;
+  });
+  const k=['date','system','target','type','loc','outcome'];
+  rows.sort((a,b)=>{const va=a[k[uavSort.col]]||'',vb=b[k[uavSort.col]]||'';return uavSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
+  document.getElementById('uav-rc').textContent=rows.length;
+  document.getElementById('uav-count').textContent=rows.length;
+  const body=document.getElementById('uav-body');
+  const nores=document.getElementById('uav-nores');
+  if(!rows.length){body.innerHTML='';nores.style.display='block';return}
+  nores.style.display='none';
+  body.innerHTML=rows.map((r,i)=>`
+    <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
+      <td class="cell-date">${fmtDate(r.date)}</td>
+      <td><span class="model-tag">${r.system||'—'}</span></td>
+      <td class="cell-target">${r.target||'—'}</td>
+      <td class="cell-type">${r.type||'—'}</td>
+      <td class="cell-loc">${r.loc||'—'}</td>
+      <td>${outcomeBadge(r.outcome)}</td>
+      <td class="cell-notes">${r.notes||''}</td>
+      <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
+    </tr>`).join('');
+}
+function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
 
 // ═══════════════════════════════════════════════════════════
 //  RUSSIA LOSSES
@@ -909,6 +935,9 @@ function exportCSV(tab){
   }else if(tab==='ugv'){
     headers=['Date','Side','UGV System','Operation','Location','Outcome','Notes','Source URL'];
     rows=UGV_DATA.map(r=>[r.date,r.side,r.system,`"${(r.op||'').replace(/"/g,'""')}"`,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='uav'){
+    headers=['Date','UAV System','Target','Target Type','Location','Outcome','Notes','Source URL'];
+    rows=UAV_DATA.map(r=>[r.date,r.system,r.target,r.type,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
   }else return;
   const csv=[headers.join(','),...rows].join('\n');
   const a=Object.assign(document.createElement('a'),{
