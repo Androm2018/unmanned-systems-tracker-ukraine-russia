@@ -727,7 +727,26 @@ async function loadAll() {
   document.getElementById('last-updated').textContent=d;
   document.getElementById('intro-date').textContent=d;
 
-  renderUSV(); renderUGV(); renderUAV(); renderKillBoard();
+  renderUSV(); renderUGV(); renderKillBoard();
+
+  // UAV renders after a short delay to ensure data is fully assigned
+  // This prevents a race condition where renderUAV fires before uavRaw resolves
+  if(UAV_DATA.length>0){
+    renderUAV();
+  } else {
+    // Poll until data arrives (max 10 seconds)
+    let attempts=0;
+    const poll=setInterval(()=>{
+      attempts++;
+      if(UAV_DATA.length>0){
+        clearInterval(poll);
+        renderUAV();
+      } else if(attempts>20){
+        clearInterval(poll);
+        renderUAV(); // render anyway (will show empty state)
+      }
+    },500);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
