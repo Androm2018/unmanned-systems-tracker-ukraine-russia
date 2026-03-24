@@ -91,7 +91,7 @@ select option{background:var(--bg3)}
 
 /* ── TABLE ── */
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:0.77rem}
+table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:0}
 thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
 thead th:hover{color:var(--text2)}
 thead th.sorted{color:var(--accent3)}
@@ -164,7 +164,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
 
 /* ── INTRO PAGE CARDS ── */
-.intro-pages{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
+.intro-pages{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
 .intro-page-card{background:var(--bg2);padding:22px 24px;cursor:pointer;transition:background 0.18s;position:relative}
 .intro-page-card:hover{background:var(--bg3)}
 .intro-page-card.full-width{grid-column:1/-1}
@@ -177,7 +177,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ipc-col-label{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .ipc-col-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.55}
 .ipc-nav-hint{font-family:var(--mono);font-size:0.56rem;color:var(--accent);letter-spacing:0.06em;margin-top:10px}
-.ipc-nav-hint:hover{color:var(--accent3)}
+.ipc-nav-hint:hover{color:var(--accent3)}.intro-page-card.full-width{grid-column:span 1}
 .ipc-tag{display:inline-block;font-family:var(--mono);font-size:0.56rem;padding:1px 6px;border-radius:1px;margin-right:4px;margin-bottom:3px;border:1px solid var(--border);color:var(--text3);background:var(--bg3)}
 
 /* ── METHODOLOGY / SOURCES ── */
@@ -197,7 +197,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
 
 /* ── OSINT SOURCES PAGE ── */
-.sources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
 .source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
 .source-card:hover{border-color:var(--accent)}
 .source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
@@ -216,8 +216,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-btn:hover{background:#fff;color:#080d0a}
 .donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
 
-@media(max-width:1100px){.intro-pages{grid-template-columns:1fr 1fr}}
-@media(max-width:900px){
+@media(max-width:1100px){.intro-pages{grid-template-columns:1fr 1fr 1fr}.sources-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:900px){
   header{padding:0 16px}
   main{padding:18px 16px}
   .logo-text p,.header-right span{display:none}
@@ -380,7 +379,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="ipc-nav-hint">→ Open Russia Losses tab</div>
     </div>
 
-    <div class="intro-page-card full-width" onclick="showTabById('sources')">
+    <div class="intro-page-card" onclick="showTabById('sources')">
       <div class="ipc-header">
         <span class="ipc-icon">🔗</span>
         <span class="ipc-title">OSINT Sources & Support</span>
@@ -442,7 +441,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th onclick="sortUSV(0)">Date ↕</th><th onclick="sortUSV(1)">Target ↕</th><th>Type</th><th onclick="sortUSV(3)">USV Model ↕</th><th>Location</th><th onclick="sortUSV(5)">Damage ↕</th><th>Notes</th><th>Source</th></tr></thead>
+      <colgroup><col style="width:9%"><col style="width:16%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:10%"><col style="width:25%"><col style="width:7%"></colgroup>
+      <colgroup><col style="width:9%"><col style="width:18%"><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:9%"><col style="width:22%"><col style="width:8%"></colgroup><thead><tr><th onclick="sortUSV(0)">Date ↕</th><th onclick="sortUSV(1)">Target ↕</th><th>Type</th><th onclick="sortUSV(3)">USV Model ↕</th><th>Location</th><th onclick="sortUSV(5)">Damage ↕</th><th>Notes</th><th>Source</th></tr></thead>
       <tbody id="usv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
     </table>
     <div id="usv-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
@@ -469,7 +469,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th onclick="sortUGV(0)">Date ↕</th><th onclick="sortUGV(1)">Side ↕</th><th onclick="sortUGV(2)">UGV System ↕</th><th>Operation / Target</th><th>Location</th><th onclick="sortUGV(5)">Outcome ↕</th><th>Notes</th><th>Source</th></tr></thead>
+      <colgroup><col style="width:9%"><col style="width:9%"><col style="width:11%"><col style="width:18%"><col style="width:11%"><col style="width:13%"><col style="width:22%"><col style="width:7%"></colgroup>
+      <colgroup><col style="width:9%"><col style="width:9%"><col style="width:12%"><col style="width:20%"><col style="width:12%"><col style="width:12%"><col style="width:18%"><col style="width:8%"></colgroup><thead><tr><th onclick="sortUGV(0)">Date ↕</th><th onclick="sortUGV(1)">Side ↕</th><th onclick="sortUGV(2)">UGV System ↕</th><th>Operation / Target</th><th>Location</th><th onclick="sortUGV(5)">Outcome ↕</th><th>Notes</th><th>Source</th></tr></thead>
       <tbody id="ugv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
     </table>
     <div id="ugv-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
@@ -728,7 +729,7 @@ async function loadAll() {
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
   UAV_DATA=uavRaw||[];
-  KB_DATA =kbRaw ||EMBEDDED_KB;
+  KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
 
   // USV model filter
   [...new Set(USV_DATA.map(r=>r.model).filter(Boolean))].sort().forEach(m=>{
@@ -995,6 +996,7 @@ function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};render
 //  RUSSIA LOSSES
 // ═══════════════════════════════════════════════════════════
 function renderKillBoard(){
+  if(!KB_DATA||!KB_DATA.length){ KB_DATA=EMBEDDED_KB; }
   const cards=KB_DATA.filter(r=>r.section==='card');
   const stats=KB_DATA.filter(r=>r.section==='stat');
   const naval=KB_DATA.filter(r=>r.section==='naval');
