@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unmanned Systems Tracker</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russia-Ukraine war. 2022–present.">
+<meta property="og:title" content="Unmanned Systems Tracker">
+<meta property="og:description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russia-Ukraine war. 2022–present.">
+<meta property="og:url" content="https://unmannedsystemstracker.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://unmannedsystemstracker.com/preview.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Unmanned Systems Tracker">
+<meta name="twitter:description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russia-Ukraine war.">
+<meta name="twitter:image" content="https://unmannedsystemstracker.com/preview.svg">
+<meta name="description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russian invasion of Ukraine. 2022–present.">
+<meta property="og:title" content="Unmanned Systems Tracker">
+<meta property="og:description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russian invasion of Ukraine. 2022–present.">
+<meta property="og:url" content="https://unmannedsystemstracker.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://unmannedsystemstracker.com/preview.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Unmanned Systems Tracker">
+<meta name="twitter:description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russian invasion of Ukraine.">
+<meta name="twitter:image" content="https://unmannedsystemstracker.com/preview.svg">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:          #080d0a;
+  --bg2:         #0d1410;
+  --bg3:         #111a13;
+  --border:      #253d2a;
+  --border2:     #1e3022;
+  --accent:      #3a7d44;
+  --accent2:     #4e9e5a;
+  --accent3:     #6bbf78;
+  --glowb:       rgba(107,191,120,0.06);
+  --text:        #c8d8c0;
+  --text2:       #8aaa88;
+  --text3:       #526650;
+  --mono:        'Share Tech Mono', monospace;
+  --head:        'Barlow Condensed', sans-serif;
+  --body:        'Barlow', sans-serif;
+  --redbg:       rgba(192,57,43,0.12);
+  --redborder:   rgba(192,57,43,0.35);
+  --amberbg:     rgba(212,160,23,0.10);
+  --amberborder: rgba(212,160,23,0.35);
+  --greenbg:     rgba(46,204,113,0.10);
+  --greenborder: rgba(46,204,113,0.30);
+  --bluebg:      rgba(93,173,226,0.10);
+  --blueborder:  rgba(93,173,226,0.30);
+  --purplebg:    rgba(165,105,189,0.10);
+  --purpleborder:rgba(165,105,189,0.30);
+  --amber:       #d4a017;
+  --green:       #2ecc71;
+  --blue:        #5dade2;
+  --purple:      #a569bd;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.035) 2px,rgba(0,0,0,0.035) 4px);pointer-events:none;z-index:999}
+
+/* ── HEADER ── */
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28px;position:sticky;top:0;z-index:200;display:flex;align-items:stretch;min-height:60px}
+.logo-block{display:flex;align-items:center;gap:14px;padding-right:28px;border-right:1px solid var(--border);margin-right:4px;flex-shrink:0}
+.logo-icon{width:32px;height:32px;border:1.5px solid var(--accent);position:relative;flex-shrink:0}
+.logo-icon::after{content:'';position:absolute;inset:4px;background:var(--accent);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
+.logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
+.logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
+nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
+.nav-tab{font-family:var(--head);font-weight:700;font-size:0.68rem;letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);padding:0 10px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:5px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
+.nav-tab:hover{color:var(--text2)}
+.nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
+.tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
+.nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:12px;padding-left:20px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── LAYOUT ── */
+main{padding:28px 32px;max-width:1600px;margin:0 auto}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeIn 0.22s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ── */
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
+.section-title{font-family:var(--head);font-weight:900;font-size:1.55rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;line-height:1}
+.section-title span{color:var(--accent3);font-weight:300}
+.section-sub{font-family:var(--mono);font-size:0.62rem;color:var(--text3);letter-spacing:0.06em;margin-top:5px}
+
+/* ── CONTROLS ── */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.ctrl-group{display:flex;align-items:center;gap:7px}
+.ctrl-label{font-family:var(--mono);font-size:0.6rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
+input[type="text"],select{font-family:var(--mono);font-size:0.7rem;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:2px;outline:none;transition:border-color 0.15s}
+input[type="text"]{width:190px}
+input[type="text"]:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--bg3)}
+.btn{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;padding:6px 13px;border-radius:2px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:all 0.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent);color:var(--accent3)}
+.btn-accent{background:var(--accent);border-color:var(--accent2);color:#fff}
+.btn-accent:hover{background:var(--accent2);color:#fff}
+.btn-donate{background:#1a5c38;border-color:#2a8c56;color:#6bbf78;font-size:0.7rem;padding:8px 18px}
+.btn-donate:hover{background:#2a8c56;border-color:#6bbf78;color:#fff}
+.result-count{margin-left:auto;font-family:var(--mono);font-size:0.62rem;color:var(--text3)}
+.result-count b{color:var(--accent3)}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis}
+thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{color:var(--text2)}
+thead th.sorted{color:var(--accent3)}
+tbody tr{border-bottom:1px solid var(--border2);transition:background 0.1s}
+tbody tr:hover{background:var(--glowb)}
+tbody td{padding:9px 13px;vertical-align:top}
+.cell-date{font-family:var(--mono);font-size:0.65rem;color:var(--text3);white-space:nowrap}
+.cell-target{font-weight:600;color:#e0ead8;font-family:var(--head);font-size:0.88rem;letter-spacing:0.02em}
+.cell-type,.cell-loc,.cell-notes{font-size:0.7rem;color:var(--text2);line-height:1.5}
+.cell-notes{max-width:300px}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:1px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.b-sunk    {background:var(--redbg);   color:#e74c3c;border:1px solid var(--redborder)}
+.b-damaged {background:var(--amberbg); color:#f0c040;border:1px solid var(--amberborder)}
+.b-destroyed{background:var(--greenbg);color:#2ecc71;border:1px solid var(--greenborder)}
+.b-shotdown{background:var(--purplebg);color:var(--purple);border:1px solid var(--purpleborder)}
+.b-disrupted{background:var(--bluebg); color:var(--blue);border:1px solid var(--blueborder)}
+.b-unknown {background:var(--bg3);     color:var(--text3);border:1px solid var(--border)}
+.b-ua{background:rgba(58,125,68,0.15);color:var(--accent3);border:1px solid var(--border)}
+.b-ru{background:rgba(192,57,43,0.10);color:#e07070;border:1px solid rgba(192,57,43,0.25)}
+.model-tag{display:inline-block;padding:2px 7px;background:var(--bg3);border:1px solid var(--border);border-radius:1px;font-family:var(--mono);font-size:0.6rem;color:var(--accent3);white-space:nowrap}
+a.src-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:color 0.15s,border-color 0.15s}
+a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
+
+/* ── STATE BOXES ── */
+.state-box{text-align:center;padding:50px 0;font-family:var(--mono);font-size:0.75rem;color:var(--text3);letter-spacing:0.08em}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent3);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.no-results{text-align:center;padding:50px 0;font-family:var(--mono);font-size:0.75rem;color:var(--text3);letter-spacing:0.08em;display:none}
+
+/* ── KILL BOARD ── */
+.kb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:28px}
+.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:22px;position:relative;overflow:hidden}
+.kb-card::before{content:attr(data-icon);position:absolute;right:14px;top:10px;font-size:2.2rem;opacity:0.055;line-height:1}
+.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.kb-card-value{font-family:var(--head);font-weight:900;font-size:2.5rem;line-height:1;letter-spacing:-0.01em}
+.kb-card-value.red  {color:#e74c3c}
+.kb-card-value.amber{color:#f0c040}
+.kb-card-value.green{color:var(--accent3)}
+.kb-card-value.blue {color:var(--blue)}
+.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:5px;line-height:1.4}
+.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)}
+.kb-section-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
+.kb-section-title::after{content:'';flex:1;height:1px;background:var(--border2)}
+.stat-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+.stat-row{background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;padding:12px 16px;gap:14px}
+.stat-row-label{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1}
+.stat-row-val{font-family:var(--head);font-weight:700;font-size:1.2rem;white-space:nowrap}
+.stat-row-val.r{color:#e74c3c}
+.stat-row-val.a{color:#f0c040}
+.stat-row-val.g{color:var(--accent3)}
+.disclaimer{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);padding:13px 16px;font-family:var(--mono);font-size:0.62rem;color:var(--text3);line-height:1.7;margin-bottom:24px}
+.disclaimer b{color:var(--amber)}
+
+/* ── INTRO ── */
+.intro-hero{padding:44px 0 36px;border-bottom:1px solid var(--border2);margin-bottom:36px}
+.intro-kicker{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent3);margin-bottom:14px}
+.intro-headline{font-family:var(--head);font-weight:900;font-size:3rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:18px}
+.intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
+.intro-lead{font-family:var(--body);font-size:0.95rem;color:var(--text2);line-height:1.75;max-width:680px;margin-bottom:0}
+.intro-stats{display:flex;gap:0;border:1px solid var(--border);margin:32px 0;overflow:hidden}
+.intro-stat{flex:1;padding:18px 22px;border-right:1px solid var(--border)}
+.intro-stat:last-child{border-right:none}
+.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.9rem;line-height:1}
+.intro-stat-val.g{color:var(--accent3)}
+.intro-stat-val.r{color:#e74c3c}
+.intro-stat-val.a{color:#f0c040}
+.intro-stat-val.b{color:var(--blue)}
+.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
+
+/* ── INTRO PAGE CARDS ── */
+.intro-pages{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
+.intro-page-card{background:var(--bg2);padding:22px 24px;cursor:pointer;transition:background 0.18s;position:relative}
+.intro-page-card:hover{background:var(--bg3)}
+.intro-page-card.full-width{grid-column:1/-1}
+.ipc-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ipc-icon{font-size:1.3rem;flex-shrink:0}
+.ipc-title{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
+.ipc-count{font-family:var(--mono);font-size:0.58rem;color:var(--accent3);margin-left:auto;border:1px solid var(--border);padding:2px 7px;white-space:nowrap}
+.ipc-desc{font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65;margin-bottom:10px}
+.ipc-columns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ipc-col-label{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.ipc-col-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.55}
+.ipc-nav-hint{font-family:var(--mono);font-size:0.56rem;color:var(--accent);letter-spacing:0.06em;margin-top:10px}
+.ipc-nav-hint:hover{color:var(--accent3)}.intro-page-card.full-width{grid-column:span 1}
+.ipc-tag{display:inline-block;font-family:var(--mono);font-size:0.56rem;padding:1px 6px;border-radius:1px;margin-right:4px;margin-bottom:3px;border:1px solid var(--border);color:var(--text3);background:var(--bg3)}
+
+/* ── METHODOLOGY / SOURCES ── */
+.intro-methodology{background:var(--bg2);border:1px solid var(--border);padding:26px 28px;margin-bottom:28px}
+.intro-methodology h3{font-family:var(--head);font-weight:700;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-bottom:13px}
+.intro-methodology p{font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.75;margin-bottom:10px}
+.intro-methodology p:last-of-type{margin-bottom:0}
+.intro-methodology b{color:var(--text2)}
+.source-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.source-chip{font-family:var(--mono);font-size:0.57rem;background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:1px;color:var(--text3);letter-spacing:0.04em}
+.intro-footer{font-family:var(--mono);font-size:0.58rem;color:var(--text3);line-height:1.8;padding-top:18px;border-top:1px solid var(--border2)}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:70px 32px;border:1px dashed var(--border);margin-top:8px}
+.empty-icon{font-size:2.8rem;margin-bottom:14px;opacity:0.35}
+.empty-title{font-family:var(--head);font-weight:700;font-size:1.05rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
+
+/* ── OSINT SOURCES PAGE ── */
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
+.source-card:hover{border-color:var(--accent)}
+.source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.source-card-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.source-card-name{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1}
+.source-card-type{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.08em;margin-top:3px;text-transform:uppercase}
+.source-card-desc{font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65;margin-bottom:12px}
+.source-card-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:all 0.15s;display:inline-block}
+.source-card-link:hover{color:var(--accent3);border-color:var(--accent3)}
+.donate-block{background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 50%,#0a1f12 100%);border:1px solid #2a6b3a;border-left:4px solid var(--accent3);padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
+.donate-block::before{content:'🇺🇦';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:5rem;opacity:0.07}
+.donate-title{font-family:var(--head);font-weight:900;font-size:1.4rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;margin-bottom:6px}
+.donate-sub{font-family:var(--mono);font-size:0.6rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.donate-desc{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.7;max-width:620px;margin-bottom:20px}
+.donate-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent3);color:#080d0a;font-family:var(--head);font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all 0.18s;border:none;cursor:pointer}
+.donate-btn:hover{background:#fff;color:#080d0a}
+.donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
+
+/* ── UAV KILLBOARD ── */
+.uav-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff}
+.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.uav-cat-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px;transition:background 0.1s}
+.uav-cat-row:last-child{border-bottom:none}
+.uav-cat-row:hover{background:var(--glowb)}
+.uav-cat-row.highlighted{background:rgba(107,191,120,0.07)}
+.uav-cat-name{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1;min-width:0}
+.uav-cat-header{display:flex;padding:6px 14px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.uav-cat-header span{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.uav-cat-header .uav-num-col{width:70px;text-align:right}
+.uav-num-col{width:70px;text-align:right;font-family:var(--head);font-weight:700;font-size:0.9rem;flex-shrink:0}
+.uav-num-damaged{color:var(--amber)}
+.uav-num-destroyed{color:var(--accent3)}
+@media(max-width:1100px){
+  .intro-pages{grid-template-columns:1fr 1fr 1fr}
+  .sources-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ── TABLET ── */
+@media(max-width:900px){
+  header{padding:0 14px;min-height:54px}
+  main{padding:16px 14px}
+  .logo-text p,.header-right{display:none}
+  input[type="text"]{width:120px}
+  .stat-rows,.intro-pages{grid-template-columns:1fr}
+  .ipc-columns{grid-template-columns:1fr}
+  .intro-stats{flex-direction:column}
+  .intro-stat{border-right:none;border-bottom:1px solid var(--border)}
+  .intro-stat:last-child{border-bottom:none}
+  .intro-headline{font-size:2rem}
+  .sources-grid{grid-template-columns:1fr}
+  .kb-grid{grid-template-columns:repeat(2,1fr)}
+  /* Tables: allow horizontal scroll, don't squash */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{table-layout:auto;min-width:600px}
+  /* UAV killboard: stack columns */
+  #uav-killboard{grid-template-columns:1fr}
+  #uav-stat-strip{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  /* Header: icon + title only, no subtitle */
+  header{padding:0 12px;min-height:50px}
+  .logo-icon{width:26px;height:26px}
+  .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
+  /* Nav: scrollable row of small tabs */
+  nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;flex-shrink:1}
+  nav::-webkit-scrollbar{display:none}
+  .nav-tab{padding:0 10px;font-size:0.6rem;letter-spacing:0.04em;flex:0 0 auto;min-width:fit-content}
+  /* Main layout */
+  main{padding:14px 12px}
+  /* Intro */
+  .intro-headline{font-size:1.6rem}
+  .intro-lead{font-size:0.85rem}
+  .intro-stats{flex-direction:column}
+  .intro-stat{border-right:none;border-bottom:1px solid var(--border);padding:14px 16px}
+  .intro-pages{grid-template-columns:1fr}
+  .ipc-columns{grid-template-columns:1fr}
+  /* Controls: wrap filters vertically */
+  .controls{flex-direction:column;align-items:flex-start;gap:8px}
+  .ctrl-group{width:100%}
+  input[type="text"]{width:100%;box-sizing:border-box}
+  select{width:100%;box-sizing:border-box}
+  .result-count{margin-left:0}
+  /* Section header: stack title and button */
+  .section-header{flex-direction:column;align-items:flex-start;gap:10px}
+  /* Tables: horizontal scroll with touch */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -12px;padding:0 12px}
+  table{table-layout:auto;min-width:560px;font-size:0.7rem}
+  thead th{padding:7px 10px;font-size:0.58rem}
+  tbody td{padding:7px 10px}
+  /* Kill board cards */
+  .kb-grid{grid-template-columns:1fr}
+  .kb-card-value{font-size:2rem}
+  .stat-rows{grid-template-columns:1fr}
+  /* UAV killboard */
+  #uav-killboard{grid-template-columns:1fr}
+  #uav-stat-strip{grid-template-columns:repeat(2,1fr);font-size:0.9rem}
+  .uav-stat-val{font-size:1.2rem}
+  .uav-stat-cell{padding:10px 12px}
+  /* Sources page */
+  .sources-grid{grid-template-columns:1fr}
+  .donate-block{padding:20px 16px}
+  .donate-title{font-size:1.1rem}
+  /* Intro page cards */
+  .intro-page-card{padding:16px}
+  .ipc-title{font-size:0.85rem}
+  /* Disclaimer */
+  .disclaimer{font-size:0.58rem}
+}
+
+/* ── VERY SMALL (iPhone SE etc.) ── */
+@media(max-width:375px){
+  .logo-text h1{font-size:0.68rem}
+  .nav-tab{font-size:0.55rem;padding:0 8px}
+  .intro-headline{font-size:1.35rem}
+  #uav-stat-strip{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-block">
+    <div class="logo-icon" style="background:none;border:none;width:36px;height:36px;flex-shrink:0">
+      <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2,18 Q18,4 34,18 Q18,32 2,18 Z" fill="#3a7d44" fill-opacity="0.15" stroke="#3a7d44" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="18" cy="18" r="9" fill="none" stroke="#3a7d44" stroke-width="1.2"/>
+        <circle cx="18" cy="18" r="5.5" fill="#3a7d44" fill-opacity="0.2" stroke="#4e9e5a" stroke-width="1.2"/>
+        <circle cx="18" cy="18" r="2.5" fill="#6bbf78"/>
+        <circle cx="20" cy="16" r="1" fill="#6bbf78" opacity="0.5"/>
+        <line x1="18" y1="7"  x2="18" y2="11" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <line x1="18" y1="25" x2="18" y2="29" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <line x1="7"  y1="18" x2="11" y2="18" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <line x1="25" y1="18" x2="29" y2="18" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <path d="M3,9 L3,5 L7,5"    fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <path d="M33,9 L33,5 L29,5"  fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <path d="M3,27 L3,31 L7,31"  fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+        <path d="M33,27 L33,31 L29,31" fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <h1>Unmanned Systems Tracker</h1>
+      <p>Russian Invasion of Ukraine 2022–Present</p>
+    </div>
+  </div>
+  <nav>
+    <button class="nav-tab active" onclick="showTab('intro',this)">📋 Intro</button>
+    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV</button>
+    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV</button>
+    <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Kills</button>
+    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses</button>
+    <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
+  </nav>
+  <div class="header-right">
+    <div class="live-dot"></div>
+    <span id="last-updated">—</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════
+     TAB 1 — INTRODUCTION
+═══════════════════════════════════════════ -->
+<div id="tab-intro" class="tab-panel active">
+
+  <div class="intro-hero">
+    <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
+    <p class="intro-lead">A curated open-source database tracking the confirmed and claimed combat use of unmanned systems — surface, ground, and air — in the Russia-Ukraine war. Built from publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
+  </div>
+
+  <div class="intro-stats">
+    <div class="intro-stat"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div></div>
+    <div class="intro-stat"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div></div>
+    <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Kill Records</div></div>
+    <div class="intro-stat"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div></div>
+  </div>
+
+  <!-- PAGE GUIDE CARDS -->
+  <div class="kb-section-title">WHAT'S IN THIS TRACKER</div>
+
+  <div class="intro-pages">
+
+    <div class="intro-page-card" onclick="showTabById('usv')">
+      <div class="ipc-header">
+        <span class="ipc-icon">🛥</span>
+        <span class="ipc-title">USV Strikes</span>
+        <span class="ipc-count" id="ic-usv">— EVENTS</span>
+      </div>
+      <p class="ipc-desc">A chronological log of confirmed and claimed Ukrainian Unmanned Surface Vehicle (USV) operations against Russian naval assets, infrastructure, and shadow fleet shipping — primarily in the Black Sea and its approaches.</p>
+      <div class="ipc-columns">
+        <div>
+          <div class="ipc-col-label">Platforms covered</div>
+          <div class="ipc-col-text">Sea Baby (SBU) · MAGURA V5/V7 (HUR) · Sub Sea Baby (UUV) · Unknown/early-war USVs</div>
+        </div>
+        <div>
+          <div class="ipc-col-label">Damage taxonomy</div>
+          <div class="ipc-col-text">Sunk · Damaged · Destroyed · Shot Down · Disrupted — applied consistently across all entries</div>
+        </div>
+      </div>
+      <div class="ipc-col-label" style="margin-top:10px">Notable entries include</div>
+      <div style="margin-top:5px">
+        <span class="ipc-tag">Crimean Bridge ×3</span>
+        <span class="ipc-tag">BSF forced to Novorossiysk</span>
+        <span class="ipc-tag">First jet downed by maritime drone</span>
+        <span class="ipc-tag">First UUV submarine strike</span>
+      </div>
+      <div class="ipc-nav-hint">→ Open USV Strikes tab</div>
+    </div>
+
+    <div class="intro-page-card" onclick="showTabById('ugv')">
+      <div class="ipc-header">
+        <span class="ipc-icon">🤖</span>
+        <span class="ipc-title">UGV Operations</span>
+        <span class="ipc-count" id="ic-ugv">— EVENTS</span>
+      </div>
+      <p class="ipc-desc">Combat and operational events involving Unmanned Ground Vehicles from <strong>both Ukrainian and Russian forces</strong>. Covers the rapid rise of UGVs from experimental to doctrine-level deployment between 2023 and 2025.</p>
+      <div class="ipc-columns">
+        <div>
+          <div class="ipc-col-label">Ukrainian platforms</div>
+          <div class="ipc-col-text">Ratel S · Ratel H · Lyut (Fury) · TerMIT · Droid TW (AI) · D-21-12R · Rys Pro</div>
+        </div>
+        <div>
+          <div class="ipc-col-label">Russian platforms</div>
+          <div class="ipc-col-text">Kur'yer (Courier) · Platforma-M · Scorpion-M — mostly volunteer-developed, limited effectiveness</div>
+        </div>
+      </div>
+      <div class="ipc-col-label" style="margin-top:10px">Outcome categories</div>
+      <div style="margin-top:5px">
+        <span class="ipc-tag">Destroyed target</span>
+        <span class="ipc-tag">Damaged target</span>
+        <span class="ipc-tag">UGV lost</span>
+        <span class="ipc-tag">Captured POW</span>
+        <span class="ipc-tag">Operational milestone</span>
+      </div>
+      <div class="ipc-nav-hint">→ Open UGV Operations tab</div>
+    </div>
+
+    <div class="intro-page-card" onclick="showTabById('uav')">
+      <div class="ipc-header">
+        <span class="ipc-icon">✈</span>
+        <span class="ipc-title">UAV Kills</span>
+        <span class="ipc-count">POPULATING</span>
+      </div>
+      <p class="ipc-desc">Individual confirmed Ukrainian UAV strike events resulting in equipment kills — tanks, armoured vehicles, artillery, air defence systems, and personnel. Data is compiled from Ukrainian military releases and OSINT-verified footage.</p>
+      <div class="ipc-columns">
+        <div>
+          <div class="ipc-col-label">Target categories</div>
+          <div class="ipc-col-text">Tank / AFV · Artillery · Air defence · Logistics · Personnel · Aircraft (when verifiable)</div>
+        </div>
+        <div>
+          <div class="ipc-col-label">Verification standard</div>
+          <div class="ipc-col-text">Entries require video confirmation or official HUR/ZSU release. Unverified claims excluded.</div>
+        </div>
+      </div>
+      <div style="margin-top:12px" class="disclaimer" style="margin:0;padding:10px 12px">
+        <b>⚠ STATUS:</b> Data collection in progress. Table will populate automatically when backend data is added.
+      </div>
+      <div class="ipc-nav-hint">→ Open UAV Kills tab</div>
+    </div>
+
+    <div class="intro-page-card" onclick="showTabById('rl')">
+      <div class="ipc-header">
+        <span class="ipc-icon">💀</span>
+        <span class="ipc-title">Russia Losses</span>
+        <span class="ipc-count">6 METRICS</span>
+      </div>
+      <p class="ipc-desc">Aggregated estimates of Russian military equipment and personnel losses across the full conflict — from the most conservative photo-confirmed Oryx figures to wider intelligence assessments from DIA, SACEUR, and UK MoD.</p>
+      <div class="ipc-columns">
+        <div>
+          <div class="ipc-col-label">KIA methodology</div>
+          <div class="ipc-col-text">Personnel killed figures use <strong>Mediazona/BBC confirmed-by-name lists</strong> (200,186+ as of Feb 2026) as the baseline, supplemented by Meduza/Mediazona's probate registry statistical estimate (~220,000 by Aug 2025).</div>
+        </div>
+        <div>
+          <div class="ipc-col-label">Equipment losses</div>
+          <div class="ipc-col-text">Oryx photo-confirmed figures used for equipment where available. US DIA and CSIS used for broader estimates. Oryx ceased updating in 2025.</div>
+        </div>
+      </div>
+      <div class="ipc-nav-hint">→ Open Russia Losses tab</div>
+    </div>
+
+    <div class="intro-page-card" onclick="showTabById('sources')">
+      <div class="ipc-header">
+        <span class="ipc-icon">🔗</span>
+        <span class="ipc-title">OSINT Sources & Support</span>
+        <span class="ipc-count">LINKS · TOOLS · DONATE</span>
+      </div>
+      <p class="ipc-desc">A curated directory of the primary OSINT sources, tracking projects, and analytical tools used to compile this database — plus a direct link to support Ukraine via the United24 official fundraising platform. This tracker is only as good as its sources; we encourage you to engage with the primary data directly.</p>
+      <div class="ipc-nav-hint">→ Open Sources & Support tab</div>
+    </div>
+
+  </div>
+
+  <div class="intro-methodology">
+    <h3>Methodology &amp; Data Standards</h3>
+    <p><b>Inclusion criteria:</b> Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted where it exists but is not required for inclusion.</p>
+    <p><b>Damage classification:</b> A consistent taxonomy is applied across all entries. <b>Sunk</b> = total loss, vessel confirmed on seabed. <b>Destroyed</b> = total loss confirmed on land or in air. <b>Damaged</b> = partial damage, target operational or repairable. <b>Shot Down</b> = aerial asset destroyed in flight. <b>Disrupted</b> = infrastructure or operation temporarily put out of action.</p>
+    <p><b>Personnel casualty figures:</b> This tracker uses Mediazona/BBC News Russian confirmed-by-name figures as its primary KIA metric — the most rigorous publicly available methodology, cross-checked against Russia's National Probate Registry. These figures are always a floor, not a ceiling. Statistical estimates from Meduza/Mediazona's probate registry model are cited alongside for context.</p>
+
+  </div>
+
+  <div class="intro-footer">
+    UNMANNED SYSTEMS TRACKER · COMPILED FROM PUBLIC OSINT SOURCES · NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION · DATA PROVIDED FOR RESEARCH AND EDUCATIONAL PURPOSES · ALL ENTRIES CARRY SOURCE CITATIONS FOR INDEPENDENT VERIFICATION · LAST UPDATED <span id="intro-date">—</span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 2 — USV STRIKES
+═══════════════════════════════════════════ -->
+<div id="tab-usv" class="tab-panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">USV <span>Strike Log</span></div>
+      <div class="section-sub">CONFIRMED & CLAIMED UKRAINIAN UNMANNED SURFACE VEHICLE OPERATIONS · BLACK SEA · 2022–PRESENT</div>
+    </div>
+    <button class="btn btn-accent" onclick="exportCSV('usv')">⬇ EXPORT CSV</button>
+  </div>
+  <div class="controls">
+    <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="usv-search" placeholder="target, location…" oninput="renderUSV()"></div>
+    <div class="ctrl-group"><span class="ctrl-label">Model</span><select id="usv-model" onchange="renderUSV()"><option value="">All models</option></select></div>
+    <div class="ctrl-group"><span class="ctrl-label">Damage</span><select id="usv-damage" onchange="renderUSV()"><option value="">All</option><option>Sunk</option><option>Damaged</option><option>Destroyed</option><option>Shot Down</option><option>Disrupted</option></select></div>
+    <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="usv-year" onchange="renderUSV()"><option value="">All</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
+    <span class="result-count">Showing <b id="usv-rc">—</b> events</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <colgroup><col style="width:9%"><col style="width:16%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:10%"><col style="width:25%"><col style="width:7%"></colgroup>
+      <colgroup><col style="width:9%"><col style="width:18%"><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:9%"><col style="width:22%"><col style="width:8%"></colgroup><thead><tr><th onclick="sortUSV(0)">Date ↕</th><th onclick="sortUSV(1)">Target ↕</th><th>Type</th><th onclick="sortUSV(3)">USV Model ↕</th><th>Location</th><th onclick="sortUSV(5)">Damage ↕</th><th>Notes</th><th>Source</th></tr></thead>
+      <tbody id="usv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
+    </table>
+    <div id="usv-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 3 — UGV OPERATIONS
+═══════════════════════════════════════════ -->
+<div id="tab-ugv" class="tab-panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">UGV <span>Operations Log</span></div>
+      <div class="section-sub">CONFIRMED & CLAIMED UNMANNED GROUND VEHICLE COMBAT OPERATIONS — BOTH SIDES · 2023–PRESENT</div>
+    </div>
+    <button class="btn btn-accent" onclick="exportCSV('ugv')">⬇ EXPORT CSV</button>
+  </div>
+  <div class="controls">
+    <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="ugv-search" placeholder="system, location…" oninput="renderUGV()"></div>
+    <div class="ctrl-group"><span class="ctrl-label">Side</span><select id="ugv-side" onchange="renderUGV()"><option value="">All</option><option>Ukraine</option><option>Russia</option></select></div>
+    <div class="ctrl-group"><span class="ctrl-label">Outcome</span><select id="ugv-outcome" onchange="renderUGV()"><option value="">All</option><option>Destroyed target</option><option>Damaged target</option><option>UGV lost</option><option>Captured POW</option><option>Operational milestone</option></select></div>
+    <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="ugv-year" onchange="renderUGV()"><option value="">All</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
+    <span class="result-count">Showing <b id="ugv-rc">—</b> events</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <colgroup><col style="width:9%"><col style="width:9%"><col style="width:11%"><col style="width:18%"><col style="width:11%"><col style="width:13%"><col style="width:22%"><col style="width:7%"></colgroup>
+      <colgroup><col style="width:9%"><col style="width:9%"><col style="width:12%"><col style="width:20%"><col style="width:12%"><col style="width:12%"><col style="width:18%"><col style="width:8%"></colgroup><thead><tr><th onclick="sortUGV(0)">Date ↕</th><th onclick="sortUGV(1)">Side ↕</th><th onclick="sortUGV(2)">UGV System ↕</th><th>Operation / Target</th><th>Location</th><th onclick="sortUGV(5)">Outcome ↕</th><th>Notes</th><th>Source</th></tr></thead>
+      <tbody id="ugv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
+    </table>
+    <div id="ugv-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 4 — UAV KILLS
+═══════════════════════════════════════════ -->
+<div id="tab-uav" class="tab-panel">
+
+  <!-- TOP BAR: title + period selector -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
+    <div>
+      <div class="section-title">UAV <span>Kill Board</span></div>
+      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Currently showing 2025 data (June–December). Updated manually each quarter.</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">2025 ANNUAL · JUN–DEC</span>
+      <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ EXPORT CSV</button>
+    </div>
+  </div>
+
+  <!-- HEADLINE STAT STRIP -->
+  <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px">
+    <div class="uav-stat-cell" id="uav-s-damaged"><span class="uav-stat-val">—</span><span class="uav-stat-lbl">damaged targets</span></div>
+    <div class="uav-stat-cell" id="uav-s-destroyed"><span class="uav-stat-val" style="color:var(--accent3)">—</span><span class="uav-stat-lbl">incl. destroyed</span></div>
+    <div class="uav-stat-cell" id="uav-s-strikes"><span class="uav-stat-val">—</span><span class="uav-stat-lbl">strike flights</span></div>
+    <div class="uav-stat-cell" id="uav-s-recon"><span class="uav-stat-val">—</span><span class="uav-stat-lbl">recon flights</span></div>
+    <div class="uav-stat-cell" id="uav-s-personnel" style="border-left:2px solid var(--border)"><span class="uav-stat-val" style="color:#e74c3c">—</span><span class="uav-stat-lbl">enemy personnel</span></div>
+    <div class="uav-stat-cell" id="uav-s-killed"><span class="uav-stat-val" style="color:#e74c3c">—</span><span class="uav-stat-lbl">including killed</span></div>
+    <div class="uav-stat-cell" id="uav-s-wounded"><span class="uav-stat-val" style="color:#f0c040">—</span><span class="uav-stat-lbl">incl. wounded</span></div>
+  </div>
+
+  <!-- TWO-COLUMN CATEGORY TABLE (matches USF killboard layout) -->
+  <div id="uav-killboard" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px">
+    <div id="uav-col-left"></div>
+    <div id="uav-col-right"></div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div style="display:flex;gap:10px;align-items:center">
+      <span class="ctrl-label">Search</span>
+      <input type="text" id="uav-search" placeholder="filter categories…" oninput="renderUAV()" style="width:180px">
+    </div>
+    <span class="result-count">Showing <b id="uav-rc">—</b> records · <a class="src-link" href="https://sbs-group.army/en/subdivision/usf_grouping" target="_blank" rel="noopener">USF Pidrakhuyka ↗</a></span>
+  </div>
+  <div id="uav-nores" class="no-results">// NO RESULTS MATCHING FILTERS //</div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 5 — RUSSIA LOSSES
+═══════════════════════════════════════════ -->
+<div id="tab-rl" class="tab-panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Russian <span>Losses</span></div>
+      <div class="section-sub">CONFIRMED & ESTIMATED RUSSIAN MILITARY EQUIPMENT AND PERSONNEL LOSSES · FEBRUARY 2022 TO PRESENT</div>
+    </div>
+  </div>
+  <div class="disclaimer">
+    <b>⚠ DATA NOTICE:</b> Personnel killed figures use Mediazona/BBC News Russian confirmed-by-name methodology as the primary source — the most rigorous publicly available approach. Equipment losses use Oryx photo-confirmed figures where available, supplemented by DIA and CSIS estimates. All figures represent floors, not ceilings. Sources are cited individually for each metric. Oryx ceased updating equipment loss estimates in 2025.
+  </div>
+  <div class="kb-section-title">HEADLINE FIGURES</div>
+  <div class="kb-grid" id="kb-cards"><div class="state-box" style="grid-column:1/-1"><div class="spinner"></div><br>LOADING…</div></div>
+  <div id="kb-breakdown"></div>
+  <div id="kb-tables"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 6 — OSINT SOURCES & SUPPORT
+═══════════════════════════════════════════ -->
+<div id="tab-sources" class="tab-panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">OSINT Sources <span>&amp; Support</span></div>
+      <div class="section-sub">PRIMARY SOURCES · TRACKING PROJECTS · ANALYTICAL TOOLS · SUPPORT UKRAINE</div>
+    </div>
+  </div>
+
+  <!-- DONATE BLOCK -->
+  <div class="donate-block">
+    <div class="donate-sub">Support Ukraine</div>
+    <div class="donate-title">United24 — Official Ukraine Fundraising Platform</div>
+    <p class="donate-desc">United24 is the official fundraising platform of Ukraine, established by President Zelenskyy. Donations fund defence, medical aid, and reconstruction directly through verified Ukrainian government channels. Every contribution is accounted for and reported publicly.</p>
+    <a href="https://u24.gov.ua/" target="_blank" rel="noopener" class="donate-btn">🇺🇦 Donate via United24 ↗</a>
+    <div class="donate-note">u24.gov.ua · Official platform · Funds go directly to Ukraine's government · Transparent reporting · Multiple currencies accepted</div>
+  </div>
+
+  <!-- CASUALTY TRACKING -->
+  <div class="kb-section-title">CASUALTY & LOSS TRACKING</div>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">📋</span>
+        <div><div class="source-card-name">Mediazona</div><div class="source-card-type">Confirmed KIA · Named list</div></div>
+      </div>
+      <p class="source-card-desc">Independent Russian media outlet maintaining the most rigorous publicly available list of Russian soldiers killed — confirmed by name using obituaries, social media, and official sources. Cross-checked against the National Probate Registry. This tracker uses Mediazona/BBC as its primary KIA source.</p>
+      <a href="https://en.zona.media/article/2022/05/11/casualties_eng" target="_blank" rel="noopener" class="source-card-link">en.zona.media ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">📊</span>
+        <div><div class="source-card-name">Meduza</div><div class="source-card-type">Statistical KIA estimates</div></div>
+      </div>
+      <p class="source-card-desc">Independent Russian investigative outlet. Works with Mediazona to produce statistical estimates of total Russian deaths using probate registry excess mortality data — giving a broader picture beyond what's confirmed by name. Estimated ~220,000 killed by Aug 2025.</p>
+      <a href="https://meduza.io/en" target="_blank" rel="noopener" class="source-card-link">meduza.io ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">🔍</span>
+        <div><div class="source-card-name">Oryx</div><div class="source-card-type">Photo-confirmed equipment losses</div></div>
+      </div>
+      <p class="source-card-desc">The gold standard for equipment loss tracking — every entry in the Oryx database is individually photo or video confirmed. Tracks Russian and Ukrainian losses of tanks, AFVs, aircraft, and naval vessels. Ceased updating in 2025 but the historical record remains essential.</p>
+      <a href="https://www.oryxspioenkop.com/2022/02/attack-on-europe-documenting-equipment.html" target="_blank" rel="noopener" class="source-card-link">oryxspioenkop.com ↗</a>
+    </div>
+  </div>
+
+  <!-- NAVAL / USV TRACKING -->
+  <div class="kb-section-title">NAVAL & UNMANNED SYSTEMS ANALYSIS</div>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">⚓</span>
+        <div><div class="source-card-name">Covert Shores</div><div class="source-card-type">USV / naval analysis · H.I. Sutton</div></div>
+      </div>
+      <p class="source-card-desc">The most detailed open-source technical analysis of Ukrainian and Russian USVs. H.I. Sutton documents every known drone boat variant with specifications, operational history, and imagery. Essential reference for USV platform identification and capabilities.</p>
+      <a href="https://www.hisutton.com/Ukrainian-USVs-Russo-Ukraine-War.html" target="_blank" rel="noopener" class="source-card-link">hisutton.com ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">✈</span>
+        <div><div class="source-card-name">The War Zone (TWZ)</div><div class="source-card-type">Defence reporting · OSINT synthesis</div></div>
+      </div>
+      <p class="source-card-desc">Consistently the best English-language specialist defence reporting on USV and UGV developments. Well-sourced, sceptical of unverified claims, and fast to cover new platform developments. Used extensively as a secondary verification source for this tracker.</p>
+      <a href="https://www.twz.com/" target="_blank" rel="noopener" class="source-card-link">twz.com ↗</a>
+    </div>
+  </div>
+
+  <!-- GROUND WARFARE / UGV -->
+  <div class="kb-section-title">GROUND WARFARE & UGV ANALYSIS</div>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">🔬</span>
+        <div><div class="source-card-name">Jamestown Foundation</div><div class="source-card-type">UGV analysis · Eurasia security</div></div>
+      </div>
+      <p class="source-card-desc">Publishes rigorous analytical pieces on Ukrainian and Russian UGV developments, including the landmark piece on Ukraine's emergence as a world leader in unmanned ground vehicles. Good source for doctrine-level analysis beyond individual incidents.</p>
+      <a href="https://jamestown.org/ukraine-becomes-world-leader-in-unmanned-ground-vehicles/" target="_blank" rel="noopener" class="source-card-link">jamestown.org ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">🏛</span>
+        <div><div class="source-card-name">Modern War Institute (West Point)</div><div class="source-card-type">Academic · operational analysis</div></div>
+      </div>
+      <p class="source-card-desc">West Point's MWI publishes practitioner-level analysis on UGV employment in Ukraine, including detailed pieces on networked ground robot operations and lessons for Western militaries. Peer-reviewed and operationally grounded.</p>
+      <a href="https://mwi.westpoint.edu/networked-for-war-lessons-from-ukraines-ground-robots/" target="_blank" rel="noopener" class="source-card-link">mwi.westpoint.edu ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">🇺🇦</span>
+        <div><div class="source-card-name">Kyiv Independent</div><div class="source-card-type">Ukrainian news · frontline reporting</div></div>
+      </div>
+      <p class="source-card-desc">Leading English-language Ukrainian outlet with reliable frontline reporting on drone and UGV deployment. Close access to Ukrainian military sources makes it particularly useful for first-disclosure reporting on new systems and operations.</p>
+      <a href="https://kyivindependent.com" target="_blank" rel="noopener" class="source-card-link">kyivindependent.com ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">🏛</span>
+        <div><div class="source-card-name">CSIS — Futures Lab</div><div class="source-card-type">Strategic analysis · equipment data</div></div>
+      </div>
+      <p class="source-card-desc">Center for Strategic and International Studies publishes detailed quantitative analysis of Russian equipment losses and battlefield dynamics, including the Russian Firepower Strike Tracker and the landmark "Russia's Battlefield Woes" analysis (2025).</p>
+      <a href="https://www.csis.org/analysis/russias-battlefield-woes-ukraine" target="_blank" rel="noopener" class="source-card-link">csis.org ↗</a>
+    </div>
+  </div>
+
+  <!-- LIVE TRACKING TOOLS -->
+  <div class="kb-section-title">LIVE CONFLICT TRACKING TOOLS</div>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">🗺</span>
+        <div><div class="source-card-name">DeepState Map</div><div class="source-card-type">Live frontline · territorial control</div></div>
+      </div>
+      <p class="source-card-desc">Real-time OSINT map of frontline positions and territorial control, maintained by a Ukrainian analytical team. Considered one of the most accurate live maps of the conflict. Updated continuously based on visual evidence and geolocated footage.</p>
+      <a href="https://deepstatemap.live" target="_blank" rel="noopener" class="source-card-link">deepstatemap.live ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">📍</span>
+        <div><div class="source-card-name">Geoconfirmed</div><div class="source-card-type">Geolocated OSINT incidents</div></div>
+      </div>
+      <p class="source-card-desc">Crowdsourced OSINT initiative that geolocates conflict events — missile strikes, troop movements, infrastructure damage. Each entry is individually geolocated and verified. Good for cross-referencing specific incident locations.</p>
+      <a href="https://geoconfirmed.azurewebsites.net" target="_blank" rel="noopener" class="source-card-link">geoconfirmed.azurewebsites.net ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">👁</span>
+        <div><div class="source-card-name">Eyes on Russia</div><div class="source-card-type">Verified incidents · war crimes documentation</div></div>
+      </div>
+      <p class="source-card-desc">Run by the Centre for Information Resilience with hundreds of volunteers. Tracks attacks and incidents, labelling each as verified or unverified. Particularly strong on human rights documentation and civilian harm but also covers military incidents.</p>
+      <a href="https://eyesonrussia.org" target="_blank" rel="noopener" class="source-card-link">eyesonrussia.org ↗</a>
+    </div>
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">📡</span>
+        <div><div class="source-card-name">Institute for the Study of War (ISW)</div><div class="source-card-type">Daily operational updates</div></div>
+      </div>
+      <p class="source-card-desc">Publishes daily updates on battlefield developments with map assessments. Widely cited by Western governments and media. Useful for operational context and frontline movement analysis, though assessments should be cross-referenced with other sources.</p>
+      <a href="https://www.understandingwar.org/backgrounder/ukraine-conflict-updates" target="_blank" rel="noopener" class="source-card-link">understandingwar.org ↗</a>
+    </div>
+  </div>
+
+  <div class="disclaimer" style="margin-top:8px">
+    <b>NOTE:</b> This tracker is an independent open-source project not affiliated with any of the organisations listed above. Links are provided for research and verification purposes. Users are encouraged to consult primary sources directly and apply their own critical judgement to all conflict data.
+  </div>
+
+</div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWLX6DF8VxV41OQt4rUyCvhaHH0dimr2LBRgys89TWiouYEhvlDVcACwQMbU3uaSWGCA/exec';
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+let USV_DATA=[], UGV_DATA=[], UAV_DATA=[], KB_DATA=[];
+let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
+
+// ═══════════════════════════════════════════════════════════
+//  FETCH
+// ═══════════════════════════════════════════════════════════
+async function fetchTab(tab) {
+  if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
+  try{
+    const res=await fetch(`${SCRIPT_URL}?tab=${tab}&t=${Date.now()}`);
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const json=await res.json();
+    if(!json.ok)throw new Error(json.error);
+    return json.data;
+  }catch(e){console.error(`fetch ${tab}:`,e);return null;}
+}
+
+async function loadAll() {
+  const [usvRaw,ugvRaw,uavRaw,kbRaw]=await Promise.all([
+    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),
+  ]);
+  USV_DATA=usvRaw||EMBEDDED_USV;
+  UGV_DATA=ugvRaw||EMBEDDED_UGV;
+  UAV_DATA=uavRaw||[];
+  KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
+
+  // USV model filter
+  [...new Set(USV_DATA.map(r=>r.model).filter(Boolean))].sort().forEach(m=>{
+    const o=document.createElement('option');
+    o.value=o.textContent=m;
+    document.getElementById('usv-model').appendChild(o);
+  });
+
+  // Intro counters
+  document.getElementById('is-usv').textContent=USV_DATA.length;
+  document.getElementById('is-ugv').textContent=UGV_DATA.length;
+  
+  
+  
+
+  const d=new Date().toUTCString().slice(5,16).toUpperCase();
+  document.getElementById('last-updated').textContent=d;
+  document.getElementById('intro-date').textContent=d;
+
+  renderUSV(); renderUGV(); renderKillBoard();
+
+  // UAV renders after a short delay to ensure data is fully assigned
+  // This prevents a race condition where renderUAV fires before uavRaw resolves
+  if(UAV_DATA.length>0){
+    renderUAV();
+  } else {
+    // Poll until data arrives (max 10 seconds)
+    let attempts=0;
+    const poll=setInterval(()=>{
+      attempts++;
+      if(UAV_DATA.length>0){
+        clearInterval(poll);
+        renderUAV();
+      } else if(attempts>20){
+        clearInterval(poll);
+        renderUAV(); // render anyway (will show empty state)
+      }
+    },500);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════
+function fmtDate(s){
+  if(!s)return'—';
+  const p=s.split('-');
+  const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return`${parseInt(p[2])||''} ${m[(+p[1]||1)-1]||''} ${p[0]||''}`.trim();
+}
+function dmgBadge(d){
+  const m={'Sunk':'b-sunk','Damaged':'b-damaged','Destroyed':'b-destroyed','Shot Down':'b-shotdown','Disrupted':'b-disrupted'};
+  return`<span class="badge ${m[d]||'b-unknown'}">${d||'—'}</span>`;
+}
+function outcomeBadge(o){
+  const m={'Destroyed target':'b-sunk','Damaged target':'b-damaged','UGV lost':'b-destroyed','Captured POW':'b-shotdown','Operational milestone':'b-disrupted'};
+  return`<span class="badge ${m[o]||'b-unknown'}">${o||'—'}</span>`;
+}
+function sideBadge(s){
+  return s==='Ukraine'?`<span class="badge b-ua">🇺🇦 Ukraine</span>`:`<span class="badge b-ru">🇷🇺 Russia</span>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ═══════════════════════════════════════════════════════════
+function showTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function showTabById(id){
+  const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
+  if(btn)showTab(id,btn);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  USV TABLE
+// ═══════════════════════════════════════════════════════════
+function renderUSV(){
+  const s=document.getElementById('usv-search').value.toLowerCase();
+  const m=document.getElementById('usv-model').value;
+  const d=document.getElementById('usv-damage').value;
+  const y=document.getElementById('usv-year').value;
+  let rows=USV_DATA.filter(r=>{
+    if(s&&![r.target,r.loc,r.notes,r.type].join(' ').toLowerCase().includes(s))return false;
+    if(m&&r.model!==m)return false;
+    if(d&&r.damage!==d)return false;
+    if(y&&!(r.date||'').startsWith(y))return false;
+    return true;
+  });
+  const k=['date','target','type','model','loc','damage'];
+  rows.sort((a,b)=>{const va=a[k[usvSort.col]]||'',vb=b[k[usvSort.col]]||'';return usvSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
+  document.getElementById('usv-rc').textContent=rows.length;
+  
+  const body=document.getElementById('usv-body');
+  const nores=document.getElementById('usv-nores');
+  if(!rows.length){body.innerHTML='';nores.style.display='block';return}
+  nores.style.display='none';
+  body.innerHTML=rows.map((r,i)=>`
+    <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
+      <td class="cell-date">${fmtDate(r.date)}</td>
+      <td class="cell-target">${r.target||'—'}</td>
+      <td class="cell-type">${r.type||'—'}</td>
+      <td><span class="model-tag">${r.model||'—'}</span></td>
+      <td class="cell-loc">${r.loc||'—'}</td>
+      <td>${dmgBadge(r.damage)}</td>
+      <td class="cell-notes">${r.notes||''}</td>
+      <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
+    </tr>`).join('');
+}
+function sortUSV(c){usvSort={col:c,asc:usvSort.col===c?!usvSort.asc:true};renderUSV()}
+
+// ═══════════════════════════════════════════════════════════
+//  UGV TABLE
+// ═══════════════════════════════════════════════════════════
+function renderUGV(){
+  const s=document.getElementById('ugv-search').value.toLowerCase();
+  const sd=document.getElementById('ugv-side').value;
+  const o=document.getElementById('ugv-outcome').value;
+  const y=document.getElementById('ugv-year').value;
+  let rows=UGV_DATA.filter(r=>{
+    if(s&&![r.system,r.op,r.loc,r.notes].join(' ').toLowerCase().includes(s))return false;
+    if(sd&&r.side!==sd)return false;
+    if(o&&r.outcome!==o)return false;
+    if(y&&!(r.date||'').startsWith(y))return false;
+    return true;
+  });
+  const k=['date','side','system','op','loc','outcome'];
+  rows.sort((a,b)=>{const va=a[k[ugvSort.col]]||'',vb=b[k[ugvSort.col]]||'';return ugvSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
+  document.getElementById('ugv-rc').textContent=rows.length;
+  
+  const body=document.getElementById('ugv-body');
+  const nores=document.getElementById('ugv-nores');
+  if(!rows.length){body.innerHTML='';nores.style.display='block';return}
+  nores.style.display='none';
+  body.innerHTML=rows.map((r,i)=>`
+    <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
+      <td class="cell-date">${fmtDate(r.date)}</td>
+      <td>${sideBadge(r.side)}</td>
+      <td><span class="model-tag">${r.system||'—'}</span></td>
+      <td class="cell-target" style="font-size:0.8rem">${r.op||'—'}</td>
+      <td class="cell-loc">${r.loc||'—'}</td>
+      <td>${outcomeBadge(r.outcome)}</td>
+      <td class="cell-notes">${r.notes||''}</td>
+      <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
+    </tr>`).join('');
+}
+function sortUGV(c){ugvSort={col:c,asc:ugvSort.col===c?!ugvSort.asc:true};renderUGV()}
+
+// ═══════════════════════════════════════════════════════════
+//  UAV KILL BOARD
+// ═══════════════════════════════════════════════════════════
+let uavSort={col:0,asc:true};
+
+function fmtNum(n){
+  // Format numbers with thousands separator e.g. 167920 -> "167 920"
+  if(n===undefined||n===null||n==='—')return'—';
+  const num=parseInt(String(n).replace(/[^0-9]/g,''),10);
+  if(isNaN(num))return String(n);
+  return num.toLocaleString('en-GB').replace(/,/g,' ');
+}
+
+function parseOutcomeNums(outcome){
+  // Parse "192 destroyed, 3949 damaged" or "3949 damaged" into {damaged, destroyed}
+  if(!outcome)return{damaged:0,destroyed:0};
+  const dstr=outcome.match(/(\d[\d\s]*)\s*destroyed/);
+  const ddmg=outcome.match(/(\d[\d\s]*)\s*damaged/);
+  // Also handle plain numeric outcome (summary stats)
+  const plain=outcome.match(/^[\d\s]+$/);
+  return{
+    damaged: ddmg?parseInt(ddmg[1].replace(/\s/g,''),10):0,
+    destroyed: dstr?parseInt(dstr[1].replace(/\s/g,''),10):(plain?parseInt(plain[0].replace(/\s/g,''),10):0),
+  };
+}
+
+function renderUAV(){
+  const s = (document.getElementById('uav-search')||{}).value?.toLowerCase()||'';
+
+  // Always show yearly_2025 data only
+  let rows = UAV_DATA.filter(r => r.date === 'yearly_2025');
+
+  const rcEl = document.getElementById('uav-rc');
+  if(rcEl) rcEl.textContent = rows.length;
+
+  // ── Populate stat strip ───────────────────────────────
+  const findVal=(label)=>{
+    const r=rows.find(r=>r.target&&r.target.toLowerCase().includes(label.toLowerCase()));
+    return r?r.outcome:'—';
+  };
+  const setCell=(id,val)=>{
+    const el=document.getElementById(id);
+    if(el){const v=el.querySelector('.uav-stat-val');if(v)v.textContent=fmtNum(val);}
+  };
+  setCell('uav-s-damaged',  findVal('total damaged'));
+  setCell('uav-s-destroyed',findVal('total destroyed'));
+  setCell('uav-s-strikes',  findVal('strike flights'));
+  setCell('uav-s-recon',    findVal('recon flights'));
+  setCell('uav-s-personnel',findVal('enemy personnel hit'));
+  setCell('uav-s-killed',   findVal('enemy personnel killed'));
+  setCell('uav-s-wounded',  findVal('enemy personnel wounded'));
+
+  // ── Build category rows (exclude summary/ops rows) ────
+  const SUMMARY_TARGETS = new Set([
+    'total damaged targets','total destroyed targets','strike flights','recon flights',
+    'enemy personnel hit','enemy personnel killed','enemy personnel wounded',
+    'enemy personnel (summary)',
+  ]);
+
+  const catRows = rows.filter(r=>{
+    if(!r.target)return false;
+    if(SUMMARY_TARGETS.has(r.target.toLowerCase()))return false;
+    if(s&&!r.target.toLowerCase().includes(s))return false;
+    return true;
+  });
+
+  const nores = document.getElementById('uav-nores');
+  if(!catRows.length){
+    document.getElementById('uav-col-left').innerHTML='';
+    document.getElementById('uav-col-right').innerHTML='';
+    if(nores)nores.style.display='block';
+    return;
+  }
+  if(nores)nores.style.display='none';
+
+  // Split into two columns (left: first half, right: second half)
+  const mid = Math.ceil(catRows.length/2);
+  const leftRows  = catRows.slice(0, mid);
+  const rightRows = catRows.slice(mid);
+
+  const header = `<div class="uav-cat-header">
+    <span style="flex:1">Target</span>
+    <span class="uav-num-col">Damaged</span>
+    <span class="uav-num-col">Destroyed</span>
+  </div>`;
+
+  const buildRows = (arr) => arr.map((r,i)=>{
+    const nums = parseOutcomeNums(r.outcome);
+    const isPersonnel = r.type==='Personnel';
+    return `<div class="uav-cat-row${isPersonnel?' highlighted':''}">
+      <span class="uav-cat-name">${r.target}</span>
+      <span class="uav-num-col uav-num-damaged">${fmtNum(nums.damaged)||'—'}</span>
+      <span class="uav-num-col uav-num-destroyed">${fmtNum(nums.destroyed)||'—'}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('uav-col-left').innerHTML  = header + buildRows(leftRows);
+  document.getElementById('uav-col-right').innerHTML = header + buildRows(rightRows);
+}
+function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
+
+// ═══════════════════════════════════════════════════════════
+//  RUSSIA LOSSES
+// ═══════════════════════════════════════════════════════════
+function renderKillBoard(){
+  if(!KB_DATA||!KB_DATA.length){ KB_DATA=EMBEDDED_KB; }
+  const cards=KB_DATA.filter(r=>r.section==='card');
+  const stats=KB_DATA.filter(r=>r.section==='stat');
+  const naval=KB_DATA.filter(r=>r.section==='naval');
+  const air  =KB_DATA.filter(r=>r.section==='air');
+  const icons={red:'💀',amber:'🛡',green:'✈',blue:'⚓'};
+  document.getElementById('kb-cards').innerHTML=cards.map(r=>`
+    <div class="kb-card" data-icon="${icons[r.color]||'📊'}">
+      <div class="kb-card-label">${r.label}</div>
+      <div class="kb-card-value ${r.color||''}">${r.value}</div>
+      <div class="kb-card-sub">${r.sub||''}</div>
+      <div class="kb-card-source">${r.source||''}</div>
+    </div>`).join('');
+  document.getElementById('kb-breakdown').innerHTML=stats.length?`
+    <div class="kb-section-title">EQUIPMENT BREAKDOWN (ORYX PHOTO-CONFIRMED)</div>
+    <div class="stat-rows">${stats.map(r=>`
+      <div class="stat-row">
+        <span class="stat-row-label">${r.label}</span>
+        <span class="stat-row-val ${r.color||''}">${r.value}</span>
+      </div>`).join('')}
+    </div>`:'';
+  document.getElementById('kb-tables').innerHTML=`
+    ${naval.length?`
+    <div class="kb-section-title">NOTABLE NAVAL LOSSES</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Vessel</th><th>Class / Type</th><th>Outcome</th><th>Location</th><th>Notes</th></tr></thead>
+      <tbody>${naval.map(r=>`<tr>
+        <td class="cell-date">${r.date||'—'}</td><td class="cell-target">${r.label}</td>
+        <td class="cell-type">${r.type||'—'}</td><td>${dmgBadge(r.damage||r.value)}</td>
+        <td class="cell-loc">${r.loc||'—'}</td><td class="cell-notes">${r.notes||''}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`:''}
+    ${air.length?`
+    <div class="kb-section-title">NOTABLE AIR LOSSES</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Aircraft</th><th>Outcome</th><th>Notes</th></tr></thead>
+      <tbody>${air.map(r=>`<tr>
+        <td class="cell-date">${r.date||'—'}</td><td class="cell-target">${r.label}</td>
+        <td>${dmgBadge(r.damage||r.value)}</td><td class="cell-notes">${r.notes||''}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`:''}
+    <div style="margin-top:24px" class="disclaimer">
+      <b>SOURCES:</b> Mediazona / BBC News Russian (confirmed-by-name KIA list) · Meduza/Mediazona probate registry estimates · Russia Matters War Report Card (Dec 2025) · US Defense Intelligence Agency (May 2025) · SACEUR Gen. Cavoli (Apr 2025) · UK Ministry of Defence (Oct 2025) · CSIS (Jun 2025) · Oryx / oryxspioenkop.com
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CSV EXPORT
+// ═══════════════════════════════════════════════════════════
+function exportCSV(tab){
+  let headers,rows;
+  if(tab==='usv'){
+    headers=['Date','Target','Target Type','USV Model','Location','Damage Assessment','Notes','Source URL'];
+    rows=USV_DATA.map(r=>[r.date,r.target,r.type,r.model,r.loc,r.damage,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='ugv'){
+    headers=['Date','Side','UGV System','Operation','Location','Outcome','Notes','Source URL'];
+    rows=UGV_DATA.map(r=>[r.date,r.side,r.system,`"${(r.op||'').replace(/"/g,'""')}"`,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='uav'){
+    headers=['Date','UAV System','Target','Target Type','Location','Outcome','Notes','Source URL'];
+    rows=UAV_DATA.map(r=>[r.date,r.system,r.target,r.type,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else return;
+  const csv=[headers.join(','),...rows].join('\n');
+  const a=Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
+    download:`ust-${tab}-${new Date().toISOString().slice(0,10)}.csv`
+  });
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EMBEDDED FALLBACK DATA
+// ═══════════════════════════════════════════════════════════
+const EMBEDDED_USV=[
+  {date:"2022-09-21",target:"Sevastopol Harbour (BSF ships)",type:"Naval base",model:"Unknown USV",loc:"Sevastopol, Crimea",damage:"Damaged",notes:"First confirmed USV raid against the Black Sea Fleet.",src:"https://en.wikipedia.org/wiki/Naval_warfare_in_the_Russian_invasion_of_Ukraine",srcl:"Wikipedia"},
+  {date:"2022-10-08",target:"Crimean Bridge",type:"Infrastructure",model:"Unknown USV",loc:"Kerch Strait",damage:"Damaged",notes:"Road span collapsed, rail cars caught fire. Ukraine later acknowledged involvement.",src:"https://en.wikipedia.org/wiki/2022_Crimean_Bridge_explosion",srcl:"Wikipedia"},
+  {date:"2023-07-17",target:"Crimean Bridge",type:"Infrastructure",model:"Sea Baby",loc:"Kerch Strait",damage:"Damaged",notes:"Two Sea Baby USVs struck the bridge. One road span collapsed. Two civilians killed. SBU confirmed.",src:"https://en.wikipedia.org/wiki/2023_Crimean_Bridge_explosion",srcl:"Wikipedia"},
+  {date:"2023-08-04",target:"Olenegorsky Gornyak",type:"Ropucha-class landing ship",model:"Unknown USV",loc:"Novorossiysk, Russia",damage:"Damaged",notes:"First confirmed USV strike on mainland Russia.",src:"https://en.wikipedia.org/wiki/Unmanned_surface_vehicle",srcl:"Wikipedia"},
+  {date:"2023-09-14",target:"Samum (corvette)",type:"Bora-class corvette",model:"Sea Baby",loc:"Black Sea",damage:"Damaged",notes:"SBU claimed strike. Damage extent unconfirmed by Russia.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2023-09-14",target:"Sergey Kotov",type:"Project 22160 patrol ship",model:"MAGURA V5",loc:"Black Sea",damage:"Damaged",notes:"Propeller damage and hole in hull. RuMoD confirmed attack.",src:"https://en.wikipedia.org/wiki/Russian_patrol_ship_Sergey_Kotov",srcl:"Wikipedia"},
+  {date:"2023-10-01",target:"Pavel Derzhavin",type:"Grisha-class patrol ship",model:"Sea Baby",loc:"Black Sea / Crimea",damage:"Damaged",notes:"Damage confirmed; ship required repairs.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2023-11-01",target:"Crimean Bridge barrier",type:"Anti-USV barrier",model:"Unknown USV",loc:"Kerch Strait",damage:"Destroyed",notes:"Russian anti-USV barricade near Crimean Bridge destroyed.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2023-11-10",target:"Serna & Akula landing craft (×2)",type:"Landing craft",model:"MAGURA V5",loc:"Chornomorske, Crimea",damage:"Destroyed",notes:"Both craft at Russian Navy base destroyed. Confirmed by HUR.",src:"https://en.wikipedia.org/wiki/MAGURA_V5",srcl:"Wikipedia"},
+  {date:"2023-12-01",target:"Volodymyr Kozytskyi",type:"Demining/hydrographic ship",model:"Sea Baby",loc:"Black Sea",damage:"Damaged",notes:"Russian demining vessel damaged by Sea Baby.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-02-01",target:"Ivanovets",type:"Tarantul-III missile corvette",model:"MAGURA V5",loc:"Donuzlav Bay, Crimea",damage:"Sunk",notes:"Sunk in Donuzlav Bay. HUR published video confirming the kill.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-02-14",target:"Tsezar Kunikov",type:"Ropucha-class landing ship",model:"MAGURA V5",loc:"Off Alupka, Crimea",damage:"Sunk",notes:"Sunk by HUR MO Group 13.",src:"https://en.wikipedia.org/wiki/Unmanned_surface_vehicle",srcl:"Wikipedia"},
+  {date:"2024-03-05",target:"Sergey Kotov",type:"Project 22160 patrol ship",model:"MAGURA V5",loc:"Kerch Strait",damage:"Sunk",notes:"Second strike; ship sunk along with on-board helicopter.",src:"https://en.wikipedia.org/wiki/Russian_patrol_ship_Sergey_Kotov",srcl:"Wikipedia"},
+  {date:"2024-03-23",target:"Yamal & Azov (×2)",type:"Ropucha-class landing ships",model:"MAGURA V5",loc:"Sevastopol, Crimea",damage:"Damaged",notes:"Yamal critically damaged, listing to starboard. Azov also struck.",src:"https://en.wikipedia.org/wiki/Black_Sea_Fleet",srcl:"Wikipedia"},
+  {date:"2024-05-30",target:"KC-701 Tuna patrol boats (×2)",type:"High-speed patrol boats",model:"MAGURA V5",loc:"Black Sea",damage:"Destroyed",notes:"HUR confirmed destruction of both vessels.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-06-24",target:"Four Russian warships (mine strike)",type:"Various warships",model:"Sea Baby",loc:"Off Crimea coast",damage:"Damaged",notes:"Sea Baby USVs laid 15+ naval mines; four Russian warships damaged.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-08-10",target:"KS 701 Tunets",type:"High-speed patrol boat",model:"MAGURA V5",loc:"Chornomorske, Crimea",damage:"Destroyed",notes:"MAGURA V5 destroyed Russian high-speed boat.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-12-31",target:"Mi-8 helicopter",type:"Military helicopter",model:"MAGURA V5",loc:"Cape Tarkhankut, Crimea",damage:"Shot Down",notes:"MAGURA V5 with R-73 missile shot down Mi-8; second damaged.",src:"https://en.wikipedia.org/wiki/MAGURA_V5",srcl:"Wikipedia"},
+  {date:"2025-02-01",target:"Shadow fleet tanker",type:"Oil tanker",model:"Sea Baby",loc:"Black Sea",damage:"Damaged",notes:"Attack on Russian shadow fleet shipping.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2025-05-02",target:"Su-30SM fighter jets (×2)",type:"Military aircraft",model:"MAGURA V7",loc:"50 km W of Novorossiysk",damage:"Shot Down",notes:"First jet aircraft downed by maritime drone. AIM-9 Sidewinder missiles used.",src:"https://en.wikipedia.org/wiki/MAGURA_V5",srcl:"Wikipedia"},
+  {date:"2025-06-03",target:"Crimean Bridge (pillars)",type:"Infrastructure",model:"Sub Sea Baby",loc:"Kerch Strait",damage:"Disrupted",notes:"UUV detonated near bridge support pillars. Bridge closed hours then reopened.",src:"https://en.wikipedia.org/wiki/2025_Crimean_Bridge_explosion",srcl:"Wikipedia"},
+  {date:"2025-11-28",target:"MT Kairos & MT Virat (×2)",type:"Shadow fleet oil tankers",model:"Sea Baby",loc:"Black Sea, nr. Novorossiysk",damage:"Damaged",notes:"Two shadow fleet tankers struck.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2025-12-15",target:"Kolpino (B-271) submarine",type:"Kilo-class submarine",model:"Sub Sea Baby",loc:"Port of Novorossiysk",damage:"Damaged",notes:"First claimed UUV attack on a submarine. UK MoD assessed B-271 seriously damaged. Russia denied.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+];
+const EMBEDDED_UGV=[
+  {date:"2023-04-22",side:"Ukraine",system:"Ratel S",op:"First combat UGV strike on Russian positions",loc:"Donetsk Oblast",outcome:"Destroyed target",notes:"63rd Mechanised Brigade. First self-destructing UGV strike confirmed.",src:"https://jamestown.org/ukraine-becomes-world-leader-in-unmanned-ground-vehicles/",srcl:"Jamestown"},
+  {date:"2023-05-01",side:"Russia",system:"Platforma-M",op:"Combat deployment in Russian-occupied Ukraine",loc:"Eastern Ukraine",outcome:"Operational milestone",notes:"First documented Russian combat UGV deployment in Ukraine.",src:"https://sites.tufts.edu/fletcherrussia/russian-ugv-developments-influenced-by-ukraine-war/",srcl:"Tufts/Fletcher"},
+  {date:"2024-03-29",side:"Russia",system:"Kur'yer (Courier)",op:"Assault on Ukrainian trenches near Avdiivka",loc:"Avdiivka, Donetsk",outcome:"UGV lost",notes:"Multiple Kur'yers stormed Ukrainian positions. Identified and destroyed by Ukrainian FPV drones.",src:"https://www.armyrecognition.com",srcl:"Army Recognition"},
+  {date:"2024-04-01",side:"Russia",system:"Kur'yer (Courier)",op:"Trench assault, 74th Guards Motorised Rifle Brigade",loc:"Eastern Ukraine",outcome:"Damaged target",notes:"Several Kur'yers got within firing range of Ukrainian positions before being destroyed.",src:"https://sites.tufts.edu/fletcherrussia/russian-ugv-developments-influenced-by-ukraine-war/",srcl:"Tufts/Fletcher"},
+  {date:"2024-10-01",side:"Russia",system:"Kur'yer (Courier)",op:"Reinforcement deployment after battlefield losses",loc:"Donetsk front",outcome:"Operational milestone",notes:"Russia sent new batch of Courier UGVs after earlier models destroyed by Ukrainian FPV drones.",src:"https://www.armyrecognition.com",srcl:"Army Recognition"},
+  {date:"2024-12-20",side:"Ukraine",system:"Mixed armed UGVs",op:"All-drone assault near Lyptsi, Kharkiv Oblast",loc:"Lyptsi, Kharkiv",outcome:"Operational milestone",notes:"Khartiia Brigade used dozens of UGVs + FPV drones exclusively. First all-drone tactical assault confirmed.",src:"https://kyivindependent.com",srcl:"Kyiv Independent"},
+  {date:"2024-12-20",side:"Ukraine",system:"Droid TW (AI-enabled)",op:"Combat deployment with AI target recognition",loc:"Kharkiv Oblast",outcome:"Operational milestone",notes:"First AI-assisted UGV engagement — AI algorithms for enemy personnel recognition.",src:"https://sldinfo.com",srcl:"SLD Info"},
+  {date:"2025-03-01",side:"Russia",system:"Kur'yer (Courier) ×6",op:"Coordinated assault near Avdiivka fallback lines",loc:"Avdiivka, Donetsk",outcome:"UGV lost",notes:"Six Courier UGVs all destroyed; two on camera. Fired hundreds of grenades with minimal effect.",src:"https://sldinfo.com",srcl:"SLD Info"},
+  {date:"2025-04-01",side:"Ukraine",system:"Mixed (50+ domestic types)",op:"Brave-1 UGV field trials — largest to date",loc:"Ukraine (undisclosed)",outcome:"Operational milestone",notes:"70+ UGVs tested under combat-like conditions over 10 km course with EW jamming.",src:"https://kyivindependent.com",srcl:"Kyiv Independent"},
+  {date:"2025-05-01",side:"Ukraine",system:"Ratel H / TerMIT / Lyut",op:"K-2 Battalion — sustained UGV logistics ops",loc:"Pokrovsk / Avdiivka sector",outcome:"Operational milestone",notes:"UGVs reported to reduce logistics casualties 50–70% in high-intensity sectors.",src:"https://english.nv.ua",srcl:"New Voice Ukraine"},
+  {date:"2025-07-01",side:"Ukraine",system:"Lyut (Fury)",op:"Strike operations, Sumy Oblast",loc:"Sumy Oblast",outcome:"Destroyed target",notes:"Footage shows Lyut robotic platform attacking Russian positions.",src:"https://kyivindependent.com",srcl:"Kyiv Independent"},
+  {date:"2025-07-01",side:"Ukraine",system:"UGVs (undisclosed)",op:"Capture of Russian POWs without infantry",loc:"Eastern front",outcome:"Captured POW",notes:"First confirmed UGV-only prisoner capture — no infantry deployed.",src:"https://kyivindependent.com",srcl:"Kyiv Independent"},
+  {date:"2025-09-01",side:"Ukraine",system:"D-21-12R",op:"Surveillance and fire support missions",loc:"Eastern front",outcome:"Damaged target",notes:"Large-calibre RCWS UGV conducting patrols and fire support against Russian light armour.",src:"https://kyivindependent.com",srcl:"Kyiv Independent"},
+  {date:"2025-10-01",side:"Ukraine",system:"TerMIT (Tencore)",op:"Mass front-line logistics deployment",loc:"Multiple sectors",outcome:"Operational milestone",notes:"MoD deployed 15,000 UGVs in 2025 — exceeding procurement targets by 100%+.",src:"https://423grifony.com",srcl:"423 Grifony"},
+  {date:"2025-11-01",side:"Ukraine",system:"Ratel S (kamikaze)",op:"Anti-tank kamikaze strikes",loc:"Eastern front",outcome:"Destroyed target",notes:"40 kg explosive payload variants used to destroy Russian armoured vehicles.",src:"https://jamestown.org",srcl:"Jamestown"},
+  {date:"2025-12-01",side:"Russia",system:"Scorpion-M",op:"Kamikaze UGV deployment trials",loc:"Krasnohorivka, Donetsk",outcome:"Operational milestone",notes:"Russian volunteer-developed kamikaze UGV. Limited fielding reported.",src:"https://militaeraktuell.at",srcl:"Militär Aktuell"},
+];
+const EMBEDDED_KB=[
+  {section:"card",label:"Confirmed KIA (named, verified)",value:"200,186+",color:"red",sub:"Individual soldiers confirmed dead by name via obituaries, social media & official sources. As of 24 Feb 2026. The real total is significantly higher.",source:"Mediazona / BBC News Russian · 200.zona.media · Updated Feb 2026"},
+  {section:"card",label:"Statistical KIA estimate",value:"~220,000",color:"red",sub:"Total deaths estimated via National Probate Registry excess mortality model. Does not include foreign nationals fighting for Russia.",source:"Meduza / Mediazona probate registry analysis · August 2025"},
+  {section:"card",label:"Total casualties (KIA + WIA)",value:"1,118,000+",color:"red",sub:"Killed and wounded combined. Includes contract soldiers, mobilised personnel, and Wagner/volunteer fighters.",source:"UK Ministry of Defence Oct 2025 · SACEUR Gen. Cavoli Apr 2025"},
+  {section:"card",label:"Tanks Destroyed / Captured",value:"3,000+",color:"amber",sub:"Total tank losses (DIA estimate). Oryx photo-confirmed 3,098+ from Jan 2024 alone.",source:"US DIA May 2025 · CSIS Jun 2025"},
+  {section:"card",label:"Armoured Vehicles Lost",value:"10,000+",color:"amber",sub:"All ground combat vehicles (APCs, IFVs, SPGs). Oryx photo-confirmed total: 13,742 as of Dec 2025.",source:"US DIA May 2025 · Oryx Dec 2025"},
+  {section:"card",label:"Aircraft Lost",value:"353",color:"green",sub:"Fixed-wing and rotary aircraft (Oryx photo-confirmed, ceased Jun 2025). DIA estimate: ~250 aircraft + helicopters.",source:"Oryx Jun 2025 · US DIA May 2025"},
+  {section:"card",label:"Naval Vessels Lost",value:"10+",color:"blue",sub:"Black Sea Fleet ships sunk or destroyed. BSF forced to relocate from Sevastopol to Novorossiysk.",source:"US DIA May 2025 · Oryx"},
+  {section:"stat",label:"Tanks (T-72, T-80, T-90 series)",value:"3,098+",color:"r"},
+  {section:"stat",label:"Infantry Fighting Vehicles",value:"3,098",color:"r"},
+  {section:"stat",label:"Armoured Fighting Vehicles",value:"1,149",color:"r"},
+  {section:"stat",label:"Self-propelled Artillery",value:"300+",color:"a"},
+  {section:"stat",label:"Fighter / Attack Jets",value:"~180",color:"a"},
+  {section:"stat",label:"Helicopters",value:"~130",color:"a"},
+  {section:"stat",label:"Warships (Black Sea Fleet)",value:"10+",color:"g"},
+  {section:"stat",label:"Submarines (confirmed losses)",value:"1 (Rostov-on-Don, Sep 2023)",color:"g"},
+  {section:"naval",date:"13 Apr 2022",label:"Moskva",type:"Slava-class cruiser (flagship)",damage:"Sunk",loc:"Black Sea",notes:"Hit by 2× Neptune anti-ship missiles. 40+ crew killed. Russia's largest naval loss since WWII."},
+  {section:"naval",date:"27 Sep 2023",label:"Rostov-on-Don",type:"Kilo-class submarine",damage:"Destroyed",loc:"Sevastopol drydock",notes:"Hit by Storm Shadow cruise missiles while in drydock. Total loss confirmed."},
+  {section:"naval",date:"Feb–Mar 2024",label:"Ivanovets / Tsezar Kunikov / Sergey Kotov",type:"Corvette / Landing ship / Patrol ship",damage:"Sunk",loc:"Crimea / Black Sea",notes:"Three ships sunk by MAGURA V5 USVs in six weeks. Forced entire BSF to withdraw from Crimea to Novorossiysk."},
+  {section:"air",date:"Jan 2024",label:"A-50 AWACS",damage:"Destroyed",notes:"Shot down over Sea of Azov. Rare loss of a strategic ISR aircraft worth ~$330M."},
+  {section:"air",date:"01 Jun 2025",label:"~10 strategic bombers (Tu-95, Tu-22M)",damage:"Destroyed",notes:"Operation Spiderweb — SBU truck-launched drones struck 5 airbases across Russia. ~10 aircraft destroyed including 4 Tu-95s at Olenya Airbase."},
+  {section:"air",date:"02 May 2025",label:"2× Su-30SM fighters",damage:"Shot Down",notes:"Shot down by MAGURA V7 USVs armed with AIM-9 Sidewinder missiles. First ever aircraft downed by a maritime drone."},
+];
+
+loadAll();
+</script>
+</body>
+</html>
