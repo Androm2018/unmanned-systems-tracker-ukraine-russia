@@ -555,7 +555,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="section-header">
     <div>
       <div class="section-title">USV <span>Strike Log</span></div>
-      <div class="section-sub">CONFIRMED & CLAIMED UKRAINIAN UNMANNED SURFACE VEHICLE OPERATIONS · BLACK SEA · 2022–PRESENT</div>
+      <div class="section-sub">CONFIRMED & CLAIMED UKRAINIAN UNMANNED SURFACE VEHICLE OPERATIONS · BLACK SEA · 2022–PRESENT · <span id="usv-indicator" style="color:var(--accent3)">—</span></div>
     </div>
     <button class="btn btn-accent" onclick="exportCSV('usv')">⬇ EXPORT CSV</button>
   </div>
@@ -582,7 +582,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="section-header">
     <div>
       <div class="section-title">UGV <span>Operations Log</span></div>
-      <div class="section-sub">CONFIRMED & CLAIMED UNMANNED GROUND VEHICLE COMBAT OPERATIONS — BOTH SIDES · 2023–PRESENT</div>
+      <div class="section-sub">CONFIRMED & CLAIMED UNMANNED GROUND VEHICLE COMBAT OPERATIONS — BOTH SIDES · 2023–PRESENT · <span id="ugv-indicator" style="color:var(--accent3)">—</span></div>
     </div>
     <button class="btn btn-accent" onclick="exportCSV('ugv')">⬇ EXPORT CSV</button>
   </div>
@@ -654,7 +654,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="section-header">
     <div>
       <div class="section-title">Russian <span>Losses</span></div>
-      <div class="section-sub">CONFIRMED & ESTIMATED RUSSIAN MILITARY EQUIPMENT AND PERSONNEL LOSSES · FEBRUARY 2022 TO PRESENT</div>
+      <div class="section-sub">CONFIRMED & ESTIMATED RUSSIAN MILITARY EQUIPMENT AND PERSONNEL LOSSES · FEBRUARY 2022 TO PRESENT · <span id="rl-indicator" style="color:var(--accent3)">—</span></div>
     </div>
   </div>
   <div class="disclaimer">
@@ -686,7 +686,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="section-header">
     <div>
       <div class="section-title">OSINT Sources <span>&amp; Support</span></div>
-      <div class="section-sub">PRIMARY SOURCES · TRACKING PROJECTS · ANALYTICAL TOOLS · SUPPORT UKRAINE</div>
+      <div class="section-sub">PRIMARY SOURCES · TRACKING PROJECTS · ANALYTICAL TOOLS · SUPPORT UKRAINE · <span id="src-indicator" style="color:var(--accent3)">—</span></div>
     </div>
   </div>
 
@@ -934,6 +934,28 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   </div>
 
+  <!-- ABOUT & CONTACT -->
+  <div class="kb-section-title">ABOUT THIS TRACKER</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:24px 26px">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-bottom:12px">About</div>
+      <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8;margin-bottom:10px">This tracker is an independent open-source research project documenting the confirmed and claimed use of unmanned systems — surface, ground, and air — in the Russian invasion of Ukraine.</p>
+      <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8;margin-bottom:10px">It is built and maintained as part of ongoing PhD research in war studies, drawing on publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
+      <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8">Data is updated regularly. The tracker is not affiliated with any government, military organisation, or commercial entity.</p>
+    </div>
+
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:24px 26px">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-bottom:12px">Contact & Media Enquiries</div>
+      <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8;margin-bottom:16px">For research collaboration, media enquiries, data requests, or corrections to entries, please get in touch.</p>
+      <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8;margin-bottom:16px">Journalists and researchers are welcome to cite this tracker. A suggested citation format is available on request.</p>
+      <div style="margin-top:8px">
+        <a href="mailto:contact@unmannedsystemstracker.com" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px">✉ contact@unmannedsystemstracker.com</a>
+      </div>
+    </div>
+
+  </div>
+
   <div class="disclaimer" style="margin-top:8px">
     <b>NOTE:</b> This tracker is an independent open-source project not affiliated with any of the organisations listed above. Links are provided for research and verification purposes. Users are encouraged to consult primary sources directly and apply their own critical judgement to all conflict data.<br><br>· <a href="privacy.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Privacy Policy</a> · <a href="privacy.html#advertising" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Cookie Policy</a>
   </div>
@@ -990,8 +1012,12 @@ async function loadAll() {
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
   const usvInd=document.getElementById('usv-indicator');
   const ugvInd=document.getElementById('ugv-indicator');
+  const rlInd=document.getElementById('rl-indicator');
+  const srcInd=document.getElementById('src-indicator');
   if(usvInd)usvInd.textContent=USV_DATA.length+' events · updated '+today;
   if(ugvInd)ugvInd.textContent=UGV_DATA.length+' events · updated '+today;
+  if(rlInd)rlInd.textContent='updated '+today;
+  if(srcInd)srcInd.textContent='updated '+today;
   
   
   
