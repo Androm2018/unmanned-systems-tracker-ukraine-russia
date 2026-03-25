@@ -70,8 +70,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 /* ── HEADER ── */
 header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28px;position:sticky;top:0;z-index:200;display:flex;align-items:stretch;min-height:60px}
 .logo-block{display:flex;align-items:center;gap:14px;padding-right:28px;border-right:1px solid var(--border);margin-right:4px;flex-shrink:0}
-.logo-icon{width:32px;height:32px;border:1.5px solid var(--accent);position:relative;flex-shrink:0}
-.logo-icon::after{content:'';position:absolute;inset:4px;background:var(--accent);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
+.logo-icon{flex-shrink:0;display:flex;align-items:center}
 .logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
 .logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
 nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
