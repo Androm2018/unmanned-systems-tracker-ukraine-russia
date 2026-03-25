@@ -378,7 +378,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab active" onclick="showTab('intro',this)">📋 Intro</button>
     <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV</button>
     <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV</button>
-    <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Kills</button>
+    <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
     <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
@@ -470,8 +470,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-page-card" onclick="showTabById('uav')">
       <div class="ipc-header">
         <span class="ipc-icon">✈</span>
-        <span class="ipc-title">UAV Kills</span>
-        <span class="ipc-count">POPULATING</span>
+        <span class="ipc-title">UAV Strikes</span>
+        <span class="ipc-count">- Events</span>
       </div>
       <p class="ipc-desc">Individual confirmed Ukrainian UAV strike events resulting in equipment kills — tanks, armoured vehicles, artillery, air defence systems, and personnel. Data is compiled from Ukrainian military releases and OSINT-verified footage.</p>
       <div class="ipc-columns">
@@ -487,7 +487,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div style="margin-top:12px" class="disclaimer" style="margin:0;padding:10px 12px">
         <b>⚠ STATUS:</b> Data collection in progress. Table will populate automatically when backend data is added.
       </div>
-      <div class="ipc-nav-hint">→ Open UAV Kills tab</div>
+      <div class="ipc-nav-hint">→ Open UAV Strikes tab</div>
     </div>
 
     <div class="intro-page-card" onclick="showTabById('rl')">
@@ -605,7 +605,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 </div>
 
 <!-- ══════════════════════════════════════════
-     TAB 4 — UAV KILLS
+     TAB 4 — UAV STRIKES
 ═══════════════════════════════════════════ -->
 <div id="tab-uav" class="tab-panel">
 
