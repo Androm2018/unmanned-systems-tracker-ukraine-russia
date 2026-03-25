@@ -487,11 +487,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <select id="uav-period" onchange="renderUAV()" style="font-family:var(--mono);font-size:0.7rem;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:2px;outline:none">
-        <option value="">All periods</option>
-        <option value="yearly_2025">2025 Annual</option>
-        <option value="2026">2026 Daily</option>
-      </select>
+      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">2025 ANNUAL · JUN–DEC</span>
       <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ EXPORT CSV</button>
     </div>
   </div>
@@ -907,18 +903,13 @@ function parseOutcomeNums(outcome){
 }
 
 function renderUAV(){
-  const s   = (document.getElementById('uav-search')||{}).value?.toLowerCase()||'';
-  const per = (document.getElementById('uav-period')||{}).value||'';
+  const s = (document.getElementById('uav-search')||{}).value?.toLowerCase()||'';
 
-  // Filter data to the selected period
-  let rows = UAV_DATA.filter(r=>{
-    if(per==='2026'&&!(r.date||'').startsWith('2026'))return false;
-    if(per&&per!=='2026'&&r.date!==per)return false;
-    return true;
-  });
+  // Always show yearly_2025 data only
+  let rows = UAV_DATA.filter(r => r.date === 'yearly_2025');
 
-  document.getElementById('uav-count').textContent=rows.length;
-  document.getElementById('uav-rc').textContent=rows.length;
+  const rcEl = document.getElementById('uav-rc');
+  if(rcEl) rcEl.textContent = rows.length;
 
   // ── Populate stat strip ───────────────────────────────
   const findVal=(label)=>{
