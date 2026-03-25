@@ -40,7 +40,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.035) 2px,rgba(0,0,0,0.035) 4px);pointer-events:none;z-index:999}
 
 /* ── HEADER ── */
@@ -91,7 +91,7 @@ select option{background:var(--bg3)}
 
 /* ── TABLE ── */
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:0}
+table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis}
 thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
 thead th:hover{color:var(--text2)}
 thead th.sorted{color:var(--accent3)}
@@ -231,19 +231,91 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .uav-num-col{width:70px;text-align:right;font-family:var(--head);font-weight:700;font-size:0.9rem;flex-shrink:0}
 .uav-num-damaged{color:var(--amber)}
 .uav-num-destroyed{color:var(--accent3)}
-@media(max-width:1100px){.intro-pages{grid-template-columns:1fr 1fr 1fr}.sources-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:900px){
-  header{padding:0 16px}
-  main{padding:18px 16px}
-  .logo-text p,.header-right span{display:none}
-  input[type="text"]{width:130px}
+@media(max-width:1100px){
+  .intro-pages{grid-template-columns:1fr 1fr 1fr}
+  .sources-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ── TABLET ── */
+@media(max-width:900px){
+  header{padding:0 14px;min-height:54px}
+  main{padding:16px 14px}
+  .logo-text p,.header-right{display:none}
+  input[type="text"]{width:120px}
   .stat-rows,.intro-pages{grid-template-columns:1fr}
   .ipc-columns{grid-template-columns:1fr}
   .intro-stats{flex-direction:column}
   .intro-stat{border-right:none;border-bottom:1px solid var(--border)}
   .intro-stat:last-child{border-bottom:none}
   .intro-headline{font-size:2rem}
-  .nav-tab{padding:0 10px;font-size:0.68rem}
   .sources-grid{grid-template-columns:1fr}
+  .kb-grid{grid-template-columns:repeat(2,1fr)}
+  /* Tables: allow horizontal scroll, don't squash */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{table-layout:auto;min-width:600px}
+  /* UAV killboard: stack columns */
+  #uav-killboard{grid-template-columns:1fr}
+  #uav-stat-strip{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  /* Header: icon + title only, no subtitle */
+  header{padding:0 12px;min-height:50px}
+  .logo-icon{width:26px;height:26px}
+  .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
+  /* Nav: scrollable row of small tabs */
+  nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;flex-shrink:1}
+  nav::-webkit-scrollbar{display:none}
+  .nav-tab{padding:0 10px;font-size:0.6rem;letter-spacing:0.04em;flex:0 0 auto;min-width:fit-content}
+  /* Main layout */
+  main{padding:14px 12px}
+  /* Intro */
+  .intro-headline{font-size:1.6rem}
+  .intro-lead{font-size:0.85rem}
+  .intro-stats{flex-direction:column}
+  .intro-stat{border-right:none;border-bottom:1px solid var(--border);padding:14px 16px}
+  .intro-pages{grid-template-columns:1fr}
+  .ipc-columns{grid-template-columns:1fr}
+  /* Controls: wrap filters vertically */
+  .controls{flex-direction:column;align-items:flex-start;gap:8px}
+  .ctrl-group{width:100%}
+  input[type="text"]{width:100%;box-sizing:border-box}
+  select{width:100%;box-sizing:border-box}
+  .result-count{margin-left:0}
+  /* Section header: stack title and button */
+  .section-header{flex-direction:column;align-items:flex-start;gap:10px}
+  /* Tables: horizontal scroll with touch */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -12px;padding:0 12px}
+  table{table-layout:auto;min-width:560px;font-size:0.7rem}
+  thead th{padding:7px 10px;font-size:0.58rem}
+  tbody td{padding:7px 10px}
+  /* Kill board cards */
+  .kb-grid{grid-template-columns:1fr}
+  .kb-card-value{font-size:2rem}
+  .stat-rows{grid-template-columns:1fr}
+  /* UAV killboard */
+  #uav-killboard{grid-template-columns:1fr}
+  #uav-stat-strip{grid-template-columns:repeat(2,1fr);font-size:0.9rem}
+  .uav-stat-val{font-size:1.2rem}
+  .uav-stat-cell{padding:10px 12px}
+  /* Sources page */
+  .sources-grid{grid-template-columns:1fr}
+  .donate-block{padding:20px 16px}
+  .donate-title{font-size:1.1rem}
+  /* Intro page cards */
+  .intro-page-card{padding:16px}
+  .ipc-title{font-size:0.85rem}
+  /* Disclaimer */
+  .disclaimer{font-size:0.58rem}
+}
+
+/* ── VERY SMALL (iPhone SE etc.) ── */
+@media(max-width:375px){
+  .logo-text h1{font-size:0.68rem}
+  .nav-tab{font-size:0.55rem;padding:0 8px}
+  .intro-headline{font-size:1.35rem}
+  #uav-stat-strip{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -286,7 +358,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="intro-stats">
     <div class="intro-stat"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div></div>
     <div class="intro-stat"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div></div>
-    <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">252 200</div><div class="intro-stat-label">UAV Kill Records</div></div>
+    <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">0</div><div class="intro-stat-label">UAV Kill Records</div></div>
     <div class="intro-stat"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div></div>
   </div>
 
@@ -484,7 +556,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
     <div>
       <div class="section-title">UAV <span>Kill Board</span></div>
-      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Currently showing 2025 data (June–December). Updated manually each quarter.</div>
+      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
       <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">2025 ANNUAL · JUN–DEC</span>
@@ -736,7 +808,6 @@ async function loadAll() {
   // Intro counters
   document.getElementById('is-usv').textContent=USV_DATA.length;
   document.getElementById('is-ugv').textContent=UGV_DATA.length;
-  document.getElementById('is-uav').textContent=UAV_DATA.length;
   
   
   
