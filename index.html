@@ -340,6 +340,10 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .intro-headline{font-size:1.35rem}
   #uav-stat-strip{grid-template-columns:1fr 1fr}
 }
+
+/* ── AD UNITS ── */
+.ad-unit{margin:24px 0;text-align:center;opacity:0.85}
+.ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -399,6 +403,18 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-stat"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div></div>
     <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Kill Records</div></div>
     <div class="intro-stat"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div></div>
+  </div>
+
+  <!-- AD PLACEMENT 1: Below intro stats -->
+  <div class="ad-unit">
+    <div class="ad-unit-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXX"
+         data-ad-slot="AUTO"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
   <!-- PAGE GUIDE CARDS -->
@@ -668,6 +684,18 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <p class="donate-desc">United24 is the official fundraising platform of Ukraine, established by President Zelenskyy. Donations fund defence, medical aid, and reconstruction directly through verified Ukrainian government channels. Every contribution is accounted for and reported publicly.</p>
     <a href="https://u24.gov.ua/" target="_blank" rel="noopener" class="donate-btn">🇺🇦 Donate via United24 ↗</a>
     <div class="donate-note">u24.gov.ua · Official platform · Funds go directly to Ukraine's government · Transparent reporting · Multiple currencies accepted</div>
+  </div>
+
+  <!-- AD PLACEMENT 3: Sources page, below donate block -->
+  <div class="ad-unit">
+    <div class="ad-unit-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXX"
+         data-ad-slot="AUTO"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
   <!-- CASUALTY TRACKING -->
@@ -1132,6 +1160,18 @@ function renderKillBoard(){
         <td>${dmgBadge(r.damage||r.value)}</td><td class="cell-notes">${r.notes||''}</td>
       </tr>`).join('')}</tbody>
     </table></div>`:''}
+  <!-- AD PLACEMENT 2: Russia Losses tab, below content -->
+  <div class="ad-unit">
+    <div class="ad-unit-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXX"
+         data-ad-slot="AUTO"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
     <div style="margin-top:24px" class="disclaimer">
       <b>SOURCES:</b> Mediazona / BBC News Russian (confirmed-by-name KIA list) · Meduza/Mediazona probate registry estimates · Russia Matters War Report Card (Dec 2025) · US Defense Intelligence Agency (May 2025) · SACEUR Gen. Cavoli (Apr 2025) · UK Ministry of Defence (Oct 2025) · CSIS (Jun 2025) · Oryx / oryxspioenkop.com
     </div>`;
