@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unmanned Systems Tracker</title>
+<title>Ukraine War Unmanned Systems Tracker — USV, UGV &amp; UAV Data 2022–Present</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<meta name="description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russia-Ukraine war. 2022–present.">
+<meta name="description" content="Open-source OSINT database tracking confirmed USV strikes, UGV operations and UAV kill data in the Russian invasion of Ukraine. 2022–present. Fully sourced, updated regularly.">
 <meta property="og:title" content="Unmanned Systems Tracker">
 <meta property="og:description" content="Open-source database tracking confirmed USV, UGV and UAV operations in the Russia-Ukraine war. 2022–present.">
 <meta property="og:url" content="https://unmannedsystemstracker.com">
@@ -376,8 +376,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
   <nav>
     <button class="nav-tab active" onclick="showTab('intro',this)">📋 Intro</button>
-    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV Strikes</button>
-    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations</button>
+    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV</button>
+    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV</button>
     <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
     <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
@@ -853,7 +853,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         </div>
       </div>
       <p class="source-card-desc">The story of how a school dropout built the world's most influential open-source intelligence unit — and how citizen journalists are redefining the way we think about news, accountability, and the digital future. Essential reading for anyone using this tracker.</p>
-      <a href="https://www.amazon.co.uk/We-Are-Bellingcat-Intelligence-Agency/dp/1526615754?unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
+      <a href="https://www.amazon.co.uk/We-Are-Bellingcat-Intelligence-Agency/dp/1526615754?tag=unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
     </div>
 
     <div class="source-card">
@@ -865,7 +865,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         </div>
       </div>
       <p class="source-card-desc">A concise, rigorous guide to war in the contemporary world by a Senior Lecturer in War Studies at King's College London. Examines how technology — including unmanned systems — is transforming warfare and widening the gap between military practice and international law.</p>
-      <a href="https://www.amazon.co.uk/What-War-Jack-McDonald/dp/1529228387?unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
+      <a href="https://www.amazon.co.uk/What-War-Jack-McDonald/dp/1529228387?tag=unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
     </div>
 
     <div class="source-card">
@@ -981,6 +981,11 @@ async function loadAll() {
   // Intro counters
   document.getElementById('is-usv').textContent=USV_DATA.length;
   document.getElementById('is-ugv').textContent=UGV_DATA.length;
+  const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const usvInd=document.getElementById('usv-indicator');
+  const ugvInd=document.getElementById('ugv-indicator');
+  if(usvInd)usvInd.textContent=USV_DATA.length+' events · updated '+today;
+  if(ugvInd)ugvInd.textContent=UGV_DATA.length+' events · updated '+today;
   
   
   
@@ -1365,6 +1370,89 @@ const EMBEDDED_KB=[
 ];
 
 loadAll();
+
+// ═══════════════════════════════════════════════════════════
+//  CHARTS
+// ═══════════════════════════════════════════════════════════
+function buildChart(canvasId, data, label, color){
+  const el=document.getElementById(canvasId);
+  if(!el||!data.length)return;
+
+  // Count events per year-month
+  const counts={};
+  data.forEach(r=>{
+    if(!r.date||r.date.length<7)return;
+    const ym=r.date.slice(0,7); // "2024-03"
+    counts[ym]=(counts[ym]||0)+1;
+  });
+
+  const keys=Object.keys(counts).sort();
+  const labels=keys.map(k=>{
+    const [y,m]=k.split('-');
+    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+  const values=keys.map(k=>counts[k]);
+
+  // Destroy existing chart if any
+  if(el._chart)el._chart.destroy();
+
+  el._chart=new Chart(el,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label,
+        data:values,
+        backgroundColor:color+'99',
+        borderColor:color,
+        borderWidth:1,
+        borderRadius:2,
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#0d1410',
+          borderColor:color,
+          borderWidth:1,
+          titleColor:'#c8d8c0',
+          bodyColor:'#8aaa88',
+          callbacks:{
+            title:items=>items[0].label,
+            label:item=>item.raw+' '+label.toLowerCase()
+          }
+        }
+      },
+      scales:{
+        x:{
+          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"}},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'}
+        },
+        y:{
+          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},stepSize:1},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'},
+          beginAtZero:true
+        }
+      }
+    }
+  });
+}
+
+// Build charts once data is loaded — hook into showTab too
+const _origShowTab=showTab;
+showTab=function(id,btn){
+  _origShowTab(id,btn);
+  if(id==='usv'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
+  if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
+};
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="
+  if(typeof USV_DATA!=='undefined'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
+  if(typeof UGV_DATA!=='undefined'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
+"></script>
 </body>
 </html>
