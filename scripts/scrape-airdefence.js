@@ -1,82 +1,106 @@
 const { google } = require('googleapis');
 const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
 
 // ── CONFIG ────────────────────────────────────────────────
-const SHEET_ID   = process.env.SPREADSHEET_ID;
-const TAB_NAME   = 'AirDefence';
-const DATA_URL   = 'https://raw.githubusercontent.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset/main/data/ukraine_missile_attacks.json';
+const SHEET_ID    = process.env.SPREADSHEET_ID;
+const TAB_NAME    = 'AirDefence';
+const KAGGLE_USER = process.env.KAGGLE_USERNAME;
+const KAGGLE_KEY  = process.env.KAGGLE_KEY;
+const DATASET     = 'piterfm/massive-missile-attacks-on-ukraine';
+const CSV_FILE    = 'missile_attacks_daily.csv';
 
-// Column order for the sheet
-const HEADERS = ['date', 'time_start', 'time_end', 'model', 'launched', 'destroyed', 'not_reach_goal', 'notes'];
+const HEADERS = ['date','time_start','time_end','model','launched','destroyed','not_reach_goal','notes'];
 
-// ── FETCH JSON from GitHub ─────────────────────────────────
-function fetchJSON(url) {
-  return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'User-Agent': 'UnmannedSystemsTracker/1.0' } }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try { resolve(JSON.parse(data)); }
-        catch (e) { reject(new Error('JSON parse error: ' + e.message)); }
-      });
-    }).on('error', reject);
+// ── PARSE CSV ─────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
+  return lines.slice(1).map(line => {
+    // Handle quoted fields with commas inside
+    const fields = [];
+    let cur = '', inQ = false;
+    for (const ch of line) {
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { fields.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    fields.push(cur.trim());
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (fields[i] || '').replace(/^"|"$/g, ''));
+    return obj;
   });
 }
 
 // ── MAIN ──────────────────────────────────────────────────
 async function main() {
-  console.log('Fetching Petro Ivaniuk air defence dataset...');
+  console.log('Setting up Kaggle credentials...');
 
-  // Fetch raw data
-  const raw = await fetchJSON(DATA_URL);
-  console.log(`Fetched ${Array.isArray(raw) ? raw.length : 'unknown'} records`);
+  // Write kaggle.json credentials
+  const kaggleDir = path.join(process.env.HOME || '/root', '.kaggle');
+  fs.mkdirSync(kaggleDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(kaggleDir, 'kaggle.json'),
+    JSON.stringify({ username: KAGGLE_USER, key: KAGGLE_KEY }),
+    { mode: 0o600 }
+  );
 
-  // Normalise — the dataset can be an array of objects or wrapped
-  let records = Array.isArray(raw) ? raw : (raw.data || raw.attacks || []);
+  console.log('Installing kaggle CLI...');
+  execSync('pip install kaggle --quiet --break-system-packages', { stdio: 'inherit' });
 
-  if (!records.length) {
-    console.error('No records found in dataset');
+  console.log(`Downloading dataset: ${DATASET}...`);
+  const tmpDir = '/tmp/kaggle-airdef';
+  fs.mkdirSync(tmpDir, { recursive: true });
+  execSync(`kaggle datasets download -d ${DATASET} -p ${tmpDir} --unzip`, { stdio: 'inherit' });
+
+  const csvPath = path.join(tmpDir, CSV_FILE);
+  if (!fs.existsSync(csvPath)) {
+    // List what was downloaded
+    const files = fs.readdirSync(tmpDir);
+    console.error('Expected file not found. Downloaded files:', files);
     process.exit(1);
   }
 
-  // Sort by date ascending
-  records.sort((a, b) => {
-    const da = a.time_start || a.date || '';
-    const db = b.time_start || b.date || '';
+  console.log('Parsing CSV...');
+  const raw = parseCSV(fs.readFileSync(csvPath, 'utf8'));
+  console.log(`Parsed ${raw.length} records. First row:`, JSON.stringify(raw[0]));
+
+  // Sort ascending by date
+  raw.sort((a, b) => {
+    const da = (a.time_start || a.date || '').slice(0,10);
+    const db = (b.time_start || b.date || '').slice(0,10);
     return da.localeCompare(db);
   });
 
-  // Build rows for the sheet
-  const rows = records.map(r => {
-    // Date: extract YYYY-MM-DD from time_start or date field
-    const rawDate = r.time_start || r.date || '';
-    const date = rawDate.slice(0, 10);
+  // Build sheet rows
+  const rows = raw.map(r => {
+    const date     = (r.time_start || r.date || '').slice(0, 10);
+    const launched = parseInt(r.launched)        || 0;
+    const destroyed= parseInt(r.destroyed)       || 0;
+    const notReach = parseInt(r.not_reach_goal)  || 0;
 
-    const launched   = parseInt(r.launched)   || 0;
-    const destroyed  = parseInt(r.destroyed)  || parseInt(r.interceptions) || 0;
-    const notReach   = parseInt(r.not_reach_goal) || 0;
-
-    // Build a notes string from any interesting fields
     const notesParts = [];
-    if (r.still_fly !== undefined) notesParts.push(`Still in flight: ${r.still_fly}`);
-    if (r.strike_target) notesParts.push(`Target: ${r.strike_target}`);
-    const notes = notesParts.join(' · ');
+    if (r.strike_target)    notesParts.push(`Target: ${r.strike_target}`);
+    if (r.still_fly)        notesParts.push(`Still flying: ${r.still_fly}`);
+    if (r.carrier)          notesParts.push(`Carrier: ${r.carrier}`);
 
     return [
       date,
-      r.time_start || '',
-      r.time_end   || '',
-      r.model || r.type || r.weapon || '',
+      r.time_start  || '',
+      r.time_end    || '',
+      r.model       || r.type || '',
       launched,
       destroyed,
       notReach,
-      notes,
+      notesParts.join(' · '),
     ];
   });
 
-  console.log(`Prepared ${rows.length} rows for sheet`);
+  console.log(`Prepared ${rows.length} rows`);
 
-  // ── Authenticate with Google Sheets ──────────────────────
+  // ── Authenticate Google Sheets ────────────────────────────
   const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
   const auth = new google.auth.GoogleAuth({
     credentials,
@@ -84,37 +108,35 @@ async function main() {
   });
   const sheets = google.sheets({ version: 'v4', auth });
 
-  // ── Clear and rewrite the AirDefence tab ─────────────────
-  // First ensure the tab exists
+  // Ensure tab exists
   const meta = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
   const existing = meta.data.sheets.map(s => s.properties.title);
-
   if (!existing.includes(TAB_NAME)) {
     await sheets.spreadsheets.batchUpdate({
       spreadsheetId: SHEET_ID,
-      requestBody: {
-        requests: [{ addSheet: { properties: { title: TAB_NAME } } }]
-      }
+      requestBody: { requests: [{ addSheet: { properties: { title: TAB_NAME } } }] }
     });
-    console.log(`Created sheet tab: ${TAB_NAME}`);
+    console.log(`Created tab: ${TAB_NAME}`);
   }
 
-  // Clear existing data
-  await sheets.spreadsheets.values.clear({
-    spreadsheetId: SHEET_ID,
-    range: `${TAB_NAME}!A:Z`,
-  });
+  // Clear and rewrite
+  await sheets.spreadsheets.values.clear({ spreadsheetId: SHEET_ID, range: `${TAB_NAME}!A:Z` });
 
-  // Write header + all rows
+  // Write in batches of 1000 to avoid payload limits
   const allRows = [HEADERS, ...rows];
-  await sheets.spreadsheets.values.update({
-    spreadsheetId: SHEET_ID,
-    range: `${TAB_NAME}!A1`,
-    valueInputOption: 'RAW',
-    requestBody: { values: allRows },
-  });
+  const BATCH = 1000;
+  for (let i = 0; i < allRows.length; i += BATCH) {
+    const batch = allRows.slice(i, i + BATCH);
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: SHEET_ID,
+      range: `${TAB_NAME}!A${i + 1}`,
+      valueInputOption: 'RAW',
+      requestBody: { values: batch },
+    });
+    console.log(`Written rows ${i + 1}–${Math.min(i + BATCH, allRows.length)}`);
+  }
 
-  console.log(`✓ Written ${rows.length} rows to ${TAB_NAME} tab`);
+  console.log(`✓ Done — ${rows.length} rows written to ${TAB_NAME}`);
 }
 
 main().catch(err => {
