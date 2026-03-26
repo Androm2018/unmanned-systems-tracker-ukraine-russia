@@ -997,7 +997,7 @@ let AIRDEF_DATA=[];
 
 async function loadAll() {
   const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
-    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence&limit=90'),
+    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence'),
   ]);
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
