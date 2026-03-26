@@ -1027,19 +1027,19 @@ async function loadAll() {
   const airInd=document.getElementById('airdef-indicator');
   if(airInd&&AIRDEF_DATA.length)airInd.textContent=AIRDEF_DATA.length+' waves · updated '+today;
   if(AIRDEF_DATA.length){
-    renderAirDef();buildAirDefChart();
-    // Populate intro strip air defence stats
+    // Intro strip stats — calculated first so errors in render don't block them
     const adTotal=AIRDEF_DATA.reduce((s,r)=>s+(parseFloat(r.launched)||0),0);
     const adIntercepted=AIRDEF_DATA.reduce((s,r)=>s+(parseFloat(r.destroyed)||0),0);
     const adRate=adTotal>0?Math.round(adIntercepted/adTotal*100):0;
-    const fmtIntro=n=>Math.round(n).toLocaleString('en-GB').replace(/,/g,' ');
+    const fmtIntro=n=>Math.round(n).toLocaleString('en-GB').replace(/,/g,' ');
     const elTotal=document.getElementById('is-ad-total');
     const elInt=document.getElementById('is-ad-intercepted');
     const elRate=document.getElementById('is-ad-rate');
     if(elTotal)elTotal.textContent=fmtIntro(adTotal);
     if(elInt)elInt.textContent=fmtIntro(adIntercepted);
     if(elRate)elRate.textContent=adRate+'%';
-
+    // Render tab content
+    try{renderAirDef();buildAirDefChart();}catch(e){console.error('airdef render:',e);}
   }
   
   
