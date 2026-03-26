@@ -228,6 +228,27 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-btn:hover{background:#fff;color:#080d0a}
 .donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
 
+/* ── AIR DEFENCE TAB ── */
+.ad-stat-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+.ad-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff}
+.ad-stat-lbl{font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.ad-weapon-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+.ad-weapon-col{background:var(--bg2)}
+.ad-weapon-header{display:flex;padding:7px 14px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.ad-weapon-header span{font-family:var(--mono);font-size:0.57rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.ad-weapon-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px}
+.ad-weapon-row:last-child{border-bottom:none}
+.ad-weapon-row:hover{background:var(--glowb)}
+.ad-weapon-name{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1}
+.ad-weapon-num{font-family:var(--head);font-weight:700;font-size:0.88rem;flex-shrink:0;width:70px;text-align:right}
+.ad-weapon-bar{height:4px;background:var(--border2);border-radius:2px;margin-top:3px;overflow:hidden}
+.ad-weapon-bar-fill{height:100%;border-radius:2px;transition:width 0.6s ease}
+.ad-rate-badge{font-family:var(--mono);font-size:0.6rem;padding:2px 7px;border-radius:2px;flex-shrink:0}
+.ad-rate-good{background:rgba(107,191,120,0.15);color:var(--accent3);border:1px solid var(--accent)}
+.ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
+.ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
+@media(max-width:600px){.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
 /* ── AD UNITS ── */
 .ad-unit{margin:24px 0;text-align:center;opacity:0.85}
 .ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
@@ -369,6 +390,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations</button>
     <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
     <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses</button>
+    <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
   <div class="header-right">
@@ -499,6 +521,14 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="ipc-nav-hint">→ Open Russian Losses tab</div>
     </div>
 
+    <div class="intro-page-card" onclick="showTabById('airdef')">
+        <div class="ipc-icon">🛡</div>
+        <div>
+          <span class="ipc-title">Air Defence Log</span>
+          <p class="ipc-desc">Russian drone and missile strikes on Ukraine, intercept rates by weapon type, and volume escalation since October 2022. Data sourced from the Ukrainian Air Force via Petro Ivaniuk's verified dataset.</p>
+          <div class="ipc-nav-hint">→ Open Air Defence tab</div>
+        </div>
+      </div>
     <div class="intro-page-card" onclick="showTabById('sources')">
       <div class="ipc-header">
         <span class="ipc-icon">🔗</span>
@@ -669,6 +699,72 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 </div>
 
 <!-- ══════════════════════════════════════════
+     TAB 6 — AIR DEFENCE
+═══════════════════════════════════════════ -->
+<div id="tab-airdef" class="tab-panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
+    <div>
+      <div class="section-title">Air <span>Defence Log</span></div>
+      <div class="section-sub">RUSSIAN DRONE & MISSILE STRIKES ON UKRAINE · OCT 2022–PRESENT · SOURCE: UKRAINIAN AIR FORCE VIA PETRO IVANIUK · <span id="airdef-indicator" style="color:var(--accent3)">—</span></div>
+    </div>
+    <button class="btn btn-accent" onclick="exportCSV('airdef')">⬇ EXPORT CSV</button>
+  </div>
+
+  <div class="disclaimer" style="margin-bottom:18px">
+    <b>DATA SOURCE:</b> Ukrainian Air Force official daily reports, compiled and verified by data scientist Petro Ivaniuk. Dataset verified by CSIS as matching official Ukrainian Air Force figures. Coverage from 27 September 2022 to present. Each row represents a single attack wave. · <a class="src-link" href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener">github.com/PetroIvaniuk ↗</a>
+  </div>
+
+  <!-- HEADLINE STAT STRIP -->
+  <div class="ad-stat-strip" id="airdef-stats">
+    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Total launched</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
+  </div>
+
+  <!-- CHART -->
+  <div class="kb-section-title">MONTHLY ATTACK VOLUME — LAUNCHED VS INTERCEPTED</div>
+  <div style="background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:20px">
+    <canvas id="airdef-chart" height="90"></canvas>
+  </div>
+
+  <!-- WEAPON TYPE BREAKDOWN -->
+  <div class="kb-section-title">BREAKDOWN BY WEAPON TYPE</div>
+  <div class="ad-weapon-grid" id="airdef-weapons">
+    <div class="ad-weapon-col" id="airdef-col-left"></div>
+    <div class="ad-weapon-col" id="airdef-col-right"></div>
+  </div>
+
+  <!-- RECENT ATTACKS TABLE -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 10px">
+    <div class="kb-section-title" style="margin:0">RECENT ATTACK WAVES</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="ctrl-label">Filter</span>
+      <input type="text" id="airdef-search" placeholder="weapon type, date…" oninput="renderAirDef()" style="width:180px">
+      <span class="result-count">Showing <b id="airdef-rc">—</b> waves</span>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <colgroup><col style="width:10%"><col style="width:22%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:24%"></colgroup>
+      <thead><tr>
+        <th onclick="sortAirDef(0)">Date ↕</th>
+        <th>Weapon / Type</th>
+        <th onclick="sortAirDef(2)">Launched ↕</th>
+        <th onclick="sortAirDef(3)">Intercepted ↕</th>
+        <th>Got Through</th>
+        <th>Rate</th>
+        <th>Notes</th>
+      </tr></thead>
+      <tbody id="airdef-body"><tr><td colspan="7"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
+    </table>
+    <div id="airdef-nores" class="no-results" style="display:none">// NO RESULTS MATCHING FILTERS //</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
      TAB 6 — OSINT SOURCES & SUPPORT
 ═══════════════════════════════════════════ -->
 <div id="tab-sources" class="tab-panel">
@@ -755,6 +851,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       </div>
       <p class="source-card-desc">Ukrainian-language defence publication with strong English coverage of weapons systems, unmanned platforms and battlefield technology. Particularly valuable for early reporting on new Ukrainian drone and UGV developments, often sourced directly from manufacturers and the Ministry of Defence.</p>
       <a href="https://militarnyi.com/en/" target="_blank" rel="noopener" class="source-card-link">militarnyi.com ↗</a>
+    </div>
+  </div>
+
+    <div class="source-card">
+      <div class="source-card-header">
+        <span class="source-card-icon">📊</span>
+        <div><div class="source-card-name">Petro Ivaniuk Dataset</div><div class="source-card-type">Air defence data · Kaggle / GitHub</div></div>
+      </div>
+      <p class="source-card-desc">Ukrainian data scientist maintaining the most comprehensive structured dataset of Russian drone and missile attacks on Ukraine, compiled daily from official Ukrainian Air Force reports. Verified by CSIS as matching official figures. Covers every attack wave from October 2022 to present — the primary data source for the Air Defence tab on this tracker.</p>
+      <a href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener" class="source-card-link">github.com/PetroIvaniuk ↗</a>
     </div>
   </div>
 
@@ -978,14 +1084,17 @@ async function fetchTab(tab) {
   }catch(e){console.error(`fetch ${tab}:`,e);return null;}
 }
 
+let AIRDEF_DATA=[];
+
 async function loadAll() {
-  const [usvRaw,ugvRaw,uavRaw,kbRaw]=await Promise.all([
-    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),
+  const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
+    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence'),
   ]);
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
   UAV_DATA=uavRaw||[];
   KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
+  AIRDEF_DATA=airRaw||[];
 
   // USV model filter
   [...new Set(USV_DATA.map(r=>r.model).filter(Boolean))].sort().forEach(m=>{
@@ -1006,6 +1115,9 @@ async function loadAll() {
   if(ugvInd)ugvInd.textContent=UGV_DATA.length+' events · updated '+today;
   if(rlInd)rlInd.textContent='updated '+today;
   if(srcInd)srcInd.textContent='updated '+today;
+  const airInd=document.getElementById('airdef-indicator');
+  if(airInd&&AIRDEF_DATA.length)airInd.textContent=AIRDEF_DATA.length+' waves · updated '+today;
+  if(AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
   
   
   
@@ -1310,6 +1422,15 @@ function exportCSV(tab){
   }else if(tab==='uav'){
     headers=['Date','UAV System','Target','Target Type','Location','Outcome','Notes','Source URL'];
     rows=UAV_DATA.map(r=>[r.date,r.system,r.target,r.type,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='airdef'){
+    headers=['Date','Weapon/Type','Launched','Intercepted','Got Through','Intercept Rate','Notes'];
+    rows=AIRDEF_DATA.map(r=>{
+      const launched=parseInt(r.launched)||0;
+      const destroyed=parseInt(r.destroyed)||0;
+      const through=launched-destroyed;
+      const rate=launched>0?Math.round(destroyed/launched*100)+'%':'—';
+      return[r.date,r.model||r.type||'—',launched,destroyed,through,rate,`"${(r.notes||'').replace(/"/g,'""')}"`].join(',');
+    });
   }else return;
   const csv=[headers.join(','),...rows].join('\n');
   const a=Object.assign(document.createElement('a'),{
@@ -1392,6 +1513,150 @@ const EMBEDDED_KB=[
 loadAll();
 
 // ═══════════════════════════════════════════════════════════
+//  AIR DEFENCE
+// ═══════════════════════════════════════════════════════════
+let airDefSort={col:0,asc:false};
+
+function fmtBig(n){
+  if(!n&&n!==0)return'—';
+  return Number(n).toLocaleString('en-GB').replace(/,/g,' ');
+}
+
+function rateClass(pct){
+  if(pct>=75)return'ad-rate-good';
+  if(pct>=50)return'ad-rate-mid';
+  return'ad-rate-bad';
+}
+
+function renderAirDef(){
+  const s=(document.getElementById('airdef-search')||{}).value?.toLowerCase()||'';
+  let rows=AIRDEF_DATA.filter(r=>{
+    if(s&&![r.model,r.type,r.date,r.notes].join(' ').toLowerCase().includes(s))return false;
+    return true;
+  });
+
+  // Sort
+  const keys=['date','model','launched','destroyed'];
+  rows.sort((a,b)=>{
+    const va=a[keys[airDefSort.col]]||'',vb=b[keys[airDefSort.col]]||'';
+    const na=parseFloat(va),nb=parseFloat(vb);
+    if(!isNaN(na)&&!isNaN(nb))return airDefSort.asc?na-nb:nb-na;
+    return airDefSort.asc?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
+  });
+
+  document.getElementById('airdef-rc').textContent=rows.length;
+  const body=document.getElementById('airdef-body');
+  const nores=document.getElementById('airdef-nores');
+
+  // Populate stat strip from full dataset
+  const totalLaunched=AIRDEF_DATA.reduce((s,r)=>s+(parseInt(r.launched)||0),0);
+  const totalDestroyed=AIRDEF_DATA.reduce((s,r)=>s+(parseInt(r.destroyed)||0),0);
+  const gotThrough=totalLaunched-totalDestroyed;
+  const overallRate=totalLaunched>0?Math.round(totalDestroyed/totalLaunched*100):0;
+  const largest=Math.max(...AIRDEF_DATA.map(r=>parseInt(r.launched)||0));
+
+  const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  setVal('ads-total-launched',fmtBig(totalLaunched));
+  setVal('ads-total-destroyed',fmtBig(totalDestroyed));
+  setVal('ads-intercept-rate',overallRate+'%');
+  setVal('ads-got-through',fmtBig(gotThrough));
+  setVal('ads-attack-days',fmtBig(AIRDEF_DATA.length));
+  setVal('ads-largest',fmtBig(largest));
+
+  // Weapon type breakdown
+  const byType={};
+  AIRDEF_DATA.forEach(r=>{
+    const t=r.model||r.type||'Unknown';
+    if(!byType[t])byType[t]={launched:0,destroyed:0};
+    byType[t].launched+=(parseInt(r.launched)||0);
+    byType[t].destroyed+=(parseInt(r.destroyed)||0);
+  });
+  const typeArr=Object.entries(byType)
+    .map(([name,d])=>({name,launched:d.launched,destroyed:d.destroyed,rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0}))
+    .sort((a,b)=>b.launched-a.launched);
+
+  const maxL=typeArr[0]?.launched||1;
+  const weapHeader=`<div class="ad-weapon-header"><span style="flex:1">Weapon / Type</span><span style="width:70px;text-align:right">Launched</span><span style="width:70px;text-align:right">Intercepted</span><span style="width:56px;text-align:right">Rate</span></div>`;
+  const buildWeapRows=arr=>arr.map(t=>`
+    <div class="ad-weapon-row">
+      <div style="flex:1;min-width:0">
+        <div class="ad-weapon-name">${t.name}</div>
+        <div class="ad-weapon-bar"><div class="ad-weapon-bar-fill" style="width:${Math.round(t.launched/maxL*100)}%;background:var(--accent)"></div></div>
+      </div>
+      <span class="ad-weapon-num" style="color:var(--text)">${fmtBig(t.launched)}</span>
+      <span class="ad-weapon-num" style="color:var(--accent3)">${fmtBig(t.destroyed)}</span>
+      <span class="ad-rate-badge ${rateClass(t.rate)}" style="width:40px;text-align:center">${t.rate}%</span>
+    </div>`).join('');
+
+  const mid=Math.ceil(typeArr.length/2);
+  document.getElementById('airdef-col-left').innerHTML=weapHeader+buildWeapRows(typeArr.slice(0,mid));
+  document.getElementById('airdef-col-right').innerHTML=weapHeader+buildWeapRows(typeArr.slice(mid));
+
+  if(!rows.length){body.innerHTML='';nores.style.display='block';return;}
+  nores.style.display='none';
+
+  body.innerHTML=rows.slice(0,200).map((r,i)=>{
+    const launched=parseInt(r.launched)||0;
+    const destroyed=parseInt(r.destroyed)||0;
+    const through=launched-destroyed;
+    const rate=launched>0?Math.round(destroyed/launched*100):0;
+    return`<tr style="animation:fadeIn 0.2s ${Math.min(i,20)*0.02}s both">
+      <td class="cell-date">${r.date||'—'}</td>
+      <td class="cell-target" style="font-size:0.82rem">${r.model||r.type||'—'}</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">${fmtBig(launched)}</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--accent3)">${fmtBig(destroyed)}</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;color:#e74c3c">${fmtBig(through)}</td>
+      <td><span class="ad-rate-badge ${rateClass(rate)}">${rate}%</span></td>
+      <td class="cell-notes">${r.notes||''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function sortAirDef(c){airDefSort={col:c,asc:airDefSort.col===c?!airDefSort.asc:true};renderAirDef();}
+
+function buildAirDefChart(){
+  const el=document.getElementById('airdef-chart');
+  if(!el||!AIRDEF_DATA.length)return;
+
+  // Aggregate by year-month
+  const launched={},destroyed={};
+  AIRDEF_DATA.forEach(r=>{
+    if(!r.date||r.date.length<7)return;
+    const ym=r.date.slice(0,7);
+    launched[ym]=(launched[ym]||0)+(parseInt(r.launched)||0);
+    destroyed[ym]=(destroyed[ym]||0)+(parseInt(r.destroyed)||0);
+  });
+  const keys=Object.keys(launched).sort();
+  const labels=keys.map(k=>{
+    const[y,m]=k.split('-');
+    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+
+  if(el._chart)el._chart.destroy();
+  el._chart=new Chart(el,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Launched',data:keys.map(k=>launched[k]),backgroundColor:'#e74c3c55',borderColor:'#e74c3c',borderWidth:1,borderRadius:2},
+        {label:'Intercepted',data:keys.map(k=>destroyed[k]),backgroundColor:'#6bbf7855',borderColor:'#6bbf78',borderWidth:1,borderRadius:2},
+      ]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:12}},
+        tooltip:{backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88'}
+      },
+      scales:{
+        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},maxRotation:45},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"}},grid:{color:'#1e3022'},border:{color:'#253d2a'},beginAtZero:true}
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
 //  CHARTS
 // ═══════════════════════════════════════════════════════════
 function buildChart(canvasId, data, label, color){
@@ -1468,6 +1733,7 @@ showTab=function(id,btn){
   _origShowTab(id,btn);
   if(id==='usv'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
+  if(id==='airdef'&&AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="
