@@ -166,9 +166,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
 .intro-lead{font-family:var(--body);font-size:0.95rem;color:var(--text2);line-height:1.75;max-width:680px;margin-bottom:0}
 .intro-stats{display:flex;gap:0;border:1px solid var(--border);margin:32px 0;overflow:hidden}
-.intro-stat{flex:1;padding:18px 22px;border-right:1px solid var(--border)}
+.intro-stat{flex:1;padding:14px 16px;border-right:1px solid var(--border);min-width:0}
 .intro-stat:last-child{border-right:none}
-.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.9rem;line-height:1}
+.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1}
 .intro-stat-val.g{color:var(--accent3)}
 .intro-stat-val.r{color:#e74c3c}
 .intro-stat-val.a{color:#f0c040}
@@ -416,6 +416,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-stat"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div></div>
     <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Strikes</div><div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:4px">* as of 25/03/2026</div></div>
     <div class="intro-stat"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div></div>
+    <div class="intro-stat"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div></div>
+    <div class="intro-stat"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div></div>
+    <div class="intro-stat"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div></div>
   </div>
 
   <!-- PAGE GUIDE CARDS -->
@@ -1116,7 +1119,20 @@ async function loadAll() {
   if(srcInd)srcInd.textContent='updated '+today;
   const airInd=document.getElementById('airdef-indicator');
   if(airInd&&AIRDEF_DATA.length)airInd.textContent=AIRDEF_DATA.length+' waves · updated '+today;
-  if(AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
+  if(AIRDEF_DATA.length){
+    renderAirDef();buildAirDefChart();
+    // Populate intro strip air defence stats
+    const adTotal=AIRDEF_DATA.reduce((s,r)=>s+(parseFloat(r.launched)||0),0);
+    const adIntercepted=AIRDEF_DATA.reduce((s,r)=>s+(parseFloat(r.destroyed)||0),0);
+    const adRate=adTotal>0?Math.round(adIntercepted/adTotal*100):0;
+    const fmtIntro=n=>Math.round(n).toLocaleString('en-GB').replace(/,/g,' ');
+    const elTotal=document.getElementById('is-ad-total');
+    const elInt=document.getElementById('is-ad-intercepted');
+    const elRate=document.getElementById('is-ad-rate');
+    if(elTotal)elTotal.textContent=fmtIntro(adTotal);
+    if(elInt)elInt.textContent=fmtIntro(adIntercepted);
+    if(elRate)elRate.textContent=adRate+'%';
+  }
   
   
   
