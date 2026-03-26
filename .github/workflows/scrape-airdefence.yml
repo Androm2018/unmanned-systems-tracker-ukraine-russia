@@ -2,8 +2,8 @@ name: Scrape Air Defence Data
 
 on:
   schedule:
-    - cron: '0 7 * * *'   # 07:00 UTC daily (after USF scraper at 06:00)
-  workflow_dispatch:        # allow manual trigger
+    - cron: '0 7 * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -15,11 +15,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: npm install googleapis
 
       - name: Run air defence scraper
         env:
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: node scripts/scrape-airdefence.js
