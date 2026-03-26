@@ -1,5 +1,4 @@
 const { google } = require('googleapis');
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -19,7 +18,6 @@ function parseCSV(text) {
   const lines = text.trim().split('\n');
   const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
   return lines.slice(1).map(line => {
-    // Handle quoted fields with commas inside
     const fields = [];
     let cur = '', inQ = false;
     for (const ch of line) {
@@ -37,8 +35,6 @@ function parseCSV(text) {
 // ── MAIN ──────────────────────────────────────────────────
 async function main() {
   console.log('Setting up Kaggle credentials...');
-
-  // Write kaggle.json credentials
   const kaggleDir = path.join(process.env.HOME || '/root', '.kaggle');
   fs.mkdirSync(kaggleDir, { recursive: true });
   fs.writeFileSync(
@@ -57,7 +53,6 @@ async function main() {
 
   const csvPath = path.join(tmpDir, CSV_FILE);
   if (!fs.existsSync(csvPath)) {
-    // List what was downloaded
     const files = fs.readdirSync(tmpDir);
     console.error('Expected file not found. Downloaded files:', files);
     process.exit(1);
@@ -65,32 +60,27 @@ async function main() {
 
   console.log('Parsing CSV...');
   const raw = parseCSV(fs.readFileSync(csvPath, 'utf8'));
-  console.log(`Parsed ${raw.length} records. First row:`, JSON.stringify(raw[0]));
+  console.log(`Parsed ${raw.length} records`);
 
-  // Sort ascending by date
   raw.sort((a, b) => {
     const da = (a.time_start || a.date || '').slice(0,10);
     const db = (b.time_start || b.date || '').slice(0,10);
     return da.localeCompare(db);
   });
 
-  // Build sheet rows
   const rows = raw.map(r => {
-    const date     = (r.time_start || r.date || '').slice(0, 10);
-    const launched = parseInt(r.launched)        || 0;
-    const destroyed= parseInt(r.destroyed)       || 0;
-    const notReach = parseInt(r.not_reach_goal)  || 0;
-
+    const date      = (r.time_start || r.date || '').slice(0, 10);
+    const launched  = parseFloat(r.launched)       || 0;
+    const destroyed = parseFloat(r.destroyed)      || 0;
+    const notReach  = parseFloat(r.not_reach_goal) || 0;
     const notesParts = [];
-    if (r.strike_target)    notesParts.push(`Target: ${r.strike_target}`);
-    if (r.still_fly)        notesParts.push(`Still flying: ${r.still_fly}`);
-    if (r.carrier)          notesParts.push(`Carrier: ${r.carrier}`);
-
+    if (r.launch_place)    notesParts.push(`Launch: ${r.launch_place}`);
+    if (r.still_attacking) notesParts.push(`Still attacking: ${r.still_attacking}`);
     return [
       date,
-      r.time_start  || '',
-      r.time_end    || '',
-      r.model       || r.type || '',
+      r.time_start || '',
+      r.time_end   || '',
+      r.model      || '',
       launched,
       destroyed,
       notReach,
@@ -98,9 +88,11 @@ async function main() {
     ];
   });
 
-  console.log(`Prepared ${rows.length} rows`);
+  const allRows = [HEADERS, ...rows];
+  const totalRows = allRows.length;
+  console.log(`Prepared ${rows.length} rows (${totalRows} including header)`);
 
-  // ── Authenticate Google Sheets ────────────────────────────
+  // ── Auth ──────────────────────────────────────────────────
   const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
   const auth = new google.auth.GoogleAuth({
     credentials,
@@ -108,22 +100,52 @@ async function main() {
   });
   const sheets = google.sheets({ version: 'v4', auth });
 
-  // Ensure tab exists
+  // ── Ensure tab exists and has enough rows ─────────────────
   const meta = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
-  const existing = meta.data.sheets.map(s => s.properties.title);
-  if (!existing.includes(TAB_NAME)) {
+  const sheetMeta = meta.data.sheets.find(s => s.properties.title === TAB_NAME);
+
+  if (!sheetMeta) {
+    // Create with enough rows
     await sheets.spreadsheets.batchUpdate({
       spreadsheetId: SHEET_ID,
-      requestBody: { requests: [{ addSheet: { properties: { title: TAB_NAME } } }] }
+      requestBody: {
+        requests: [{
+          addSheet: {
+            properties: {
+              title: TAB_NAME,
+              gridProperties: { rowCount: totalRows + 100, columnCount: 26 }
+            }
+          }
+        }]
+      }
     });
-    console.log(`Created tab: ${TAB_NAME}`);
+    console.log(`Created tab: ${TAB_NAME} with ${totalRows + 100} rows`);
+  } else {
+    // Expand existing tab if needed
+    const currentRows = sheetMeta.properties.gridProperties.rowCount;
+    const sheetId = sheetMeta.properties.sheetId;
+    if (currentRows < totalRows + 10) {
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: SHEET_ID,
+        requestBody: {
+          requests: [{
+            updateSheetProperties: {
+              properties: {
+                sheetId,
+                gridProperties: { rowCount: totalRows + 100, columnCount: 26 }
+              },
+              fields: 'gridProperties.rowCount,gridProperties.columnCount'
+            }
+          }]
+        }
+      });
+      console.log(`Expanded tab to ${totalRows + 100} rows`);
+    }
   }
 
-  // Clear and rewrite
+  // ── Clear and write in batches of 1000 ────────────────────
   await sheets.spreadsheets.values.clear({ spreadsheetId: SHEET_ID, range: `${TAB_NAME}!A:Z` });
 
-  // Write in batches of 1000 to avoid payload limits
-  const allRows = [HEADERS, ...rows];
   const BATCH = 1000;
   for (let i = 0; i < allRows.length; i += BATCH) {
     const batch = allRows.slice(i, i + BATCH);
