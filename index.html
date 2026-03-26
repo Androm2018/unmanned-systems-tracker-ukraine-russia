@@ -160,7 +160,29 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .disclaimer b{color:var(--amber)}
 
 /* ── INTRO ── */
-.intro-hero{padding:44px 0 36px;border-bottom:1px solid var(--border2);margin-bottom:36px}
+.intro-hero{padding:44px 0 36px;border-bottom:1px solid var(--border2);margin-bottom:36px;display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+.intro-hero-left{}
+.intro-events{border:1px solid var(--border);background:var(--bg2)}
+.intro-events-header{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.14em;text-transform:uppercase;padding:10px 14px;border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center}
+.intro-events-header span{color:var(--accent3)}
+.intro-event{padding:10px 14px;border-bottom:1px solid var(--border2);display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;transition:background 0.1s;cursor:default}
+.intro-event:last-child{border-bottom:none}
+.intro-event:hover{background:var(--glowb)}
+.intro-event-meta{display:flex;flex-direction:column;gap:3px;min-width:60px}
+.intro-event-date{font-family:var(--mono);font-size:0.52rem;color:var(--text3);white-space:nowrap}
+.intro-event-cat{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.06em;text-transform:uppercase;padding:1px 5px;border-radius:2px}
+.cat-usv{background:rgba(74,159,212,0.15);color:#4a9fd4;border:1px solid #4a9fd4}
+.cat-ugv{background:rgba(232,125,62,0.15);color:#e87d3e;border:1px solid #e87d3e}
+.cat-air{background:rgba(107,191,120,0.15);color:#6bbf78;border:1px solid #3a7d44}
+.cat-uav{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
+.intro-event-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.5;margin-bottom:4px}
+.intro-event-badge{font-family:var(--mono);font-size:0.5rem;padding:1px 5px;border-radius:2px;display:inline-block}
+.b-sunk{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
+.b-damaged{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
+.b-destroyed{background:rgba(231,76,60,0.12);color:#e74c3c;border:1px solid #e74c3c}
+.b-intercepted{background:rgba(107,191,120,0.15);color:#6bbf78;border:1px solid #3a7d44}
+.b-milestone{background:rgba(107,191,120,0.1);color:#6bbf78;border:1px solid #3a7d44}
+@media(max-width:900px){.intro-hero{grid-template-columns:1fr}.intro-events{display:none}}
 .intro-kicker{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent3);margin-bottom:14px}
 .intro-headline{font-family:var(--head);font-weight:900;font-size:3rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:18px}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
@@ -407,8 +429,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 <div id="tab-intro" class="tab-panel active">
 
   <div class="intro-hero">
-    <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
-    <p class="intro-lead">A curated open-source database tracking the confirmed and claimed combat use of unmanned systems — surface, ground, and air — in the Russia-Ukraine war. Built from publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
+    <div class="intro-hero-left">
+      <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
+      <p class="intro-lead">A curated open-source database tracking the confirmed and claimed combat use of unmanned systems — surface, ground, and air — in the Russia-Ukraine war. Built from publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
+    </div>
+    <div class="intro-events">
+      <div class="intro-events-header">Recent entries <span id="events-updated"></span></div>
+      <div id="intro-events-feed">
+        <div class="intro-event"><div class="intro-event-meta"><div class="intro-event-date">—</div></div><div><div class="intro-event-text" style="color:var(--text3)">Loading…</div></div></div>
+      </div>
+    </div>
   </div>
 
   <div class="intro-stats">
@@ -480,6 +510,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   <div class="intro-footer">
     UNMANNED SYSTEMS TRACKER · COMPILED FROM PUBLIC OSINT SOURCES · NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION · DATA PROVIDED FOR RESEARCH AND EDUCATIONAL PURPOSES · ALL ENTRIES CARRY SOURCE CITATIONS FOR INDEPENDENT VERIFICATION · LAST UPDATED <span id="intro-date">—</span> · <a href="privacy.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Privacy Policy</a>
+    <br><span style="color:var(--accent3)">🇺🇦</span> 50% of advertising revenue from this site is donated to support Ukrainian military forces via <a href="https://u24.gov.ua/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">United24</a>
   </div>
 
 </div>
@@ -995,6 +1026,79 @@ async function fetchTab(tab) {
 
 let AIRDEF_DATA=[];
 
+function buildEventsFeed(){
+  const feed=document.getElementById('intro-events-feed');
+  if(!feed)return;
+
+  const catLabel=(tab)=>({usv:'USV',ugv:'UGV',uav:'UAV',air:'Air Def'}[tab]||tab.toUpperCase());
+  const catClass=(tab)=>({usv:'cat-usv',ugv:'cat-ugv',uav:'cat-uav',air:'cat-air'}[tab]||'cat-usv');
+
+  const badgeClass=(outcome)=>{
+    if(!outcome)return'b-milestone';
+    const o=outcome.toLowerCase();
+    if(o.includes('sunk'))return'b-sunk';
+    if(o.includes('shot down'))return'b-sunk';
+    if(o.includes('destroyed'))return'b-destroyed';
+    if(o.includes('damaged'))return'b-damaged';
+    if(o.includes('intercepted')||o.includes('%'))return'b-intercepted';
+    return'b-milestone';
+  };
+
+  // Collect recent events from each dataset
+  const events=[];
+
+  // USV — last 3
+  USV_DATA.slice(-3).forEach(r=>events.push({
+    date:r.date,tab:'usv',
+    text:r.target+(r.type?' · '+r.type:''),
+    badge:r.damage||'Event'
+  }));
+
+  // UGV — last 3
+  UGV_DATA.slice(-3).forEach(r=>events.push({
+    date:r.date,tab:'ugv',
+    text:(r.side?r.side+' · ':'')+r.system+(r.loc?' · '+r.loc:''),
+    badge:r.outcome||'Event'
+  }));
+
+  // Air Defence — last 4 (most recent, sorted desc)
+  if(AIRDEF_DATA.length){
+    const recent=[...AIRDEF_DATA].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4);
+    recent.forEach(r=>{
+      const launched=parseInt(r.launched)||0;
+      const destroyed=parseInt(r.destroyed)||0;
+      const rate=launched>0?Math.round(destroyed/launched*100):0;
+      events.push({
+        date:r.date,tab:'air',
+        text:r.model+(launched?' · '+launched+' launched':''),
+        badge:rate+'% intercepted'
+      });
+    });
+  }
+
+  // Sort all by date desc, take top 6
+  events.sort((a,b)=>b.date.localeCompare(a.date));
+  const top=events.slice(0,6);
+
+  if(!top.length){feed.innerHTML='<div class="intro-event"><div class="intro-event-text" style="color:var(--text3);padding:14px">No events loaded</div></div>';return;}
+
+  feed.innerHTML=top.map(e=>`
+    <div class="intro-event">
+      <div class="intro-event-meta">
+        <div class="intro-event-date">${e.date||'—'}</div>
+        <span class="intro-event-cat ${catClass(e.tab)}">${catLabel(e.tab)}</span>
+      </div>
+      <div>
+        <div class="intro-event-text">${e.text||'—'}</div>
+        <span class="intro-event-badge ${badgeClass(e.badge)}">${e.badge||''}</span>
+      </div>
+    </div>`).join('');
+
+  // Update header timestamp
+  const upd=document.getElementById('events-updated');
+  if(upd)upd.textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+}
+
 async function loadAll() {
   const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
     fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence'),
@@ -1040,6 +1144,7 @@ async function loadAll() {
     if(elRate)elRate.textContent=adRate+'%';
     // Render tab content
     try{renderAirDef();buildAirDefChart();}catch(e){console.error('airdef render:',e);}
+    buildEventsFeed(); // rebuild with air defence events now available
   }
   
   
@@ -1050,6 +1155,7 @@ async function loadAll() {
   document.getElementById('intro-date').textContent=d;
 
   renderUSV(); renderUGV(); renderKillBoard();
+  buildEventsFeed();
 
   // UAV renders after a short delay to ensure data is fully assigned
   // This prevents a race condition where renderUAV fires before uavRaw resolves
