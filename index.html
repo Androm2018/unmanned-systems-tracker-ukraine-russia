@@ -176,7 +176,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
 
 /* ── INTRO PAGE CARDS ── */
-.intro-pages{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
+.intro-pages{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
 .intro-page-card{background:var(--bg2);padding:22px 24px;cursor:pointer;transition:background 0.18s;position:relative}
 .intro-page-card:hover{background:var(--bg3)}
 .intro-page-card.full-width{grid-column:1/-1}
@@ -184,7 +184,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ipc-icon{font-size:1.3rem;flex-shrink:0}
 .ipc-title{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
 .ipc-count{font-family:var(--mono);font-size:0.58rem;color:var(--accent3);margin-left:auto;border:1px solid var(--border);padding:2px 7px;white-space:nowrap}
-.ipc-desc{font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65;margin-bottom:10px}
+.ipc-desc{font-family:var(--body);font-size:0.7rem;color:var(--text2);line-height:1.65;margin-bottom:10px}
 .ipc-columns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .ipc-col-label{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .ipc-col-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.55}
@@ -269,7 +269,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .uav-num-damaged{color:var(--amber)}
 .uav-num-destroyed{color:var(--accent3)}
 @media(max-width:1100px){
-  .intro-pages{grid-template-columns:1fr 1fr 1fr}
+  .intro-pages{grid-template-columns:repeat(3,1fr)}
   .sources-grid{grid-template-columns:repeat(2,1fr)}
 }
 
@@ -279,7 +279,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   main{padding:16px 14px}
   .logo-text p,.header-right{display:none}
   input[type="text"]{width:120px}
-  .stat-rows,.intro-pages{grid-template-columns:1fr}
+  .stat-rows,.intro-pages{grid-template-columns:repeat(2,1fr)}
   .ipc-columns{grid-template-columns:1fr}
   .intro-stats{flex-direction:column}
   .intro-stat{border-right:none;border-bottom:1px solid var(--border)}
@@ -312,7 +312,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .intro-lead{font-size:0.85rem}
   .intro-stats{flex-direction:column}
   .intro-stat{border-right:none;border-bottom:1px solid var(--border);padding:14px 16px}
-  .intro-pages{grid-template-columns:1fr}
+  .intro-pages{grid-template-columns:repeat(2,1fr)}
   .ipc-columns{grid-template-columns:1fr}
   /* Controls: wrap filters vertically */
   .controls{flex-direction:column;align-items:flex-start;gap:8px}
@@ -432,7 +432,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-title">USV Strikes</span>
         <span class="ipc-count" id="ic-usv">— EVENTS</span>
       </div>
-      <p class="ipc-desc">A chronological log of confirmed and claimed Ukrainian Unmanned Surface Vehicle (USV) operations against Russian naval assets, infrastructure, and shadow fleet shipping — primarily in the Black Sea and its approaches.</p>
+      <p class="ipc-desc">Confirmed Ukrainian USV operations against Russian naval assets in the Black Sea. Sinkings, damage, and disruption events.</p>
       <div class="ipc-columns">
         <div>
           <div class="ipc-col-label">Platforms covered</div>
@@ -450,7 +450,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-tag">First jet downed by maritime drone</span>
         <span class="ipc-tag">First UUV submarine strike</span>
       </div>
-      <div class="ipc-nav-hint">→ Open USV Strikes tab</div>
+      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('ugv')">
@@ -459,7 +459,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-title">UGV Operations</span>
         <span class="ipc-count" id="ic-ugv">— EVENTS</span>
       </div>
-      <p class="ipc-desc">Combat and operational events involving Unmanned Ground Vehicles from <strong>both Ukrainian and Russian forces</strong>. Covers the rapid rise of UGVs from experimental to doctrine-level deployment between 2023 and 2025.</p>
+      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to doctrine-level operations.</p>
       <div class="ipc-columns">
         <div>
           <div class="ipc-col-label">Ukrainian platforms</div>
@@ -478,7 +478,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-tag">Captured POW</span>
         <span class="ipc-tag">Operational milestone</span>
       </div>
-      <div class="ipc-nav-hint">→ Open UGV Operations tab</div>
+      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('uav')">
@@ -487,7 +487,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-title">UAV Strikes</span>
         <span class="ipc-count">- Events</span>
       </div>
-      <p class="ipc-desc">Individual confirmed Ukrainian UAV strike events resulting in equipment kills — tanks, armoured vehicles, artillery, air defence systems, and personnel. Data is compiled from Ukrainian military releases and OSINT-verified footage.</p>
+      <p class="ipc-desc">Official USF Pidrakhuyka UAV kill data by target category. 2025 annual totals, updated quarterly.</p>
       <div class="ipc-columns">
         <div>
           <div class="ipc-col-label">Target categories</div>
@@ -501,7 +501,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div style="margin-top:12px" class="disclaimer" style="margin:0;padding:10px 12px">
         <b>⚠:</b> Data collection is reliant on HUR/ZSU updates and it manually updated every quarter.
       </div>
-      <div class="ipc-nav-hint">→ Open UAV Strikes tab</div>
+      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('rl')">
@@ -510,7 +510,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-title">Russian Losses</span>
         <span class="ipc-count">6 METRICS</span>
       </div>
-      <p class="ipc-desc">Aggregated estimates of Russian military equipment and personnel losses across the full conflict — from the most conservative photo-confirmed Oryx figures to wider intelligence assessments from DIA, SACEUR, and UK MoD.</p>
+      <p class="ipc-desc">Russian equipment and personnel losses. KIA via Mediazona/BBC. Equipment from Oryx, DIA and CSIS.</p>
       <div class="ipc-columns">
         <div>
           <div class="ipc-col-label">KIA methodology</div>
@@ -521,15 +521,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
           <div class="ipc-col-text">Oryx photo-confirmed figures used for equipment where available. US DIA and CSIS used for broader estimates. Oryx ceased updating in 2025.</div>
         </div>
       </div>
-      <div class="ipc-nav-hint">→ Open Russian Losses tab</div>
+      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('airdef')">
         <div class="ipc-icon">🛡</div>
         <div>
           <span class="ipc-title">Air Defence Log</span>
-          <p class="ipc-desc">Russian drone and missile strikes on Ukraine, intercept rates by weapon type, and volume escalation since October 2022. Data sourced from the Ukrainian Air Force via Petro Ivaniuk's verified dataset.</p>
-          <div class="ipc-nav-hint">→ Open Air Defence tab</div>
+          <p class="ipc-desc">Russian drone and missile strikes with intercept rates by weapon type. Ukrainian Air Force data via Petro Ivaniuk.</p>
+          
         </div>
       </div>
     <div class="intro-page-card" onclick="showTabById('sources')">
@@ -538,8 +538,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="ipc-title">OSINT Sources & Support</span>
         <span class="ipc-count">LINKS · TOOLS · DONATE</span>
       </div>
-      <p class="ipc-desc">A curated directory of the primary OSINT sources, tracking projects, and analytical tools used to compile this database — plus a direct link to support Ukraine via the United24 official fundraising platform. This tracker is only as good as its sources; we encourage you to engage with the primary data directly.</p>
-      <div class="ipc-nav-hint">→ Open Sources & Support tab</div>
+      <p class="ipc-desc">Primary OSINT sources, analytical tools, and recommended reading. Plus a direct link to support Ukraine via United24.</p>
+      
     </div>
 
   </div>
@@ -1078,7 +1078,9 @@ let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
 async function fetchTab(tab) {
   if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
   try{
-    const res=await fetch(`${SCRIPT_URL}?tab=${tab}&t=${Date.now()}`);
+    const [tabName, extra] = tab.split('&');
+    const extraParams = extra ? '&' + extra : '';
+    const res=await fetch(`${SCRIPT_URL}?tab=${tabName}${extraParams}&t=${Date.now()}`);
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const json=await res.json();
     if(!json.ok)throw new Error(json.error);
@@ -1090,7 +1092,7 @@ let AIRDEF_DATA=[];
 
 async function loadAll() {
   const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
-    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence'),
+    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence&limit=90'),
   ]);
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
