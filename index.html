@@ -177,14 +177,14 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 /* ── INTRO PAGE CARDS ── */
 .intro-pages{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
-.intro-page-card{background:var(--bg2);padding:22px 24px;cursor:pointer;transition:background 0.18s;position:relative}
+.intro-page-card{background:var(--bg2);padding:14px 16px;cursor:pointer;transition:background 0.18s;position:relative;display:flex;flex-direction:column;gap:6px}
 .intro-page-card:hover{background:var(--bg3)}
 .intro-page-card.full-width{grid-column:1/-1}
-.ipc-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ipc-icon{font-size:1.3rem;flex-shrink:0}
-.ipc-title{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
+.ipc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ipc-icon{font-size:1.1rem;flex-shrink:0}
+.ipc-title{font-family:var(--head);font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
 .ipc-count{font-family:var(--mono);font-size:0.58rem;color:var(--accent3);margin-left:auto;border:1px solid var(--border);padding:2px 7px;white-space:nowrap}
-.ipc-desc{font-family:var(--body);font-size:0.7rem;color:var(--text2);line-height:1.65;margin-bottom:10px}
+.ipc-desc{font-family:var(--body);font-size:0.68rem;color:var(--text2);line-height:1.55;margin:0}
 .ipc-columns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .ipc-col-label{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .ipc-col-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.55}
@@ -416,7 +416,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-stat"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div></div>
     <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Strikes</div><div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:4px">* as of 25/03/2026</div></div>
     <div class="intro-stat"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div></div>
-    <div class="intro-stat"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div></div>
+    <div class="intro-stat"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div><div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:4px" id="is-ad-date"></div></div>
     <div class="intro-stat"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div></div>
     <div class="intro-stat"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div></div>
   </div>
@@ -427,119 +427,33 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="intro-pages">
 
     <div class="intro-page-card" onclick="showTabById('usv')">
-      <div class="ipc-header">
-        <span class="ipc-icon">🛥</span>
-        <span class="ipc-title">USV Strikes</span>
-        <span class="ipc-count" id="ic-usv">— EVENTS</span>
-      </div>
+      <div class="ipc-header"><span class="ipc-icon">🛥</span><span class="ipc-title">USV Strikes</span></div>
       <p class="ipc-desc">Confirmed Ukrainian USV operations against Russian naval assets in the Black Sea. Sinkings, damage, and disruption events.</p>
-      <div class="ipc-columns">
-        <div>
-          <div class="ipc-col-label">Platforms covered</div>
-          <div class="ipc-col-text">Sea Baby (SBU) · MAGURA V5/V7 (HUR) · Sub Sea Baby (UUV) · Unknown/early-war USVs</div>
-        </div>
-        <div>
-          <div class="ipc-col-label">Damage taxonomy</div>
-          <div class="ipc-col-text">Sunk · Damaged · Destroyed · Shot Down · Disrupted — applied consistently across all entries</div>
-        </div>
-      </div>
-      <div class="ipc-col-label" style="margin-top:10px">Notable entries include</div>
-      <div style="margin-top:5px">
-        <span class="ipc-tag">Crimean Bridge ×3</span>
-        <span class="ipc-tag">BSF forced to Novorossiysk</span>
-        <span class="ipc-tag">First jet downed by maritime drone</span>
-        <span class="ipc-tag">First UUV submarine strike</span>
-      </div>
-      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('ugv')">
-      <div class="ipc-header">
-        <span class="ipc-icon">🤖</span>
-        <span class="ipc-title">UGV Operations</span>
-        <span class="ipc-count" id="ic-ugv">— EVENTS</span>
-      </div>
+      <div class="ipc-header"><span class="ipc-icon">🤖</span><span class="ipc-title">UGV Operations</span></div>
       <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to doctrine-level operations.</p>
-      <div class="ipc-columns">
-        <div>
-          <div class="ipc-col-label">Ukrainian platforms</div>
-          <div class="ipc-col-text">Ratel S · Ratel H · Lyut (Fury) · TerMIT · Droid TW (AI) · D-21-12R · Rys Pro</div>
-        </div>
-        <div>
-          <div class="ipc-col-label">Russian platforms</div>
-          <div class="ipc-col-text">Kur'yer (Courier) · Platforma-M · Scorpion-M — mostly volunteer-developed, limited effectiveness</div>
-        </div>
-      </div>
-      <div class="ipc-col-label" style="margin-top:10px">Outcome categories</div>
-      <div style="margin-top:5px">
-        <span class="ipc-tag">Destroyed target</span>
-        <span class="ipc-tag">Damaged target</span>
-        <span class="ipc-tag">UGV lost</span>
-        <span class="ipc-tag">Captured POW</span>
-        <span class="ipc-tag">Operational milestone</span>
-      </div>
-      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('uav')">
-      <div class="ipc-header">
-        <span class="ipc-icon">✈</span>
-        <span class="ipc-title">UAV Strikes</span>
-        <span class="ipc-count">- Events</span>
-      </div>
+      <div class="ipc-header"><span class="ipc-icon">✈</span><span class="ipc-title">UAV Strikes</span></div>
       <p class="ipc-desc">Official USF Pidrakhuyka UAV kill data by target category. 2025 annual totals, updated quarterly.</p>
-      <div class="ipc-columns">
-        <div>
-          <div class="ipc-col-label">Target categories</div>
-          <div class="ipc-col-text">Tank / AFV · Artillery · Air defence · Logistics · Personnel · Aircraft (when verifiable)</div>
-        </div>
-        <div>
-          <div class="ipc-col-label">Verification standard</div>
-          <div class="ipc-col-text">Entries require video confirmation or official HUR/ZSU release. Unverified claims excluded.</div>
-        </div>
-      </div>
-      <div style="margin-top:12px" class="disclaimer" style="margin:0;padding:10px 12px">
-        <b>⚠:</b> Data collection is reliant on HUR/ZSU updates and it manually updated every quarter.
-      </div>
-      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('rl')">
-      <div class="ipc-header">
-        <span class="ipc-icon">💀</span>
-        <span class="ipc-title">Russian Losses</span>
-        <span class="ipc-count">6 METRICS</span>
-      </div>
+      <div class="ipc-header"><span class="ipc-icon">💀</span><span class="ipc-title">Russian Losses</span></div>
       <p class="ipc-desc">Russian equipment and personnel losses. KIA via Mediazona/BBC. Equipment from Oryx, DIA and CSIS.</p>
-      <div class="ipc-columns">
-        <div>
-          <div class="ipc-col-label">KIA methodology</div>
-          <div class="ipc-col-text">Personnel killed figures use <strong>Mediazona/BBC confirmed-by-name lists</strong> (200,186+ as of Feb 2026) as the baseline, supplemented by Meduza/Mediazona's probate registry statistical estimate (~220,000 by Aug 2025).</div>
-        </div>
-        <div>
-          <div class="ipc-col-label">Equipment losses</div>
-          <div class="ipc-col-text">Oryx photo-confirmed figures used for equipment where available. US DIA and CSIS used for broader estimates. Oryx ceased updating in 2025.</div>
-        </div>
-      </div>
-      
     </div>
 
     <div class="intro-page-card" onclick="showTabById('airdef')">
-        <div class="ipc-icon">🛡</div>
-        <div>
-          <span class="ipc-title">Air Defence Log</span>
-          <p class="ipc-desc">Russian drone and missile strikes with intercept rates by weapon type. Ukrainian Air Force data via Petro Ivaniuk.</p>
-          
-        </div>
-      </div>
+      <div class="ipc-header"><span class="ipc-icon">🛡</span><span class="ipc-title">Air Defence Log</span></div>
+      <p class="ipc-desc">Russian drone and missile strikes with intercept rates by weapon type. Ukrainian Air Force data via Petro Ivaniuk.</p>
+    </div>
+
     <div class="intro-page-card" onclick="showTabById('sources')">
-      <div class="ipc-header">
-        <span class="ipc-icon">🔗</span>
-        <span class="ipc-title">OSINT Sources & Support</span>
-        <span class="ipc-count">LINKS · TOOLS · DONATE</span>
-      </div>
+      <div class="ipc-header"><span class="ipc-icon">🔗</span><span class="ipc-title">Sources & Support</span></div>
       <p class="ipc-desc">Primary OSINT sources, analytical tools, and recommended reading. Plus a direct link to support Ukraine via United24.</p>
-      
     </div>
 
   </div>
@@ -740,30 +654,21 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ad-weapon-col" id="airdef-col-right"></div>
   </div>
 
-  <!-- RECENT ATTACKS TABLE -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 10px">
-    <div class="kb-section-title" style="margin:0">RECENT ATTACK WAVES</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <span class="ctrl-label">Filter</span>
-      <input type="text" id="airdef-search" placeholder="weapon type, date…" oninput="renderAirDef()" style="width:180px">
-      <span class="result-count">Showing <b id="airdef-rc">—</b> waves</span>
-    </div>
-  </div>
+  <!-- MONTHLY SUMMARY TABLE -->
+  <div class="kb-section-title">MONTHLY SUMMARY — ALL ATTACK TYPES COMBINED</div>
   <div class="table-wrap">
     <table>
-      <colgroup><col style="width:10%"><col style="width:22%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:24%"></colgroup>
+      <colgroup><col style="width:14%"><col style="width:16%"><col style="width:16%"><col style="width:14%"><col style="width:12%"><col style="width:28%"></colgroup>
       <thead><tr>
-        <th onclick="sortAirDef(0)">Date ↕</th>
-        <th>Weapon / Type</th>
-        <th onclick="sortAirDef(2)">Launched ↕</th>
-        <th onclick="sortAirDef(3)">Intercepted ↕</th>
-        <th>Got Through</th>
+        <th onclick="sortAirDef(0)">Month ↕</th>
+        <th onclick="sortAirDef(1)">Total Launched ↕</th>
+        <th onclick="sortAirDef(2)">Intercepted ↕</th>
+        <th onclick="sortAirDef(3)">Got Through ↕</th>
         <th>Rate</th>
-        <th>Notes</th>
+        <th>Top Weapon</th>
       </tr></thead>
-      <tbody id="airdef-body"><tr><td colspan="7"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
+      <tbody id="airdef-body"><tr><td colspan="6"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
     </table>
-    <div id="airdef-nores" class="no-results" style="display:none">// NO RESULTS MATCHING FILTERS //</div>
   </div>
 </div>
 
@@ -865,7 +770,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <p class="source-card-desc">Ukrainian data scientist maintaining the most comprehensive structured dataset of Russian drone and missile attacks on Ukraine, compiled daily from official Ukrainian Air Force reports. Verified by CSIS as matching official figures. Covers every attack wave from October 2022 to present — the primary data source for the Air Defence tab on this tracker.</p>
       <a href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener" class="source-card-link">github.com/PetroIvaniuk ↗</a>
     </div>
-  </div>
 
   <!-- GROUND WARFARE / UGV -->
   <div class="kb-section-title">GROUND WARFARE & UGV ANALYSIS</div>
@@ -1057,6 +961,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
 </div>
+</div>
 
 </main>
 
@@ -1134,6 +1039,14 @@ async function loadAll() {
     if(elTotal)elTotal.textContent=fmtIntro(adTotal);
     if(elInt)elInt.textContent=fmtIntro(adIntercepted);
     if(elRate)elRate.textContent=adRate+'%';
+    // Most recent date in the dataset
+    const dates=AIRDEF_DATA.map(r=>r.date).filter(Boolean).sort();
+    const latestDate=dates[dates.length-1];
+    const elDate=document.getElementById('is-ad-date');
+    if(elDate&&latestDate){
+      const d=new Date(latestDate);
+      elDate.textContent='* as of '+d.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
+    }
   }
   
   
@@ -1547,31 +1460,13 @@ function rateClass(pct){
 
 function renderAirDef(){
   const s=(document.getElementById('airdef-search')||{}).value?.toLowerCase()||'';
-  let rows=AIRDEF_DATA.filter(r=>{
-    if(s&&![r.model,r.type,r.date,r.notes].join(' ').toLowerCase().includes(s))return false;
-    return true;
-  });
 
-  // Sort
-  const keys=['date','model','launched','destroyed'];
-  rows.sort((a,b)=>{
-    const va=a[keys[airDefSort.col]]||'',vb=b[keys[airDefSort.col]]||'';
-    const na=parseFloat(va),nb=parseFloat(vb);
-    if(!isNaN(na)&&!isNaN(nb))return airDefSort.asc?na-nb:nb-na;
-    return airDefSort.asc?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
-  });
-
-  document.getElementById('airdef-rc').textContent=rows.length;
-  const body=document.getElementById('airdef-body');
-  const nores=document.getElementById('airdef-nores');
-
-  // Populate stat strip from full dataset
-  const totalLaunched=AIRDEF_DATA.reduce((s,r)=>s+(parseInt(r.launched)||0),0);
-  const totalDestroyed=AIRDEF_DATA.reduce((s,r)=>s+(parseInt(r.destroyed)||0),0);
+  // ── Stat strip from full dataset ─────────────────────────────────
+  const totalLaunched=AIRDEF_DATA.reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
+  const totalDestroyed=AIRDEF_DATA.reduce((a,r)=>a+(parseFloat(r.destroyed)||0),0);
   const gotThrough=totalLaunched-totalDestroyed;
   const overallRate=totalLaunched>0?Math.round(totalDestroyed/totalLaunched*100):0;
-  const largest=Math.max(...AIRDEF_DATA.map(r=>parseInt(r.launched)||0));
-
+  const largest=Math.max(...AIRDEF_DATA.map(r=>parseFloat(r.launched)||0));
   const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   setVal('ads-total-launched',fmtBig(totalLaunched));
   setVal('ads-total-destroyed',fmtBig(totalDestroyed));
@@ -1580,18 +1475,18 @@ function renderAirDef(){
   setVal('ads-attack-days',fmtBig(AIRDEF_DATA.length));
   setVal('ads-largest',fmtBig(largest));
 
-  // Weapon type breakdown
+  // ── Weapon type breakdown ────────────────────────────────────────
   const byType={};
   AIRDEF_DATA.forEach(r=>{
     const t=r.model||r.type||'Unknown';
     if(!byType[t])byType[t]={launched:0,destroyed:0};
-    byType[t].launched+=(parseInt(r.launched)||0);
-    byType[t].destroyed+=(parseInt(r.destroyed)||0);
+    byType[t].launched+=(parseFloat(r.launched)||0);
+    byType[t].destroyed+=(parseFloat(r.destroyed)||0);
   });
   const typeArr=Object.entries(byType)
-    .map(([name,d])=>({name,launched:d.launched,destroyed:d.destroyed,rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0}))
+    .map(([name,d])=>({name,launched:d.launched,destroyed:d.destroyed,
+      rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0}))
     .sort((a,b)=>b.launched-a.launched);
-
   const maxL=typeArr[0]?.launched||1;
   const weapHeader=`<div class="ad-weapon-header"><span style="flex:1">Weapon / Type</span><span style="width:70px;text-align:right">Launched</span><span style="width:70px;text-align:right">Intercepted</span><span style="width:56px;text-align:right">Rate</span></div>`;
   const buildWeapRows=arr=>arr.map(t=>`
@@ -1604,30 +1499,54 @@ function renderAirDef(){
       <span class="ad-weapon-num" style="color:var(--accent3)">${fmtBig(t.destroyed)}</span>
       <span class="ad-rate-badge ${rateClass(t.rate)}" style="width:40px;text-align:center">${t.rate}%</span>
     </div>`).join('');
-
   const mid=Math.ceil(typeArr.length/2);
   document.getElementById('airdef-col-left').innerHTML=weapHeader+buildWeapRows(typeArr.slice(0,mid));
   document.getElementById('airdef-col-right').innerHTML=weapHeader+buildWeapRows(typeArr.slice(mid));
 
-  if(!rows.length){body.innerHTML='';nores.style.display='block';return;}
+  // ── Build monthly summary ────────────────────────────────────────
+  const monthly={};
+  AIRDEF_DATA.forEach(r=>{
+    if(!r.date||r.date.length<7)return;
+    const ym=r.date.slice(0,7);
+    if(!monthly[ym])monthly[ym]={launched:0,destroyed:0,waves:0};
+    monthly[ym].launched+=(parseFloat(r.launched)||0);
+    monthly[ym].destroyed+=(parseFloat(r.destroyed)||0);
+    monthly[ym].waves+=1;
+  });
+
+  let months=Object.entries(monthly)
+    .map(([ym,d])=>({
+      ym,
+      label:new Date(ym+'-02').toLocaleDateString('en-GB',{month:'long',year:'numeric'}),
+      launched:Math.round(d.launched),
+      destroyed:Math.round(d.destroyed),
+      through:Math.round(d.launched-d.destroyed),
+      rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0,
+      waves:d.waves
+    }))
+    .sort((a,b)=>b.ym.localeCompare(a.ym));
+
+  if(s) months=months.filter(m=>
+    m.label.toLowerCase().includes(s)||m.ym.includes(s));
+
+  document.getElementById('airdef-rc').textContent=months.length;
+  const body=document.getElementById('airdef-body');
+  const nores=document.getElementById('airdef-nores');
+  if(!months.length){body.innerHTML='';nores.style.display='block';return;}
   nores.style.display='none';
 
-  body.innerHTML=rows.slice(0,200).map((r,i)=>{
-    const launched=parseInt(r.launched)||0;
-    const destroyed=parseInt(r.destroyed)||0;
-    const through=launched-destroyed;
-    const rate=launched>0?Math.round(destroyed/launched*100):0;
-    return`<tr style="animation:fadeIn 0.2s ${Math.min(i,20)*0.02}s both">
-      <td class="cell-date">${r.date||'—'}</td>
-      <td class="cell-target" style="font-size:0.82rem">${r.model||r.type||'—'}</td>
-      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">${fmtBig(launched)}</td>
-      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--accent3)">${fmtBig(destroyed)}</td>
-      <td style="font-family:var(--mono);font-size:0.75rem;color:#e74c3c">${fmtBig(through)}</td>
-      <td><span class="ad-rate-badge ${rateClass(rate)}">${rate}%</span></td>
-      <td class="cell-notes">${r.notes||''}</td>
-    </tr>`;
-  }).join('');
+  body.innerHTML=months.map((m,i)=>`
+    <tr style="animation:fadeIn 0.2s ${Math.min(i,30)*0.015}s both">
+      <td class="cell-date" style="white-space:nowrap">${m.label}</td>
+      <td style="font-family:var(--mono);font-size:0.7rem;color:var(--text3)">${m.waves} waves</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">${fmtBig(m.launched)}</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--accent3)">${fmtBig(m.destroyed)}</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;color:#e74c3c">${fmtBig(m.through)}</td>
+      <td><span class="ad-rate-badge ${rateClass(m.rate)}">${m.rate}%</span></td>
+      <td class="cell-notes" style="font-size:0.65rem;color:var(--text3)">—</td>
+    </tr>`).join('');
 }
+
 
 function sortAirDef(c){airDefSort={col:c,asc:airDefSort.col===c?!airDefSort.asc:true};renderAirDef();}
 
