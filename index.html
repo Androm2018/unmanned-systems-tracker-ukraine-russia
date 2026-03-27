@@ -210,14 +210,14 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
 
 /* ── OSINT SOURCES PAGE ── */
-.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.source-card{background:var(--bg2);border:1px solid var(--border);padding:12px 14px;transition:border-color 0.18s}
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
 .source-card:hover{border-color:var(--accent)}
-.source-card-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
-.source-card-icon{font-size:1.1rem;flex-shrink:0;line-height:1}
-.source-card-name{font-family:var(--head);font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1}
+.source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.source-card-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.source-card-name{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1}
 .source-card-type{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.08em;margin-top:3px;text-transform:uppercase}
-.source-card-desc{font-family:var(--body);font-size:0.71rem;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.source-card-desc{font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65;margin-bottom:12px}
 .source-card-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:all 0.15s;display:inline-block}
 .source-card-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-block{background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 50%,#0a1f12 100%);border:1px solid #2a6b3a;border-left:4px solid var(--accent3);padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
@@ -780,7 +780,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">📋</span>
         <div><div class="source-card-name">Mediazona</div><div class="source-card-type">Confirmed KIA · Named list</div></div>
       </div>
-      <p class="source-card-desc">Confirmed-by-name list of Russian soldiers killed, cross-checked against the National Probate Registry. The most rigorous publicly available KIA methodology — primary source for this tracker.</p>
+      <p class="source-card-desc">Independent Russian media outlet maintaining the most rigorous publicly available list of Russian soldiers killed — confirmed by name using obituaries, social media, and official sources. Cross-checked against the National Probate Registry. This tracker uses Mediazona/BBC as its primary KIA source.</p>
       <a href="https://en.zona.media/article/2022/05/11/casualties_eng" target="_blank" rel="noopener" class="source-card-link">en.zona.media ↗</a>
     </div>
     <div class="source-card">
@@ -788,7 +788,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">📊</span>
         <div><div class="source-card-name">Meduza</div><div class="source-card-type">Statistical KIA estimates</div></div>
       </div>
-      <p class="source-card-desc">Partners with Mediazona to produce statistical excess-mortality estimates of total Russian deaths beyond the confirmed-by-name count.</p>
+      <p class="source-card-desc">Independent Russian investigative outlet. Works with Mediazona to produce statistical estimates of total Russian deaths using probate registry excess mortality data — giving a broader picture beyond what's confirmed by name. Estimated ~220,000 killed by Aug 2025.</p>
       <a href="https://meduza.io/en" target="_blank" rel="noopener" class="source-card-link">meduza.io ↗</a>
     </div>
     <div class="source-card">
@@ -796,7 +796,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🔍</span>
         <div><div class="source-card-name">Oryx</div><div class="source-card-type">Photo-confirmed equipment losses</div></div>
       </div>
-      <p class="source-card-desc">Gold standard for equipment loss tracking — every entry individually photo-confirmed. Covers tanks, AFVs, aircraft and naval vessels. Ceased updating in 2025 but the historical record is essential.</p>
+      <p class="source-card-desc">The gold standard for equipment loss tracking — every entry in the Oryx database is individually photo or video confirmed. Tracks Russian and Ukrainian losses of tanks, AFVs, aircraft, and naval vessels. Ceased updating in 2025 but the historical record remains essential.</p>
       <a href="https://www.oryxspioenkop.com/2022/02/attack-on-europe-documenting-equipment.html" target="_blank" rel="noopener" class="source-card-link">oryxspioenkop.com ↗</a>
     </div>
   </div>
@@ -809,7 +809,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">⚓</span>
         <div><div class="source-card-name">Covert Shores</div><div class="source-card-type">USV / naval analysis · H.I. Sutton</div></div>
       </div>
-      <p class="source-card-desc">H.I. Sutton's definitive open-source analysis of every known USV variant — specifications, operational history, and imagery. Essential for platform identification.</p>
+      <p class="source-card-desc">The most detailed open-source technical analysis of Ukrainian and Russian USVs. H.I. Sutton documents every known drone boat variant with specifications, operational history, and imagery. Essential reference for USV platform identification and capabilities.</p>
       <a href="https://www.hisutton.com/Ukrainian-USVs-Russo-Ukraine-War.html" target="_blank" rel="noopener" class="source-card-link">hisutton.com ↗</a>
     </div>
     <div class="source-card">
@@ -817,7 +817,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">✈</span>
         <div><div class="source-card-name">The War Zone (TWZ)</div><div class="source-card-type">Defence reporting · OSINT synthesis</div></div>
       </div>
-      <p class="source-card-desc">Best English-language specialist defence reporting on USV and UGV developments. Well-sourced and sceptical — used as a secondary verification source throughout this tracker.</p>
+      <p class="source-card-desc">Consistently the best English-language specialist defence reporting on USV and UGV developments. Well-sourced, sceptical of unverified claims, and fast to cover new platform developments. Used extensively as a secondary verification source for this tracker.</p>
       <a href="https://www.twz.com/" target="_blank" rel="noopener" class="source-card-link">twz.com ↗</a>
     </div>
     <div class="source-card">
@@ -825,7 +825,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🇺🇦</span>
         <div><div class="source-card-name">Militarnyi</div><div class="source-card-type">Ukrainian defence · weapons &amp; systems</div></div>
       </div>
-      <p class="source-card-desc">Ukrainian defence publication with strong English coverage. Valuable for early reporting on new drone and UGV developments, often sourced directly from manufacturers and the Ministry of Defence.</p>
+      <p class="source-card-desc">Ukrainian-language defence publication with strong English coverage of weapons systems, unmanned platforms and battlefield technology. Particularly valuable for early reporting on new Ukrainian drone and UGV developments, often sourced directly from manufacturers and the Ministry of Defence.</p>
       <a href="https://militarnyi.com/en/" target="_blank" rel="noopener" class="source-card-link">militarnyi.com ↗</a>
     </div>
   </div>
@@ -835,7 +835,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">📊</span>
         <div><div class="source-card-name">Petro Ivaniuk Dataset</div><div class="source-card-type">Air defence data · Kaggle / GitHub</div></div>
       </div>
-      <p class="source-card-desc">Structured daily dataset of Russian drone and missile attacks compiled from official Ukrainian Air Force reports. Verified by CSIS. Covers Oct 2022 to present — primary data source for the Air Defence tab.</p>
+      <p class="source-card-desc">Ukrainian data scientist maintaining the most comprehensive structured dataset of Russian drone and missile attacks on Ukraine, compiled daily from official Ukrainian Air Force reports. Verified by CSIS as matching official figures. Covers every attack wave from October 2022 to present — the primary data source for the Air Defence tab on this tracker.</p>
       <a href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener" class="source-card-link">github.com/PetroIvaniuk ↗</a>
     </div>
     <div class="source-card">
@@ -843,7 +843,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🎯</span>
         <div><div class="source-card-name">Tochnyi</div><div class="source-card-type">Strike analysis · Air defence attrition research</div></div>
       </div>
-      <p class="source-card-desc">Ukrainian OSINT research publication. Their March 2026 investigation into Ukraine's campaign against Russian SAM and radar networks is the primary source for the Air Defence Attrition section in this tracker.</p>
+      <p class="source-card-desc">Ukrainian open-source research publication producing detailed long-form analysis of Ukraine's strike campaigns against Russian military assets. Primary source for the Air Defence Attrition section in this tracker — their March 2026 investigation documents Ukraine's systematic campaign against Russian SAM systems and radar networks across Crimea and occupied territories from 2025 onwards.</p>
       <a href="https://tochnyi.info" target="_blank" rel="noopener" class="source-card-link">tochnyi.info ↗</a>
     </div>
 
@@ -855,7 +855,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🔬</span>
         <div><div class="source-card-name">Jamestown Foundation</div><div class="source-card-type">UGV analysis · Eurasia security</div></div>
       </div>
-      <p class="source-card-desc">Publishes rigorous analysis of UGV developments, including the landmark piece on Ukraine as a world leader in unmanned ground vehicles. Good for doctrine-level context.</p>
+      <p class="source-card-desc">Publishes rigorous analytical pieces on Ukrainian and Russian UGV developments, including the landmark piece on Ukraine's emergence as a world leader in unmanned ground vehicles. Good source for doctrine-level analysis beyond individual incidents.</p>
       <a href="https://jamestown.org/ukraine-becomes-world-leader-in-unmanned-ground-vehicles/" target="_blank" rel="noopener" class="source-card-link">jamestown.org ↗</a>
     </div>
     <div class="source-card">
@@ -863,7 +863,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🏛</span>
         <div><div class="source-card-name">Modern War Institute (West Point)</div><div class="source-card-type">Academic · operational analysis</div></div>
       </div>
-      <p class="source-card-desc">West Point's practitioner-level analysis on UGV employment in Ukraine, covering networked robot operations and lessons for Western militaries.</p>
+      <p class="source-card-desc">West Point's MWI publishes practitioner-level analysis on UGV employment in Ukraine, including detailed pieces on networked ground robot operations and lessons for Western militaries. Peer-reviewed and operationally grounded.</p>
       <a href="https://mwi.westpoint.edu/networked-for-war-lessons-from-ukraines-ground-robots/" target="_blank" rel="noopener" class="source-card-link">mwi.westpoint.edu ↗</a>
     </div>
     <div class="source-card">
@@ -871,7 +871,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🇺🇦</span>
         <div><div class="source-card-name">Kyiv Independent</div><div class="source-card-type">Ukrainian news · frontline reporting</div></div>
       </div>
-      <p class="source-card-desc">Leading English-language Ukrainian outlet. Close military access makes it particularly useful for first-disclosure reporting on new drone and UGV systems.</p>
+      <p class="source-card-desc">Leading English-language Ukrainian outlet with reliable frontline reporting on drone and UGV deployment. Close access to Ukrainian military sources makes it particularly useful for first-disclosure reporting on new systems and operations.</p>
       <a href="https://kyivindependent.com" target="_blank" rel="noopener" class="source-card-link">kyivindependent.com ↗</a>
     </div>
     <div class="source-card">
@@ -879,7 +879,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🏛</span>
         <div><div class="source-card-name">CSIS — Futures Lab</div><div class="source-card-type">Strategic analysis · equipment data</div></div>
       </div>
-      <p class="source-card-desc">Publishes quantitative analysis of Russian equipment losses including the Russian Firepower Strike Tracker, which uses the Petro Ivaniuk dataset verified by CSIS.</p>
+      <p class="source-card-desc">Center for Strategic and International Studies publishes detailed quantitative analysis of Russian equipment losses and battlefield dynamics, including the Russian Firepower Strike Tracker and the landmark "Russia's Battlefield Woes" analysis (2025).</p>
       <a href="https://www.csis.org/analysis/russias-battlefield-woes-ukraine" target="_blank" rel="noopener" class="source-card-link">csis.org ↗</a>
     </div>
   </div>
@@ -892,7 +892,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">🗺</span>
         <div><div class="source-card-name">DeepState Map</div><div class="source-card-type">Live frontline · territorial control</div></div>
       </div>
-      <p class="source-card-desc">Real-time map of frontline positions and territorial control maintained by a Ukrainian team. Considered the most accurate live map of the conflict.</p>
+      <p class="source-card-desc">Real-time OSINT map of frontline positions and territorial control, maintained by a Ukrainian analytical team. Considered one of the most accurate live maps of the conflict. Updated continuously based on visual evidence and geolocated footage.</p>
       <a href="https://deepstatemap.live" target="_blank" rel="noopener" class="source-card-link">deepstatemap.live ↗</a>
     </div>
     <div class="source-card">
@@ -900,7 +900,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">📍</span>
         <div><div class="source-card-name">Geoconfirmed</div><div class="source-card-type">Geolocated OSINT incidents</div></div>
       </div>
-      <p class="source-card-desc">Crowdsourced OSINT initiative geolocating strikes, troop movements, and infrastructure damage. Each entry individually verified.</p>
+      <p class="source-card-desc">Crowdsourced OSINT initiative that geolocates conflict events — missile strikes, troop movements, infrastructure damage. Each entry is individually geolocated and verified. Good for cross-referencing specific incident locations.</p>
       <a href="https://geoconfirmed.azurewebsites.net" target="_blank" rel="noopener" class="source-card-link">geoconfirmed.azurewebsites.net ↗</a>
     </div>
     <div class="source-card">
@@ -908,23 +908,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">👁</span>
         <div><div class="source-card-name">Eyes on Russia</div><div class="source-card-type">Verified incidents · war crimes documentation</div></div>
       </div>
-      <p class="source-card-desc">Centre for Information Resilience project tracking and verifying attacks and incidents. Strong on civilian harm documentation and war crimes evidence.</p>
+      <p class="source-card-desc">Run by the Centre for Information Resilience with hundreds of volunteers. Tracks attacks and incidents, labelling each as verified or unverified. Particularly strong on human rights documentation and civilian harm but also covers military incidents.</p>
       <a href="https://eyesonrussia.org" target="_blank" rel="noopener" class="source-card-link">eyesonrussia.org ↗</a>
     </div>
     <div class="source-card">
       <div class="source-card-header">
         <span class="source-card-icon">📡</span>
-        <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🎯</span>
-        <div><div class="source-card-name">DroneBomber</div><div class="source-card-type">OSINT · UAV tracking · strike maps</div></div>
-      </div>
-      <p class="source-card-desc">Ukrainian OSINT channel tracking Ukrainian drone strike routes, real-time UAV maps, and strike analysis. Posts flight path reconstructions of Ukrainian strikes into Russia and summaries of campaign results. 35,000+ subscribers on Telegram.</p>
-      <a href="https://t.me/dronbomber" target="_blank" rel="noopener" class="source-card-link">t.me/dronbomber ↗</a>
-    </div>
         <div><div class="source-card-name">Institute for the Study of War (ISW)</div><div class="source-card-type">Daily operational updates</div></div>
       </div>
-      <p class="source-card-desc">Daily battlefield updates with map assessments. Widely cited by Western governments. Useful for operational context — cross-reference with other sources.</p>
+      <p class="source-card-desc">Publishes daily updates on battlefield developments with map assessments. Widely cited by Western governments and media. Useful for operational context and frontline movement analysis, though assessments should be cross-referenced with other sources.</p>
       <a href="https://www.understandingwar.org/backgrounder/ukraine-conflict-updates" target="_blank" rel="noopener" class="source-card-link">understandingwar.org ↗</a>
     </div>
   </div>
@@ -944,7 +936,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
           <div class="source-card-type">Eliot Higgins · 2021</div>
         </div>
       </div>
-      <p class="source-card-desc">How Eliot Higgins built Bellingcat into the world's most influential OSINT unit. Essential reading for anyone using this tracker.</p>
+      <p class="source-card-desc">The story of how a school dropout built the world's most influential open-source intelligence unit — and how citizen journalists are redefining the way we think about news, accountability, and the digital future. Essential reading for anyone using this tracker.</p>
       <a href="https://www.amazon.co.uk/We-Are-Bellingcat-Intelligence-Agency/dp/1526615754?tag=unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
     </div>
 
@@ -968,7 +960,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
           <div class="source-card-type">Jack Watling · RUSI · 2023</div>
         </div>
       </div>
-      <p class="source-card-desc">RUSI's authoritative analysis of how autonomous weapons and AI are reshaping warfare, informed by extensive work with Ukrainian forces.</p>
+      <p class="source-card-desc">By RUSI's Senior Research Fellow for Land Warfare, who has worked extensively with Ukrainian Armed Forces during Russia's invasion. An authoritative analysis of how autonomous weapons, AI and novel technologies are reshaping the battlefield — the closest thing to a field manual for understanding this tracker's subject matter.</p>
       <a href="https://www.amazon.co.uk/Arms-Future-Technology-Twenty-First-Perspectives/dp/1350352950?tag=unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
     </div>
 
@@ -980,7 +972,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
           <div class="source-card-type">Serhii Plokhy · 2023</div>
         </div>
       </div>
-      <p class="source-card-desc">The definitive history of the conflict by Harvard's foremost Ukraine scholar. Essential context for this tracker.</p>
+      <p class="source-card-desc">The definitive history of the conflict by Harvard's foremost Ukraine scholar. Traces the origins of the invasion from the collapse of the Russian empire to the present day — essential context for this tracker's data.</p>
       <a href="https://www.amazon.co.uk/Russo-Ukrainian-War-Return-History/dp/1802061789?tag=unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
     </div>
 
@@ -992,7 +984,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
           <div class="source-card-type">Luke Harding · 2022</div>
         </div>
       </div>
-      <p class="source-card-desc">The Guardian's award-winning correspondent's on-the-ground chronicle of Russia's invasion.</p>
+      <p class="source-card-desc">The first book of frontline reportage from the Ukraine war, by the Guardian's award-winning correspondent. A compelling, on-the-ground chronicle of Russia's invasion and Ukraine's fight for survival.</p>
       <a href="https://www.amazon.co.uk/Invasion-Russias-Bloody-Ukraines-Survival/dp/1783352779?tag=unmannedsyste-21" target="_blank" rel="noopener" class="source-card-link">Buy on Amazon UK ↗</a>
     </div>
 
