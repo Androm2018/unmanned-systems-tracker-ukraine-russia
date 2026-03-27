@@ -5,17 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ukraine War Unmanned Systems Tracker — USV, UGV &amp; UAV Data 2022–Present</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<meta name="description" content="Open-source OSINT database tracking confirmed USV strikes, UGV operations and UAV kill data in the Russian invasion of Ukraine. 2022–present. Fully sourced, updated regularly.">
-<meta property="og:title" content="Ukraine War Unmanned Systems Tracker">
-<meta property="og:description" content="Open-source OSINT database tracking confirmed USV strikes, UGV operations and UAV kill data in the Russian invasion of Ukraine. 2022–present.">
+<meta name="description" content="Open-source database of 3,500+ Russian drone and missile attacks on Ukraine, USV strikes against the Black Sea Fleet, UGV combat operations, and confirmed Russian equipment losses. Updated daily. Free to access.">
+<meta name="keywords" content="Ukraine war tracker, Russia Ukraine drone strikes, USV strikes Black Sea, UGV operations Ukraine, Russian losses, air defence Ukraine, OSINT Ukraine war, Shahed drone intercepts, unmanned systems Ukraine">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Unmanned Systems Tracker">
+<meta property="og:title" content="Ukraine War Unmanned Systems Tracker — USV, UGV &amp; Air Defence Data">
+<meta property="og:description" content="Open-source database of 3,500+ Russian aerial attacks, USV strikes, UGV operations and Russian losses. Free OSINT resource updated daily.">
 <meta property="og:url" content="https://unmannedsystemstracker.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://unmannedsystemstracker.com/preview.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="Unmanned Systems Tracker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ukraine War Unmanned Systems Tracker">
-<meta name="twitter:description" content="Open-source OSINT database tracking confirmed USV strikes, UGV operations and UAV kill data in the Russian invasion of Ukraine.">
+<meta name="twitter:title" content="Ukraine War Unmanned Systems Tracker — USV, UGV &amp; Air Defence Data">
+<meta name="twitter:description" content="Open-source database of 3,500+ Russian aerial attacks, USV strikes, UGV operations and Russian losses. Updated daily.">
 <meta name="twitter:image" content="https://unmannedsystemstracker.com/preview.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -358,6 +363,34 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7620877350113591" crossorigin="anonymous"></script>
+<link rel="canonical" href="https://unmannedsystemstracker.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dataset",
+      "name": "Ukraine War Unmanned Systems Tracker",
+      "description": "Open-source database tracking confirmed USV strikes, UGV combat operations, UAV kill data, Russian drone and missile attacks on Ukraine, and Russian military losses. Coverage from 2022 to present.",
+      "url": "https://unmannedsystemstracker.com",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "creator": {"@type": "Organization","name": "Unmanned Systems Tracker","url": "https://unmannedsystemstracker.com"},
+      "keywords": ["Ukraine war","unmanned systems","USV","UGV","drone strikes","Russian losses","OSINT","air defence"],
+      "temporalCoverage": "2022/",
+      "spatialCoverage": "Ukraine",
+      "isAccessibleForFree": true,
+      "measurementTechnique": "Open-source intelligence (OSINT), official Ukrainian military releases, verified reporting"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Unmanned Systems Tracker",
+      "url": "https://unmannedsystemstracker.com",
+      "description": "Open-source OSINT tracker for the Russia-Ukraine war — USV strikes, UGV operations, air defence data, and Russian losses.",
+      "inLanguage": "en-GB"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -504,7 +537,12 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="usv-year" onchange="renderUSV()"><option value="">All</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
     <span class="result-count">Showing <b id="usv-rc">—</b> events</span>
   </div>
-  <div class="table-wrap">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Russian Losses →</button>
+    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+  </div>
+<div class="table-wrap">
     <table>
       <colgroup><col style="width:9%"><col style="width:15%"><col style="width:11%"><col style="width:16%"><col style="width:12%"><col style="width:10%"><col style="width:19%"><col style="width:8%"></colgroup><thead><tr><th onclick="sortUSV(0)">Date ↕</th><th onclick="sortUSV(1)">Target ↕</th><th>Type</th><th onclick="sortUSV(3)">USV Model ↕</th><th>Location</th><th onclick="sortUSV(5)">Damage ↕</th><th>Notes</th><th>Source</th></tr></thead>
       <tbody id="usv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
@@ -531,7 +569,12 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="ugv-year" onchange="renderUGV()"><option value="">All</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
     <span class="result-count">Showing <b id="ugv-rc">—</b> events</span>
   </div>
-  <div class="table-wrap">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn" onclick="showTabById('usv')" style="font-size:0.6rem;padding:4px 10px">🛥 USV Strikes →</button>
+    <button class="btn" onclick="showTabById('uav')" style="font-size:0.6rem;padding:4px 10px">✈ UAV Kill Board →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+  </div>
+<div class="table-wrap">
     <table>
       <colgroup><col style="width:9%"><col style="width:15%"><col style="width:11%"><col style="width:16%"><col style="width:12%"><col style="width:10%"><col style="width:19%"><col style="width:8%"></colgroup><thead><tr><th onclick="sortUGV(0)">Date ↕</th><th onclick="sortUGV(1)">Side ↕</th><th onclick="sortUGV(2)">UGV System ↕</th><th>Operation / Target</th><th>Location</th><th onclick="sortUGV(5)">Outcome ↕</th><th>Notes</th><th>Source</th></tr></thead>
       <tbody id="ugv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
@@ -557,6 +600,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
   </div>
 
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
+    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Russian Losses →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+  </div>
   <!-- HEADLINE STAT STRIP -->
   <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px">
     <div class="uav-stat-cell" id="uav-s-damaged"><span class="uav-stat-val">—</span><span class="uav-stat-lbl">damaged targets</span></div>
@@ -594,6 +642,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="section-title">Russian <span>Losses</span></div>
       <div class="section-sub">CONFIRMED & ESTIMATED RUSSIAN MILITARY EQUIPMENT AND PERSONNEL LOSSES · FEBRUARY 2022 TO PRESENT · <span id="rl-indicator" style="color:var(--accent3)">—</span></div>
     </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
+    <button class="btn" onclick="showTabById('usv')" style="font-size:0.6rem;padding:4px 10px">🛥 USV Strikes →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
   </div>
   <div class="disclaimer">
     <b>⚠ DATA NOTICE:</b> Personnel killed figures use Mediazona/BBC News Russian confirmed-by-name methodology as the primary source — the most rigorous publicly available approach. Equipment losses use Oryx photo-confirmed figures where available, supplemented by DIA and CSIS estimates. All figures represent floors, not ceilings. Sources are cited individually for each metric. Oryx ceased updating equipment loss estimates in 2025.
@@ -695,6 +748,10 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="btn btn-accent" onclick="exportCSV('airdef')">⬇ EXPORT CSV</button>
   </div>
 
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Russian Losses →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+  </div>
   <div class="disclaimer" style="margin-bottom:18px">
     <b>DATA SOURCE:</b> Ukrainian Air Force official daily reports, compiled and verified by data scientist Petro Ivaniuk. Dataset verified by CSIS as matching official Ukrainian Air Force figures. Coverage from 27 September 2022 to present. Each row represents a single attack wave. · <a class="src-link" href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener">github.com/PetroIvaniuk ↗</a>
   </div>
@@ -1073,6 +1130,12 @@ let AIRDEF_DATA=[];
 
 
 async function loadAll() {
+  // ── Phase 1: render embedded fallback immediately ──
+  USV_DATA=EMBEDDED_USV; UGV_DATA=EMBEDDED_UGV; KB_DATA=EMBEDDED_KB;
+  renderUSV(); renderUGV(); renderKillBoard();
+  const iUsv=document.getElementById('is-usv'); if(iUsv)iUsv.textContent=USV_DATA.length;
+  const iUgv=document.getElementById('is-ugv'); if(iUgv)iUgv.textContent=UGV_DATA.length;
+  // ── Phase 2: fetch live data in background ──
   const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
     fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence'),
   ]);
