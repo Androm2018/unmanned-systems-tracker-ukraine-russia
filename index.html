@@ -73,11 +73,6 @@ nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.tab-progress{display:flex;gap:5px;align-items:center;justify-content:center;padding:4px 0 0;background:var(--bg3);border-bottom:1px solid var(--border2)}
-.tab-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background 0.3s,transform 0.2s;cursor:pointer;flex-shrink:0}
-.tab-dot.visited{background:var(--border)}
-.tab-dot.active{background:var(--accent3);transform:scale(1.4)}
-.tab-dot-label{font-family:var(--mono);font-size:0.45rem;color:var(--text3);letter-spacing:0.1em}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:12px;padding-left:20px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
 .share-btn{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.52rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
@@ -439,17 +434,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
-  <div class="tab-progress" id="tab-progress">
-    <span class="tab-dot-label">EXPLORED:</span>
-    <div class="tab-dot active" id="dot-intro" onclick="showTabById('intro')" title="Intro"></div>
-    <div class="tab-dot" id="dot-usv" onclick="showTabById('usv')" title="USV Strikes"></div>
-    <div class="tab-dot" id="dot-ugv" onclick="showTabById('ugv')" title="UGV Operations"></div>
-    <div class="tab-dot" id="dot-uav" onclick="showTabById('uav')" title="UAV Strikes"></div>
-    <div class="tab-dot" id="dot-rl" onclick="showTabById('rl')" title="Russian Losses"></div>
-    <div class="tab-dot" id="dot-airdef" onclick="showTabById('airdef')" title="Air Defence"></div>
-    <div class="tab-dot" id="dot-sources" onclick="showTabById('sources')" title="Sources"></div>
-    <span class="tab-dot-label" id="dot-count">1/7</span>
-  </div>
   <div class="header-right">
     <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
       <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -517,7 +501,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
 
     <div class="intro-page-card" onclick="showTabById('sources')">
-      <div class="ipc-header"><span class="ipc-icon">🔗</span><span class="ipc-title">Sources & Support</span></div>
+      <div class="ipc-header"><span class="ipc-icon">🔗</span><span class="ipc-title">Sources &amp; Support</span></div>
       <p class="ipc-desc">Primary OSINT sources, analytical tools, and recommended reading. Plus a direct link to support Ukraine via United24.</p>
     </div>
 
@@ -1266,23 +1250,11 @@ function sideBadge(s){
 // ═══════════════════════════════════════════════════════════
 //  TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
-const _visitedTabs=new Set(['intro']);
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  // Update progress dots
-  _visitedTabs.add(id);
-  document.querySelectorAll('.tab-dot').forEach(d=>d.classList.remove('active'));
-  _visitedTabs.forEach(t=>{
-    const dot=document.getElementById('dot-'+t);
-    if(dot)dot.classList.add('visited');
-  });
-  const activeDot=document.getElementById('dot-'+id);
-  if(activeDot)activeDot.classList.add('active');
-  const counter=document.getElementById('dot-count');
-  if(counter)counter.textContent=_visitedTabs.size+'/7';
 }
 function showTabById(id){
   const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
