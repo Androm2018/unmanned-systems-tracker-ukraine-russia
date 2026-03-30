@@ -73,7 +73,15 @@ nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
+.tab-progress{display:flex;gap:5px;align-items:center;justify-content:center;padding:4px 0 0;background:var(--bg3);border-bottom:1px solid var(--border2)}
+.tab-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background 0.3s,transform 0.2s;cursor:pointer;flex-shrink:0}
+.tab-dot.visited{background:var(--border)}
+.tab-dot.active{background:var(--accent3);transform:scale(1.4)}
+.tab-dot-label{font-family:var(--mono);font-size:0.45rem;color:var(--text3);letter-spacing:0.1em}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:12px;padding-left:20px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
+.share-btn{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.52rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
+.share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
+.share-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
@@ -172,7 +180,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
 .intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
 .intro-stats{display:flex;gap:0;border:1px solid var(--border);margin:18px 0;overflow:hidden}
-.intro-stat{flex:1;padding:14px 16px;border-right:1px solid var(--border);min-width:0}
+.intro-stat{flex:1;padding:14px 16px;border-right:1px solid var(--border);min-width:0;cursor:pointer;transition:background 0.15s,transform 0.1s}
+.intro-stat:hover{background:var(--glowb)}
+.intro-stat:active{transform:scale(0.98)}
+.intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
+.intro-stat:hover .intro-stat-hint{opacity:1;color:var(--accent3)}
 .intro-stat:last-child{border-right:none}
 .intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1}
 .intro-stat-val.g{color:var(--accent3)}
@@ -427,7 +439,26 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
+  <div class="tab-progress" id="tab-progress">
+    <span class="tab-dot-label">EXPLORED:</span>
+    <div class="tab-dot active" id="dot-intro" onclick="showTabById('intro')" title="Intro"></div>
+    <div class="tab-dot" id="dot-usv" onclick="showTabById('usv')" title="USV Strikes"></div>
+    <div class="tab-dot" id="dot-ugv" onclick="showTabById('ugv')" title="UGV Operations"></div>
+    <div class="tab-dot" id="dot-uav" onclick="showTabById('uav')" title="UAV Strikes"></div>
+    <div class="tab-dot" id="dot-rl" onclick="showTabById('rl')" title="Russian Losses"></div>
+    <div class="tab-dot" id="dot-airdef" onclick="showTabById('airdef')" title="Air Defence"></div>
+    <div class="tab-dot" id="dot-sources" onclick="showTabById('sources')" title="Sources"></div>
+    <span class="tab-dot-label" id="dot-count">1/7</span>
+  </div>
   <div class="header-right">
+    <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      SHARE
+    </a>
+    <a class="share-btn" id="share-li" href="#" onclick="shareToLinkedIn();return false;" title="Share on LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      SHARE
+    </a>
     <span style="color:var(--text3)">Last updated:</span>
     <span id="last-updated" style="color:var(--accent3)">—</span>
   </div>
@@ -446,13 +477,13 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <div class="intro-stats">
-    <div class="intro-stat"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div></div>
-    <div class="intro-stat"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div></div>
-    <div class="intro-stat"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Strikes</div></div>
-    <div class="intro-stat"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div></div>
-    <div class="intro-stat"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div></div>
-    <div class="intro-stat"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div></div>
-    <div class="intro-stat"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div></div>
+    <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
   </div>
 
   <!-- PAGE GUIDE CARDS -->
@@ -1235,11 +1266,23 @@ function sideBadge(s){
 // ═══════════════════════════════════════════════════════════
 //  TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
+const _visitedTabs=new Set(['intro']);
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
+  // Update progress dots
+  _visitedTabs.add(id);
+  document.querySelectorAll('.tab-dot').forEach(d=>d.classList.remove('active'));
+  _visitedTabs.forEach(t=>{
+    const dot=document.getElementById('dot-'+t);
+    if(dot)dot.classList.add('visited');
+  });
+  const activeDot=document.getElementById('dot-'+id);
+  if(activeDot)activeDot.classList.add('active');
+  const counter=document.getElementById('dot-count');
+  if(counter)counter.textContent=_visitedTabs.size+'/7';
 }
 function showTabById(id){
   const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
@@ -1794,6 +1837,19 @@ function buildChart(canvasId, data, label, color){
       }
     }
   });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SHARE FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+function shareToX(){
+  const text='Ukraine war data tracker: USV strikes, UGV operations, air defence intercepts & Russian losses — open-source OSINT, updated daily.';
+  const url='https://unmannedsystemstracker.com';
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url),'_blank','noopener,width=560,height=400');
+}
+function shareToLinkedIn(){
+  const url='https://unmannedsystemstracker.com';
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(url),'_blank','noopener,width=600,height=500');
 }
 
 // Build charts once data is loaded — hook into showTab too
