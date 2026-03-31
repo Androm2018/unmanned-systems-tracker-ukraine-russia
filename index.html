@@ -1817,6 +1817,32 @@ function buildAirDefChart(){
           tension:0.3,
           spanGaps:true,
           fill:false
+        },
+        {
+          label:'Overall avg',
+          data:(()=>{
+            // Compute overall monthly rate across all weapon types
+            const tot={};
+            AIRDEF_DATA.forEach(r=>{
+              if(!r.date||r.date.length<7)return;
+              const ym=r.date.slice(0,7);
+              const l=parseFloat(r.launched)||0, d=parseFloat(r.destroyed)||0;
+              if(!l)return;
+              if(!tot[ym])tot[ym]={l:0,d:0};
+              tot[ym].l+=l; tot[ym].d+=d;
+            });
+            return keys.map(k=>tot[k]&&tot[k].l?Math.round(tot[k].d/tot[k].l*100):null);
+          })(),
+          borderColor:'#f0c040',
+          backgroundColor:'transparent',
+          borderWidth:1.5,
+          borderDash:[5,4],
+          pointRadius:0,
+          pointHoverRadius:4,
+          tension:0.3,
+          spanGaps:true,
+          fill:false,
+          order:0
         }
       ]
     },
