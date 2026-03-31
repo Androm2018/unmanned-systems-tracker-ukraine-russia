@@ -502,7 +502,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
     <div class="intro-page-card" onclick="showTabById('ugv')">
       <div class="ipc-header"><span class="ipc-icon">🤖</span><span class="ipc-title">UGV Operations</span></div>
-      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to strike operations.</p>
+      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to doctrine-level operations.</p>
     </div>
 
     <div class="intro-page-card" onclick="showTabById('uav')">
@@ -653,9 +653,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <!-- TWO-COLUMN CATEGORY TABLE (matches USF killboard layout) -->
-  <div class="kb-section-title">MONTHLY TRENDS — USF OPERATIONS · JUN 2025 – MAR 2026</div>
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:16px 18px;margin-bottom:28px">
-    <canvas id="uav-chart" height="110"></canvas>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:28px">
+    <div style="background:var(--bg2);padding:16px 18px">
+      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">STRIKE EFFICIENCY · DAMAGED TARGETS PER 1,000 SORTIES</div>
+      <canvas id="uav-chart-efficiency" height="120"></canvas>
+    </div>
+    <div style="background:var(--bg2);padding:16px 18px">
+      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">STRIKE LETHALITY · PERSONNEL KILLED AS % OF HIT</div>
+      <canvas id="uav-chart-lethality" height="120"></canvas>
+    </div>
   </div>
 
   <div id="uav-killboard" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px">
@@ -1473,8 +1479,7 @@ function renderUAV(){
 function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
 
 function buildUAVChart(){
-  const el=document.getElementById('uav-chart');
-  if(!el||!UAV_DATA.length)return;
+  if(!UAV_DATA.length)return;
   if(typeof Chart==='undefined'){
     const t=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(t);buildUAVChart();}},200);
     return;
@@ -1487,7 +1492,7 @@ function buildUAVChart(){
 
   const getVal=(month,target)=>{
     const r=UAV_DATA.find(d=>d.date==='monthly_'+month&&d.target===target);
-    return r?parseInt(r.outcome.replace(/\s/g,''),10)||0:null;
+    return r?parseInt(r.outcome,10)||null:null;
   };
 
   const labels=months.map(m=>{
@@ -1495,71 +1500,120 @@ function buildUAVChart(){
     return new Date(+y,+mo-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
   });
 
-  if(el._chart)el._chart.destroy();
-  el._chart=new Chart(el,{
-    type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {
-          label:'Strike flights',
-          data:months.map(m=>getVal(m,'strike flights')),
-          backgroundColor:'rgba(240,192,64,0.7)',
-          borderColor:'#f0c040',
-          borderWidth:1,
-          borderRadius:2,
-          yAxisID:'y',
-          order:2
-        },
-        {
-          label:'Damaged targets',
-          data:months.map(m=>getVal(m,'damaged targets')),
-          backgroundColor:'rgba(107,191,120,0.7)',
+  const MONO="'Share Tech Mono',monospace";
+  const TIP={backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88'};
+
+  // ── Chart A: Strike efficiency — damaged targets per 1,000 sorties ──
+  const elA=document.getElementById('uav-chart-efficiency');
+  if(elA){
+    const effData=months.map(m=>{
+      const sf=getVal(m,'strike flights'), dt=getVal(m,'damaged targets');
+      return (sf&&dt)?Math.round(dt/sf*1000):null;
+    });
+    if(elA._chart)elA._chart.destroy();
+    elA._chart=new Chart(elA,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{
+          label:'Targets per 1,000 sorties',
+          data:effData,
+          backgroundColor:months.map((_,i)=>i===months.length-1?'rgba(107,191,120,0.9)':'rgba(107,191,120,0.55)'),
           borderColor:'#6bbf78',
           borderWidth:1,
-          borderRadius:2,
-          yAxisID:'y',
-          order:3
-        },
-        {
-          label:'Personnel hit',
-          data:months.map(m=>getVal(m,'enemy personnel hit')),
+          borderRadius:3,
+        },{
+          label:'Trend',
+          data:effData,
           type:'line',
-          borderColor:'#e74c3c',
+          borderColor:'#f0c040',
           backgroundColor:'transparent',
-          borderWidth:2,
-          pointRadius:3,
-          pointHoverRadius:6,
-          tension:0.3,
-          yAxisID:'y2',
-          order:1
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:14,usePointStyle:false}},
-        tooltip:{backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88',callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y!==null?(ctx.parsed.y).toLocaleString('en-GB'):'—'}`}}
+          borderWidth:1.5,
+          borderDash:[4,3],
+          pointRadius:0,
+          tension:0.4,
+          spanGaps:true,
+        }]
       },
-      scales:{
-        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"}},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
-        y:{
-          position:'left',
-          ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v},
-          grid:{color:'#1e3022'},border:{color:'#253d2a'},beginAtZero:true,
-          title:{display:true,text:'Flights / Targets',color:'#526650',font:{size:8,family:"'Share Tech Mono',monospace"}}
+      options:{
+        responsive:true,
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{...TIP,callbacks:{
+            title:ctx=>labels[ctx[0].dataIndex],
+            label:ctx=>ctx.datasetIndex===0?` ${ctx.parsed.y} targets / 1k sorties`:null,
+            filter:i=>i.datasetIndex===0
+          }}
         },
-        y2:{
-          position:'right',
-          ticks:{color:'#e74c3c',font:{size:9,family:"'Share Tech Mono',monospace"}},
-          grid:{display:false},border:{color:'#253d2a'},beginAtZero:true,
-          title:{display:true,text:'Personnel',color:'#e74c3c',font:{size:8,family:"'Share Tech Mono',monospace"}}
+        scales:{
+          x:{ticks:{color:'#526650',font:{size:9,family:MONO}},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+          y:{
+            ticks:{color:'#526650',font:{size:9,family:MONO}},
+            grid:{color:'#1e3022'},border:{color:'#253d2a'},
+            min:300,
+            title:{display:true,text:'Targets / 1k sorties',color:'#526650',font:{size:8,family:MONO}}
+          }
         }
       }
-    }
-  });
+    });
+  }
+
+  // ── Chart D: Strike lethality — killed as % of personnel hit ────────
+  const elD=document.getElementById('uav-chart-lethality');
+  if(elD){
+    const lethalData=months.map(m=>{
+      const hit=getVal(m,'enemy personnel hit'), kil=getVal(m,'enemy personnel killed');
+      return (hit&&kil)?Math.round(kil/hit*1000)/10:null;
+    });
+    if(elD._chart)elD._chart.destroy();
+    elD._chart=new Chart(elD,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{
+          label:'Kill rate (%)',
+          data:lethalData,
+          backgroundColor:months.map((_,i)=>i===months.length-1?'rgba(231,76,60,0.9)':'rgba(231,76,60,0.55)'),
+          borderColor:'#e74c3c',
+          borderWidth:1,
+          borderRadius:3,
+        },{
+          label:'Trend',
+          data:lethalData,
+          type:'line',
+          borderColor:'#f0c040',
+          backgroundColor:'transparent',
+          borderWidth:1.5,
+          borderDash:[4,3],
+          pointRadius:0,
+          tension:0.4,
+          spanGaps:true,
+        }]
+      },
+      options:{
+        responsive:true,
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{...TIP,callbacks:{
+            title:ctx=>labels[ctx[0].dataIndex],
+            label:ctx=>ctx.datasetIndex===0?` ${ctx.parsed.y}% of personnel hit killed`:null,
+            filter:i=>i.datasetIndex===0
+          }}
+        },
+        scales:{
+          x:{ticks:{color:'#526650',font:{size:9,family:MONO}},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+          y:{
+            ticks:{color:'#526650',font:{size:9,family:MONO},callback:v=>v+'%'},
+            grid:{color:'#1e3022'},border:{color:'#253d2a'},
+            min:40,max:70,
+            title:{display:true,text:'Kill rate',color:'#e74c3c',font:{size:8,family:MONO}}
+          }
+        }
+      }
+    });
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
