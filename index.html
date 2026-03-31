@@ -653,6 +653,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <!-- TWO-COLUMN CATEGORY TABLE (matches USF killboard layout) -->
+  <div class="kb-section-title">MONTHLY TRENDS — USF OPERATIONS · JUN 2025 – MAR 2026</div>
+  <div style="background:var(--bg2);border:1px solid var(--border);padding:16px 18px;margin-bottom:28px">
+    <canvas id="uav-chart" height="110"></canvas>
+  </div>
+
   <div id="uav-killboard" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px">
     <div id="uav-col-left"></div>
     <div id="uav-col-right"></div>
@@ -1168,7 +1173,7 @@ let AIRDEF_DATA=[];
 async function loadAll() {
   // ── Phase 1: render embedded fallback immediately ──
   USV_DATA=EMBEDDED_USV; UGV_DATA=EMBEDDED_UGV; KB_DATA=EMBEDDED_KB; UAV_DATA=EMBEDDED_UAV;
-  renderUSV(); renderUGV(); renderKillBoard(); renderUAV();
+  renderUSV(); renderUGV(); renderKillBoard(); renderUAV(); if(typeof Chart!=="undefined")buildUAVChart();
   const iUsv=document.getElementById('is-usv'); if(iUsv)iUsv.textContent=USV_DATA.length;
   const iUgv=document.getElementById('is-ugv'); if(iUgv)iUgv.textContent=UGV_DATA.length;
   // ── Phase 2: fetch live data in background ──
@@ -1476,6 +1481,96 @@ function renderUAV(){
 }
 function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
 
+function buildUAVChart(){
+  const el=document.getElementById('uav-chart');
+  if(!el||!UAV_DATA.length)return;
+  if(typeof Chart==='undefined'){
+    const t=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(t);buildUAVChart();}},200);
+    return;
+  }
+
+  const months=UAV_DATA
+    .filter(r=>r.date&&r.date.startsWith('monthly_')&&r.target==='strike flights')
+    .map(r=>r.date.replace('monthly_',''))
+    .sort();
+
+  const getVal=(month,target)=>{
+    const r=UAV_DATA.find(d=>d.date==='monthly_'+month&&d.target===target);
+    return r?parseInt(r.outcome.replace(/\s/g,''),10)||0:null;
+  };
+
+  const labels=months.map(m=>{
+    const[y,mo]=m.split('-');
+    return new Date(+y,+mo-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+
+  if(el._chart)el._chart.destroy();
+  el._chart=new Chart(el,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {
+          label:'Strike flights',
+          data:months.map(m=>getVal(m,'strike flights')),
+          backgroundColor:'rgba(240,192,64,0.7)',
+          borderColor:'#f0c040',
+          borderWidth:1,
+          borderRadius:2,
+          yAxisID:'y',
+          order:2
+        },
+        {
+          label:'Damaged targets',
+          data:months.map(m=>getVal(m,'damaged targets')),
+          backgroundColor:'rgba(107,191,120,0.7)',
+          borderColor:'#6bbf78',
+          borderWidth:1,
+          borderRadius:2,
+          yAxisID:'y',
+          order:3
+        },
+        {
+          label:'Personnel hit',
+          data:months.map(m=>getVal(m,'enemy personnel hit')),
+          type:'line',
+          borderColor:'#e74c3c',
+          backgroundColor:'transparent',
+          borderWidth:2,
+          pointRadius:3,
+          pointHoverRadius:6,
+          tension:0.3,
+          yAxisID:'y2',
+          order:1
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:14,usePointStyle:false}},
+        tooltip:{backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88',callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y!==null?(ctx.parsed.y).toLocaleString('en-GB'):'—'}`}}
+      },
+      scales:{
+        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"}},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{
+          position:'left',
+          ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v},
+          grid:{color:'#1e3022'},border:{color:'#253d2a'},beginAtZero:true,
+          title:{display:true,text:'Flights / Targets',color:'#526650',font:{size:8,family:"'Share Tech Mono',monospace"}}
+        },
+        y2:{
+          position:'right',
+          ticks:{color:'#e74c3c',font:{size:9,family:"'Share Tech Mono',monospace"}},
+          grid:{display:false},border:{color:'#253d2a'},beginAtZero:true,
+          title:{display:true,text:'Personnel',color:'#e74c3c',font:{size:8,family:"'Share Tech Mono',monospace"}}
+        }
+      }
+    }
+  });
+}
+
 // ═══════════════════════════════════════════════════════════
 //  RUSSIAN LOSSES
 // ═══════════════════════════════════════════════════════════
@@ -1629,7 +1724,7 @@ const EMBEDDED_KB=[
 ];
 
 const EMBEDDED_UAV=[
-  // Summary stats
+  // ── Annual totals (Jun 2025 – Mar 2026) ──
   {date:"yearly_2025",target:"total damaged targets",outcome:"260117"},
   {date:"yearly_2025",target:"total destroyed targets",outcome:"90428"},
   {date:"yearly_2025",target:"strike flights",outcome:"648850"},
@@ -1637,6 +1732,17 @@ const EMBEDDED_UAV=[
   {date:"yearly_2025",target:"enemy personnel hit",outcome:"78656"},
   {date:"yearly_2025",target:"enemy personnel killed",outcome:"43385"},
   {date:"yearly_2025",target:"enemy personnel wounded",outcome:"35271"},
+  // ── Monthly headline stats ──
+  {date:"monthly_2025-06",target:"strike flights",outcome:"49874"},{date:"monthly_2025-06",target:"recon flights",outcome:"59619"},{date:"monthly_2025-06",target:"damaged targets",outcome:"19653"},{date:"monthly_2025-06",target:"destroyed targets",outcome:"5024"},{date:"monthly_2025-06",target:"enemy personnel hit",outcome:"4521"},{date:"monthly_2025-06",target:"enemy personnel killed",outcome:"2548"},
+  {date:"monthly_2025-07",target:"strike flights",outcome:"55853"},{date:"monthly_2025-07",target:"recon flights",outcome:"64799"},{date:"monthly_2025-07",target:"damaged targets",outcome:"23433"},{date:"monthly_2025-07",target:"destroyed targets",outcome:"5887"},{date:"monthly_2025-07",target:"enemy personnel hit",outcome:"5134"},{date:"monthly_2025-07",target:"enemy personnel killed",outcome:"3018"},
+  {date:"monthly_2025-08",target:"strike flights",outcome:"58778"},{date:"monthly_2025-08",target:"recon flights",outcome:"53757"},{date:"monthly_2025-08",target:"damaged targets",outcome:"21266"},{date:"monthly_2025-08",target:"destroyed targets",outcome:"6566"},{date:"monthly_2025-08",target:"enemy personnel hit",outcome:"5354"},{date:"monthly_2025-08",target:"enemy personnel killed",outcome:"3165"},
+  {date:"monthly_2025-09",target:"strike flights",outcome:"60781"},{date:"monthly_2025-09",target:"recon flights",outcome:"57935"},{date:"monthly_2025-09",target:"damaged targets",outcome:"23532"},{date:"monthly_2025-09",target:"destroyed targets",outcome:"7896"},{date:"monthly_2025-09",target:"enemy personnel hit",outcome:"6659"},{date:"monthly_2025-09",target:"enemy personnel killed",outcome:"3787"},
+  {date:"monthly_2025-10",target:"strike flights",outcome:"65514"},{date:"monthly_2025-10",target:"recon flights",outcome:"58468"},{date:"monthly_2025-10",target:"damaged targets",outcome:"26067"},{date:"monthly_2025-10",target:"destroyed targets",outcome:"9055"},{date:"monthly_2025-10",target:"enemy personnel hit",outcome:"8060"},{date:"monthly_2025-10",target:"enemy personnel killed",outcome:"4729"},
+  {date:"monthly_2025-11",target:"strike flights",outcome:"64437"},{date:"monthly_2025-11",target:"recon flights",outcome:"52056"},{date:"monthly_2025-11",target:"damaged targets",outcome:"23450"},{date:"monthly_2025-11",target:"destroyed targets",outcome:"8735"},{date:"monthly_2025-11",target:"enemy personnel hit",outcome:"8473"},{date:"monthly_2025-11",target:"enemy personnel killed",outcome:"4868"},
+  {date:"monthly_2025-12",target:"strike flights",outcome:"72091"},{date:"monthly_2025-12",target:"recon flights",outcome:"58071"},{date:"monthly_2025-12",target:"damaged targets",outcome:"30519"},{date:"monthly_2025-12",target:"destroyed targets",outcome:"10919"},{date:"monthly_2025-12",target:"enemy personnel hit",outcome:"12037"},{date:"monthly_2025-12",target:"enemy personnel killed",outcome:"6462"},
+  {date:"monthly_2026-01",target:"strike flights",outcome:"71615"},{date:"monthly_2026-01",target:"recon flights",outcome:"62367"},{date:"monthly_2026-01",target:"damaged targets",outcome:"27762"},{date:"monthly_2026-01",target:"destroyed targets",outcome:"10216"},{date:"monthly_2026-01",target:"enemy personnel hit",outcome:"9381"},{date:"monthly_2026-01",target:"enemy personnel killed",outcome:"4885"},
+  {date:"monthly_2026-02",target:"strike flights",outcome:"64390"},{date:"monthly_2026-02",target:"recon flights",outcome:"58218"},{date:"monthly_2026-02",target:"damaged targets",outcome:"27332"},{date:"monthly_2026-02",target:"destroyed targets",outcome:"10690"},{date:"monthly_2026-02",target:"enemy personnel hit",outcome:"8672"},{date:"monthly_2026-02",target:"enemy personnel killed",outcome:"4790"},
+  {date:"monthly_2026-03",target:"strike flights",outcome:"85915"},{date:"monthly_2026-03",target:"recon flights",outcome:"77896"},{date:"monthly_2026-03",target:"damaged targets",outcome:"37246"},{date:"monthly_2026-03",target:"destroyed targets",outcome:"15504"},{date:"monthly_2026-03",target:"enemy personnel hit",outcome:"10404"},{date:"monthly_2026-03",target:"enemy personnel killed",outcome:"5158"},
   // Category rows
   {date:"yearly_2025",target:"Enemy personnel",type:"Personnel",outcome:"78656 damaged, 43385 destroyed"},
   {date:"yearly_2025",target:"Drone launch positions",outcome:"7520 damaged, 261 destroyed"},
@@ -2016,6 +2122,7 @@ showTab=function(id,btn){
   if(id==='usv'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(id==='airdef'&&AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
+  if(id==='uav'&&UAV_DATA.length){renderUAV();buildUAVChart();}
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="
