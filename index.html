@@ -68,13 +68,13 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28p
 .logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
 .logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
 nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
-.nav-tab{font-family:var(--head);font-weight:700;font-size:0.68rem;letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);padding:0 10px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:5px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
+.nav-tab{font-family:var(--head);font-weight:700;font-size:0.6rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--text3);padding:0 8px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:4px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
 .nav-tab:hover{color:var(--text2)}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:12px;padding-left:20px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
-.share-btn{display:flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.52rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
+.share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
 .share-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
@@ -291,7 +291,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 @media(max-width:900px){
   header{padding:0 14px;min-height:54px}
   main{padding:16px 14px}
-  .logo-text p,.header-right{display:none}
+  .logo-text p{display:none}
+  .share-btn span.share-label{display:none}
   input[type="text"]{width:120px}
   .stat-rows,.intro-pages{grid-template-columns:repeat(2,1fr)}
   .ipc-columns{grid-template-columns:1fr}
@@ -438,11 +439,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="header-right">
     <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
       <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      SHARE
+      <span class="share-label">SHARE</span>
     </a>
     <a class="share-btn" id="share-li" href="#" onclick="shareToLinkedIn();return false;" title="Share on LinkedIn">
       <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      SHARE
+      <span class="share-label">SHARE</span>
     </a>
     <span style="color:var(--text3)">Last updated:</span>
     <span id="last-updated" style="color:var(--accent3)">—</span>
@@ -1212,8 +1213,19 @@ async function loadAll() {
     if(elTotal)elTotal.textContent=fmtIntro(adTotal);
     if(elInt)elInt.textContent=fmtIntro(adIntercepted);
     if(elRate)elRate.textContent=adRate+'%';
-    // Render tab content
-    try{renderAirDef();buildAirDefChart();}catch(e){console.error('airdef render:',e);}
+    // Render tab content — wait for Chart.js if not yet loaded
+    try{renderAirDef();}catch(e){console.error('airdef render:',e);}
+    if(typeof Chart!=='undefined'){
+      try{buildAirDefChart();}catch(e){console.error('airdef chart:',e);}
+    } else {
+      // Chart.js not yet loaded — retry when it arrives
+      const _waitChart=setInterval(()=>{
+        if(typeof Chart!=='undefined'){
+          clearInterval(_waitChart);
+          try{buildAirDefChart();}catch(e){console.error('airdef chart retry:',e);}
+        }
+      },200);
+    }
   }
   
   
@@ -1931,7 +1943,7 @@ showTab=function(id,btn){
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="
   if(typeof USV_DATA!=='undefined'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(typeof UGV_DATA!=='undefined'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
-  if(typeof AIRDEF_DATA!=='undefined'&&AIRDEF_DATA.length)buildAirDefChart();
+  if(typeof AIRDEF_DATA!=='undefined'&&AIRDEF_DATA.length){try{buildAirDefChart();}catch(e){console.error('airdef chart onload:',e);}}
 "></script>
 </body>
 </html>
