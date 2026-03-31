@@ -502,7 +502,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
     <div class="intro-page-card" onclick="showTabById('ugv')">
       <div class="ipc-header"><span class="ipc-icon">🤖</span><span class="ipc-title">UGV Operations</span></div>
-      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to doctrine-level operations.</p>
+      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to strike operations.</p>
     </div>
 
     <div class="intro-page-card" onclick="showTabById('uav')">
@@ -1178,16 +1178,11 @@ async function loadAll() {
   const iUgv=document.getElementById('is-ugv'); if(iUgv)iUgv.textContent=UGV_DATA.length;
   // ── Phase 2: fetch live data in background ──
   const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
-    fetchTab('usv'),fetchTab('ugv'),fetchTab('uav'),fetchTab('killboard'),fetchTab('airdefence'),
+    fetchTab('usv'),fetchTab('ugv'),Promise.resolve(null),fetchTab('killboard'),fetchTab('airdefence'),
   ]);
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
-  // Merge API data with embedded monthly rows (monthly data only lives in EMBEDDED_UAV)
-  const apiUAV=uavRaw&&uavRaw.length?uavRaw:[];
-  const monthlyRows=EMBEDDED_UAV.filter(r=>r.date&&r.date.startsWith('monthly_'));
-  UAV_DATA=[...apiUAV,...monthlyRows.filter(m=>!apiUAV.find(a=>a.date===m.date&&a.target===m.target))];
-  // If API returned nothing useful, fall back to full embedded data
-  if(!apiUAV.length)UAV_DATA=EMBEDDED_UAV;
+  UAV_DATA=EMBEDDED_UAV; // UAV updated manually — always use embedded data
   KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
   AIRDEF_DATA=airRaw||[];
 
