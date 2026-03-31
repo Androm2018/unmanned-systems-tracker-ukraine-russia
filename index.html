@@ -801,9 +801,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <!-- CHART -->
-  <div class="kb-section-title">MONTHLY ATTACK VOLUME — LAUNCHED VS INTERCEPTED</div>
+  <div class="kb-section-title">INTERCEPTION RATE OVER TIME — DRONES vs MISSILES</div>
   <div style="background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:20px">
-    <canvas id="airdef-chart" height="90"></canvas>
+    <canvas id="airdef-chart" height="140"></canvas>
   </div>
 
   <!-- WEAPON TYPE BREAKDOWN -->
@@ -1721,39 +1721,115 @@ function buildAirDefChart(){
   const el=document.getElementById('airdef-chart');
   if(!el||!AIRDEF_DATA.length)return;
 
-  // Aggregate by year-month
-  const launched={},destroyed={};
+  // Classify each row as drone, missile, or other
+  function isDrone(model){
+    if(!model)return false;
+    const m=model.toLowerCase();
+    return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
+           m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
+           m.includes('lancet')||m.includes('orlan')||m.includes('mohajer');
+  }
+  function isMissile(model){
+    if(!model)return false;
+    const m=model.toLowerCase();
+    return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
+           m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
+           m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
+           m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
+           m.includes('oreshnik');
+  }
+
+  // Aggregate monthly intercept rates
+  const drones={},missiles={};
   AIRDEF_DATA.forEach(r=>{
     if(!r.date||r.date.length<7)return;
     const ym=r.date.slice(0,7);
-    launched[ym]=(launched[ym]||0)+(parseInt(r.launched)||0);
-    destroyed[ym]=(destroyed[ym]||0)+(parseInt(r.destroyed)||0);
+    const launched=parseFloat(r.launched)||0;
+    const destroyed=parseFloat(r.destroyed)||0;
+    if(!launched)return;
+    const bucket=isDrone(r.model)?drones:isMissile(r.model)?missiles:null;
+    if(!bucket)return;
+    if(!bucket[ym])bucket[ym]={launched:0,destroyed:0};
+    bucket[ym].launched+=launched;
+    bucket[ym].destroyed+=destroyed;
   });
-  const keys=Object.keys(launched).sort();
+
+  // Build unified key list
+  const allKeys=[...new Set([...Object.keys(drones),...Object.keys(missiles)])].sort();
+  // Only show months where we have at least one category with data
+  const keys=allKeys.filter(k=>drones[k]||missiles[k]);
+
   const labels=keys.map(k=>{
     const[y,m]=k.split('-');
     return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
   });
 
+  const droneRates=keys.map(k=>{
+    const d=drones[k];
+    if(!d||!d.launched)return null;
+    return Math.round(d.destroyed/d.launched*100);
+  });
+  const missileRates=keys.map(k=>{
+    const d=missiles[k];
+    if(!d||!d.launched)return null;
+    return Math.round(d.destroyed/d.launched*100);
+  });
+
   if(el._chart)el._chart.destroy();
   el._chart=new Chart(el,{
-    type:'bar',
+    type:'line',
     data:{
       labels,
       datasets:[
-        {label:'Launched',data:keys.map(k=>launched[k]),backgroundColor:'#e74c3c55',borderColor:'#e74c3c',borderWidth:1,borderRadius:2},
-        {label:'Intercepted',data:keys.map(k=>destroyed[k]),backgroundColor:'#6bbf7855',borderColor:'#6bbf78',borderWidth:1,borderRadius:2},
+        {
+          label:'Drones / UAVs',
+          data:droneRates,
+          borderColor:'#6bbf78',
+          backgroundColor:'rgba(107,191,120,0.08)',
+          borderWidth:2,
+          pointRadius:2,
+          pointHoverRadius:5,
+          tension:0.3,
+          spanGaps:true,
+          fill:false
+        },
+        {
+          label:'Missiles',
+          data:missileRates,
+          borderColor:'#e74c3c',
+          backgroundColor:'rgba(231,76,60,0.08)',
+          borderWidth:2,
+          pointRadius:2,
+          pointHoverRadius:5,
+          tension:0.3,
+          spanGaps:true,
+          fill:false
+        }
       ]
     },
     options:{
       responsive:true,
+      interaction:{mode:'index',intersect:false},
       plugins:{
-        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:12}},
-        tooltip:{backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88'}
+        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:20,usePointStyle:true}},
+        tooltip:{
+          backgroundColor:'#0d1410',
+          borderColor:'#253d2a',
+          borderWidth:1,
+          titleColor:'#c8d8c0',
+          bodyColor:'#8aaa88',
+          callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y !== null ? ctx.parsed.y+'%' : '—'}`}
+        }
       },
       scales:{
-        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},maxRotation:45},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
-        y:{ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"}},grid:{color:'#1e3022'},border:{color:'#253d2a'},beginAtZero:true}
+        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},maxRotation:45,maxTicksLimit:24},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{
+          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},callback:v=>v+'%'},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'},
+          min:0,max:100,
+          title:{display:true,text:'Intercept rate',color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"}}
+        }
       }
     }
   });
