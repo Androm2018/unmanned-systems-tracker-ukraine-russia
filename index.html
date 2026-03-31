@@ -1182,7 +1182,12 @@ async function loadAll() {
   ]);
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
-  UAV_DATA=uavRaw&&uavRaw.length?uavRaw:EMBEDDED_UAV;
+  // Merge API data with embedded monthly rows (monthly data only lives in EMBEDDED_UAV)
+  const apiUAV=uavRaw&&uavRaw.length?uavRaw:[];
+  const monthlyRows=EMBEDDED_UAV.filter(r=>r.date&&r.date.startsWith('monthly_'));
+  UAV_DATA=[...apiUAV,...monthlyRows.filter(m=>!apiUAV.find(a=>a.date===m.date&&a.target===m.target))];
+  // If API returned nothing useful, fall back to full embedded data
+  if(!apiUAV.length)UAV_DATA=EMBEDDED_UAV;
   KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
   AIRDEF_DATA=airRaw||[];
 
@@ -1196,6 +1201,8 @@ async function loadAll() {
   // Intro counters
   document.getElementById('is-usv').textContent=USV_DATA.length;
   document.getElementById('is-ugv').textContent=UGV_DATA.length;
+  const _uavSF=EMBEDDED_UAV.find(r=>r.date==='yearly_2025'&&r.target==='strike flights');
+  if(_uavSF){const el=document.getElementById('is-uav');if(el)el.textContent=parseInt(_uavSF.outcome).toLocaleString('en-GB');}
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
   const usvInd=document.getElementById('usv-indicator');
   const ugvInd=document.getElementById('ugv-indicator');
@@ -1243,23 +1250,12 @@ async function loadAll() {
 
   renderUSV(); renderUGV(); renderKillBoard();
 
-  // UAV renders after a short delay to ensure data is fully assigned
-  // This prevents a race condition where renderUAV fires before uavRaw resolves
-  if(UAV_DATA.length>0){
-    renderUAV();
+  // UAV: always render + build chart (data guaranteed via merge with EMBEDDED_UAV)
+  renderUAV();
+  if(typeof Chart!=='undefined'){
+    try{buildUAVChart();}catch(e){console.error('uav chart:',e);}
   } else {
-    // Poll until data arrives (max 10 seconds)
-    let attempts=0;
-    const poll=setInterval(()=>{
-      attempts++;
-      if(UAV_DATA.length>0){
-        clearInterval(poll);
-        renderUAV();
-      } else if(attempts>20){
-        clearInterval(poll);
-        renderUAV(); // render anyway (will show empty state)
-      }
-    },500);
+    const _wu=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(_wu);try{buildUAVChart();}catch(e){}}},200);
   }
 }
 
