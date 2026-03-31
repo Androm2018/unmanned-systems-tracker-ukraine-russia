@@ -483,7 +483,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="intro-stats">
     <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">252214</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">648,850</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
@@ -502,7 +502,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
     <div class="intro-page-card" onclick="showTabById('ugv')">
       <div class="ipc-header"><span class="ipc-icon">🤖</span><span class="ipc-title">UGV Operations</span></div>
-      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to offensive operations.</p>
+      <p class="ipc-desc">UGV combat events from both sides — Ukraine and Russia. From first deployments to doctrine-level operations.</p>
     </div>
 
     <div class="intro-page-card" onclick="showTabById('uav')">
@@ -628,7 +628,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
     <div>
       <div class="section-title">UAV <span>Kill Board</span></div>
-      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Currently showing 2025 data (June–December). Updated manually each quarter.</div>
+      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Since USF creation: Jun 2025 – Mar 2026. Updated manually each quarter.</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
       <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">2025 ANNUAL · JUN–DEC</span>
@@ -1167,8 +1167,8 @@ let AIRDEF_DATA=[];
 
 async function loadAll() {
   // ── Phase 1: render embedded fallback immediately ──
-  USV_DATA=EMBEDDED_USV; UGV_DATA=EMBEDDED_UGV; KB_DATA=EMBEDDED_KB;
-  renderUSV(); renderUGV(); renderKillBoard();
+  USV_DATA=EMBEDDED_USV; UGV_DATA=EMBEDDED_UGV; KB_DATA=EMBEDDED_KB; UAV_DATA=EMBEDDED_UAV;
+  renderUSV(); renderUGV(); renderKillBoard(); renderUAV();
   const iUsv=document.getElementById('is-usv'); if(iUsv)iUsv.textContent=USV_DATA.length;
   const iUgv=document.getElementById('is-ugv'); if(iUgv)iUgv.textContent=UGV_DATA.length;
   // ── Phase 2: fetch live data in background ──
@@ -1177,7 +1177,7 @@ async function loadAll() {
   ]);
   USV_DATA=usvRaw||EMBEDDED_USV;
   UGV_DATA=ugvRaw||EMBEDDED_UGV;
-  UAV_DATA=uavRaw||[];
+  UAV_DATA=uavRaw&&uavRaw.length?uavRaw:EMBEDDED_UAV;
   KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
   AIRDEF_DATA=airRaw||[];
 
@@ -1626,6 +1626,46 @@ const EMBEDDED_KB=[
   {section:"air",date:"Jan 2024",label:"A-50 AWACS",damage:"Destroyed",notes:"Shot down over Sea of Azov. Rare loss of a strategic ISR aircraft worth ~$330M."},
   {section:"air",date:"01 Jun 2025",label:"~10 strategic bombers (Tu-95, Tu-22M)",damage:"Destroyed",notes:"Operation Spiderweb — SBU truck-launched drones struck 5 airbases across Russia. ~10 aircraft destroyed including 4 Tu-95s at Olenya Airbase."},
   {section:"air",date:"02 May 2025",label:"2× Su-30SM fighters",damage:"Shot Down",notes:"Shot down by MAGURA V7 USVs armed with AIM-9 Sidewinder missiles. First ever aircraft downed by a maritime drone."},
+];
+
+const EMBEDDED_UAV=[
+  // Summary stats
+  {date:"yearly_2025",target:"total damaged targets",outcome:"260117"},
+  {date:"yearly_2025",target:"total destroyed targets",outcome:"90428"},
+  {date:"yearly_2025",target:"strike flights",outcome:"648850"},
+  {date:"yearly_2025",target:"recon flights",outcome:"602952"},
+  {date:"yearly_2025",target:"enemy personnel hit",outcome:"78656"},
+  {date:"yearly_2025",target:"enemy personnel killed",outcome:"43385"},
+  {date:"yearly_2025",target:"enemy personnel wounded",outcome:"35271"},
+  // Category rows
+  {date:"yearly_2025",target:"Enemy personnel",type:"Personnel",outcome:"78656 damaged, 43385 destroyed"},
+  {date:"yearly_2025",target:"Drone launch positions",outcome:"7520 damaged, 261 destroyed"},
+  {date:"yearly_2025",target:"Antennas",outcome:"11564 damaged, 7407 destroyed"},
+  {date:"yearly_2025",target:"SAMs, SPADs",outcome:"113 damaged, 22 destroyed"},
+  {date:"yearly_2025",target:"Radars (system)",outcome:"32 damaged, 6 destroyed"},
+  {date:"yearly_2025",target:"Radars (portable)",outcome:"257 damaged, 124 destroyed"},
+  {date:"yearly_2025",target:"EW (system)",outcome:"23 damaged, 8 destroyed"},
+  {date:"yearly_2025",target:"EW (car + portable)",outcome:"2310 damaged, 1027 destroyed"},
+  {date:"yearly_2025",target:"Enemy wings",outcome:"14937 damaged, 14361 destroyed"},
+  {date:"yearly_2025",target:"Shaheds and Gerberas",outcome:"5045 damaged, 4885 destroyed"},
+  {date:"yearly_2025",target:"Tanks",outcome:"759 damaged, 126 destroyed"},
+  {date:"yearly_2025",target:"APCs, IFVs, ACVs",outcome:"1229 damaged, 296 destroyed"},
+  {date:"yearly_2025",target:"Guns, howitzers",outcome:"3742 damaged, 246 destroyed"},
+  {date:"yearly_2025",target:"Self-propelled artillery",outcome:"290 damaged, 37 destroyed"},
+  {date:"yearly_2025",target:"Mortars",outcome:"392 damaged, 94 destroyed"},
+  {date:"yearly_2025",target:"MRLS",outcome:"217 damaged, 55 destroyed"},
+  {date:"yearly_2025",target:"Light, Heavy, Special-purpose vehicles",outcome:"11730 damaged, 2630 destroyed"},
+  {date:"yearly_2025",target:"Motorcycles and military buggies",outcome:"7332 damaged, 2290 destroyed"},
+  {date:"yearly_2025",target:"Ammo, fuel and equipment depots",outcome:"2500 damaged, 1418 destroyed"},
+  {date:"yearly_2025",target:"Strategic infrastructure",outcome:"TOP SECRET"},
+  {date:"yearly_2025",target:"Tactical infrastructure",outcome:"178 damaged, 14 destroyed"},
+  {date:"yearly_2025",target:"Shelters",outcome:"73592 damaged, 3249 destroyed"},
+  {date:"yearly_2025",target:"Dugouts",outcome:"25481 damaged, 592 destroyed"},
+  {date:"yearly_2025",target:"Network equipment",outcome:"2288 damaged, 1100 destroyed"},
+  {date:"yearly_2025",target:"Cameras",outcome:"80 damaged, 51 destroyed"},
+  {date:"yearly_2025",target:"Enemy copter drones",outcome:"6252 damaged, 5817 destroyed"},
+  {date:"yearly_2025",target:"Enemy unmanned robotic complexes",outcome:"405 damaged, 149 destroyed"},
+  {date:"yearly_2025",target:"Other",outcome:"2971 damaged, 776 destroyed"},
 ];
 
 loadAll();
