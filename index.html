@@ -1180,8 +1180,7 @@ async function loadAll() {
   // ── Phase 1: render embedded fallback immediately ──
   USV_DATA=EMBEDDED_USV; UGV_DATA=EMBEDDED_UGV; KB_DATA=EMBEDDED_KB; UAV_DATA=EMBEDDED_UAV;
   renderUSV(); renderUGV(); renderKillBoard(); renderUAV(); if(typeof Chart!=="undefined")buildUAVChart();
-  const iUsv=document.getElementById('is-usv'); if(iUsv)iUsv.textContent=USV_DATA.length;
-  const iUgv=document.getElementById('is-ugv'); if(iUgv)iUgv.textContent=UGV_DATA.length;
+  // USV/UGV counts left as "—" until API returns (avoids flash from stale embedded counts)
   // ── Phase 2: fetch live data in background ──
   const [usvRaw,ugvRaw,uavRaw,kbRaw,airRaw]=await Promise.all([
     fetchTab('usv'),fetchTab('ugv'),Promise.resolve(null),fetchTab('killboard'),fetchTab('airdefence'),
