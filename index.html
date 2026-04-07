@@ -435,7 +435,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV Strikes</button>
     <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations</button>
     <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
-    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses</button>
+    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses &amp; Advance</button>
     <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
@@ -464,6 +464,21 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div>
       <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
       <p class="intro-lead">A curated open-source database tracking the confirmed and claimed combat use of unmanned systems — surface, ground, and air — in the Russia-Ukraine war. Built from publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
+
+    <div style="margin:20px 0 0;background:var(--bg2);border:1px solid var(--border);padding:14px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+        <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase">KEY TRENDS · JUN 2025 – MAR 2026</div>
+        <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3)">
+          <span style="color:#f0c040">━</span> Strike flights &nbsp;
+          <span style="color:#e74c3c">━</span> Russian advance (km²) &nbsp;
+          <span style="color:#6bbf78">━</span> Intercept rate
+        </div>
+      </div>
+      <canvas id="intro-trends-chart" height="70"></canvas>
+      <div style="font-family:var(--mono);font-size:0.47rem;color:var(--text3);margin-top:6px">
+        Sources: USF Pidrakhuyka · Black Bird Group / DeepState · Ukrainian Air Force via Petro Ivaniuk
+      </div>
+    </div>
     </div>
     <div style="background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 100%);border:1px solid #2a6b3a;border-left:3px solid var(--accent3);padding:14px 16px;position:relative;overflow:hidden">
       <div style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:2.8rem;opacity:0.06">🇺🇦</div>
@@ -489,7 +504,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Missions (Mar 2026)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">648,850</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses &amp; Advance tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
@@ -516,8 +531,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
 
     <div class="intro-page-card" onclick="showTabById('rl')">
-      <div class="ipc-header"><span class="ipc-icon">💀</span><span class="ipc-title">Russian Losses</span></div>
-      <p class="ipc-desc">Russian equipment and personnel losses. KIA via Mediazona/BBC. Equipment from Oryx, DIA and CSIS.</p>
+      <div class="ipc-header"><span class="ipc-icon">💀</span><span class="ipc-title">Russian Losses &amp; Advance</span></div>
+      <p class="ipc-desc">Russian equipment losses, personnel KIA, air defence attrition and territorial advance. KIA via Mediazona/BBC. Equipment from Oryx, DIA and CSIS.</p>
     </div>
 
     <div class="intro-page-card" onclick="showTabById('airdef')">
@@ -579,7 +594,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <span class="result-count">Showing <b id="usv-rc">—</b> events</span>
   </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Russian Losses →</button>
+    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Losses &amp; Advance →</button>
     <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
     <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
   </div>
@@ -668,7 +683,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
     <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
-    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Russian Losses →</button>
+    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Losses &amp; Advance →</button>
     <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
   </div>
   <!-- HEADLINE STAT STRIP -->
@@ -826,7 +841,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Russian Losses →</button>
+    <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Losses &amp; Advance →</button>
     <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
   </div>
   <div class="disclaimer" style="margin-bottom:18px">
@@ -2227,6 +2242,109 @@ function buildTerritorialChart(){
   });
 }
 
+function buildIntroTrendsChart(){
+  const el=document.getElementById('intro-trends-chart');
+  if(!el)return;
+  if(typeof Chart==='undefined'){
+    const t=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(t);buildIntroTrendsChart();}},200);
+    return;
+  }
+  if(el._chart)el._chart.destroy();
+
+  const months=['2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03'];
+  const labels=months.map(m=>{const[y,mo]=m.split('-');return new Date(+y,+mo-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});});
+
+  // Strike flights from EMBEDDED_UAV
+  const strikeFlights=months.map(m=>{
+    const r=EMBEDDED_UAV.find(d=>d.date==='monthly_'+m&&d.target==='strike flights');
+    return r?parseInt(r.outcome):null;
+  });
+
+  // Territorial advance (km²) from hardcoded data
+  const territorial={
+    '2025-06':423,'2025-07':502,'2025-08':430,'2025-09':398,
+    '2025-10':468,'2025-11':528,'2025-12':347,
+    '2026-01':425,'2026-02':-37,'2026-03':25
+  };
+  const terrData=months.map(m=>territorial[m]??null);
+
+  // Interception rate from AIRDEF_DATA (monthly average)
+  const airRates=months.map(m=>{
+    const rows=AIRDEF_DATA.filter(r=>r.date&&r.date.startsWith(m));
+    const l=rows.reduce((s,r)=>s+(parseFloat(r.launched)||0),0);
+    const d=rows.reduce((s,r)=>s+(parseFloat(r.destroyed)||0),0);
+    return l>0?Math.round(d/l*100):null;
+  });
+
+  const MONO="'Share Tech Mono',monospace";
+  const TIP={backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88'};
+
+  el._chart=new Chart(el,{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {
+          label:'Strike flights',
+          data:strikeFlights.map(v=>v?Math.round(v/1000):null),
+          borderColor:'#f0c040',
+          backgroundColor:'transparent',
+          borderWidth:2,
+          pointRadius:2,
+          pointHoverRadius:5,
+          tension:0.3,
+          spanGaps:true,
+          yAxisID:'y'
+        },
+        {
+          label:'Russian advance (km²)',
+          data:terrData,
+          borderColor:'#e74c3c',
+          backgroundColor:'transparent',
+          borderWidth:2,
+          pointRadius:2,
+          pointHoverRadius:5,
+          tension:0.3,
+          spanGaps:true,
+          yAxisID:'y2'
+        },
+        {
+          label:'Intercept rate (%)',
+          data:airRates,
+          borderColor:'#6bbf78',
+          backgroundColor:'transparent',
+          borderWidth:2,
+          pointRadius:2,
+          pointHoverRadius:5,
+          tension:0.3,
+          spanGaps:true,
+          yAxisID:'y3'
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{...TIP,callbacks:{
+          label:ctx=>{
+            if(ctx.datasetIndex===0)return ` Strike flights: ${(ctx.parsed.y*1000).toLocaleString('en-GB')}`;
+            if(ctx.datasetIndex===1)return ` Russian advance: ${ctx.parsed.y>=0?'+':''}${ctx.parsed.y} km²`;
+            return ` Intercept rate: ${ctx.parsed.y}%`;
+          }
+        }}
+      },
+      scales:{
+        x:{ticks:{color:'#526650',font:{size:8,family:MONO}},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{display:false,min:40,max:100},
+        y2:{display:false},
+        y3:{display:false,min:50,max:100}
+      }
+    }
+  });
+}
+
 // Build charts once data is loaded — hook into showTab too
 const _origShowTab=showTab;
 showTab=function(id,btn){
@@ -2243,6 +2361,7 @@ showTab=function(id,btn){
   if(typeof UGV_DATA!=='undefined'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(typeof AIRDEF_DATA!=='undefined'&&AIRDEF_DATA.length){try{buildAirDefChart();}catch(e){console.error('airdef chart onload:',e);}}
   buildTerritorialChart();
+  buildIntroTrendsChart();
 "></script>
 </body>
 </html>
