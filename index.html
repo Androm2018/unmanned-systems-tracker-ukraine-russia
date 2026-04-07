@@ -76,10 +76,15 @@ nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0;position:relative}
 .share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
+.tab-footer-nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 4px;border-top:1px solid var(--border2);margin-top:24px}
+.tab-footer-nav .btn{font-size:0.58rem;padding:5px 12px;opacity:0.8}
+.tab-footer-nav .btn:hover{opacity:1}
 .share-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0}
+#back-to-top{position:fixed;bottom:24px;right:24px;background:var(--accent3);color:#080d0a;border:none;font-family:var(--head);font-weight:700;font-size:0.65rem;letter-spacing:0.1em;padding:8px 14px;cursor:pointer;display:none;z-index:999;transition:opacity 0.2s}
+#back-to-top:hover{background:#7dd68a}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
@@ -300,8 +305,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   input[type="text"]{width:120px}
   .stat-rows,.intro-pages{grid-template-columns:repeat(2,1fr)}
   .ipc-columns{grid-template-columns:1fr}
-  .intro-stats{flex-direction:column}
-  .intro-stat{border-right:none;border-bottom:1px solid var(--border)}
+  .intro-stats{flex-wrap:wrap}
+  .intro-stat{flex:0 0 50%;min-width:0;border-right:none;border-bottom:1px solid var(--border)}
+  .intro-stat:nth-child(odd){border-right:1px solid var(--border)}
   .intro-stat:last-child{border-bottom:none}
   .intro-headline{font-size:2rem}
   .sources-grid{grid-template-columns:1fr}
@@ -329,8 +335,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   /* Intro */
   .intro-headline{font-size:1.6rem}
   .intro-lead{font-size:0.85rem}
-  .intro-stats{flex-direction:column}
-  .intro-stat{border-right:none;border-bottom:1px solid var(--border);padding:14px 16px}
+  .intro-stats{flex-wrap:wrap}
+  .intro-stat{flex:0 0 50%;min-width:0;border-right:none;border-bottom:1px solid var(--border);padding:12px 14px}
+  .intro-stat:nth-child(odd){border-right:1px solid var(--border)}
   .intro-pages{grid-template-columns:repeat(2,1fr)}
   .ipc-columns{grid-template-columns:1fr}
   /* Controls: wrap filters vertically */
@@ -441,6 +448,13 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
   <div class="header-right">
+    <div style="position:relative">
+      <input id="global-search" type="text" placeholder="Search all data…"
+        style="font-family:var(--mono);font-size:0.52rem;background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:4px 28px 4px 8px;outline:none;width:140px;transition:width 0.2s,border-color 0.2s"
+        oninput="globalSearch(this.value)" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      <svg style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:10px;height:10px;fill:var(--text3);pointer-events:none" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+    </div>
+    <div id="global-results" style="display:none;position:absolute;top:100%;right:0;width:340px;background:var(--bg2);border:1px solid var(--border);max-height:320px;overflow-y:auto;z-index:500;box-shadow:0 4px 16px rgba(0,0,0,0.4)"></div>
     <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
       <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <span class="share-label">SHARE</span>
@@ -464,7 +478,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="intro-hero">
     <div>
       <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
-      <p class="intro-lead">A curated open-source database tracking the confirmed and claimed combat use of unmanned systems — surface, ground, and air — in the Russia-Ukraine war. Built from publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
+      <p style="font-family:var(--head);font-weight:900;font-size:1.05rem;color:#fff;line-height:1.2;margin-bottom:8px">The definitive open-source database of drone warfare in Ukraine.</p>
+      <p class="intro-lead">Tracking confirmed USV strikes, UGV operations, UAV kill data, air defence intercepts and Russian losses. Built from official Ukrainian military releases, verified OSINT, and cited sources. Free to access and share.</p>
 
     </div>
     <div style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;display:flex;flex-direction:column">
@@ -862,7 +877,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <!-- WEAPON TYPE BREAKDOWN -->
-  <div class="kb-section-title">BREAKDOWN BY WEAPON TYPE</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+    <div class="kb-section-title" style="margin-bottom:0">BREAKDOWN BY WEAPON TYPE</div>
+    <div id="airdef-toggle-wrap" style="display:none;align-items:center;gap:10px">
+      <span id="airdef-weap-count" style="font-family:var(--mono);font-size:0.5rem;color:var(--text3)"></span>
+      <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:0.5rem;color:var(--text3)">
+        <input type="checkbox" id="airdef-show-all" onchange="renderAirDef()" style="accent-color:var(--accent3)">
+        Show all
+      </label>
+    </div>
+  </div>
   <div class="ad-weapon-grid" id="airdef-weapons">
     <div class="ad-weapon-col" id="airdef-col-left"></div>
     <div class="ad-weapon-col" id="airdef-col-right"></div>
@@ -1204,6 +1228,12 @@ let AIRDEF_DATA=[];
 
 
 async function loadAll() {
+  const _loadTimeout=setTimeout(()=>{
+    document.querySelectorAll('.state-box').forEach(el=>{
+      if(el.querySelector('.spinner'))
+        el.innerHTML='<div style="font-family:var(--mono);font-size:0.6rem;color:var(--text3);padding:8px">⚠ Live data unavailable — showing cached data</div>';
+    });
+  },8000);
   // ── Phase 1: render embedded fallback immediately ──
   USV_DATA=EMBEDDED_USV; UGV_DATA=EMBEDDED_UGV; KB_DATA=EMBEDDED_KB; UAV_DATA=EMBEDDED_UAV;
   renderUSV(); renderUGV(); renderKillBoard(); renderUAV(); if(typeof Chart!=="undefined")buildUAVChart();
@@ -1275,8 +1305,11 @@ async function loadAll() {
   
 
   const d=new Date().toUTCString().slice(5,16).toUpperCase();
+  clearTimeout(_loadTimeout);
   document.getElementById('last-updated').textContent=d;
   document.getElementById('intro-date').textContent=d;
+  // Re-apply hash routing after data loads (ensures correct tab is active)
+  if(window._hashTab&&window._hashTab!=='intro'){showTabById(window._hashTab);}
 
   renderUSV(); renderUGV(); renderKillBoard();
 
@@ -1325,11 +1358,16 @@ function showTabById(id){
   const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
   if(btn)showTab(id,btn);
 }
-// On load, activate the tab matching the URL hash
+// Hash routing — applied immediately for tab switch, but we also re-apply
+// after data loads in case the tab needs data to render correctly
 (function(){
   const hash=location.hash.replace('#','');
   const valid=['intro','usv','ugv','uav','rl','airdef','sources'];
-  if(hash&&valid.includes(hash))showTabById(hash);
+  if(hash&&valid.includes(hash)){
+    showTabById(hash);
+    // Mark intro as not-active so the right tab stays open after loadAll
+    window._hashTab=hash;
+  }
 })();
 
 // ═══════════════════════════════════════════════════════════
@@ -1918,9 +1956,16 @@ function renderAirDef(){
       <span class="ad-weapon-num" style="color:var(--accent3)">${fmtBig(t.destroyed)}</span>
       <span class="ad-rate-badge ${rateClass(t.rate)}" style="width:40px;text-align:center">${t.rate}%</span>
     </div>`).join('');
-  const mid=Math.ceil(typeArr.length/2);
-  document.getElementById('airdef-col-left').innerHTML=weapHeader+buildWeapRows(typeArr.slice(0,mid));
-  document.getElementById('airdef-col-right').innerHTML=weapHeader+buildWeapRows(typeArr.slice(mid));
+  // Show top 10 by default, rest on demand
+  const showAll=document.getElementById('airdef-show-all')?.checked;
+  const displayArr=showAll?typeArr:typeArr.slice(0,10);
+  const mid=Math.ceil(displayArr.length/2);
+  document.getElementById('airdef-col-left').innerHTML=weapHeader+buildWeapRows(displayArr.slice(0,mid));
+  document.getElementById('airdef-col-right').innerHTML=weapHeader+buildWeapRows(displayArr.slice(mid));
+  const toggleEl=document.getElementById('airdef-toggle-wrap');
+  if(toggleEl)toggleEl.style.display=typeArr.length>10?'flex':'none';
+  const countEl=document.getElementById('airdef-weap-count');
+  if(countEl)countEl.textContent=showAll?'Showing all '+typeArr.length+' types':'Showing top 10 of '+typeArr.length+' types';
 
 }
 
@@ -2144,6 +2189,46 @@ function buildChart(canvasId, data, label, color){
 // ═══════════════════════════════════════════════════════════
 //  SHARE FUNCTIONS
 // ═══════════════════════════════════════════════════════════
+function globalSearch(q){
+  const res=document.getElementById('global-results');
+  if(!q||q.length<2){res.style.display='none';return;}
+  const term=q.toLowerCase();
+  const hits=[];
+  // Search USV
+  (USV_DATA||[]).forEach(r=>{
+    if(hits.length>=20)return;
+    const text=Object.values(r).join(' ').toLowerCase();
+    if(text.includes(term))hits.push({tab:'usv',icon:'🛥',label:r.date+' · '+r.target+' · '+(r.damage||''),sub:'USV Strikes'});
+  });
+  // Search UGV
+  (UGV_DATA||[]).forEach(r=>{
+    if(hits.length>=20)return;
+    const text=Object.values(r).join(' ').toLowerCase();
+    if(text.includes(term))hits.push({tab:'ugv',icon:'🤖',label:r.date+' · '+r.system+' · '+(r.outcome||''),sub:'UGV Operations'});
+  });
+  // Search Air Defence
+  (AIRDEF_DATA||[]).slice(0,2000).forEach(r=>{
+    if(hits.length>=20)return;
+    const text=(r.date||'')+' '+(r.model||'');
+    if(text.toLowerCase().includes(term))hits.push({tab:'airdef',icon:'🛡',label:r.date+' · '+(r.model||'')+ ' · '+(r.launched||0)+' launched',sub:'Air Defence'});
+  });
+  if(!hits.length){res.innerHTML='<div style="font-family:var(--mono);font-size:0.58rem;color:var(--text3);padding:12px 14px">No results for "'+q+'"</div>';res.style.display='block';return;}
+  res.innerHTML=hits.map(h=>`
+    <div onclick="showTabById('${h.tab}');document.getElementById('global-search').value='';document.getElementById('global-results').style.display='none'"
+      style="padding:9px 14px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background 0.1s"
+      onmouseover="this.style.background='var(--glowb)'" onmouseout="this.style.background=''">
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:2px">${h.icon} ${h.sub}</div>
+      <div style="font-family:var(--body);font-size:0.7rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${h.label}</div>
+    </div>`).join('');
+  res.style.display='block';
+}
+// Close search on click outside
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#global-search')&&!e.target.closest('#global-results')){
+    const r=document.getElementById('global-results');
+    if(r)r.style.display='none';
+  }
+});
 function _shareUrl(){
   const base='https://unmannedsystemstracker.com/';
   const hash=location.hash&&location.hash!=='#intro'?location.hash:'';
@@ -2362,5 +2447,11 @@ showTab=function(id,btn){
   buildTerritorialChart();
   buildIntroTrendsChart();
 "></script>
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ TOP</button>
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('back-to-top').style.display=window.scrollY>400?'block':'none';
+});
+</script>
 </body>
 </html>
