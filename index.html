@@ -487,7 +487,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   <div class="intro-stats">
     <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Operations</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Missions (Mar 2026)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">648,850</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
@@ -603,6 +603,31 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
     <button class="btn btn-accent" onclick="exportCSV('ugv')">⬇ EXPORT CSV</button>
   </div>
+  <!-- DELTA MISSION STATS -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:18px">
+    <div style="background:var(--bg2);padding:14px 16px;text-align:center">
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">9,000+</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Missions in Mar 2026</div>
+    </div>
+    <div style="background:var(--bg2);padding:14px 16px;text-align:center">
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">24,500+</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Missions Q1 2026</div>
+    </div>
+    <div style="background:var(--bg2);padding:14px 16px;text-align:center">
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">167</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Units equipped (Mar)</div>
+    </div>
+    <div style="background:var(--bg2);padding:14px 16px;text-align:center">
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">3&#215;</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Growth vs Nov 2025</div>
+    </div>
+  </div>
+  <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);margin-bottom:16px;line-height:1.6">
+    Mission data via Ukraine MoD DELTA combat system &middot;
+    <a href="https://mod.gov.ua/en/news/over-9-000-frontline-missions-in-march-the-defence-forces-continue-to-expand-the-use-of-ground-robotic-systems" target="_blank" rel="noopener" class="src-link">MoD Mar 2026 &#8599;</a> &middot;
+    <a href="https://mod.gov.ua/en/news/delta-expands-mission-reporting-and-result-tracking-for-ground-robotic-systems-1" target="_blank" rel="noopener" class="src-link">DELTA tracking &#8599;</a>
+  </div>
+
   <div class="controls">
     <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="ugv-search" placeholder="system, location…" oninput="renderUGV()"></div>
     <div class="ctrl-group"><span class="ctrl-label">Side</span><select id="ugv-side" onchange="renderUGV()"><option value="">All</option><option>Ukraine</option><option>Russia</option></select></div>
@@ -831,22 +856,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ad-weapon-col" id="airdef-col-right"></div>
   </div>
 
-  <!-- MONTHLY SUMMARY TABLE -->
-  <div class="kb-section-title">MONTHLY SUMMARY — ALL ATTACK TYPES COMBINED</div>
-  <div class="table-wrap">
-    <table>
-      <colgroup><col style="width:14%"><col style="width:16%"><col style="width:16%"><col style="width:14%"><col style="width:12%"><col style="width:28%"></colgroup>
-      <thead><tr>
-        <th onclick="sortAirDef(0)">Month ↕</th>
-        <th onclick="sortAirDef(1)">Attack Waves ↕</th>
-        <th onclick="sortAirDef(2)">Total Launched ↕</th>
-        <th onclick="sortAirDef(3)">Intercepted ↕</th>
-        <th onclick="sortAirDef(4)">Got Through ↕</th>
-        <th>Rate</th>
-      </tr></thead>
-      <tbody id="airdef-body"><tr><td colspan="6"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
-    </table>
-  </div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -1206,7 +1215,8 @@ async function loadAll() {
 
   // Intro counters
   document.getElementById('is-usv').textContent=USV_DATA.length;
-  document.getElementById('is-ugv').textContent=UGV_DATA.length;
+  // UGV intro stat uses DELTA mission count, not event count
+  document.getElementById('is-ugv').textContent='9,000+';
   const _uavSF=EMBEDDED_UAV.find(r=>r.date==='yearly_2025'&&r.target==='strike flights');
   if(_uavSF){const el=document.getElementById('is-uav');if(el)el.textContent=parseInt(_uavSF.outcome).toLocaleString('en-GB');}
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
@@ -1639,6 +1649,18 @@ function renderKillBoard(){
       <div class="kb-card-source">${r.source||''}</div>
     </div>`).join('');
   document.getElementById('kb-breakdown').innerHTML=stats.length?`
+    <!-- TERRITORIAL GAINS SECTION -->
+  <div class="kb-section-title" style="margin-top:28px">RUSSIAN NET MONTHLY TERRITORIAL ADVANCE · JAN 2024 – MAR 2026</div>
+  <div style="background:var(--bg2);border:1px solid var(--border);padding:16px 18px;margin-bottom:6px">
+    <canvas id="territorial-chart" height="110"></canvas>
+  </div>
+  <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);margin-bottom:24px;line-height:1.7">
+    Source: <a href="https://x.com/JohnH105/status/2041507796378656972" target="_blank" rel="noopener" class="src-link">Black Bird Group, March 2026 ↗</a> · Based on DeepState / ISW data · km² net monthly change in Russian-controlled Ukrainian territory ·
+    <span style="color:#e74c3c">■</span> Russian gain &nbsp;
+    <span style="color:#6bbf78">■</span> Ukrainian gain ·
+    Updated manually each quarter alongside killboard data · Last updated: Q1 2026
+  </div>
+
     <div class="kb-section-title">EQUIPMENT BREAKDOWN (ORYX PHOTO-CONFIRMED)</div>
     <div class="stat-rows">${stats.map(r=>`
       <div class="stat-row">
@@ -1829,7 +1851,6 @@ loadAll();
 // ═══════════════════════════════════════════════════════════
 //  AIR DEFENCE
 // ═══════════════════════════════════════════════════════════
-let airDefSort={col:0,asc:false};
 
 function fmtBig(n){
   if(!n&&n!==0)return'—';
@@ -1887,57 +1908,9 @@ function renderAirDef(){
   document.getElementById('airdef-col-left').innerHTML=weapHeader+buildWeapRows(typeArr.slice(0,mid));
   document.getElementById('airdef-col-right').innerHTML=weapHeader+buildWeapRows(typeArr.slice(mid));
 
-  // ── Build monthly summary ────────────────────────────────────────
-  const monthly={};
-  AIRDEF_DATA.forEach(r=>{
-    if(!r.date||r.date.length<7)return;
-    const ym=r.date.slice(0,7);
-    if(!monthly[ym])monthly[ym]={launched:0,destroyed:0,waves:0};
-    monthly[ym].launched+=(parseFloat(r.launched)||0);
-    monthly[ym].destroyed+=(parseFloat(r.destroyed)||0);
-    monthly[ym].waves+=1;
-  });
-
-  const sortKey=['ym','waves','launched','destroyed','through','rate'];
-  let months=Object.entries(monthly)
-    .map(([ym,d])=>({
-      ym,
-      label:new Date(ym+'-02').toLocaleDateString('en-GB',{month:'long',year:'numeric'}),
-      launched:Math.round(d.launched),
-      destroyed:Math.round(d.destroyed),
-      through:Math.round(d.launched-d.destroyed),
-      rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0,
-      waves:d.waves
-    }))
-    .sort((a,b)=>{
-      const k=sortKey[airDefSort.col]||'ym';
-      const va=a[k], vb=b[k];
-      const cmp=typeof va==='string'?va.localeCompare(vb):va-vb;
-      return airDefSort.asc?cmp:-cmp;
-    });
-
-  if(s) months=months.filter(m=>
-    m.label.toLowerCase().includes(s)||m.ym.includes(s));
-
-  document.getElementById('airdef-rc').textContent=months.length;
-  const body=document.getElementById('airdef-body');
-  const nores=document.getElementById('airdef-nores');
-  if(!months.length){body.innerHTML='';nores.style.display='block';return;}
-  nores.style.display='none';
-
-  body.innerHTML=months.map((m,i)=>`
-    <tr style="animation:fadeIn 0.2s ${Math.min(i,30)*0.015}s both">
-      <td class="cell-date" style="white-space:nowrap">${m.label}</td>
-      <td style="font-family:var(--mono);font-size:0.7rem;color:var(--text3)">${fmtBig(m.waves)}</td>
-      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">${fmtBig(m.launched)}</td>
-      <td style="font-family:var(--mono);font-size:0.75rem;color:var(--accent3)">${fmtBig(m.destroyed)}</td>
-      <td style="font-family:var(--mono);font-size:0.75rem;color:#e74c3c">${fmtBig(m.through)}</td>
-      <td><span class="ad-rate-badge ${rateClass(m.rate)}">${m.rate}%</span></td>
-    </tr>`).join('');
 }
 
 
-function sortAirDef(c){airDefSort={col:c,asc:airDefSort.col===c?!airDefSort.asc:true};renderAirDef();}
 
 function buildAirDefChart(){
   const el=document.getElementById('airdef-chart');
@@ -2170,6 +2143,90 @@ function shareToLinkedIn(){
   window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(_shareUrl()),'_blank','noopener,width=600,height=500');
 }
 
+function buildTerritorialChart(){
+  const el=document.getElementById('territorial-chart');
+  if(!el)return;
+  if(typeof Chart==='undefined'){
+    const t=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(t);buildTerritorialChart();}} ,200);
+    return;
+  }
+  if(el._chart)el._chart.destroy();
+
+  const labels=['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03'];
+  const changes=[56, 155, 51, 105, 311, 84, 211, 403, 422, 491, 750, 451, 332, 202, 185, 226, 538, 423, 502, 430, 398, 468, 528, 347, 425, -37, 25];
+  const totals=[110306, 110461, 110512, 110617, 110928, 111012, 111223, 111626, 112048, 112539, 113289, 113740, 114072, 114274, 114459, 114685, 115223, 115646, 116148, 116578, 116976, 117444, 117972, 118319, 118744, 118707, 118732];
+  const barColors=['rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(107,191,120,0.85)', 'rgba(231,76,60,0.75)'];
+
+  const fmtLabel=ym=>{
+    const[y,m]=ym.split('-');
+    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  };
+
+  const MONO="'Share Tech Mono',monospace";
+  const TIP={backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88'};
+
+  el._chart=new Chart(el,{
+    type:'bar',
+    data:{
+      labels:labels.map(fmtLabel),
+      datasets:[
+        {
+          label:'Monthly change (km²)',
+          data:changes,
+          backgroundColor:barColors,
+          borderColor:barColors.map(c=>c.replace('0.75','1').replace('0.85','1')),
+          borderWidth:1,
+          borderRadius:2,
+          yAxisID:'y',
+          order:2
+        },
+        {
+          label:'Total occupied (km²)',
+          data:totals,
+          type:'line',
+          borderColor:'#4a9fd4',
+          backgroundColor:'transparent',
+          borderWidth:2,
+          pointRadius:0,
+          pointHoverRadius:4,
+          tension:0.3,
+          yAxisID:'y2',
+          order:1
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{labels:{color:'#526650',font:{size:10,family:MONO},boxWidth:14}},
+        tooltip:{...TIP,callbacks:{
+          label:ctx=>ctx.datasetIndex===0
+            ?` Monthly: ${ctx.parsed.y>=0?'+':''}${ctx.parsed.y} km²`
+            :` Total: ${ctx.parsed.y.toLocaleString('en-GB')} km²`
+        }}
+      },
+      scales:{
+        x:{ticks:{color:'#526650',font:{size:8,family:MONO},maxRotation:45},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{
+          position:'left',
+          ticks:{color:'#526650',font:{size:9,family:MONO}},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'},
+          title:{display:true,text:'Monthly km²',color:'#526650',font:{size:8,family:MONO}}
+        },
+        y2:{
+          position:'right',
+          ticks:{color:'#4a9fd4',font:{size:9,family:MONO},callback:v=>v.toLocaleString('en-GB')},
+          grid:{display:false},
+          border:{color:'#253d2a'},
+          title:{display:true,text:'Total km²',color:'#4a9fd4',font:{size:8,family:MONO}}
+        }
+      }
+    }
+  });
+}
+
 // Build charts once data is loaded — hook into showTab too
 const _origShowTab=showTab;
 showTab=function(id,btn){
@@ -2177,6 +2234,7 @@ showTab=function(id,btn){
   if(id==='usv'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(id==='airdef'&&AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
+  if(id==='rl'){buildTerritorialChart();}
   if(id==='uav'&&UAV_DATA.length){renderUAV();buildUAVChart();}
 };
 </script>
@@ -2184,6 +2242,7 @@ showTab=function(id,btn){
   if(typeof USV_DATA!=='undefined'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(typeof UGV_DATA!=='undefined'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(typeof AIRDEF_DATA!=='undefined'&&AIRDEF_DATA.length){try{buildAirDefChart();}catch(e){console.error('airdef chart onload:',e);}}
+  buildTerritorialChart();
 "></script>
 </body>
 </html>
