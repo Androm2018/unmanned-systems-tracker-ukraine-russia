@@ -76,7 +76,7 @@ nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0;position:relative}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
 .share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
 .tab-footer-nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 4px;border-top:1px solid var(--border2);margin-top:24px}
@@ -448,13 +448,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
   <div class="header-right">
-    <div style="position:relative">
-      <input id="global-search" type="text" placeholder="Search all data…"
-        style="font-family:var(--mono);font-size:0.52rem;background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:4px 28px 4px 8px;outline:none;width:140px;transition:width 0.2s,border-color 0.2s"
-        oninput="globalSearch(this.value)" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
-      <svg style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:10px;height:10px;fill:var(--text3);pointer-events:none" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-    </div>
-    <div id="global-results" style="display:none;position:absolute;top:100%;right:0;width:340px;background:var(--bg2);border:1px solid var(--border);max-height:320px;overflow-y:auto;z-index:500;box-shadow:0 4px 16px rgba(0,0,0,0.4)"></div>
     <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
       <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <span class="share-label">SHARE</span>
@@ -467,6 +460,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <span id="last-updated" style="color:var(--accent3)">—</span>
   </div>
 </header>
+
+<div style="background:var(--bg3);border-bottom:1px solid var(--border2);padding:6px 24px;display:flex;align-items:center;gap:10px;position:relative">
+  <svg style="width:11px;height:11px;fill:none;stroke:var(--text3);flex-shrink:0" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke-width="2.5" stroke-linecap="round"/></svg>
+  <input id="global-search" type="text" placeholder="Search all data — USV, UGV, air defence…"
+    style="font-family:var(--mono);font-size:0.52rem;background:transparent;border:none;color:var(--text2);outline:none;flex:1;min-width:0"
+    oninput="globalSearch(this.value)">
+  <span id="global-search-clear" style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;display:none" onclick="document.getElementById('global-search').value='';globalSearch('');document.getElementById('global-search-clear').style.display='none'">✕ clear</span>
+  <div id="global-results" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--border);max-height:300px;overflow-y:auto;z-index:500;box-shadow:0 4px 16px rgba(0,0,0,0.5)"></div>
+</div>
 
 <main>
 
@@ -900,19 +902,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 <div id="tab-sources" class="tab-panel">
   <div class="section-header">
     <div>
-      <div class="section-title">OSINT Sources <span>&amp; Support</span></div>
-      <div class="section-sub">PRIMARY SOURCES · TRACKING PROJECTS · ANALYTICAL TOOLS · SUPPORT UKRAINE · <span id="src-indicator" style="color:var(--accent3)">—</span></div>
+      <div class="section-title">OSINT <span>Sources</span></div>
+      <div class="section-sub">PRIMARY SOURCES · TRACKING PROJECTS · ANALYTICAL TOOLS · <span id="src-indicator" style="color:var(--accent3)">—</span></div>
     </div>
-  </div>
-
-  <!-- DONATE BLOCK -->
-  <div class="donate-block">
-    <div class="donate-sub">Support Ukraine</div>
-    <div class="donate-title">United24 — Official Ukraine Fundraising Platform</div>
-    <p class="donate-desc">United24 is the official fundraising platform of Ukraine, established by President Zelenskyy. Donations fund defence, medical aid, and reconstruction directly through verified Ukrainian government channels. Every contribution is accounted for and reported publicly.</p>
-    <a href="https://u24.gov.ua/" target="_blank" rel="noopener" class="donate-btn">🇺🇦 Donate via United24 ↗</a>
-    <div style="margin-top:10px;margin-bottom:6px"><a href="https://buymeacoffee.com/unmannedsystemstracker" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;background:#FFDD00;color:#000000;font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;padding:8px 16px;text-decoration:none;border:none;margin-top:2px;flex-shrink:0">☕ Buy Me a Coffee ↗</a></div>
-    <div class="donate-note">u24.gov.ua · Official platform · Funds go directly to Ukraine's government · Transparent reporting · Multiple currencies accepted</div>
   </div>
 
   <!-- AD: UST Banner 3 -->
@@ -1002,52 +994,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <a href="https://tochnyi.info" target="_blank" rel="noopener" class="source-card-link">tochnyi.info ↗</a>
     </div>
 
-  <!-- GROUND WARFARE / UGV -->
-  <div class="kb-section-title">GROUND WARFARE & UGV ANALYSIS</div>
-  <div class="sources-grid">
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🔬</span>
-        <div><div class="source-card-name">Jamestown Foundation</div><div class="source-card-type">UGV analysis · Eurasia security</div></div>
-      </div>
-      <p class="source-card-desc">Publishes rigorous analytical pieces on Ukrainian and Russian UGV developments, including the landmark piece on Ukraine's emergence as a world leader in unmanned ground vehicles. Good source for doctrine-level analysis beyond individual incidents.</p>
-      <a href="https://jamestown.org/ukraine-becomes-world-leader-in-unmanned-ground-vehicles/" target="_blank" rel="noopener" class="source-card-link">jamestown.org ↗</a>
-    </div>
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🏛</span>
-        <div><div class="source-card-name">Modern War Institute (West Point)</div><div class="source-card-type">Academic · operational analysis</div></div>
-      </div>
-      <p class="source-card-desc">West Point's MWI publishes practitioner-level analysis on UGV employment in Ukraine, including detailed pieces on networked ground robot operations and lessons for Western militaries. Peer-reviewed and operationally grounded.</p>
-      <a href="https://mwi.westpoint.edu/networked-for-war-lessons-from-ukraines-ground-robots/" target="_blank" rel="noopener" class="source-card-link">mwi.westpoint.edu ↗</a>
-    </div>
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🇺🇦</span>
-        <div><div class="source-card-name">Kyiv Independent</div><div class="source-card-type">Ukrainian news · frontline reporting</div></div>
-      </div>
-      <p class="source-card-desc">Leading English-language Ukrainian outlet with reliable frontline reporting on drone and UGV deployment. Close access to Ukrainian military sources makes it particularly useful for first-disclosure reporting on new systems and operations.</p>
-      <a href="https://kyivindependent.com" target="_blank" rel="noopener" class="source-card-link">kyivindependent.com ↗</a>
-    </div>
-    <div class="source-card">
-      <div class="source-card-header">
-        <span class="source-card-icon">🏛</span>
-        <div><div class="source-card-name">CSIS — Futures Lab</div><div class="source-card-type">Strategic analysis · equipment data</div></div>
-      </div>
-      <p class="source-card-desc">Center for Strategic and International Studies publishes detailed quantitative analysis of Russian equipment losses and battlefield dynamics, including the Russian Firepower Strike Tracker and the landmark "Russia's Battlefield Woes" analysis (2025).</p>
-      <a href="https://www.csis.org/analysis/russias-battlefield-woes-ukraine" target="_blank" rel="noopener" class="source-card-link">csis.org ↗</a>
-    </div>
-  </div>
-
   <!-- LIVE TRACKING TOOLS -->
   <div class="kb-section-title">LIVE CONFLICT TRACKING TOOLS</div>
-  <div class="sources-grid">
+  <div class="sources-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="source-card">
       <div class="source-card-header">
         <span class="source-card-icon">🗺</span>
         <div><div class="source-card-name">DeepState Map</div><div class="source-card-type">Live frontline · territorial control</div></div>
       </div>
-      <p class="source-card-desc">Real-time OSINT map of frontline positions and territorial control, maintained by a Ukrainian analytical team. Considered one of the most accurate live maps of the conflict. Updated continuously based on visual evidence and geolocated footage.</p>
+      <p class="source-card-desc">The most accurate live frontline map of the conflict. Updated continuously from visual evidence and geolocated footage.</p>
       <a href="https://deepstatemap.live" target="_blank" rel="noopener" class="source-card-link">deepstatemap.live ↗</a>
     </div>
     <div class="source-card">
@@ -1055,23 +1010,23 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <span class="source-card-icon">📍</span>
         <div><div class="source-card-name">Geoconfirmed</div><div class="source-card-type">Geolocated OSINT incidents</div></div>
       </div>
-      <p class="source-card-desc">Crowdsourced OSINT initiative that geolocates conflict events — missile strikes, troop movements, infrastructure damage. Each entry is individually geolocated and verified. Good for cross-referencing specific incident locations.</p>
+      <p class="source-card-desc">Crowdsourced initiative geolocating strikes, troop movements, and infrastructure damage. Each entry individually verified.</p>
       <a href="https://geoconfirmed.azurewebsites.net" target="_blank" rel="noopener" class="source-card-link">geoconfirmed.azurewebsites.net ↗</a>
     </div>
     <div class="source-card">
       <div class="source-card-header">
         <span class="source-card-icon">👁</span>
-        <div><div class="source-card-name">Eyes on Russia</div><div class="source-card-type">Verified incidents · war crimes documentation</div></div>
+        <div><div class="source-card-name">Eyes on Russia</div><div class="source-card-type">Verified incidents · war crimes</div></div>
       </div>
-      <p class="source-card-desc">Run by the Centre for Information Resilience with hundreds of volunteers. Tracks attacks and incidents, labelling each as verified or unverified. Particularly strong on human rights documentation and civilian harm but also covers military incidents.</p>
+      <p class="source-card-desc">Centre for Information Resilience project tracking and verifying attacks. Strong on civilian harm documentation.</p>
       <a href="https://eyesonrussia.org" target="_blank" rel="noopener" class="source-card-link">eyesonrussia.org ↗</a>
     </div>
     <div class="source-card">
       <div class="source-card-header">
         <span class="source-card-icon">📡</span>
-        <div><div class="source-card-name">Institute for the Study of War (ISW)</div><div class="source-card-type">Daily operational updates</div></div>
+        <div><div class="source-card-name">ISW</div><div class="source-card-type">Daily operational updates</div></div>
       </div>
-      <p class="source-card-desc">Publishes daily updates on battlefield developments with map assessments. Widely cited by Western governments and media. Useful for operational context and frontline movement analysis, though assessments should be cross-referenced with other sources.</p>
+      <p class="source-card-desc">Daily battlefield updates with map assessments. Widely cited by Western governments. Cross-reference with other sources.</p>
       <a href="https://www.understandingwar.org/backgrounder/ukraine-conflict-updates" target="_blank" rel="noopener" class="source-card-link">understandingwar.org ↗</a>
     </div>
   </div>
@@ -2221,6 +2176,8 @@ function globalSearch(q){
       <div style="font-family:var(--body);font-size:0.7rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${h.label}</div>
     </div>`).join('');
   res.style.display='block';
+  const clr=document.getElementById('global-search-clear');
+  if(clr)clr.style.display=q?'block':'none';
 }
 // Close search on click outside
 document.addEventListener('click',e=>{
