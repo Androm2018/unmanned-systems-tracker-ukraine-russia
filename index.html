@@ -171,8 +171,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .disclaimer b{color:var(--amber)}
 
 /* ── INTRO ── */
-.intro-hero{padding:24px 0 20px;border-bottom:1px solid var(--border2);margin-bottom:36px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
-@media(max-width:900px){.intro-hero{grid-template-columns:1fr}}
+.intro-hero{padding:24px 0 20px;border-bottom:1px solid var(--border2);margin-bottom:36px;display:grid;grid-template-columns:1fr 280px 280px;gap:20px;align-items:start}
+@media(max-width:1100px){.intro-hero{grid-template-columns:1fr 280px}}
+@media(max-width:800px){.intro-hero{grid-template-columns:1fr}}
 
 .intro-kicker{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent3);margin-bottom:14px}
 .intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
@@ -435,8 +436,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV Strikes</button>
     <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations</button>
     <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
-    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses &amp; Advance</button>
     <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
+    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses &amp; Advance</button>
     <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
   </nav>
   <div class="header-right">
@@ -465,20 +466,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
       <p class="intro-lead">A curated open-source database tracking the confirmed and claimed combat use of unmanned systems — surface, ground, and air — in the Russia-Ukraine war. Built from publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
 
-    <div style="margin:20px 0 0;background:var(--bg2);border:1px solid var(--border);padding:14px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
-        <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase">KEY TRENDS · JUN 2025 – MAR 2026</div>
-        <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3)">
-          <span style="color:#f0c040">━</span> Strike flights &nbsp;
-          <span style="color:#e74c3c">━</span> Russian advance (km²) &nbsp;
-          <span style="color:#6bbf78">━</span> Intercept rate
-        </div>
-      </div>
-      <canvas id="intro-trends-chart" height="70"></canvas>
-      <div style="font-family:var(--mono);font-size:0.47rem;color:var(--text3);margin-top:6px">
-        Sources: USF Pidrakhuyka · Black Bird Group / DeepState · Ukrainian Air Force via Petro Ivaniuk
-      </div>
     </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;display:flex;flex-direction:column">
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px">KEY TRENDS · JUN 2025–MAR 2026</div>
+      <div style="font-family:var(--mono);font-size:0.44rem;color:var(--text3);margin-bottom:8px;line-height:1.8">
+        <span style="color:#f0c040">━</span> Strike flights (k) &nbsp;
+        <span style="color:#e74c3c">━</span> Ru. advance km² &nbsp;
+        <span style="color:#6bbf78">━</span> Intercept %
+      </div>
+      <canvas id="intro-trends-chart" style="flex:1;min-height:80px"></canvas>
+      <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:6px;line-height:1.6">Pidrakhuyka · Black Bird Group · Air Force data</div>
     </div>
     <div style="background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 100%);border:1px solid #2a6b3a;border-left:3px solid var(--accent3);padding:14px 16px;position:relative;overflow:hidden">
       <div style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:2.8rem;opacity:0.06">🇺🇦</div>
@@ -504,10 +501,10 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Missions (Mar 2026)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">648,850</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses &amp; Advance tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Russian Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses &amp; Advance tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA (Mediazona confirmed)</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
   </div>
 
   <!-- PAGE GUIDE CARDS -->
@@ -1259,6 +1256,8 @@ async function loadAll() {
     if(elRate)elRate.textContent=adRate+'%';
     // Render tab content — wait for Chart.js if not yet loaded
     try{renderAirDef();}catch(e){console.error('airdef render:',e);}
+    // Rebuild intro chart now that AIRDEF_DATA is available
+    if(typeof buildIntroTrendsChart==='function'){try{buildIntroTrendsChart();}catch(e){}}
     if(typeof Chart!=='undefined'){
       try{buildAirDefChart();}catch(e){console.error('airdef chart:',e);}
     } else {
