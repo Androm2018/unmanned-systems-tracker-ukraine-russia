@@ -838,11 +838,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <colgroup><col style="width:14%"><col style="width:16%"><col style="width:16%"><col style="width:14%"><col style="width:12%"><col style="width:28%"></colgroup>
       <thead><tr>
         <th onclick="sortAirDef(0)">Month ↕</th>
-        <th onclick="sortAirDef(1)">Total Launched ↕</th>
-        <th onclick="sortAirDef(2)">Intercepted ↕</th>
-        <th onclick="sortAirDef(3)">Got Through ↕</th>
+        <th onclick="sortAirDef(1)">Attack Waves ↕</th>
+        <th onclick="sortAirDef(2)">Total Launched ↕</th>
+        <th onclick="sortAirDef(3)">Intercepted ↕</th>
+        <th onclick="sortAirDef(4)">Got Through ↕</th>
         <th>Rate</th>
-        <th>Top Weapon</th>
       </tr></thead>
       <tbody id="airdef-body"><tr><td colspan="6"><div class="state-box"><div class="spinner"></div><br>LOADING…</div></td></tr></tbody>
     </table>
@@ -1898,6 +1898,7 @@ function renderAirDef(){
     monthly[ym].waves+=1;
   });
 
+  const sortKey=['ym','waves','launched','destroyed','through','rate'];
   let months=Object.entries(monthly)
     .map(([ym,d])=>({
       ym,
@@ -1908,7 +1909,12 @@ function renderAirDef(){
       rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0,
       waves:d.waves
     }))
-    .sort((a,b)=>b.ym.localeCompare(a.ym));
+    .sort((a,b)=>{
+      const k=sortKey[airDefSort.col]||'ym';
+      const va=a[k], vb=b[k];
+      const cmp=typeof va==='string'?va.localeCompare(vb):va-vb;
+      return airDefSort.asc?cmp:-cmp;
+    });
 
   if(s) months=months.filter(m=>
     m.label.toLowerCase().includes(s)||m.ym.includes(s));
@@ -1922,12 +1928,11 @@ function renderAirDef(){
   body.innerHTML=months.map((m,i)=>`
     <tr style="animation:fadeIn 0.2s ${Math.min(i,30)*0.015}s both">
       <td class="cell-date" style="white-space:nowrap">${m.label}</td>
-      <td style="font-family:var(--mono);font-size:0.7rem;color:var(--text3)">${m.waves} waves</td>
+      <td style="font-family:var(--mono);font-size:0.7rem;color:var(--text3)">${fmtBig(m.waves)}</td>
       <td style="font-family:var(--mono);font-size:0.75rem;color:var(--text)">${fmtBig(m.launched)}</td>
       <td style="font-family:var(--mono);font-size:0.75rem;color:var(--accent3)">${fmtBig(m.destroyed)}</td>
       <td style="font-family:var(--mono);font-size:0.75rem;color:#e74c3c">${fmtBig(m.through)}</td>
       <td><span class="ad-rate-badge ${rateClass(m.rate)}">${m.rate}%</span></td>
-      <td class="cell-notes" style="font-size:0.65rem;color:var(--text3)">—</td>
     </tr>`).join('');
 }
 
