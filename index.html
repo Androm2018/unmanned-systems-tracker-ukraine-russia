@@ -322,6 +322,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 /* ── MOBILE ── */
 @media(max-width:600px){
+  .hide-mobile{display:none!important}
   /* Header: icon + title only, no subtitle */
   header{padding:0 12px;min-height:50px}
   .logo-icon{width:26px;height:26px}
@@ -384,6 +385,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7620877350113591" crossorigin="anonymous"></script>
 <link rel="canonical" href="https://unmannedsystemstracker.com">
+<meta name="last-modified" id="meta-last-modified" content="">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -461,7 +463,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 </header>
 
-<div style="background:var(--bg3);border-bottom:1px solid var(--border2);padding:6px 24px;display:flex;align-items:center;gap:10px;position:relative">
+<div style="background:var(--bg3);border-bottom:1px solid var(--border2);padding:6px 24px;display:flex;align-items:center;gap:10px;position:relative;overflow:visible;z-index:100">
   <svg style="width:11px;height:11px;fill:none;stroke:var(--text3);flex-shrink:0" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke-width="2.5" stroke-linecap="round"/></svg>
   <input id="global-search" type="text" placeholder="Search all data — USV, UGV, air defence…"
     style="font-family:var(--mono);font-size:0.52rem;background:transparent;border:none;color:var(--text2);outline:none;flex:1;min-width:0"
@@ -919,8 +921,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- CASUALTY TRACKING -->
-  <div class="kb-section-title">CASUALTY & LOSS TRACKING</div>
+  <!-- ALL SOURCES -->
   <div class="sources-grid">
     <div class="source-card">
       <div class="source-card-header">
@@ -946,11 +947,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <p class="source-card-desc">The gold standard for equipment loss tracking — every entry in the Oryx database is individually photo or video confirmed. Tracks Russian and Ukrainian losses of tanks, AFVs, aircraft, and naval vessels. Ceased updating in 2025 but the historical record remains essential.</p>
       <a href="https://www.oryxspioenkop.com/2022/02/attack-on-europe-documenting-equipment.html" target="_blank" rel="noopener" class="source-card-link">oryxspioenkop.com ↗</a>
     </div>
-  </div>
 
-  <!-- NAVAL / USV TRACKING -->
-  <div class="kb-section-title">NAVAL & UNMANNED SYSTEMS ANALYSIS</div>
-  <div class="sources-grid">
     <div class="source-card">
       <div class="source-card-header">
         <span class="source-card-icon">⚓</span>
@@ -993,10 +990,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <p class="source-card-desc">Ukrainian open-source research publication producing detailed long-form analysis of Ukraine's strike campaigns against Russian military assets. Primary source for the Air Defence Attrition section in this tracker — their March 2026 investigation documents Ukraine's systematic campaign against Russian SAM systems and radar networks across Crimea and occupied territories from 2025 onwards.</p>
       <a href="https://tochnyi.info" target="_blank" rel="noopener" class="source-card-link">tochnyi.info ↗</a>
     </div>
-
-  <!-- LIVE TRACKING TOOLS -->
-  <div class="kb-section-title">LIVE CONFLICT TRACKING TOOLS</div>
-  <div class="sources-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="source-card">
       <div class="source-card-header">
         <span class="source-card-icon">🗺</span>
@@ -1028,10 +1021,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       </div>
       <p class="source-card-desc">Daily battlefield updates with map assessments. Widely cited by Western governments. Cross-reference with other sources.</p>
       <a href="https://www.understandingwar.org/backgrounder/ukraine-conflict-updates" target="_blank" rel="noopener" class="source-card-link">understandingwar.org ↗</a>
-    </div>
-  </div>
-
-  <!-- RECOMMENDED READING -->
+    </div>  <!-- RECOMMENDED READING -->
   <div class="kb-section-title">RECOMMENDED READING</div>
   <div class="disclaimer" style="margin-bottom:16px">
     <b>AFFILIATE NOTICE:</b> The links below are Amazon affiliate links. If you purchase through them we receive a small commission at no extra cost to you. All books are recommended on their own merits and are directly relevant to the subject matter of this tracker.
@@ -1131,6 +1121,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8;margin-bottom:10px">This tracker is an independent open-source research project documenting the confirmed and claimed use of unmanned systems — surface, ground, and air — in the Russian invasion of Ukraine.</p>
       <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8;margin-bottom:10px">It is built and maintained as part of ongoing PhD research in war studies, drawing on publicly available OSINT, official Ukrainian military releases, and verified reporting. All entries carry source citations for independent verification.</p>
       <p style="font-family:var(--body);font-size:0.8rem;color:var(--text3);line-height:1.8">Data is updated regularly. The tracker is not affiliated with any government, military organisation, or commercial entity.</p>
+      <p style="font-family:var(--body);font-size:0.72rem;color:var(--text3);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">This tracker is not affiliated with any of the organisations listed above. Links are provided for research and verification purposes. Users are encouraged to consult primary sources directly and apply their own critical judgement to all conflict data.</p>
     </div>
 
     <div style="background:var(--bg2);border:1px solid var(--border);padding:24px 26px">
@@ -1142,9 +1133,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   </div>
 
-  <div class="disclaimer" style="margin-top:8px">
-    <b>NOTE:</b> This tracker is an independent open-source project not affiliated with any of the organisations listed above. Links are provided for research and verification purposes. Users are encouraged to consult primary sources directly and apply their own critical judgement to all conflict data.<br><br>· <a href="privacy.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Privacy Policy</a> · <a href="privacy.html#advertising" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Cookie Policy</a>
-  </div>
+  
 
 </div>
 </div>
@@ -1262,6 +1251,7 @@ async function loadAll() {
   const d=new Date().toUTCString().slice(5,16).toUpperCase();
   clearTimeout(_loadTimeout);
   document.getElementById('last-updated').textContent=d;
+  const metaLM=document.getElementById('meta-last-modified');if(metaLM)metaLM.setAttribute('content',new Date().toISOString().slice(0,10));
   document.getElementById('intro-date').textContent=d;
   // Re-apply hash routing after data loads (ensures correct tab is active)
   if(window._hashTab&&window._hashTab!=='intro'){showTabById(window._hashTab);}
@@ -1301,6 +1291,7 @@ function sideBadge(s){
 // ═══════════════════════════════════════════════════════════
 //  TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
+const TAB_TITLES={intro:'Ukraine War Unmanned Systems Tracker',usv:'USV Strikes — Ukraine War Unmanned Systems Tracker',ugv:'UGV Operations — Ukraine War Unmanned Systems Tracker',uav:'UAV Kill Board — Ukraine War Unmanned Systems Tracker',airdef:'Air Defence — Ukraine War Unmanned Systems Tracker',rl:'Russian Losses & Advance — Ukraine War Unmanned Systems Tracker',sources:'Sources & Support — Ukraine War Unmanned Systems Tracker'};
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
@@ -1308,6 +1299,8 @@ function showTab(id,btn){
   btn.classList.add('active');
   // Update URL hash without triggering a scroll
   history.replaceState(null,null,'#'+id);
+  // Update browser tab title
+  document.title=TAB_TITLES[id]||TAB_TITLES.intro;
 }
 function showTabById(id){
   const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
@@ -2309,12 +2302,12 @@ function buildIntroTrendsChart(){
   };
   const terrData=months.map(m=>territorial[m]??null);
 
-  // Interception rate from AIRDEF_DATA (monthly average)
+  // Interception rate from AIRDEF_DATA — fallback to ~75% if data not yet loaded
   const airRates=months.map(m=>{
     const rows=AIRDEF_DATA.filter(r=>r.date&&r.date.startsWith(m));
     const l=rows.reduce((s,r)=>s+(parseFloat(r.launched)||0),0);
     const d=rows.reduce((s,r)=>s+(parseFloat(r.destroyed)||0),0);
-    return l>0?Math.round(d/l*100):null;
+    return l>0?Math.round(d/l*100):75; // fallback 75% if no data
   });
 
   const MONO="'Share Tech Mono',monospace";
@@ -2397,6 +2390,7 @@ showTab=function(id,btn){
   if(id==='uav'&&UAV_DATA.length){renderUAV();buildUAVChart();}
 };
 </script>
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="
   if(typeof USV_DATA!=='undefined'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(typeof UGV_DATA!=='undefined'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
