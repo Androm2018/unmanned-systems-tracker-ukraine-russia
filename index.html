@@ -184,8 +184,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
 .intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
-.intro-stats{display:flex;gap:0;border:1px solid var(--border);margin:18px 0;overflow:hidden}
-.intro-stat{flex:1;padding:10px 10px;border-right:1px solid var(--border);min-width:0;cursor:pointer;transition:background 0.15s,transform 0.1s}
+.intro-stats{display:flex;gap:0;border:1px solid var(--border);margin:18px 0;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+.intro-stat{flex:0 0 calc(100%/7);padding:10px 8px;border-right:1px solid var(--border);min-width:110px;cursor:pointer;transition:background 0.15s,transform 0.1s;box-sizing:border-box}
 .intro-stat:hover{background:var(--glowb)}
 .intro-stat:active{transform:scale(0.98)}
 .intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
