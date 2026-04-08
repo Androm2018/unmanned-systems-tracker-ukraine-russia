@@ -874,6 +874,39 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
   </div>
 
+  <!-- WEATHER ANALYSIS FINDINGS -->
+  <div class="kb-section-title" style="margin-top:24px">WEATHER & INTERCEPTION — ORIGINAL ANALYSIS</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:8px">
+
+    <div style="background:var(--bg2);padding:18px 20px">
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px">Finding 1 · Interception rate by weather</div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#f0c040;line-height:1;margin-bottom:6px">~70%</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:8px">Consistent across all weather conditions</div>
+      <p style="font-family:var(--body);font-size:0.71rem;color:var(--text3);line-height:1.6">Clear nights: 70.7% (n=110) · Overcast: 72.2% (n=193) · Adverse: 68.2% (n=300). The 4-point difference across conditions is not statistically significant. Ukraine's air defence performs consistently regardless of night-time weather.</p>
+    </div>
+
+    <div style="background:var(--bg2);padding:18px 20px">
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px">Finding 2 · Cloud cover correlation</div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#6bbf78;line-height:1;margin-bottom:6px">r = 0.051</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:8px">p = 0.21 · Not significant</div>
+      <p style="font-family:var(--body);font-size:0.71rem;color:var(--text3);line-height:1.6">OLS regression of night-time cloud cover against Shahed interception rate shows a near-zero relationship. Cloud cover explains less than 0.3% of variance in intercept outcomes — weather is not a meaningful predictor of air defence performance.</p>
+    </div>
+
+    <div style="background:var(--bg2);padding:18px 20px">
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px">Finding 3 · Russian launch timing</div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#e74c3c;line-height:1;margin-bottom:6px">150 vs 125</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:8px">Clear vs adverse weather launch volumes</div>
+      <p style="font-family:var(--body);font-size:0.71rem;color:var(--text3);line-height:1.6">Russia launches <em>more</em> Shaheds on clear nights (150.4/day) than on adverse nights (129.6/day). There is no evidence Russia times swarms to exploit poor weather conditions — refuting the intuitive assumption of weather-based operational timing.</p>
+    </div>
+
+  </div>
+  <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:24px;line-height:1.8">
+    Original analysis: <strong style="color:var(--text2)">Andro Mathewson</strong>, PhD Candidate in War Studies, King's College London ·
+    Air defence data: Petro Ivaniuk / Ukrainian Air Force ·
+    Weather data: <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener" class="src-link">Open-Meteo Historical Archive API ↗</a> ·
+    n=603 attack days · Shahed/Geran only · Oct 2022–Mar 2026
+  </div>
+
   <!-- CHART -->
   <div class="kb-section-title">INTERCEPTION RATE OVER TIME — DRONES vs MISSILES</div>
   <div style="background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:20px">
