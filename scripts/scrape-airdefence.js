@@ -71,6 +71,20 @@ async function main() {
   const blankLaunched = raw.filter(r => !parseFloat(r.launched || '')).length;
   if (blankLaunched > 0) console.log(`⚠ ${blankLaunched} rows had blank/zero launched value`);
 
+  // Diagnostic: sum launched directly from raw CSV
+  const rawSum = raw.reduce((s, r) => s + (parseFloat(r.launched) || 0), 0);
+  console.log(`CSV launched sum: ${rawSum}`);
+
+  // Log available column names from first row
+  console.log(`CSV columns: ${Object.keys(raw[0]).join(', ')}`);
+
+  // Log any rows where launched is non-numeric
+  const nonNumeric = raw.filter(r => r.launched && isNaN(parseFloat(r.launched)));
+  if (nonNumeric.length > 0) {
+    console.log(`⚠ ${nonNumeric.length} rows with non-numeric launched value:`);
+    nonNumeric.slice(0, 5).forEach(r => console.log(`  date=${r.date||r.time_start} launched="${r.launched}"`));
+  }
+
   const rows = raw.map(r => {
     const date      = (r.time_start || r.date || '').slice(0, 10);
     // Try multiple possible column names for launched count
