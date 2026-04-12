@@ -68,11 +68,16 @@ async function main() {
     return da.localeCompare(db);
   });
 
+  const blankLaunched = raw.filter(r => !parseFloat(r.launched || '')).length;
+  if (blankLaunched > 0) console.log(`⚠ ${blankLaunched} rows had blank/zero launched value`);
+
   const rows = raw.map(r => {
     const date      = (r.time_start || r.date || '').slice(0, 10);
-    const launched  = parseFloat(r.launched)       || 0;
-    const destroyed = parseFloat(r.destroyed)      || 0;
-    const notReach  = parseFloat(r.not_reach_goal) || 0;
+    // Try multiple possible column names for launched count
+    const launchedRaw = r.launched || r.amount || r.total || r.count || '';
+    const launched  = parseFloat(launchedRaw) || 0;
+    const destroyed = parseFloat(r.destroyed || r.destroyed_details || '') || 0;
+    const notReach  = parseFloat(r.not_reach_goal || r.not_reach || '') || 0;
     const notesParts = [];
     if (r.launch_place)    notesParts.push(`Launch: ${r.launch_place}`);
     if (r.still_attacking) notesParts.push(`Still attacking: ${r.still_attacking}`);
