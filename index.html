@@ -70,7 +70,8 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28p
 .logo-icon{flex-shrink:0;display:flex;align-items:center}
 .logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
 .logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
-nav{display:flex;align-items:stretch;flex:1;overflow:hidden}
+nav{display:flex;align-items:stretch;flex:1;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
 .nav-tab{font-family:var(--head);font-weight:700;font-size:0.56rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--text3);padding:0 8px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:4px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
 .nav-tab:hover{color:var(--text2)}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
@@ -325,7 +326,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .logo-icon{width:26px;height:26px}
   .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
   /* Nav: scrollable row of small tabs */
-  nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;flex-shrink:1}
+  nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   nav::-webkit-scrollbar{display:none}
   .nav-tab{padding:0 10px;font-size:0.6rem;letter-spacing:0.04em;flex:0 0 auto;min-width:fit-content}
   /* Main layout */
@@ -1305,16 +1306,34 @@ async function fetchTab(tab) {
   try{
     const [tabName, extra] = tab.split('&');
     const extraParams = extra ? '&' + extra : '';
-    const res=await fetch(`${SCRIPT_URL}?tab=${tabName}${extraParams}&t=${Date.now()}`);
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
-    const json=await res.json();
-    if(!json.ok)throw new Error(json.error);
-    return json.data;
-  }catch(e){console.error(`fetch ${tab}:`,e);return null;}
+    const url = `${SCRIPT_URL}?tab=${tabName}${extraParams}&t=${Date.now()}`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if(!json.ok) throw new Error(json.error||'API error');
+
+    // Handle chunked responses for large tabs (e.g. AirDefence)
+    if(json.totalChunks && json.totalChunks > 1){
+      let allData = [...(json.data||[])];
+      const fetches = [];
+      for(let c = 1; c < json.totalChunks; c++){
+        fetches.push(
+          fetch(`${SCRIPT_URL}?tab=${tabName}&chunk=${c}&t=${Date.now()}`)
+            .then(r=>r.json())
+            .then(j=>j.data||[])
+        );
+      }
+      const chunks = await Promise.all(fetches);
+      chunks.forEach(ch => allData = allData.concat(ch));
+      return allData;
+    }
+
+    return json.data||null;
+  }catch(e){
+    console.warn('fetchTab failed for',tab,e.message);
+    return null;
+  }
 }
-
-let AIRDEF_DATA=[];
-
 
 async function loadAll() {
   const _loadTimeout=setTimeout(()=>{
