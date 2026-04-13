@@ -2363,6 +2363,35 @@ function shareToLinkedIn(){
   window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(_shareUrl()),'_blank','noopener,width=600,height=500');
 }
 
+function buildCorridorChart(){
+  const el=document.getElementById('corridor-chart');
+  if(!el||typeof Chart==='undefined')return;
+  if(el._chart)el._chart.destroy();
+  const MONO="'Share Tech Mono',monospace";
+  el._chart=new Chart(el,{
+    type:'bar',
+    data:{
+      labels:['Southern\n(Krasnodar/Crimea)','Central\n(Moscow/Tver)','Northern/Baltic\n(Leningrad)','Eastern/Volga\n(Saratov/Samara)','Deep East\n(Tatarstan/Ural)'],
+      datasets:[
+        {label:'AD density (intercepts)',data:[5939,2946,61,30,5],backgroundColor:'rgba(239,83,80,0.7)',yAxisID:'y'},
+        {label:'Penetration rate %',data:[12.9,25.4,67,null,null],backgroundColor:'rgba(74,159,212,0.7)',yAxisID:'y2'}
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{labels:{color:'#526650',font:{size:9,family:MONO},boxWidth:12}},
+        tooltip:{backgroundColor:'#0d1410',borderColor:'#253d2a',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88'}
+      },
+      scales:{
+        x:{ticks:{color:'#526650',font:{size:7,family:MONO},maxRotation:0},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{position:'left',ticks:{color:'#ef5350',font:{size:8,family:MONO}},grid:{color:'#1e3022'},title:{display:true,text:'Intercept reports',color:'#ef5350',font:{size:7,family:MONO}}},
+        y2:{position:'right',ticks:{color:'#4a9fd4',font:{size:8,family:MONO},callback:v=>v+'%'},grid:{display:false},title:{display:true,text:'Penetration %',color:'#4a9fd4',font:{size:7,family:MONO}}}
+      }
+    }
+  });
+}
 function buildTerritorialChart(){
   const el=document.getElementById('territorial-chart');
   if(!el)return;
@@ -2558,7 +2587,7 @@ showTab=function(id,btn){
   if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(id==='airdef'&&AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
   if(id==='rl'){buildTerritorialChart();}
-  if(id==='research'){checkDsSession();}
+  if(id==='research'){checkDsSession();if(typeof Chart!=='undefined')buildCorridorChart();}
   if(id==='uav'&&UAV_DATA.length){renderUAV();buildUAVChart();}
 };
 </script>
@@ -2638,6 +2667,155 @@ window.addEventListener('scroll',()=>{
       <p style="font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:8px;line-height:1.6">No significant weather effect (cloud p=0.73). Ukraine strikes 94% of days regardless of conditions.</p>
     </div>
   </div>
+  <!-- CORRIDOR ANALYSIS -->
+  <div style="border-top:1px solid var(--border2);margin-top:28px;padding-top:24px">
+    <div style="font-family:var(--head);font-weight:900;font-size:0.95rem;color:#fff;margin-bottom:4px">Ukrainian Long-Range Drone Corridor Analysis</div>
+    <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.08em;margin-bottom:12px">APRIL 2026 · SOURCE: @MOD_RUSSIA TELEGRAM (n=5,927 INTERCEPT REPORTS) · @DRONBOMBER OSINT (n=2,480 CONFIRMED STRIKES)</div>
+    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.8;margin-bottom:20px">Analysis of Ukrainian long-range drone penetration rates by geographic corridor, cross-referencing Russian MoD intercept claims with @dronbomber OSINT-confirmed strikes. Penetration rate = confirmed OSINT hits ÷ Russian MoD intercept reports by oblast cluster. Higher penetration indicates Russia is under-reporting successful Ukrainian strikes.</p>
+
+    <!-- Corridor cards grid -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px">
+
+      <!-- Southern -->
+      <div style="background:var(--bg2);border:1px solid var(--border);padding:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff">Southern corridor</div>
+          <div style="font-family:var(--mono);font-size:0.46rem;color:#6bbf78;background:rgba(107,191,120,0.1);border:1px solid rgba(107,191,120,0.3);padding:2px 8px">Lowest penetration</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:12px">Zaporizhzhia / Kherson → Belgorod / Kursk → Krasnodar / Crimea</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350;line-height:1">5,939</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Intercept reports</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff;line-height:1">767</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Confirmed hits</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#f0c040;line-height:1">12.9%</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Penetration rate</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD density: <span style="color:#ef5350">Very high</span></div>
+        <div style="background:var(--border);height:3px;margin-bottom:10px"><div style="background:#ef5350;width:95%;height:100%"></div></div>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Most heavily defended corridor. Belgorod (2,332 intercepts) and Kursk (1,658) dominate Russian AD reporting — transit zones saturated with Pantsir, Tor-M2, and EW systems. Despite this, confirmed hits are high in absolute terms. Key for: Krasnodar refineries, Rostov depots, Crimea AD.</p>
+      </div>
+
+      <!-- Central -->
+      <div style="background:var(--bg2);border:1px solid var(--border);padding:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff">Central corridor</div>
+          <div style="font-family:var(--mono);font-size:0.46rem;color:#f0c040;background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.3);padding:2px 8px">Moderate penetration</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:12px">Sumy / Chernihiv → Bryansk → Smolensk / Tver → Moscow</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350;line-height:1">2,946</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Intercept reports</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff;line-height:1">749</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Confirmed hits</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#f0c040;line-height:1">25.4%</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Penetration rate</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD density: <span style="color:#f0c040">High</span></div>
+        <div style="background:var(--border);height:3px;margin-bottom:10px"><div style="background:#f0c040;width:75%;height:100%"></div></div>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Primary route to high-value central targets. Bryansk (1,183) and Smolensk (195) show heavy interception activity. Despite losses, Tver (293 confirmed hits) and Moscow (161) are successfully reached — saturation volume compensates for attrition. The "old route" with significant losses en route but the main path to strategic depth.</p>
+      </div>
+
+      <!-- Northern/Baltic -->
+      <div style="background:var(--bg2);border:1px solid var(--border);padding:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff">Northern / Baltic corridor</div>
+          <div style="font-family:var(--mono);font-size:0.46rem;color:#6bbf78;background:rgba(107,191,120,0.15);border:1px solid rgba(107,191,120,0.4);padding:2px 8px">Highest penetration</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:12px">Chernihiv → (Poland / Baltic states) → Baltic Sea → Leningrad / St Petersburg</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350;line-height:1">~61</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Intercept reports</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff;line-height:1">41</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Confirmed hits</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#6bbf78;line-height:1">~67%</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Penetration rate</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD density (over sea): <span style="color:#6bbf78">Very low</span></div>
+        <div style="background:var(--border);height:3px;margin-bottom:10px"><div style="background:#6bbf78;width:15%;height:100%"></div></div>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Best penetration rate — but recently opened. Baltic states airspace opened in early 2026. Old Bryansk–Smolensk–Novgorod land route yielded fewer than a dozen hits on Leningrad targets. No Russian AD over international waters. Leningrad oil terminals (Ust-Luga, Novatek) now being struck at scale. Key limitation: only viable for northern/Baltic targets.</p>
+      </div>
+
+      <!-- Eastern/Volga -->
+      <div style="background:var(--bg2);border:1px solid var(--border);padding:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff">Eastern / Volga corridor</div>
+          <div style="font-family:var(--mono);font-size:0.46rem;color:#ff7043;background:rgba(255,112,67,0.1);border:1px solid rgba(255,112,67,0.3);padding:2px 8px">High penetration</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:12px">Kharkiv → Voronezh axis → Saratov / Samara / Engels</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350;line-height:1">~30</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Intercept reports</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff;line-height:1">180</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Confirmed hits</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ff7043;line-height:1">High</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Russia underreports</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD density: <span style="color:#6bbf78">Low–medium</span></div>
+        <div style="background:var(--border);height:3px;margin-bottom:10px"><div style="background:#ff7043;width:35%;height:100%"></div></div>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Sparse AD, Russia rarely admits intercepts. Saratov (72), Samara (49) and Engels (43) all show confirmed dronbomber hits with minimal @mod_russia intercept reporting. AD systems thin out beyond the border corridor. Kuibyshev refinery complex and Engels bomber base have been repeatedly struck via this route. Key for: Volga industrial belt.</p>
+      </div>
+
+      <!-- Deep East -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid #6bbf78;padding:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff">Deep East corridor</div>
+          <div style="font-family:var(--mono);font-size:0.46rem;color:#6bbf78;background:rgba(107,191,120,0.15);border:1px solid rgba(107,191,120,0.4);padding:2px 8px">Highest absolute depth</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:12px">Extended eastern overland → Tatarstan / Bashkortostan / Ural / Siberia</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350;line-height:1">~5</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Intercept reports</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff;line-height:1">52</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Confirmed hits</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#6bbf78;line-height:1">1,355km</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Max range</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD density: <span style="color:#6bbf78">Very low (Russia undefended here)</span></div>
+        <div style="background:var(--border);height:3px;margin-bottom:10px"><div style="background:#6bbf78;width:5%;height:100%"></div></div>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Russia has almost no AD at this depth. Tatarstan (KAMAZ, TANECO), Bashkortostan (oil), and Siberia (airbases) are effectively undefended against drone attack. @mod_russia almost never reports intercepts in these oblasts — they reach their targets or don't. Key limitation: extreme range requires very long battery/fuel endurance.</p>
+      </div>
+
+      <!-- Pre-positioned -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid #f0c040;padding:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff">Pre-positioned infiltration</div>
+          <div style="font-family:var(--mono);font-size:0.46rem;color:#f0c040;background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.3);padding:2px 8px">Bypasses all corridors</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-bottom:12px">Human intelligence networks · covert logistics · launch from within Russia</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#6bbf78;line-height:1">0</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Intercept exposure</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff;line-height:1">~20km</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Final flight</div></div>
+          <div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#f0c040;line-height:1">6,452:1</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:2px">Exchange ratio</div></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD exposure in flight: <span style="color:#6bbf78">None</span></div>
+        <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:10px">Operational complexity: <span style="color:#ef5350">Extremely high</span></div>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Eliminates the corridor problem entirely. Operation Spiderweb smuggled 117 FPV drones into Russia via cargo trucks, launching within 20km of target airbases. ArdUPilot dead-reckoning navigation resists GPS jamming. Agents evacuated before launch. Requires 18+ months of preparation, HUMINT networks, and significant counterintelligence risk. Not replicable at scale — but best exchange ratio of any method by far (6,452:1).</p>
+      </div>
+
+    </div>
+
+    <!-- Corridor comparison chart -->
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;margin-bottom:20px">
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px">Corridor Comparison — AD density vs Penetration rate</div>
+      <div style="font-family:var(--body);font-size:0.68rem;color:var(--text3);margin-bottom:14px">Higher penetration rate = more confirmed OSINT hits relative to Russian MoD intercept claims</div>
+      <canvas id="corridor-chart" height="80"></canvas>
+    </div>
+
+    <!-- How AD attrition creates corridors -->
+    <div style="border:1px solid var(--border);padding:18px;margin-bottom:20px">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.82rem;color:#fff;margin-bottom:4px">How systematic AD attrition creates corridors</div>
+      <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-bottom:14px">Ukraine's strategy: destroy radar/SAM systems to open gaps, then exploit them at scale</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+        <div style="padding-left:12px;border-left:2px solid var(--border)">
+          <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:4px">Step 1 · Radar suppression</div>
+          <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">492 verified strikes on Russian AD infrastructure Jun 2025–Mar 2026 (HartreeFock dataset). Nebo-U, Oborona-14, S-350 radars destroyed. Each loss degrades integration.</p>
+        </div>
+        <div style="padding-left:12px;border-left:2px solid var(--border)">
+          <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:4px">Step 2 · Gap exploitation</div>
+          <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Ukraine routes subsequent long-range drones through radar coverage gaps created by Step 1. Crimea case study: confirmation rate 9.9% → 25.9% after intensive AD attrition (p=0.0000).</p>
+        </div>
+        <div style="padding-left:12px;border-left:2px solid var(--border)">
+          <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:4px">Step 3 · Volume saturation</div>
+          <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Even on defended corridors, Ukraine launches enough drones to overwhelm point defences. 94% of all days see strikes. Pantsir and Tor have limited magazine depth — reloading takes time.</p>
+        </div>
+        <div style="padding-left:12px;border-left:2px solid var(--border)">
+          <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:4px">Step 4 · Terrain / route variation</div>
+          <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Drones fly tree-top altitude, use forested terrain masking, vary approach angles. Russian MoD confirmed flights via Belarus border corridor, circuitous routes over Black Sea, and now Baltic Sea.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);line-height:1.7;padding-top:12px;border-top:1px solid var(--border2)">
+      Penetration rate = @dronbomber confirmed/reported hits ÷ @mod_russia intercept reports grouped by oblast cluster. Metric is imperfect: @mod_russia systematically under-reports intercepts in deep/eastern oblasts. Northern Baltic corridor penetration rate reflects land-route baseline — sea approach data insufficient for robust calculation. Working research — not peer-reviewed.
+    </div>
+  </div>
+
   <div class="disclaimer">WARNING: @mod_russia figures are state propaganda. @dronbomber provides OSINT floor estimates. Working findings - not peer-reviewed.</div>
 </div>
 </div>
