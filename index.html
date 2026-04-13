@@ -2563,7 +2563,7 @@ showTab=function(id,btn){
 };
 </script>
 <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous" onload="
   if(typeof USV_DATA!=='undefined'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(typeof UGV_DATA!=='undefined'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(typeof AIRDEF_DATA!=='undefined'&&AIRDEF_DATA.length){try{buildAirDefChart();}catch(e){console.error('airdef chart onload:',e);}}
