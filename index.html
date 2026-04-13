@@ -65,20 +65,20 @@ body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:1
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.035) 2px,rgba(0,0,0,0.035) 4px);pointer-events:none;z-index:999}
 
 /* ── HEADER ── */
-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28px;position:sticky;top:0;z-index:200;display:flex;align-items:stretch;min-height:60px}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 14px;position:sticky;top:0;z-index:200;display:flex;align-items:stretch;min-height:60px}
 .logo-block{display:flex;align-items:center;gap:14px;padding-right:28px;border-right:1px solid var(--border);margin-right:4px;flex-shrink:0}
 .logo-icon{flex-shrink:0;display:flex;align-items:center}
 .logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
-.logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
+.logo-text p{display:none}
 nav{display:flex;align-items:stretch;flex:1;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
 .intro-stats::-webkit-scrollbar{display:none}
-.nav-tab{font-family:var(--head);font-weight:700;font-size:0.56rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--text3);padding:0 8px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:4px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
+.nav-tab{font-family:var(--head);font-weight:700;font-size:0.5rem;letter-spacing:0.03em;text-transform:uppercase;color:var(--text3);padding:0 5px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
 .nav-tab:hover{color:var(--text2)}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.58rem;color:var(--text3);flex-shrink:0}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.54rem;color:var(--text3);flex-shrink:0}
 .share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
 .tab-footer-nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 4px;border-top:1px solid var(--border2);margin-top:24px}
@@ -2558,6 +2558,7 @@ showTab=function(id,btn){
   if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(id==='airdef'&&AIRDEF_DATA.length){renderAirDef();buildAirDefChart();}
   if(id==='rl'){buildTerritorialChart();}
+  if(id==='research'){checkDsSession();}
   if(id==='uav'&&UAV_DATA.length){renderUAV();buildUAVChart();}
 };
 </script>
@@ -2579,7 +2580,7 @@ window.addEventListener('scroll',()=>{
 <div id="tab-research" class="tab-panel">
 <div id="research-gate" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:20px;padding:40px 20px;text-align:center">
   <div style="font-family:var(--head);font-weight:900;font-size:1.1rem;color:#fff">Deep Strike Research</div>
-  <div style="font-family:var(--mono);font-size:0.6rem;color:var(--text3);max-width:340px;line-height:1.8">Working research findings on Ukraine's long-range drone campaign against Russia. Access restricted to colleagues and collaborators.</div>
+  <div style="font-family:var(--mono);font-size:0.6rem;color:var(--text3);max-width:340px;line-height:1.8">Working research findings on Ukraine's long-range drone campaign against Russia.</div>
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center">
     <input id="research-pw" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkResearchPw()" style="background:var(--bg2);border:1px solid var(--border);color:#fff;padding:8px 12px;border-radius:4px;font-family:var(--mono);font-size:0.7rem;width:200px;outline:none">
     <button onclick="checkResearchPw()" style="background:var(--accent);color:#000;border:none;padding:8px 14px;border-radius:4px;font-family:var(--mono);font-size:0.65rem;font-weight:700;cursor:pointer">ENTER</button>
