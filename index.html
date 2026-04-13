@@ -72,6 +72,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28p
 .logo-text p{font-family:var(--mono);font-size:0.55rem;color:var(--accent3);letter-spacing:0.07em;margin-top:3px}
 nav{display:flex;align-items:stretch;flex:1;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
+.intro-stats::-webkit-scrollbar{display:none}
 .nav-tab{font-family:var(--head);font-weight:700;font-size:0.56rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--text3);padding:0 8px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:4px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
 .nav-tab:hover{color:var(--text2)}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
@@ -185,8 +186,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
 .intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
-.intro-stats{display:flex;gap:0;border:1px solid var(--border);margin:18px 0;overflow:hidden}
-.intro-stat{flex:1;padding:14px 16px;border-right:1px solid var(--border);min-width:0;cursor:pointer;transition:background 0.15s,transform 0.1s}
+.intro-stats{display:flex;flex-wrap:nowrap;gap:0;border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.intro-stat{flex:0 0 calc(100%/7);min-width:140px;padding:14px 10px;border-right:1px solid var(--border);box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s}
 .intro-stat:hover{background:var(--glowb)}
 .intro-stat:active{transform:scale(0.98)}
 .intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
@@ -272,7 +273,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ad-rate-good{background:rgba(107,191,120,0.15);color:var(--accent3);border:1px solid var(--accent)}
 .ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
 .ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
-@media(max-width:600px){.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .intro-stat{padding:10px 6px!important}.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
 /* ── AD UNITS ── */
 .ad-unit{margin:24px 0;text-align:center;opacity:0.85}
 .ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
@@ -327,7 +329,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
   /* Nav: scrollable row of small tabs */
   nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .nav-tab{flex:0 0 auto!important;min-width:fit-content!important}
   nav::-webkit-scrollbar{display:none}
+.intro-stats::-webkit-scrollbar{display:none}
   .nav-tab{padding:0 10px;font-size:0.6rem;letter-spacing:0.04em;flex:0 0 auto;min-width:fit-content}
   /* Main layout */
   main{padding:14px 12px}
