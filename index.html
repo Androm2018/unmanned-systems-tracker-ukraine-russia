@@ -1473,6 +1473,8 @@ function showTab(id,btn){
 }
 function showTabById(id){
   const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
+  if(btn)showTab(id,btn);
+}
 function checkResearchPw(){var pw=document.getElementById('research-pw').value;var h=0;for(var i=0;i<pw.length;i++){h=(Math.imul(31,h)+pw.charCodeAt(i))|0;}if(h===2111683212){document.getElementById('research-gate').style.display='none';document.getElementById('research-content').style.display='block';sessionStorage.setItem('ds_unlocked','1');}else{document.getElementById('research-pw-err').style.display='block';document.getElementById('research-pw').value='';}}
 function checkDsSession(){if(sessionStorage.getItem('ds_unlocked')==='1'){var g=document.getElementById('research-gate');var c=document.getElementById('research-content');if(g&&c){g.style.display='none';c.style.display='block';}}}
   if(btn)showTab(id,btn);
