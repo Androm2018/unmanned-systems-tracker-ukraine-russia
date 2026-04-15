@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USV Strikes — Ukraine War Unmanned Systems Tracker</title>
+<meta name="description" content="Confirmed and claimed Ukrainian Unmanned Surface Vehicle (USV) operations against Russian naval assets in the Black Sea. Sinkings, damage events, and verified strikes tracked with source citations.">
+<meta name="author" content="Andro Mathewson">
+<link rel="canonical" href="https://unmannedsystemstracker.com/usv-strikes/">
+<meta property="og:title" content="USV Strikes — Ukraine War Unmanned Systems Tracker">
+<meta property="og:description" content="Confirmed and claimed Ukrainian Unmanned Surface Vehicle (USV) operations against Russian naval assets in the Black Sea. Sinkings, damage events, and verified strikes tracked with source citations.">
+<meta property="og:image" content="https://unmannedsystemstracker.com/preview.png">
+<meta property="og:url" content="https://unmannedsystemstracker.com/usv-strikes/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous">
+<script src="/config.js"></script>
+<style>
+
+:root {
+  --bg:          #080d0a;
+  --bg2:         #0d1410;
+  --bg3:         #111a13;
+  --border:      #253d2a;
+  --border2:     #1e3022;
+  --accent:      #3a7d44;
+  --accent2:     #4e9e5a;
+  --accent3:     #6bbf78;
+  --glowb:       rgba(107,191,120,0.06);
+  --text:        #c8d8c0;
+  --text2:       #8aaa88;
+  --text3:       #526650;
+  --mono:        'Share Tech Mono', monospace;
+  --head:        'Barlow Condensed', sans-serif;
+  --body:        'Barlow', sans-serif;
+  --redbg:       rgba(192,57,43,0.12);
+  --redborder:   rgba(192,57,43,0.35);
+  --amberbg:     rgba(212,160,23,0.10);
+  --amberborder: rgba(212,160,23,0.35);
+  --greenbg:     rgba(46,204,113,0.10);
+  --greenborder: rgba(46,204,113,0.30);
+  --bluebg:      rgba(93,173,226,0.10);
+  --blueborder:  rgba(93,173,226,0.30);
+  --purplebg:    rgba(165,105,189,0.10);
+  --purpleborder:rgba(165,105,189,0.30);
+  --amber:       #d4a017;
+  --green:       #2ecc71;
+  --blue:        #5dade2;
+  --purple:      #a569bd;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.035) 2px,rgba(0,0,0,0.035) 4px);pointer-events:none;z-index:999}
+
+/* ── HEADER ── */
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 14px;position:sticky;top:0;z-index:200;display:flex;align-items:stretch;min-height:60px}
+.logo-block{display:flex;align-items:center;gap:14px;padding-right:28px;border-right:1px solid var(--border);margin-right:4px;flex-shrink:0}
+.logo-icon{flex-shrink:0;display:flex;align-items:center}
+.logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
+.logo-text p{display:none}
+nav{display:flex;align-items:stretch;flex:1;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.intro-stats::-webkit-scrollbar{display:none}
+.nav-tab{font-family:var(--head);font-weight:700;font-size:0.5rem;letter-spacing:0.03em;text-transform:uppercase;color:var(--text3);padding:0 5px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
+.nav-tab:hover{color:var(--text2)}
+.nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
+.tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
+.nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.54rem;color:var(--text3);flex-shrink:0}
+.share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
+.share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
+.tab-footer-nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 4px;border-top:1px solid var(--border2);margin-top:24px}
+.tab-footer-nav .btn{font-size:0.58rem;padding:5px 12px;opacity:0.8}
+.tab-footer-nav .btn:hover{opacity:1}
+.share-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0}
+#back-to-top{position:fixed;bottom:24px;right:24px;background:var(--accent3);color:#080d0a;border:none;font-family:var(--head);font-weight:700;font-size:0.65rem;letter-spacing:0.1em;padding:8px 14px;cursor:pointer;display:none;z-index:999;transition:opacity 0.2s}
+#back-to-top:hover{background:#7dd68a}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── LAYOUT ── */
+main{padding:28px 32px;max-width:1600px;margin:0 auto}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeIn 0.22s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ── */
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
+.section-title{font-family:var(--head);font-weight:900;font-size:1.55rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;line-height:1}
+.section-title span{color:var(--accent3);font-weight:300}
+.section-sub{font-family:var(--mono);font-size:0.62rem;color:var(--text3);letter-spacing:0.06em;margin-top:5px}
+
+/* ── CONTROLS ── */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.ctrl-group{display:flex;align-items:center;gap:7px}
+.ctrl-label{font-family:var(--mono);font-size:0.6rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
+input[type="text"],select{font-family:var(--mono);font-size:0.7rem;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:2px;outline:none;transition:border-color 0.15s}
+input[type="text"]{width:190px}
+input[type="text"]:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--bg3)}
+.btn{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;padding:6px 13px;border-radius:2px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:all 0.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent);color:var(--accent3)}
+.btn-accent{background:var(--accent);border-color:var(--accent2);color:#fff}
+.btn-accent:hover{background:var(--accent2);color:#fff}
+.btn-donate{background:#1a5c38;border-color:#2a8c56;color:#6bbf78;font-size:0.7rem;padding:8px 18px}
+.btn-donate:hover{background:#2a8c56;border-color:#6bbf78;color:#fff}
+.result-count{margin-left:auto;font-family:var(--mono);font-size:0.62rem;color:var(--text3)}
+.result-count b{color:var(--accent3)}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis}
+thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{color:var(--text2)}
+thead th.sorted{color:var(--accent3)}
+tbody tr{border-bottom:1px solid var(--border2);transition:background 0.1s}
+tbody tr:hover{background:var(--glowb)}
+tbody td{padding:9px 13px;vertical-align:top}
+.cell-date{font-family:var(--mono);font-size:0.65rem;color:var(--text3);white-space:nowrap}
+.cell-target{font-weight:600;color:#e0ead8;font-family:var(--head);font-size:0.88rem;letter-spacing:0.02em}
+.cell-type,.cell-loc,.cell-notes{font-size:0.7rem;color:var(--text2);line-height:1.5}
+.cell-notes{max-width:300px}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:1px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.b-sunk    {background:var(--redbg);   color:#e74c3c;border:1px solid var(--redborder)}
+.b-damaged {background:var(--amberbg); color:#f0c040;border:1px solid var(--amberborder)}
+.b-destroyed{background:var(--greenbg);color:#2ecc71;border:1px solid var(--greenborder)}
+.b-shotdown{background:var(--purplebg);color:var(--purple);border:1px solid var(--purpleborder)}
+.b-disrupted{background:var(--bluebg); color:var(--blue);border:1px solid var(--blueborder)}
+.b-unknown {background:var(--bg3);     color:var(--text3);border:1px solid var(--border)}
+.b-ua{background:rgba(58,125,68,0.15);color:var(--accent3);border:1px solid var(--border)}
+.b-ru{background:rgba(192,57,43,0.10);color:#e07070;border:1px solid rgba(192,57,43,0.25)}
+.model-tag{display:inline-block;padding:2px 7px;background:var(--bg3);border:1px solid var(--border);border-radius:1px;font-family:var(--mono);font-size:0.6rem;color:var(--accent3);white-space:nowrap}
+a.src-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:color 0.15s,border-color 0.15s}
+a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
+
+/* ── STATE BOXES ── */
+.state-box{text-align:center;padding:50px 0;font-family:var(--mono);font-size:0.75rem;color:var(--text3);letter-spacing:0.08em}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent3);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.no-results{text-align:center;padding:50px 0;font-family:var(--mono);font-size:0.75rem;color:var(--text3);letter-spacing:0.08em;display:none}
+
+/* ── KILL BOARD ── */
+.kb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:28px}
+.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:22px;position:relative;overflow:hidden}
+.kb-card::before{content:attr(data-icon);position:absolute;right:14px;top:10px;font-size:2.2rem;opacity:0.055;line-height:1}
+.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.kb-card-value{font-family:var(--head);font-weight:900;font-size:2.5rem;line-height:1;letter-spacing:-0.01em}
+.kb-card-value.red  {color:#e74c3c}
+.kb-card-value.amber{color:#f0c040}
+.kb-card-value.green{color:var(--accent3)}
+.kb-card-value.blue {color:var(--blue)}
+.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:5px;line-height:1.4}
+.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)}
+.kb-section-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
+.kb-section-title::after{content:'';flex:1;height:1px;background:var(--border2)}
+.stat-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+.stat-row{background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;padding:12px 16px;gap:14px}
+.stat-row-label{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1}
+.stat-row-val{font-family:var(--head);font-weight:700;font-size:1.2rem;white-space:nowrap}
+.stat-row-val.r{color:#e74c3c}
+.stat-row-val.a{color:#f0c040}
+.stat-row-val.g{color:var(--accent3)}
+.disclaimer{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);padding:13px 16px;font-family:var(--mono);font-size:0.62rem;color:var(--text3);line-height:1.7;margin-bottom:24px}
+.disclaimer b{color:var(--amber)}
+
+/* ── INTRO ── */
+.intro-hero{padding:24px 0 20px;border-bottom:1px solid var(--border2);margin-bottom:36px;display:grid;grid-template-columns:1fr 360px 280px;gap:20px;align-items:stretch}
+@media(max-width:1200px){.intro-hero{grid-template-columns:1fr 360px}}@media(max-width:900px){.intro-hero{grid-template-columns:1fr}}
+@media(max-width:800px){.intro-hero{grid-template-columns:1fr}}
+
+.intro-kicker{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent3);margin-bottom:14px}
+.intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
+.intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
+.intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
+.intro-stats{display:flex;flex-wrap:nowrap;gap:0;border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.intro-stat{flex:0 0 calc(100%/7);min-width:140px;padding:14px 10px;border-right:1px solid var(--border);box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s}
+.intro-stat:hover{background:var(--glowb)}
+.intro-stat:active{transform:scale(0.98)}
+.intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
+.intro-stat:hover .intro-stat-hint{opacity:1;color:var(--accent3)}
+.intro-stat:last-child{border-right:none}
+.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1}
+.intro-stat-val.g{color:var(--accent3)}
+.intro-stat-val.r{color:#e74c3c}
+.intro-stat-val.a{color:#f0c040}
+.intro-stat-val.b{color:var(--blue)}
+.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── INTRO PAGE CARDS ── */
+.intro-pages{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
+.intro-page-card{background:var(--bg2);padding:12px 14px;cursor:pointer;transition:background 0.18s;position:relative;display:flex;flex-direction:column;gap:6px}
+.intro-page-card:hover{background:var(--bg3)}
+.intro-page-card.full-width{grid-column:1/-1}
+.ipc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ipc-icon{font-size:1.1rem;flex-shrink:0}
+.ipc-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
+.ipc-count{font-family:var(--mono);font-size:0.58rem;color:var(--accent3);margin-left:auto;border:1px solid var(--border);padding:2px 7px;white-space:nowrap}
+.ipc-desc{font-family:var(--body);font-size:0.68rem;color:var(--text2);line-height:1.55;margin:0}
+.ipc-columns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ipc-col-label{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.ipc-col-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.55}
+.ipc-nav-hint{font-family:var(--mono);font-size:0.56rem;color:var(--accent);letter-spacing:0.06em;margin-top:10px}
+.ipc-nav-hint:hover{color:var(--accent3)}.intro-page-card.full-width{grid-column:span 1}
+.ipc-tag{display:inline-block;font-family:var(--mono);font-size:0.56rem;padding:1px 6px;border-radius:1px;margin-right:4px;margin-bottom:3px;border:1px solid var(--border);color:var(--text3);background:var(--bg3)}
+
+/* ── METHODOLOGY / SOURCES ── */
+.intro-methodology{background:var(--bg2);border:1px solid var(--border);padding:26px 28px;margin-bottom:28px}
+.intro-methodology h3{font-family:var(--head);font-weight:700;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-bottom:13px}
+.intro-methodology p{font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.75;margin-bottom:10px}
+.intro-methodology p:last-of-type{margin-bottom:0}
+.intro-methodology b{color:var(--text2)}
+.source-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.source-chip{font-family:var(--mono);font-size:0.57rem;background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:1px;color:var(--text3);letter-spacing:0.04em}
+.intro-footer{font-family:var(--mono);font-size:0.58rem;color:var(--text3);line-height:1.8;padding-top:18px;border-top:1px solid var(--border2)}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:70px 32px;border:1px dashed var(--border);margin-top:8px}
+.empty-icon{font-size:2.8rem;margin-bottom:14px;opacity:0.35}
+.empty-title{font-family:var(--head);font-weight:700;font-size:1.05rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
+
+/* ── OSINT SOURCES PAGE ── */
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
+.source-card:hover{border-color:var(--accent)}
+.source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.source-card-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.source-card-name{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1}
+.source-card-type{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.08em;margin-top:3px;text-transform:uppercase}
+.source-card-desc{font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65;margin-bottom:12px}
+.source-card-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:all 0.15s;display:inline-block}
+.source-card-link:hover{color:var(--accent3);border-color:var(--accent3)}
+.donate-block{background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 50%,#0a1f12 100%);border:1px solid #2a6b3a;border-left:4px solid var(--accent3);padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
+.donate-block::before{content:'🇺🇦';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:5rem;opacity:0.07}
+.donate-title{font-family:var(--head);font-weight:900;font-size:1.4rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;margin-bottom:6px}
+.donate-sub{font-family:var(--mono);font-size:0.6rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.donate-desc{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.7;max-width:620px;margin-bottom:20px}
+.donate-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent3);color:#080d0a;font-family:var(--head);font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all 0.18s;border:none;cursor:pointer}
+.donate-btn:hover{background:#fff;color:#080d0a}
+.donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
+
+/* ── AIR DEFENCE TAB ── */
+.ad-stat-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+.ad-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff}
+.ad-stat-lbl{font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.ad-weapon-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+.ad-weapon-col{background:var(--bg2)}
+.ad-weapon-header{display:flex;padding:7px 14px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.ad-weapon-header span{font-family:var(--mono);font-size:0.57rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.ad-weapon-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px}
+.ad-weapon-row:last-child{border-bottom:none}
+.ad-weapon-row:hover{background:var(--glowb)}
+.ad-weapon-name{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1}
+.ad-weapon-num{font-family:var(--head);font-weight:700;font-size:0.88rem;flex-shrink:0;width:70px;text-align:right}
+.ad-weapon-bar{height:4px;background:var(--border2);border-radius:2px;margin-top:3px;overflow:hidden}
+.ad-weapon-bar-fill{height:100%;border-radius:2px;transition:width 0.6s ease}
+.ad-rate-badge{font-family:var(--mono);font-size:0.6rem;padding:2px 7px;border-radius:2px;flex-shrink:0}
+.ad-rate-good{background:rgba(107,191,120,0.15);color:var(--accent3);border:1px solid var(--accent)}
+.ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
+.ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
+@media(max-width:600px){
+  .intro-stat{padding:10px 6px!important}.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
+/* ── AD UNITS ── */
+.ad-unit{margin:24px 0;text-align:center;opacity:0.85}
+.ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+
+/* ── UAV KILLBOARD ── */
+.uav-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff}
+.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.uav-cat-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px;transition:background 0.1s}
+.uav-cat-row:last-child{border-bottom:none}
+.uav-cat-row:hover{background:var(--glowb)}
+.uav-cat-row.highlighted{background:rgba(107,191,120,0.07)}
+.uav-cat-name{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1;min-width:0}
+.uav-cat-header{display:flex;padding:6px 14px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.uav-cat-header span{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.uav-cat-header .uav-num-col{width:70px;text-align:right}
+.uav-num-col{width:70px;text-align:right;font-family:var(--head);font-weight:700;font-size:0.9rem;flex-shrink:0}
+.uav-num-damaged{color:var(--amber)}
+.uav-num-destroyed{color:var(--accent3)}
+@media(max-width:1100px){
+  .intro-pages{grid-template-columns:repeat(4,1fr)}
+  .sources-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ── TABLET ── */
+@media(max-width:900px){
+  header{padding:0 14px;min-height:54px}
+  main{padding:16px 14px}
+  .logo-text p{display:none}
+  .share-btn span.share-label{display:none}
+  input[type="text"]{width:120px}
+  .stat-rows,.intro-pages{grid-template-columns:repeat(2,1fr)}
+  .ipc-columns{grid-template-columns:1fr}
+  .intro-stat:last-child{border-bottom:none}
+  .intro-headline{font-size:2rem}
+  .sources-grid{grid-template-columns:1fr}
+  .kb-grid{grid-template-columns:repeat(2,1fr)}
+  /* Tables: allow horizontal scroll, don't squash */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{table-layout:auto;min-width:600px}
+  /* UAV killboard: stack columns */
+  #uav-killboard{grid-template-columns:1fr}
+  #uav-stat-strip{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .hide-mobile{display:none!important}
+  /* Header: icon + title only, no subtitle */
+  header{padding:0 12px;min-height:50px}
+  .logo-icon{width:26px;height:26px}
+  .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
+  /* Nav: scrollable row of small tabs */
+  nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .nav-tab{flex:0 0 auto!important;min-width:fit-content!important}
+  nav::-webkit-scrollbar{display:none}
+.intro-stats::-webkit-scrollbar{display:none}
+  .nav-tab{padding:0 10px;font-size:0.6rem;letter-spacing:0.04em;flex:0 0 auto;min-width:fit-content}
+  /* Main layout */
+  main{padding:14px 12px}
+  /* Intro */
+  .intro-headline{font-size:1.6rem}
+  .intro-lead{font-size:0.85rem}
+  .intro-pages{grid-template-columns:repeat(2,1fr)}
+  .ipc-columns{grid-template-columns:1fr}
+  /* Controls: wrap filters vertically */
+  .controls{flex-direction:column;align-items:flex-start;gap:8px}
+  .ctrl-group{width:100%}
+  input[type="text"]{width:100%;box-sizing:border-box}
+  select{width:100%;box-sizing:border-box}
+  .result-count{margin-left:0}
+  /* Section header: stack title and button */
+  .section-header{flex-direction:column;align-items:flex-start;gap:10px}
+  /* Tables: horizontal scroll with touch */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -12px;padding:0 12px}
+  table{table-layout:auto;min-width:560px;font-size:0.7rem}
+  thead th{padding:7px 10px;font-size:0.58rem}
+  tbody td{padding:7px 10px}
+  /* Kill board cards */
+  .kb-grid{grid-template-columns:1fr}
+  .kb-card-value{font-size:2rem}
+  .stat-rows{grid-template-columns:1fr}
+  /* UAV killboard */
+  #uav-killboard{grid-template-columns:1fr}
+  #uav-stat-strip{grid-template-columns:repeat(2,1fr);font-size:0.9rem}
+  .uav-stat-val{font-size:1.2rem}
+  .uav-stat-cell{padding:10px 12px}
+  /* Sources page */
+  .sources-grid{grid-template-columns:1fr}
+  .donate-block{padding:20px 16px}
+  .donate-title{font-size:1.1rem}
+  /* Intro page cards */
+  .intro-page-card{padding:16px}
+  .ipc-title{font-size:0.85rem}
+  /* Disclaimer */
+  .disclaimer{font-size:0.58rem}
+}
+
+/* ── VERY SMALL (iPhone SE etc.) ── */
+@media(max-width:375px){
+  .logo-text h1{font-size:0.68rem}
+  .nav-tab{font-size:0.55rem;padding:0 8px}
+  .intro-headline{font-size:1.35rem}
+  #uav-stat-strip{grid-template-columns:1fr 1fr}
+}
+
+
+/* Page-specific overrides */
+body{background:var(--bg);color:var(--text);min-height:100vh}
+.page-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;min-height:54px;gap:16px;position:sticky;top:0;z-index:200}
+.page-header-logo{font-family:var(--head);font-weight:900;font-size:0.9rem;letter-spacing:0.14em;text-transform:uppercase;color:#fff;text-decoration:none}
+.page-header-logo span{color:var(--accent3);font-weight:300}
+.page-header-back{margin-left:auto;font-family:var(--mono);font-size:0.58rem;color:var(--accent3);text-decoration:none;border:1px solid var(--border);padding:4px 10px;transition:border-color 0.2s}
+.page-header-back:hover{border-color:var(--accent3);color:#fff}
+.page-hero{padding:28px 32px 20px;border-bottom:1px solid var(--border2);margin-bottom:28px}
+.page-hero h1{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:8px}
+.page-hero h1 span{color:var(--accent3);font-weight:300}
+.page-hero p{font-family:var(--body);font-size:0.85rem;color:var(--text2);line-height:1.7;max-width:720px}
+.page-content{padding:0 32px 48px}
+.data-section{margin-bottom:32px}
+.data-section-title{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border2)}
+.insight-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent3);padding:16px 20px;margin-bottom:14px}
+.insight-label{font-family:var(--mono);font-size:0.52rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.insight-text{font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.7}
+.page-footer{background:var(--bg2);border-top:1px solid var(--border);padding:16px 32px;font-family:var(--mono);font-size:0.5rem;color:var(--text3);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.page-footer a{color:var(--accent3);text-decoration:none}
+@media(max-width:600px){.page-hero,.page-content{padding-left:16px;padding-right:16px}.page-header{padding:0 14px}.page-footer{padding:12px 16px}}
+</style>
+</head>
+<body>
+<header class="page-header">
+  <a href="/" class="page-header-logo">Unmanned Systems <span>Tracker</span></a>
+  <a href="/" class="page-header-back">← Back to tracker</a>
+</header>
+<div class="page-hero">
+  <h1>USV <span>Strikes</span></h1>
+  <p>Confirmed and claimed Ukrainian Unmanned Surface Vehicle operations against Russian naval assets in the Black Sea, from the first Magura V5 operations in 2022 through to present. Ukraine's USV campaign has eliminated approximately one third of Russia's Black Sea Fleet, fundamentally altering naval dynamics in the theatre without a single Ukrainian surface warship.</p>
+</div>
+<div class="page-content">
+  <div class="data-section">
+    <div class="data-section-title">Key findings</div>
+    <div class="insight-block"><div class="insight-label">Strategic impact</div><div class="insight-text">Ukraine's USV campaign represents the first time in modern warfare that an asymmetric unmanned surface vehicle force has driven a major naval power's fleet from a strategically vital body of water. Russia's Black Sea Fleet relocated its capital ships from Sevastopol to Novorossiysk following sustained USV and aerial drone strikes.</div></div>
+    <div class="insight-block"><div class="insight-label">Systems used</div><div class="insight-text">Operations employ the Magura V5 (primary strike platform), Sea Baby, and Marichka surface drones. The Magura V5 carries approximately 320kg of explosive payload, enabling it to disable or sink large surface combatants. Systems have increasingly been fitted with aerial drone launch capabilities, enabling combined-arms strikes against targets including the Kerch Bridge and air defence vessels.</div></div>
+    <div class="insight-block"><div class="insight-label">Notable targets</div><div class="insight-text">Confirmed and probable kills include the landing ship Olenegorsky Gornyak, Caesar Kunikov, Novocherkassk, and Ivanovets, along with multiple patrol vessels, minesweepers, and a Kilo-class submarine (Rostov-on-Don). Air defence vessels including the Sergei Kotov have been damaged, degrading Russia's ability to intercept incoming aerial threats in the Black Sea area.</div></div>
+  </div>
+
+  <div class="data-section">
+    <div class="data-section-title">Live data — USV strike log</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+      <button class="btn btn-accent" onclick="exportCSV('usv')">⬇ Export CSV</button>
+      <span style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);align-self:center" id="usv-count">Loading…</span>
+    </div>
+    <div class="controls" style="margin-bottom:14px">
+      <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="usv-search" placeholder="target, model, location…" oninput="renderUSV()"></div>
+      <div class="ctrl-group"><span class="ctrl-label">Model</span><select id="usv-model" onchange="renderUSV()"><option value="">All models</option></select></div>
+      <div class="ctrl-group"><span class="ctrl-label">Damage</span><select id="usv-damage" onchange="renderUSV()"><option value="">All</option><option>Sunk</option><option>Damaged</option><option>Destroyed</option><option>Shot Down</option><option>Disrupted</option></select></div>
+      <div class="ctrl-group"><span class="ctrl-label">Year</span><select id="usv-year" onchange="renderUSV()"><option value="">All</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <colgroup><col style="width:9%"><col style="width:15%"><col style="width:11%"><col style="width:12%"><col style="width:10%"><col style="width:10%"><col style="width:25%"><col style="width:8%"></colgroup>
+        <thead><tr><th onclick="sortUSV(0)">Date ↕</th><th onclick="sortUSV(1)">Target ↕</th><th>Type</th><th onclick="sortUSV(3)">USV Model ↕</th><th>Location</th><th onclick="sortUSV(5)">Damage ↕</th><th>Notes</th><th>Source</th></tr></thead>
+        <tbody id="usv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>Loading live data…</div></td></tr></tbody>
+      </table>
+    </div>
+    <div id="usv-nores" class="no-results" style="display:none">// NO RESULTS //</div>
+  </div>
+
+  <div class="data-section">
+    <div class="data-section-title">Methodology</div>
+    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.7">Events are included where there is at least one credible open-source report — an official Ukrainian military statement, verified video evidence, or reporting by two or more independent outlets. Damage classification follows a consistent taxonomy: Sunk = total loss confirmed on seabed, Damaged = partial damage, Disrupted = operation temporarily affected. Source citations accompany all entries for independent verification. Data compiled by Andro Mathewson, PhD Candidate in War Studies, King's College London.</p>
+  </div>
+</div>
+<script>
+const EMBEDDED_USV = const EMBEDDED_USV=[
+  {date:"2022-09-21",target:"Sevastopol Harbour (BSF ships)",type:"Naval base",model:"Unknown USV",loc:"Sevastopol, Crimea",damage:"Damaged",notes:"First confirmed USV raid against the Black Sea Fleet.",src:"https://en.wikipedia.org/wiki/Naval_warfare_in_the_Russian_invasion_of_Ukraine",srcl:"Wikipedia"},
+  {date:"2022-10-08",target:"Crimean Bridge",type:"Infrastructure",model:"Unknown USV",loc:"Kerch Strait",damage:"Damaged",notes:"Road span collapsed, rail cars caught fire. Ukraine later acknowledged involvement.",src:"https://en.wikipedia.org/wiki/2022_Crimean_Bridge_explosion",srcl:"Wikipedia"},
+  {date:"2023-07-17",target:"Crimean Bridge",type:"Infrastructure",model:"Sea Baby",loc:"Kerch Strait",damage:"Damaged",notes:"Two Sea Baby USVs struck the bridge. One road span collapsed. Two civilians killed. SBU confirmed.",src:"https://en.wikipedia.org/wiki/2023_Crimean_Bridge_explosion",srcl:"Wikipedia"},
+  {date:"2023-08-04",target:"Olenegorsky Gornyak",type:"Ropucha-class landing ship",model:"Unknown USV",loc:"Novorossiysk, Russia",damage:"Damaged",notes:"First confirmed USV strike on mainland Russia.",src:"https://en.wikipedia.org/wiki/Unmanned_surface_vehicle",srcl:"Wikipedia"},
+  {date:"2023-09-14",target:"Samum (corvette)",type:"Bora-class corvette",model:"Sea Baby",loc:"Black Sea",damage:"Damaged",notes:"SBU claimed strike. Damage extent unconfirmed by Russia.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2023-09-14",target:"Sergey Kotov",type:"Project 22160 patrol ship",model:"MAGURA V5",loc:"Black Sea",damage:"Damaged",notes:"Propeller damage and hole in hull. RuMoD confirmed attack.",src:"https://en.wikipedia.org/wiki/Russian_patrol_ship_Sergey_Kotov",srcl:"Wikipedia"},
+  {date:"2023-10-01",target:"Pavel Derzhavin",type:"Grisha-class patrol ship",model:"Sea Baby",loc:"Black Sea / Crimea",damage:"Damaged",notes:"Damage confirmed; ship required repairs.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2023-11-01",target:"Crimean Bridge barrier",type:"Anti-USV barrier",model:"Unknown USV",loc:"Kerch Strait",damage:"Destroyed",notes:"Russian anti-USV barricade near Crimean Bridge destroyed.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2023-11-10",target:"Serna & Akula landing craft (×2)",type:"Landing craft",model:"MAGURA V5",loc:"Chornomorske, Crimea",damage:"Destroyed",notes:"Both craft at Russian Navy base destroyed. Confirmed by HUR.",src:"https://en.wikipedia.org/wiki/MAGURA_V5",srcl:"Wikipedia"},
+  {date:"2023-12-01",target:"Volodymyr Kozytskyi",type:"Demining/hydrographic ship",model:"Sea Baby",loc:"Black Sea",damage:"Damaged",notes:"Russian demining vessel damaged by Sea Baby.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-02-01",target:"Ivanovets",type:"Tarantul-III missile corvette",model:"MAGURA V5",loc:"Donuzlav Bay, Crimea",damage:"Sunk",notes:"Sunk in Donuzlav Bay. HUR published video confirming the kill.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-02-14",target:"Tsezar Kunikov",type:"Ropucha-class landing ship",model:"MAGURA V5",loc:"Off Alupka, Crimea",damage:"Sunk",notes:"Sunk by HUR MO Group 13.",src:"https://en.wikipedia.org/wiki/Unmanned_surface_vehicle",srcl:"Wikipedia"},
+  {date:"2024-03-05",target:"Sergey Kotov",type:"Project 22160 patrol ship",model:"MAGURA V5",loc:"Kerch Strait",damage:"Sunk",notes:"Second strike; ship sunk along with on-board helicopter.",src:"https://en.wikipedia.org/wiki/Russian_patrol_ship_Sergey_Kotov",srcl:"Wikipedia"},
+  {date:"2024-03-23",target:"Yamal & Azov (×2)",type:"Ropucha-class landing ships",model:"MAGURA V5",loc:"Sevastopol, Crimea",damage:"Damaged",notes:"Yamal critically damaged, listing to starboard. Azov also struck.",src:"https://en.wikipedia.org/wiki/Black_Sea_Fleet",srcl:"Wikipedia"},
+  {date:"2024-05-30",target:"KC-701 Tuna patrol boats (×2)",type:"High-speed patrol boats",model:"MAGURA V5",loc:"Black Sea",damage:"Destroyed",notes:"HUR confirmed destruction of both vessels.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-06-24",target:"Four Russian warships (mine strike)",type:"Various warships",model:"Sea Baby",loc:"Off Crimea coast",damage:"Damaged",notes:"Sea Baby USVs laid 15+ naval mines; four Russian warships damaged.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-08-10",target:"KS 701 Tunets",type:"High-speed patrol boat",model:"MAGURA V5",loc:"Chornomorske, Crimea",damage:"Destroyed",notes:"MAGURA V5 destroyed Russian high-speed boat.",src:"https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)",srcl:"Wikipedia"},
+  {date:"2024-12-31",target:"Mi-8 helicopter",type:"Military helicopter",model:"MAGURA V5",loc:"Cape Tarkhankut, Crimea",damage:"Shot Down",notes:"MAGURA V5 with R-73 missile shot down Mi-8; second damaged.",src:"https://en.wikipedia.org/wiki/MAGURA_V5",srcl:"Wikipedia"},
+  {date:"2025-02-01",target:"Shadow fleet tanker",type:"Oil tanker",model:"Sea Baby",loc:"Black Sea",damage:"Damaged",notes:"Attack on Russian shadow fleet shipping.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2025-05-02",target:"Su-30SM fighter jets (×2)",type:"Military aircraft",model:"MAGURA V7",loc:"50 km W of Novorossiysk",damage:"Shot Down",notes:"First jet aircraft downed by maritime drone. AIM-9 Sidewinder missiles used.",src:"https://en.wikipedia.org/wiki/MAGURA_V5",srcl:"Wikipedia"},
+  {date:"2025-06-03",target:"Crimean Bridge (pillars)",type:"Infrastructure",model:"Sub Sea Baby",loc:"Kerch Strait",damage:"Disrupted",notes:"UUV detonated near bridge support pillars. Bridge closed hours then reopened.",src:"https://en.wikipedia.org/wiki/2025_Crimean_Bridge_explosion",srcl:"Wikipedia"},
+  {date:"2025-11-28",target:"MT Kairos & MT Virat (×2)",type:"Shadow fleet oil tankers",model:"Sea Baby",loc:"Black Sea, nr. Novorossiysk",damage:"Damaged",notes:"Two shadow fleet tankers struck.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+  {date:"2025-12-15",target:"Kolpino (B-271) submarine",type:"Kilo-class submarine",model:"Sub Sea Baby",loc:"Port of Novorossiysk",damage:"Damaged",notes:"First claimed UUV attack on a submarine. UK MoD assessed B-271 seriously damaged. Russia denied.",src:"https://en.wikipedia.org/wiki/Sea_Baby",srcl:"Wikipedia"},
+];
+let USV_DATA = [];
+let usvSort = {col:0, asc:false};
+
+
+async function fetchTab(tab) {
+  if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
+  try{
+    const [tabName, extra] = tab.split('&');
+    const extraParams = extra ? '&' + extra : '';
+    const url = `${SCRIPT_URL}?tab=${tabName}${extraParams}&t=${Date.now()}`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if(!json.ok) throw new Error(json.error||'API error');
+
+    // Handle chunked responses for large tabs (e.g. AirDefence)
+    if(json.totalChunks && json.totalChunks > 1){
+      let allData = [...(json.data||[])];
+      const fetches = [];
+      for(let c = 1; c < json.totalChunks; c++){
+        fetches.push(
+          fetch(`${SCRIPT_URL}?tab=${tabName}&chunk=${c}&t=${Date.now()}`)
+            .then(r=>r.json())
+            .then(j=>j.data||[])
+        );
+      }
+      const chunks = await Promise.all(fetches);
+      chunks.forEach(ch => allData = allData.concat(ch));
+      return allData;
+    }
+
+    return json.data||null;
+  }catch(e){
+    console.warn('fetchTab failed for',tab,e.message);
+    return null;
+  }
+}
+
+function fmtDate(s){
+  if(!s)return'—';
+  const p=s.split('-');
+  const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return`${parseInt(p[2])||''} ${m[(+p[1]||1)-1]||''} ${p[0]||''}`.trim();
+}
+
+function dmgBadge(d){
+  const m={'Sunk':'b-sunk','Damaged':'b-damaged','Destroyed':'b-destroyed','Shot Down':'b-shotdown','Disrupted':'b-disrupted'};
+  return`<span class="badge ${m[d]||'b-unknown'}">${d||'—'}</span>`;
+}
+
+function outcomeBadge(o){
+  const m={'Destroyed target':'b-sunk','Damaged target':'b-damaged','UGV lost':'b-destroyed','Captured POW':'b-shotdown','Operational milestone':'b-disrupted'};
+  return`<span class="badge ${m[o]||'b-unknown'}">${o||'—'}</span>`;
+}
+
+function sideBadge(s){
+  return s==='Ukraine'?`<span class="badge b-ua">🇺🇦 Ukraine</span>`:`<span class="badge b-ru">🇷🇺 Russia</span>`;
+}
+
+function fmtNum(n){
+  // Format numbers with thousands separator e.g. 167920 -> "167 920"
+  if(n===undefined||n===null||n==='—')return'—';
+  const num=parseInt(String(n).replace(/[^0-9]/g,''),10);
+  if(isNaN(num))return String(n);
+  return num.toLocaleString('en-GB').replace(/,/g,' ');
+}
+
+function parseOutcomeNums(outcome){
+  // Parse "192 destroyed, 3949 damaged" or "3949 damaged" into {damaged, destroyed}
+  if(!outcome)return{damaged:0,destroyed:0};
+  const dstr=outcome.match(/(\d[\d\s]*)\s*destroyed/);
+  const ddmg=outcome.match(/(\d[\d\s]*)\s*damaged/);
+  // Also handle plain numeric outcome (summary stats)
+  const plain=outcome.match(/^[\d\s]+$/);
+  return{
+    damaged: ddmg?parseInt(ddmg[1].replace(/\s/g,''),10):0,
+    destroyed: dstr?parseInt(dstr[1].replace(/\s/g,''),10):(plain?parseInt(plain[0].replace(/\s/g,''),10):0),
+  };
+}
+
+function fmtBig(n){
+  if(!n&&n!==0)return'—';
+  return Number(n).toLocaleString('en-GB').replace(/,/g,' ');
+}
+
+function rateClass(pct){
+  if(pct>=75)return'ad-rate-good';
+  if(pct>=50)return'ad-rate-mid';
+  return'ad-rate-bad';
+}
+
+function exportCSV(tab){
+  let headers,rows;
+  if(tab==='usv'){
+    headers=['Date','Target','Target Type','USV Model','Location','Damage Assessment','Notes','Source URL'];
+    rows=USV_DATA.map(r=>[r.date,r.target,r.type,r.model,r.loc,r.damage,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='ugv'){
+    headers=['Date','Side','UGV System','Operation','Location','Outcome','Notes','Source URL'];
+    rows=UGV_DATA.map(r=>[r.date,r.side,r.system,`"${(r.op||'').replace(/"/g,'""')}"`,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='uav'){
+    headers=['Date','UAV System','Target','Target Type','Location','Outcome','Notes','Source URL'];
+    rows=UAV_DATA.map(r=>[r.date,r.system,r.target,r.type,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
+  }else if(tab==='airdef'){
+    headers=['Date','Weapon/Type','Launched','Intercepted','Got Through','Intercept Rate','Notes'];
+    rows=AIRDEF_DATA.map(r=>{
+      const launched=parseInt(r.launched)||0;
+      const destroyed=parseInt(r.destroyed)||0;
+      const through=launched-destroyed;
+      const rate=launched>0?Math.round(destroyed/launched*100)+'%':'—';
+      return[r.date,r.model||r.type||'—',launched,destroyed,through,rate,`"${(r.notes||'').replace(/"/g,'""')}"`].join(',');
+    });
+  }else return;
+  const csv=[headers.join(','),...rows].join('\n');
+  const a=Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
+    download:`ust-${tab}-${new Date().toISOString().slice(0,10)}.csv`
+  });
+  a.click();
+}
+function isDrone(model){
+    if(!model)return false;
+    const m=model.toLowerCase();
+    return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
+           m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
+           m.includes('lancet')||m.includes('orlan')||m.includes('mohajer');
+  }
+function isMissile(model){
+    if(!model)return false;
+    const m=model.toLowerCase();
+    return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
+           m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
+           m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
+           m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
+           m.includes('oreshnik');
+  }
+function buildChart(canvasId, data, label, color){
+  const el=document.getElementById(canvasId);
+  if(!el||!data.length)return;
+
+  // Count events per year-month
+  const counts={};
+  data.forEach(r=>{
+    if(!r.date||r.date.length<7)return;
+    const ym=r.date.slice(0,7); // "2024-03"
+    counts[ym]=(counts[ym]||0)+1;
+  });
+
+  const keys=Object.keys(counts).sort();
+  const labels=keys.map(k=>{
+    const [y,m]=k.split('-');
+    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+  const values=keys.map(k=>counts[k]);
+
+  // Destroy existing chart if any
+  if(el._chart)el._chart.destroy();
+
+  el._chart=new Chart(el,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label,
+        data:values,
+        backgroundColor:color+'99',
+        borderColor:color,
+        borderWidth:1,
+        borderRadius:2,
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#0d1410',
+          borderColor:color,
+          borderWidth:1,
+          titleColor:'#c8d8c0',
+          bodyColor:'#8aaa88',
+          callbacks:{
+            title:items=>items[0].label,
+            label:item=>item.raw+' '+label.toLowerCase()
+          }
+        }
+      },
+      scales:{
+        x:{
+          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"}},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'}
+        },
+        y:{
+          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},stepSize:1},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'},
+          beginAtZero:true
+        }
+      }
+    }
+  });
+}
+
+
+function renderUSV(){
+  const s=document.getElementById('usv-search').value.toLowerCase();
+  const m=document.getElementById('usv-model').value;
+  const d=document.getElementById('usv-damage').value;
+  const y=document.getElementById('usv-year').value;
+  let rows=USV_DATA.filter(r=>{
+    if(s&&![r.target,r.loc,r.notes,r.type].join(' ').toLowerCase().includes(s))return false;
+    if(m&&r.model!==m)return false;
+    if(d&&r.damage!==d)return false;
+    if(y&&!(r.date||'').startsWith(y))return false;
+    return true;
+  });
+  const k=['date','target','type','model','loc','damage'];
+  rows.sort((a,b)=>{const va=a[k[usvSort.col]]||'',vb=b[k[usvSort.col]]||'';return usvSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
+  document.getElementById('usv-rc').textContent=rows.length;
+  
+  const body=document.getElementById('usv-body');
+  const nores=document.getElementById('usv-nores');
+  if(!rows.length){body.innerHTML='';nores.style.display='block';return}
+  nores.style.display='none';
+  body.innerHTML=rows.map((r,i)=>`
+    <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
+      <td class="cell-date">${fmtDate(r.date)}</td>
+      <td class="cell-target">${r.target||'—'}</td>
+      <td class="cell-type">${r.type||'—'}</td>
+      <td><span class="model-tag">${r.model||'—'}</span></td>
+      <td class="cell-loc">${r.loc||'—'}</td>
+      <td>${dmgBadge(r.damage)}</td>
+      <td class="cell-notes">${r.notes||''}</td>
+      <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
+    </tr>`).join('');
+}
+
+function sortUSV(c){usvSort={col:c,asc:usvSort.col===c?!usvSort.asc:true};renderUSV()}
+
+async function init() {
+  // Phase 1: embedded fallback
+  USV_DATA = EMBEDDED_USV;
+  renderUSV();
+  // Phase 2: live data
+  try {
+    const live = await fetchTab('usv');
+    if (live && live.length) {
+      USV_DATA = live;
+      renderUSV();
+      // populate model filter
+      const models = [...new Set(USV_DATA.map(r=>r.model).filter(Boolean))].sort();
+      const sel = document.getElementById('usv-model');
+      models.forEach(m => { const o=document.createElement('option'); o.value=m; o.textContent=m; sel.appendChild(o); });
+    }
+  } catch(e) { console.warn('Live data unavailable:', e.message); }
+  const cnt = document.getElementById('usv-count');
+  if(cnt) cnt.textContent = USV_DATA.length + ' events';
+}
+init();
+</script>
+
+<footer class="page-footer">
+  <span>© 2026 Andro Mathewson · King's College London · War Studies</span>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/disclaimer.html">Disclaimer</a>
+  <a href="/">Live Tracker</a>
+  <span style="margin-left:auto">unmannedsystemstracker.com</span>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
