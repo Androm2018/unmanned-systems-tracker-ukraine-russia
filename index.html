@@ -521,7 +521,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="intro-stats">
     <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Missions Q1 2026</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">648,850</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">744,022</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
     <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
@@ -2042,6 +2042,35 @@ const EMBEDDED_UAV=[
   {date:"yearly_2025",target:"Enemy copter drones",outcome:"6252 damaged, 5817 destroyed"},
   {date:"yearly_2025",target:"Enemy unmanned robotic complexes",outcome:"405 damaged, 149 destroyed"},
   {date:"yearly_2025",target:"Other",outcome:"2971 damaged, 776 destroyed"},
+  {date:"monthly_2026-04",target:"strike flights",outcome:"95172"},
+  {date:"monthly_2026-04",target:"recon flights",outcome:"76224"},
+  {date:"monthly_2026-04",target:"Enemy personnel",outcome:"10581 damaged, 4876 destroyed"},
+  {date:"monthly_2026-04",target:"Drone launch positions",outcome:"1463 damaged, 27 destroyed"},
+  {date:"monthly_2026-04",target:"Antennas",outcome:"2565 damaged, 1531 destroyed"},
+  {date:"monthly_2026-04",target:"SAMs, SPADs",outcome:"25 damaged, 5 destroyed"},
+  {date:"monthly_2026-04",target:"Helicopters",outcome:"2 damaged, 0 destroyed"},
+  {date:"monthly_2026-04",target:"Radars (system)",outcome:"12 damaged, 1 destroyed"},
+  {date:"monthly_2026-04",target:"Radars (portable)",outcome:"51 damaged, 18 destroyed"},
+  {date:"monthly_2026-04",target:"EW (system)",outcome:"1 damaged, 0 destroyed"},
+  {date:"monthly_2026-04",target:"EW (car + portable)",outcome:"432 damaged, 132 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy wings",outcome:"6178 damaged, 6034 destroyed"},
+  {date:"monthly_2026-04",target:"Shaheds and Gerberas",outcome:"1088 damaged, 1047 destroyed"},
+  {date:"monthly_2026-04",target:"Tanks",outcome:"46 damaged, 6 destroyed"},
+  {date:"monthly_2026-04",target:"APCs, IFVs, ACVs",outcome:"75 damaged, 12 destroyed"},
+  {date:"monthly_2026-04",target:"Guns, howitzers",outcome:"617 damaged, 20 destroyed"},
+  {date:"monthly_2026-04",target:"Self-propelled artillery",outcome:"26 damaged, 0 destroyed"},
+  {date:"monthly_2026-04",target:"Mortars",outcome:"14 damaged, 2 destroyed"},
+  {date:"monthly_2026-04",target:"MRLS",outcome:"31 damaged, 6 destroyed"},
+  {date:"monthly_2026-04",target:"Light, Heavy, Special-purpose vehicles",outcome:"2246 damaged, 413 destroyed"},
+  {date:"monthly_2026-04",target:"Motorcycles and military buggies",outcome:"1007 damaged, 294 destroyed"},
+  {date:"monthly_2026-04",target:"Ammo, fuel and equipment depots",outcome:"341 damaged, 168 destroyed"},
+  {date:"monthly_2026-04",target:"Tactical infrastructure",outcome:"76 damaged, 5 destroyed"},
+  {date:"monthly_2026-04",target:"Shelters and dugouts",outcome:"11118 damaged, 358 destroyed"},
+  {date:"monthly_2026-04",target:"Network equipment",outcome:"189 damaged, 80 destroyed"},
+  {date:"monthly_2026-04",target:"Cameras",outcome:"14 damaged, 9 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy copter drones",outcome:"1259 damaged, 1192 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy unmanned robotic complexes",outcome:"66 damaged, 19 destroyed"},
+  {date:"monthly_2026-04",target:"Other",outcome:"600 damaged, 310 destroyed"},
 ];
 
 loadAll();
