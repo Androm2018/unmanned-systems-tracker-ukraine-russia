@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ukraine War Unmanned Systems Tracker — USV, UGV &amp; UAV Data 2022–Present</title>
+<title>Ukraine War Unmanned Systems Tracker</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
-<meta name="description" content="Open-source database of 3,500+ Russian drone and missile attacks on Ukraine, USV strikes against the Black Sea Fleet, UGV combat operations, and confirmed Russian equipment losses. Updated daily. Free to access.">
+<meta name="description" content="Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine. Updated weekly.">
 <meta name="keywords" content="Ukraine war tracker, Russia Ukraine drone strikes, USV strikes Black Sea, UGV operations Ukraine, Russian losses, air defence Ukraine, OSINT Ukraine war, Shahed drone intercepts, unmanned systems Ukraine">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Unmanned Systems Tracker">
@@ -528,6 +528,42 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses &amp; Advance tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
   </div>
 
+  <!-- INTERNAL LINKS / EXPLORE -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px">
+    <a href="/usv-strikes/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🛥 USV Strikes</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Black Sea Fleet operations →</div>
+    </a>
+    <a href="/ugv-operations/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🤖 UGV Operations</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Ground robot combat data →</div>
+    </a>
+    <a href="/uav-strikes/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">✈ UAV Kill Board</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">FPV drone strike data →</div>
+    </a>
+    <a href="/air-defence/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🛡 Air Defence</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">100,000+ weapons tracked →</div>
+    </a>
+    <a href="/russian-losses/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">💀 Russian Losses</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">KIA, equipment & advance →</div>
+    </a>
+    <a href="/analyses/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🔬 Analyses</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Original research →</div>
+    </a>
+    <a href="/about/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">ℹ About</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Methodology & author →</div>
+    </a>
+    <a href="/privacy.html" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🔒 Privacy</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Privacy policy →</div>
+    </a>
+  </div>
+
   <!-- PAGE GUIDE CARDS -->
   <div class="kb-section-title">WHAT'S IN THIS TRACKER</div>
 
@@ -571,7 +607,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 
   <div class="intro-methodology">
-    <h3>Methodology &amp; Data Standards</h3>
+    <h2>Methodology &amp; Data Standards</h2>
     <p><b>Inclusion criteria:</b> Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted where it exists but is not required for inclusion.</p>
     <p><b>Damage classification:</b> A consistent taxonomy is applied across all entries. <b>Sunk</b> = total loss, vessel confirmed on seabed. <b>Destroyed</b> = total loss confirmed on land or in air. <b>Damaged</b> = partial damage, target operational or repairable. <b>Shot Down</b> = aerial asset destroyed in flight. <b>Disrupted</b> = infrastructure or operation temporarily put out of action.</p>
     <p><b>Personnel casualty figures:</b> This tracker uses Mediazona/BBC News Russian confirmed-by-name figures as its primary KIA metric — the most rigorous publicly available methodology, cross-checked against Russia's National Probate Registry. These figures are always a floor, not a ceiling. Statistical estimates from Meduza/Mediazona's probate registry model are cited alongside for context.</p>
