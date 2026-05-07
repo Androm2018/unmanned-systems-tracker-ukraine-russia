@@ -28,359 +28,581 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:          #080d0a;
-  --bg2:         #0d1410;
-  --bg3:         #111a13;
-  --border:      #253d2a;
-  --border2:     #1e3022;
-  --accent:      #3a7d44;
-  --accent2:     #4e9e5a;
-  --accent3:     #6bbf78;
-  --glowb:       rgba(107,191,120,0.06);
-  --text:        #c8d8c0;
-  --text2:       #8aaa88;
-  --text3:       #526650;
-  --mono:        'Share Tech Mono', monospace;
-  --head:        'Barlow Condensed', sans-serif;
-  --body:        'Barlow', sans-serif;
-  --redbg:       rgba(192,57,43,0.12);
-  --redborder:   rgba(192,57,43,0.35);
-  --amberbg:     rgba(212,160,23,0.10);
-  --amberborder: rgba(212,160,23,0.35);
-  --greenbg:     rgba(46,204,113,0.10);
-  --greenborder: rgba(46,204,113,0.30);
-  --bluebg:      rgba(93,173,226,0.10);
-  --blueborder:  rgba(93,173,226,0.30);
-  --purplebg:    rgba(165,105,189,0.10);
-  --purpleborder:rgba(165,105,189,0.30);
-  --amber:       #d4a017;
-  --green:       #2ecc71;
-  --blue:        #5dade2;
-  --purple:      #a569bd;
+*{box-sizing:border-box}
+:root{
+  --bg:#080d0a;--bg2:#0d1410;--bg3:#0b100c;
+  --border:#253d2a;--border2:#1e3022;
+  --accent:#3a7d44;--accent2:#4e9e5a;--accent3:#6bbf78;
+  --glowb:rgba(107,191,120,0.06);
+  --text:#c8d8c0;--text2:#8aaa88;--text3:#526650;
+  --mono:'Share Tech Mono',monospace;
+  --head:'Barlow Condensed',sans-serif;
+  --body:'Barlow',sans-serif;
+  --redbg:rgba(192,57,43,0.12);--redborder:rgba(192,57,43,0.35);
+  --amberbg:rgba(212,160,23,0.10);--amberborder:rgba(212,160,23,0.35);
+  --greenbg:rgba(46,204,113,0.10);--greenborder:rgba(46,204,113,0.30);
+  --bluebg:rgba(93,173,226,0.10);--blueborder:rgba(93,173,226,0.30);
+  --purplebg:rgba(165,105,189,0.10);--purpleborder:rgba(165,105,189,0.30);
+  --amber:#d4a017;--green:#2ecc71;--blue:#5dade2;--purple:#a569bd;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.035) 2px,rgba(0,0,0,0.035) 4px);pointer-events:none;z-index:999}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer}
 
-/* ── HEADER ── */
-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 14px;position:sticky;top:0;z-index:200;display:flex;align-items:stretch;min-height:60px}
-.logo-block{display:flex;align-items:center;gap:14px;padding-right:28px;border-right:1px solid var(--border);margin-right:4px;flex-shrink:0}
-.logo-icon{flex-shrink:0;display:flex;align-items:center}
-.logo-text h1{font-family:var(--head);font-weight:900;font-size:1rem;letter-spacing:0.16em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
-.logo-text p{display:none}
-nav{display:flex;align-items:stretch;flex:1;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+/* ── HEADER ─────────────────────────────────────── */
+header{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:220px 1fr auto;
+  align-items:stretch;min-height:48px;
+  position:sticky;top:0;z-index:200;
+}
+.logo-block{
+  display:flex;align-items:center;gap:10px;
+  padding:0 20px;border-right:1px solid var(--border);
+}
+.logo-icon{width:24px;height:24px;flex-shrink:0}
+.logo-text h1{
+  font-family:var(--head);font-weight:900;font-size:0.7rem;
+  letter-spacing:0.18em;text-transform:uppercase;color:#fff;line-height:1.1;
+}
+.logo-text p{
+  font-family:var(--mono);font-size:0.42rem;color:var(--accent3);
+  letter-spacing:0.1em;margin-top:2px;
+}
+nav{
+  display:flex;align-items:stretch;overflow-x:auto;
+  scrollbar-width:none;padding:0 4px;
+}
 nav::-webkit-scrollbar{display:none}
-.intro-stats::-webkit-scrollbar{display:none}
-.nav-tab{font-family:var(--head);font-weight:700;font-size:0.5rem;letter-spacing:0.03em;text-transform:uppercase;color:var(--text3);padding:0 5px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
+.nav-tab{
+  font-family:var(--mono);font-size:0.44rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text3);
+  padding:0 12px;border:none;background:none;
+  white-space:nowrap;border-bottom:2px solid transparent;
+  transition:color 0.12s,border-color 0.12s;flex-shrink:0;
+}
 .nav-tab:hover{color:var(--text2)}
-.nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
-.tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
-.nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.54rem;color:var(--text3);flex-shrink:0}
-.share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
-.share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
-.tab-footer-nav{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 4px;border-top:1px solid var(--border2);margin-top:24px}
-.tab-footer-nav .btn{font-size:0.58rem;padding:5px 12px;opacity:0.8}
-.tab-footer-nav .btn:hover{opacity:1}
-.share-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0}
-#back-to-top{position:fixed;bottom:24px;right:24px;background:var(--accent3);color:#080d0a;border:none;font-family:var(--head);font-weight:700;font-size:0.65rem;letter-spacing:0.1em;padding:8px 14px;cursor:pointer;display:none;z-index:999;transition:opacity 0.2s}
-#back-to-top:hover{background:#7dd68a}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent3)}
+.header-right{
+  display:flex;align-items:center;gap:12px;
+  padding:0 20px;border-left:1px solid var(--border);
+  font-family:var(--mono);font-size:0.42rem;color:var(--text3);
+}
+.share-btn{
+  display:flex;align-items:center;gap:4px;
+  color:var(--text3);border:1px solid var(--border);
+  padding:4px 8px;font-family:var(--mono);font-size:0.4rem;
+  letter-spacing:0.08em;text-transform:uppercase;transition:color 0.12s,border-color 0.12s;
+}
+.share-btn:hover{color:var(--accent3);border-color:var(--accent3)}
+.share-btn svg{width:11px;height:11px;fill:currentColor}
+.share-label{display:none}
 
-/* ── LAYOUT ── */
-main{padding:28px 32px;max-width:1600px;margin:0 auto}
-.tab-panel{display:none}
-.tab-panel.active{display:block;animation:fadeIn 0.22s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* ── SEARCH ─────────────────────────────────────── */
+.search-bar{
+  background:var(--bg3);border-bottom:1px solid var(--border2);
+  padding:6px 32px;display:flex;align-items:center;gap:10px;
+}
+.search-bar svg{width:11px;height:11px;stroke:var(--text3);fill:none;flex-shrink:0}
+.search-bar input{
+  font-family:var(--mono);font-size:0.5rem;color:var(--text2);
+  background:transparent;border:none;outline:none;flex:1;
+}
+.search-bar input::placeholder{color:var(--text3)}
 
-/* ── SECTION HEADER ── */
-.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
-.section-title{font-family:var(--head);font-weight:900;font-size:1.55rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;line-height:1}
-.section-title span{color:var(--accent3);font-weight:300}
-.section-sub{font-family:var(--mono);font-size:0.62rem;color:var(--text3);letter-spacing:0.06em;margin-top:5px}
+/* ── TABS ───────────────────────────────────────── */
+main{display:block}
+.tab-panel{display:none;padding:0 0 48px}
+.tab-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.tab-panel.active{animation:fadeIn 0.18s ease}
 
-/* ── CONTROLS ── */
-.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
-.ctrl-group{display:flex;align-items:center;gap:7px}
-.ctrl-label{font-family:var(--mono);font-size:0.6rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
-input[type="text"],select{font-family:var(--mono);font-size:0.7rem;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:2px;outline:none;transition:border-color 0.15s}
-input[type="text"]{width:190px}
-input[type="text"]:focus,select:focus{border-color:var(--accent)}
-select option{background:var(--bg3)}
-.btn{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;padding:6px 13px;border-radius:2px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:all 0.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-.btn:hover{border-color:var(--accent);color:var(--accent3)}
-.btn-accent{background:var(--accent);border-color:var(--accent2);color:#fff}
-.btn-accent:hover{background:var(--accent2);color:#fff}
-.btn-donate{background:#1a5c38;border-color:#2a8c56;color:#6bbf78;font-size:0.7rem;padding:8px 18px}
-.btn-donate:hover{background:#2a8c56;border-color:#6bbf78;color:#fff}
-.result-count{margin-left:auto;font-family:var(--mono);font-size:0.62rem;color:var(--text3)}
-.result-count b{color:var(--accent3)}
+/* ── HERO ───────────────────────────────────────── */
+.hero-top{
+  display:grid;grid-template-columns:1fr 360px;
+  min-height:300px;border-bottom:1px solid var(--border);
+}
+.hero-left{
+  padding:40px 48px 36px;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.hero-tag{
+  font-family:var(--mono);font-size:0.44rem;color:var(--accent3);
+  letter-spacing:0.22em;text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.hero-tag-line{width:28px;height:1px;background:var(--accent3)}
+.hero-h1{
+  font-family:var(--head);font-weight:900;
+  font-size:clamp(3.5rem,6.5vw,7rem);
+  line-height:0.88;letter-spacing:-0.02em;
+  text-transform:uppercase;color:#fff;margin-bottom:24px;
+}
+.hero-h1 .thin{font-weight:300;color:var(--accent3)}
+.hero-desc{
+  font-family:var(--body);font-size:0.85rem;color:var(--text2);
+  line-height:1.7;max-width:60ch;margin-bottom:24px;font-weight:300;
+}
+.hero-attrs{
+  display:flex;gap:0;font-family:var(--mono);font-size:0.42rem;
+  color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;
+}
+.hero-attr{padding:7px 16px;border:1px solid var(--border);margin-right:-1px}
+.hero-attr:first-child{border-color:var(--accent3);color:var(--accent3)}
+.hero-right{display:flex;flex-direction:column}
+.hero-chart-panel{
+  flex:1;padding:22px 24px;border-bottom:1px solid var(--border);
+  background:var(--bg2);display:flex;flex-direction:column;
+}
+.panel-eyebrow{
+  font-family:var(--mono);font-size:0.42rem;color:var(--accent3);
+  letter-spacing:0.16em;text-transform:uppercase;margin-bottom:6px;
+}
+.panel-legend{
+  display:flex;gap:14px;margin-bottom:10px;
+  font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.06em;
+}
+.chart-canvas-wrap{flex:1;min-height:110px;position:relative}
+.hero-support{padding:20px 24px;background:var(--bg2)}
+.support-label{
+  font-family:var(--mono);font-size:0.44rem;color:var(--accent3);
+  letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px;
+}
+.support-title{
+  font-family:var(--head);font-weight:700;font-size:1rem;
+  text-transform:uppercase;color:#fff;line-height:1.15;margin-bottom:8px;
+}
+.support-desc{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.support-points{list-style:none;margin-bottom:16px}
+.support-points li{
+  font-family:var(--mono);font-size:0.46rem;color:var(--text2);
+  padding:4px 0;border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;gap:8px;letter-spacing:0.04em;
+}
+.support-points li::before{content:'›';color:var(--accent3);font-size:0.8rem}
+.btn-solid{
+  display:block;text-align:center;background:var(--accent3);color:#050805;
+  font-family:var(--mono);font-size:0.46rem;letter-spacing:0.12em;
+  text-transform:uppercase;padding:10px;margin-bottom:7px;
+  transition:opacity 0.12s;font-weight:700;
+}
+.btn-solid:hover{opacity:0.85}
+.btn-outline{
+  display:block;text-align:center;border:1px solid var(--accent3);color:var(--accent3);
+  font-family:var(--mono);font-size:0.46rem;letter-spacing:0.12em;
+  text-transform:uppercase;padding:9px;margin-bottom:10px;
+  transition:background 0.12s;
+}
+.btn-outline:hover{background:rgba(107,191,120,0.07)}
 
-/* ── TABLE ── */
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis}
-thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
-thead th:hover{color:var(--text2)}
-thead th.sorted{color:var(--accent3)}
-tbody tr{border-bottom:1px solid var(--border2);transition:background 0.1s}
-tbody tr:hover{background:var(--glowb)}
-tbody td{padding:9px 13px;vertical-align:top}
-.cell-date{font-family:var(--mono);font-size:0.65rem;color:var(--text3);white-space:nowrap}
-.cell-target{font-weight:600;color:#e0ead8;font-family:var(--head);font-size:0.88rem;letter-spacing:0.02em}
-.cell-type,.cell-loc,.cell-notes{font-size:0.7rem;color:var(--text2);line-height:1.5}
-.cell-notes{max-width:300px}
-
-/* ── BADGES ── */
-.badge{display:inline-block;padding:2px 8px;border-radius:1px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
-.b-sunk    {background:var(--redbg);   color:#e74c3c;border:1px solid var(--redborder)}
-.b-damaged {background:var(--amberbg); color:#f0c040;border:1px solid var(--amberborder)}
-.b-destroyed{background:var(--greenbg);color:#2ecc71;border:1px solid var(--greenborder)}
-.b-shotdown{background:var(--purplebg);color:var(--purple);border:1px solid var(--purpleborder)}
-.b-disrupted{background:var(--bluebg); color:var(--blue);border:1px solid var(--blueborder)}
-.b-unknown {background:var(--bg3);     color:var(--text3);border:1px solid var(--border)}
-.b-ua{background:rgba(58,125,68,0.15);color:var(--accent3);border:1px solid var(--border)}
-.b-ru{background:rgba(192,57,43,0.10);color:#e07070;border:1px solid rgba(192,57,43,0.25)}
-.model-tag{display:inline-block;padding:2px 7px;background:var(--bg3);border:1px solid var(--border);border-radius:1px;font-family:var(--mono);font-size:0.6rem;color:var(--accent3);white-space:nowrap}
-a.src-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:color 0.15s,border-color 0.15s}
-a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
-
-/* ── STATE BOXES ── */
-.state-box{text-align:center;padding:50px 0;font-family:var(--mono);font-size:0.75rem;color:var(--text3);letter-spacing:0.08em}
-.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent3);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.no-results{text-align:center;padding:50px 0;font-family:var(--mono);font-size:0.75rem;color:var(--text3);letter-spacing:0.08em;display:none}
-
-/* ── KILL BOARD ── */
-.kb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:28px}
-.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:22px;position:relative;overflow:hidden}
-.kb-card::before{content:attr(data-icon);position:absolute;right:14px;top:10px;font-size:2.2rem;opacity:0.055;line-height:1}
-.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
-.kb-card-value{font-family:var(--head);font-weight:900;font-size:2.5rem;line-height:1;letter-spacing:-0.01em}
-.kb-card-value.red  {color:#e74c3c}
-.kb-card-value.amber{color:#f0c040}
-.kb-card-value.green{color:var(--accent3)}
-.kb-card-value.blue {color:var(--blue)}
-.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:5px;line-height:1.4}
-.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)}
-.kb-section-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
-.kb-section-title::after{content:'';flex:1;height:1px;background:var(--border2)}
-.stat-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
-.stat-row{background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;padding:12px 16px;gap:14px}
-.stat-row-label{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1}
-.stat-row-val{font-family:var(--head);font-weight:700;font-size:1.2rem;white-space:nowrap}
-.stat-row-val.r{color:#e74c3c}
-.stat-row-val.a{color:#f0c040}
-.stat-row-val.g{color:var(--accent3)}
-.disclaimer{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);padding:13px 16px;font-family:var(--mono);font-size:0.62rem;color:var(--text3);line-height:1.7;margin-bottom:24px}
-.disclaimer b{color:var(--amber)}
-
-/* ── INTRO ── */
-.intro-hero{padding:24px 0 20px;border-bottom:1px solid var(--border2);margin-bottom:36px;display:grid;grid-template-columns:1fr 360px 280px;gap:20px;align-items:stretch}
-@media(max-width:1200px){.intro-hero{grid-template-columns:1fr 360px}}@media(max-width:900px){.intro-hero{grid-template-columns:1fr}}
-@media(max-width:800px){.intro-hero{grid-template-columns:1fr}}
-
-.intro-kicker{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent3);margin-bottom:14px}
-.intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
-.intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
-.intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
-.intro-stats{display:flex;flex-wrap:nowrap;gap:0;border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.intro-stat{flex:0 0 calc(100%/7);min-width:140px;padding:14px 10px;border-right:1px solid var(--border);box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s}
-.intro-stat:hover{background:var(--glowb)}
-.intro-stat:active{transform:scale(0.98)}
-.intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
-.intro-stat:hover .intro-stat-hint{opacity:1;color:var(--accent3)}
+/* ── STAT STRIP ─────────────────────────────────── */
+.intro-stats{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  border-bottom:1px solid var(--border);
+}
+.intro-stat{
+  padding:18px 16px 14px;border-right:1px solid var(--border);
+  transition:background 0.1s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
 .intro-stat:last-child{border-right:none}
-.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1}
+.intro-stat::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:var(--accent3);opacity:0;transition:opacity 0.12s;
+}
+.intro-stat:hover{background:var(--bg2)}
+.intro-stat:hover::after{opacity:1}
+.intro-stat-val{
+  font-family:var(--head);font-weight:900;font-size:1.7rem;
+  line-height:1;letter-spacing:-0.02em;color:#fff;display:block;margin-bottom:5px;
+}
 .intro-stat-val.g{color:var(--accent3)}
+.intro-stat-val.b{color:#4a9fd4}
+.intro-stat-val.a{color:var(--amber)}
 .intro-stat-val.r{color:#e74c3c}
-.intro-stat-val.a{color:#f0c040}
-.intro-stat-val.b{color:var(--blue)}
-.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intro-stat-label{
+  font-family:var(--mono);font-size:0.38rem;
+  color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;
+}
+.intro-stat-hint{display:none}
 
-/* ── INTRO PAGE CARDS ── */
-.intro-pages{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
-.intro-page-card{background:var(--bg2);padding:12px 14px;cursor:pointer;transition:background 0.18s;position:relative;display:flex;flex-direction:column;gap:6px}
-.intro-page-card:hover{background:var(--bg3)}
-.intro-page-card.full-width{grid-column:1/-1}
-.ipc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.ipc-icon{font-size:1.1rem;flex-shrink:0}
-.ipc-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
-.ipc-count{font-family:var(--mono);font-size:0.58rem;color:var(--accent3);margin-left:auto;border:1px solid var(--border);padding:2px 7px;white-space:nowrap}
-.ipc-desc{font-family:var(--body);font-size:0.68rem;color:var(--text2);line-height:1.55;margin:0}
-.ipc-columns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.ipc-col-label{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
-.ipc-col-text{font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.55}
-.ipc-nav-hint{font-family:var(--mono);font-size:0.56rem;color:var(--accent);letter-spacing:0.06em;margin-top:10px}
-.ipc-nav-hint:hover{color:var(--accent3)}.intro-page-card.full-width{grid-column:span 1}
-.ipc-tag{display:inline-block;font-family:var(--mono);font-size:0.56rem;padding:1px 6px;border-radius:1px;margin-right:4px;margin-bottom:3px;border:1px solid var(--border);color:var(--text3);background:var(--bg3)}
+/* ── SECTION RULE ───────────────────────────────── */
+.section-rule{
+  display:flex;align-items:center;gap:16px;
+  padding:24px 48px 0;
+}
+.section-rule-label{
+  font-family:var(--mono);font-size:0.42rem;color:var(--text3);
+  letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;
+}
+.section-rule-line{flex:1;height:1px;background:var(--border)}
 
-/* ── METHODOLOGY / SOURCES ── */
-.intro-methodology{background:var(--bg2);border:1px solid var(--border);padding:26px 28px;margin-bottom:28px}
-.intro-methodology h3{font-family:var(--head);font-weight:700;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-bottom:13px}
-.intro-methodology p{font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.75;margin-bottom:10px}
-.intro-methodology p:last-of-type{margin-bottom:0}
-.intro-methodology b{color:var(--text2)}
-.source-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-.source-chip{font-family:var(--mono);font-size:0.57rem;background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:1px;color:var(--text3);letter-spacing:0.04em}
-.intro-footer{font-family:var(--mono);font-size:0.58rem;color:var(--text3);line-height:1.8;padding-top:18px;border-top:1px solid var(--border2)}
+/* ── NAV GRID (intro) ───────────────────────────── */
+.intro-pages{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);margin:16px 48px 0;
+}
+.intro-page-card{
+  background:var(--bg);padding:22px 22px 20px;
+  cursor:pointer;transition:background 0.1s;
+  display:flex;flex-direction:column;
+}
+.intro-page-card:hover{background:var(--bg2)}
+.ipc-idx{
+  font-family:var(--mono);font-size:0.38rem;color:var(--border);
+  letter-spacing:0.08em;margin-bottom:12px;
+}
+.ipc-head{
+  font-family:var(--head);font-weight:900;font-size:1.4rem;
+  letter-spacing:0.03em;text-transform:uppercase;color:#fff;
+  line-height:1;margin-bottom:8px;
+}
+.ipc-text{
+  font-family:var(--body);font-size:0.68rem;color:var(--text3);
+  line-height:1.55;flex:1;margin-bottom:14px;
+}
+.ipc-cta{
+  font-family:var(--mono);font-size:0.4rem;color:var(--accent3);
+  letter-spacing:0.1em;text-transform:uppercase;
+}
+.ipc-cta::after{content:' →'}
+.intro-page-card.research-card{
+  background:rgba(107,191,120,0.04);border-left:2px solid var(--accent3);
+}
+.research-card .ipc-idx{color:rgba(107,191,120,0.4)}
 
-/* ── EMPTY STATE ── */
-.empty-state{text-align:center;padding:70px 32px;border:1px dashed var(--border);margin-top:8px}
-.empty-icon{font-size:2.8rem;margin-bottom:14px;opacity:0.35}
-.empty-title{font-family:var(--head);font-weight:700;font-size:1.05rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
-.empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
+/* ── METHODOLOGY ────────────────────────────────── */
+.intro-methodology{
+  margin:32px 48px 0;border:1px solid var(--border);
+}
+.meth-head{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid var(--border);
+}
+.meth-col-head{
+  padding:12px 20px;border-right:1px solid var(--border);
+  font-family:var(--mono);font-size:0.4rem;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--accent3);
+}
+.meth-col-head:last-child{border-right:none}
+.meth-cols{display:grid;grid-template-columns:repeat(3,1fr)}
+.meth-col{
+  padding:18px 20px;border-right:1px solid var(--border);
+  font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.65;
+}
+.meth-col:last-child{border-right:none}
 
-/* ── OSINT SOURCES PAGE ── */
-.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
-.source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
-.source-card:hover{border-color:var(--accent)}
-.source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
-.source-card-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
-.source-card-name{font-family:var(--head);font-weight:700;font-size:1rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1}
-.source-card-type{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.08em;margin-top:3px;text-transform:uppercase}
-.source-card-desc{font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65;margin-bottom:12px}
-.source-card-link{font-family:var(--mono);font-size:0.6rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border);transition:all 0.15s;display:inline-block}
-.source-card-link:hover{color:var(--accent3);border-color:var(--accent3)}
-.donate-block{background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 50%,#0a1f12 100%);border:1px solid #2a6b3a;border-left:4px solid var(--accent3);padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
-.donate-block::before{content:'🇺🇦';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:5rem;opacity:0.07}
-.donate-title{font-family:var(--head);font-weight:900;font-size:1.4rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;margin-bottom:6px}
-.donate-sub{font-family:var(--mono);font-size:0.6rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
-.donate-desc{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.7;max-width:620px;margin-bottom:20px}
-.donate-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent3);color:#080d0a;font-family:var(--head);font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all 0.18s;border:none;cursor:pointer}
-.donate-btn:hover{background:#fff;color:#080d0a}
-.donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
-
-/* ── AIR DEFENCE TAB ── */
-.ad-stat-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
-.ad-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff}
-.ad-stat-lbl{font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
-.ad-weapon-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
-.ad-weapon-col{background:var(--bg2)}
-.ad-weapon-header{display:flex;padding:7px 14px;border-bottom:1px solid var(--border);background:var(--bg3)}
-.ad-weapon-header span{font-family:var(--mono);font-size:0.57rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
-.ad-weapon-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px}
-.ad-weapon-row:last-child{border-bottom:none}
-.ad-weapon-row:hover{background:var(--glowb)}
-.ad-weapon-name{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1}
-.ad-weapon-num{font-family:var(--head);font-weight:700;font-size:0.88rem;flex-shrink:0;width:70px;text-align:right}
-.ad-weapon-bar{height:4px;background:var(--border2);border-radius:2px;margin-top:3px;overflow:hidden}
-.ad-weapon-bar-fill{height:100%;border-radius:2px;transition:width 0.6s ease}
-.ad-rate-badge{font-family:var(--mono);font-size:0.6rem;padding:2px 7px;border-radius:2px;flex-shrink:0}
-.ad-rate-good{background:rgba(107,191,120,0.15);color:var(--accent3);border:1px solid var(--accent)}
-.ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
-.ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
-@media(max-width:600px){
-  .intro-stat{padding:10px 6px!important}.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
-/* ── AD UNITS ── */
-.ad-unit{margin:24px 0;text-align:center;opacity:0.85}
-.ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
-
-/* ── UAV KILLBOARD ── */
-.uav-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff}
-.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
-.uav-cat-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px;transition:background 0.1s}
-.uav-cat-row:last-child{border-bottom:none}
-.uav-cat-row:hover{background:var(--glowb)}
-.uav-cat-row.highlighted{background:rgba(107,191,120,0.07)}
-.uav-cat-name{font-family:var(--body);font-size:0.76rem;color:var(--text2);flex:1;min-width:0}
-.uav-cat-header{display:flex;padding:6px 14px;border-bottom:1px solid var(--border);background:var(--bg2)}
-.uav-cat-header span{font-family:var(--mono);font-size:0.58rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
-.uav-cat-header .uav-num-col{width:70px;text-align:right}
-.uav-num-col{width:70px;text-align:right;font-family:var(--head);font-weight:700;font-size:0.9rem;flex-shrink:0}
-.uav-num-damaged{color:var(--amber)}
-.uav-num-destroyed{color:var(--accent3)}
-@media(max-width:1100px){
-  .intro-pages{grid-template-columns:repeat(4,1fr)}
-  .sources-grid{grid-template-columns:repeat(2,1fr)}
+/* ── DISCLAIMER / BANNERS ───────────────────────── */
+.disclaimer{
+  font-family:var(--mono);font-size:0.44rem;color:var(--text3);
+  line-height:1.7;margin:24px 48px 0;padding:12px 0;
+  border-top:1px solid var(--border2);letter-spacing:0.04em;
 }
 
-/* ── TABLET ── */
+/* ── SECTION HEADERS (other tabs) ───────────────── */
+.section-title{
+  font-family:var(--head);font-weight:900;font-size:1.4rem;
+  letter-spacing:0.1em;text-transform:uppercase;color:#fff;
+}
+.section-title span{color:var(--accent3);font-weight:300}
+.section-sub{
+  font-family:var(--mono);font-size:0.44rem;color:var(--text3);
+  letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;
+}
+.tab-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 32px 16px;border-bottom:1px solid var(--border2);
+  margin-bottom:20px;
+}
+.kb-section-title{
+  font-family:var(--mono);font-size:0.42rem;color:var(--text3);
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:0 32px;margin:24px 0 12px;
+  display:flex;align-items:center;gap:16px;
+}
+.kb-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── BUTTONS ────────────────────────────────────── */
+.btn{
+  font-family:var(--mono);font-size:0.44rem;letter-spacing:0.1em;
+  text-transform:uppercase;border:1px solid var(--border);
+  color:var(--text2);padding:6px 12px;background:transparent;
+  transition:border-color 0.12s,color 0.12s;cursor:pointer;
+}
+.btn:hover{border-color:var(--accent3);color:var(--accent3)}
+.btn.btn-accent{border-color:var(--accent3);color:var(--accent3)}
+.btn.btn-accent:hover{background:rgba(107,191,120,0.08)}
+
+/* ── CONTROLS ───────────────────────────────────── */
+.controls{
+  display:flex;gap:10px;flex-wrap:wrap;padding:0 32px;margin-bottom:14px;
+}
+.ctrl-group{display:flex;flex-direction:column;gap:4px}
+.ctrl-label{font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.controls input,.controls select{
+  font-family:var(--mono);font-size:0.48rem;color:var(--text2);
+  background:var(--bg2);border:1px solid var(--border);
+  padding:5px 8px;outline:none;
+}
+.controls input:focus,.controls select:focus{border-color:var(--accent3)}
+
+/* ── TABLES ─────────────────────────────────────── */
+.table-wrap{padding:0 32px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:0.5rem}
+table{table-layout:auto;min-width:600px}
+th{
+  font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text3);
+  border-bottom:1px solid var(--border);padding:8px 10px;
+  text-align:left;cursor:pointer;background:var(--bg2);
+}
+th:hover{color:var(--accent3)}
+td{
+  padding:7px 10px;border-bottom:1px solid var(--border2);
+  font-size:0.5rem;color:var(--text2);vertical-align:top;
+  line-height:1.4;
+}
+tr:hover td{background:var(--bg2)}
+.no-results{
+  font-family:var(--mono);font-size:0.5rem;color:var(--text3);
+  text-align:center;padding:40px 32px;letter-spacing:0.1em;
+}
+
+/* ── BADGES ─────────────────────────────────────── */
+.badge{
+  display:inline-block;font-family:var(--mono);font-size:0.38rem;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:2px 7px;border:1px solid;border-radius:0;
+}
+.badge-sunk,.badge-destroyed{background:var(--redbg);border-color:var(--redborder);color:#e74c3c}
+.badge-damaged{background:var(--amberbg);border-color:var(--amberborder);color:var(--amber)}
+.badge-disrupted,.badge-shotdown{background:var(--bluebg);border-color:var(--blueborder);color:var(--blue)}
+.badge-ukraine{background:var(--bluebg);border-color:var(--blueborder);color:var(--blue)}
+.badge-russia{background:var(--redbg);border-color:var(--redborder);color:#e74c3c}
+.badge-green,.rate-high{background:var(--greenbg);border-color:var(--greenborder);color:var(--accent3)}
+.rate-low,.rate-red{background:var(--redbg);border-color:var(--redborder);color:#e74c3c}
+.rate-med{background:var(--amberbg);border-color:var(--amberborder);color:var(--amber)}
+
+/* ── AD STAT STRIP ──────────────────────────────── */
+.ad-stat-strip{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  margin:0 32px 16px;
+}
+.ad-stat-cell{
+  background:var(--bg2);padding:14px 12px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.ad-stat-val{
+  font-family:var(--head);font-weight:900;font-size:1.5rem;
+  color:#fff;line-height:1;letter-spacing:-0.02em;
+}
+.ad-stat-label{font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
+
+/* ── UAV STAT STRIP ─────────────────────────────── */
+#uav-stat-strip{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  margin:0 32px 16px;
+}
+.uav-stat-cell{background:var(--bg2);padding:14px 12px}
+.uav-stat-val{
+  font-family:var(--head);font-weight:900;font-size:1.4rem;
+  color:#fff;line-height:1;letter-spacing:-0.02em;display:block;margin-bottom:4px;
+}
+.uav-stat-lbl{font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
+
+/* ── UAV KILLBOARD ──────────────────────────────── */
+#uav-killboard{
+  margin:0 32px;border:1px solid var(--border);
+  display:grid;grid-template-columns:1fr 1fr;
+}
+.uav-cat-header{
+  display:flex;padding:8px 12px;border-bottom:1px solid var(--border);
+  font-family:var(--mono);font-size:0.38rem;color:var(--text3);
+  letter-spacing:0.1em;text-transform:uppercase;grid-column:1/-1;
+}
+.uav-num-col{width:90px;text-align:right;flex-shrink:0}
+.uav-cat-row{
+  display:flex;padding:7px 12px;border-bottom:1px solid var(--border2);
+  font-family:var(--mono);font-size:0.48rem;color:var(--text2);
+  border-right:1px solid var(--border);transition:background 0.1s;
+}
+.uav-cat-row:hover{background:var(--bg2)}
+.uav-cat-row .uav-num-col{color:#fff}
+
+/* ── KB GRID (Russian Losses) ───────────────────── */
+.kb-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);margin:0 32px 24px;
+}
+.kb-card{
+  background:var(--bg2);padding:20px 20px 16px;
+}
+.kb-cat{
+  font-family:var(--mono);font-size:0.38rem;color:var(--text3);
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
+}
+.kb-val{
+  font-family:var(--head);font-weight:900;font-size:2rem;
+  color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px;
+}
+.kb-val.r{color:#e74c3c}
+.kb-val.a{color:var(--amber)}
+.kb-val.g{color:var(--accent3)}
+.kb-val.b{color:#4a9fd4}
+.kb-label{font-family:var(--mono);font-size:0.44rem;color:var(--text2)}
+.kb-src{font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:4px}
+
+/* ── CHARTS ─────────────────────────────────────── */
+canvas{display:block}
+#intro-trends-chart{width:100%}
+
+/* ── UAV CHARTS ─────────────────────────────────── */
+.uav-chart-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--border);margin:0 32px 20px;
+}
+.uav-chart-cell{background:var(--bg2);padding:16px 18px}
+.uav-chart-label{
+  font-family:var(--mono);font-size:0.42rem;color:var(--accent3);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;
+}
+
+/* ── TERRITORY CHART ────────────────────────────── */
+#territorial-chart-container{
+  margin:0 32px 20px;border:1px solid var(--border);padding:16px;background:var(--bg2);
+}
+
+/* ── SOURCES ────────────────────────────────────── */
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:0 32px 24px}
+.source-card{background:var(--bg2);padding:18px 20px}
+.sc-cat{font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
+.sc-title{font-family:var(--head);font-weight:700;font-size:0.9rem;text-transform:uppercase;color:#fff;margin-bottom:6px;letter-spacing:0.04em}
+.sc-desc{font-family:var(--body);font-size:0.7rem;color:var(--text2);line-height:1.55;margin-bottom:10px}
+.sc-link a{font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.06em}
+
+/* ── ANALYSES ───────────────────────────────────── */
+.analysis-block{
+  margin:0 32px;border-bottom:1px solid var(--border2);padding:20px 0;
+}
+.analysis-title{
+  font-family:var(--head);font-weight:900;font-size:1rem;
+  text-transform:uppercase;color:#fff;margin-bottom:4px;letter-spacing:0.04em;
+}
+.analysis-meta{font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px}
+.analysis-text{font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.7;margin-bottom:12px}
+.finding-block{
+  background:var(--bg2);border:1px solid var(--border);
+  border-left:3px solid var(--border);padding:14px 18px;margin-bottom:10px;
+}
+.finding-label{font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px}
+.finding-text{font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65}
+
+/* ── DELTA/UGV STATS ────────────────────────────── */
+.delta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:0 32px 20px}
+.delta-cell{background:var(--bg2);padding:16px 14px}
+.delta-val{font-family:var(--head);font-weight:900;font-size:1.5rem;color:var(--accent3);line-height:1;letter-spacing:-0.02em;margin-bottom:4px}
+.delta-label{font-family:var(--mono);font-size:0.4rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;line-height:1.4}
+
+/* ── RESEARCH / DEEP STRIKE ─────────────────────── */
+#research-gate{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:360px;gap:16px;
+  padding:40px 20px;text-align:center;
+}
+.gate-title{font-family:var(--head);font-weight:900;font-size:2rem;text-transform:uppercase;color:#fff;margin-bottom:8px}
+.gate-sub{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+#research-pw{
+  font-family:var(--mono);font-size:0.6rem;color:var(--text2);
+  background:var(--bg2);border:1px solid var(--border);
+  padding:10px 16px;width:100%;max-width:280px;outline:none;text-align:center;
+}
+#research-pw:focus{border-color:var(--accent3)}
+#research-pw-err{display:none;font-family:var(--mono);font-size:0.44rem;color:#e74c3c;letter-spacing:0.08em}
+
+/* ── STATE / SPINNER ────────────────────────────── */
+.state-box{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:40px 20px;
+  font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;
+}
+.spinner{
+  width:20px;height:20px;border:2px solid var(--border);
+  border-top-color:var(--accent3);border-radius:50%;
+  animation:spin 0.8s linear infinite;margin-bottom:12px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── BACK TO TOP ────────────────────────────────── */
+#back-to-top{
+  position:fixed;bottom:20px;right:20px;z-index:100;
+  font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;
+  background:var(--bg2);border:1px solid var(--border);color:var(--text3);
+  padding:7px 12px;transition:color 0.12s,border-color 0.12s;
+}
+#back-to-top:hover{color:var(--accent3);border-color:var(--accent3)}
+
+/* ── MISC ───────────────────────────────────────── */
+.source-tag{font-family:var(--mono);font-size:0.38rem;color:var(--text3)}
+.source-tag a{color:var(--accent3)}
+.export-row{display:flex;gap:10px;padding:0 32px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.export-count{font-family:var(--mono);font-size:0.44rem;color:var(--text3)}
+
+/* ── AD WEAPON BREAKDOWN ────────────────────────── */
+.ad-weapon-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 32px;margin-bottom:20px}
+.ad-weapon-col{display:flex;flex-direction:column;gap:0}
+.ad-weapon-row{
+  display:flex;align-items:center;gap:10px;padding:7px 0;
+  border-bottom:1px solid var(--border2);
+}
+.ad-weapon-name{font-family:var(--body);font-size:0.72rem;color:var(--text2);flex:1;min-width:0}
+.ad-weapon-bar-wrap{width:80px;height:3px;background:var(--border2);flex-shrink:0}
+.ad-weapon-bar{height:100%;background:var(--accent3)}
+.ad-weapon-nums{font-family:var(--mono);font-size:0.42rem;color:var(--text3);text-align:right;flex-shrink:0;min-width:80px}
+.ad-weapon-rate{font-family:var(--mono);font-size:0.4rem;padding:1px 5px;border:1px solid;flex-shrink:0}
+
+/* ── SHOW ALL TOGGLE ────────────────────────────── */
+.showall-wrap{padding:0 32px;margin-bottom:16px}
+.showall-toggle{
+  font-family:var(--mono);font-size:0.4rem;color:var(--text3);
+  letter-spacing:0.08em;text-transform:uppercase;
+  border:1px solid var(--border);background:transparent;padding:4px 10px;
+}
+.showall-toggle:hover{color:var(--accent3);border-color:var(--accent3)}
+
+/* ── ATTACK FREQUENCY ───────────────────────────── */
+#airdef-monthly-freq,#airdef-yearly-freq{
+  font-family:var(--mono);font-size:0.52rem;color:var(--text2);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
 @media(max-width:900px){
-  header{padding:0 14px;min-height:54px}
-  main{padding:16px 14px}
-  .logo-text p{display:none}
-  .share-btn span.share-label{display:none}
-  input[type="text"]{width:120px}
-  .stat-rows,.intro-pages{grid-template-columns:repeat(2,1fr)}
-  .ipc-columns{grid-template-columns:1fr}
-  .intro-stat:last-child{border-bottom:none}
-  .intro-headline{font-size:2rem}
-  .sources-grid{grid-template-columns:1fr}
+  header{grid-template-columns:auto 1fr auto}
+  .hero-top{grid-template-columns:1fr}
+  .hero-right{border-top:1px solid var(--border)}
+  .intro-stats{grid-template-columns:repeat(4,1fr)}
+  .intro-pages{grid-template-columns:repeat(2,1fr)}
   .kb-grid{grid-template-columns:repeat(2,1fr)}
-  /* Tables: allow horizontal scroll, don't squash */
+  .sources-grid{grid-template-columns:1fr}
+  .meth-head,.meth-cols,.method-grid{grid-template-columns:1fr}
+  .meth-col-head,.meth-col{border-right:none;border-bottom:1px solid var(--border)}
   .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
   table{table-layout:auto;min-width:600px}
-  /* UAV killboard: stack columns */
-  #uav-killboard{grid-template-columns:1fr}
-  #uav-stat-strip{grid-template-columns:repeat(4,1fr)}
 }
-
-/* ── MOBILE ── */
 @media(max-width:600px){
-  .hide-mobile{display:none!important}
-  /* Header: icon + title only, no subtitle */
-  header{padding:0 12px;min-height:50px}
-  .logo-icon{width:26px;height:26px}
-  .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
-  /* Nav: scrollable row of small tabs */
-  nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .nav-tab{flex:0 0 auto!important;min-width:fit-content!important}
-  nav::-webkit-scrollbar{display:none}
-.intro-stats::-webkit-scrollbar{display:none}
-  .nav-tab{padding:0 10px;font-size:0.6rem;letter-spacing:0.04em;flex:0 0 auto;min-width:fit-content}
-  /* Main layout */
-  main{padding:14px 12px}
-  /* Intro */
-  .intro-headline{font-size:1.6rem}
-  .intro-lead{font-size:0.85rem}
-  .intro-pages{grid-template-columns:repeat(2,1fr)}
-  .ipc-columns{grid-template-columns:1fr}
-  /* Controls: wrap filters vertically */
-  .controls{flex-direction:column;align-items:flex-start;gap:8px}
-  .ctrl-group{width:100%}
-  input[type="text"]{width:100%;box-sizing:border-box}
-  select{width:100%;box-sizing:border-box}
-  .result-count{margin-left:0}
-  /* Section header: stack title and button */
-  .section-header{flex-direction:column;align-items:flex-start;gap:10px}
-  /* Tables: horizontal scroll with touch */
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -12px;padding:0 12px}
-  table{table-layout:auto;min-width:560px;font-size:0.7rem}
-  thead th{padding:7px 10px;font-size:0.58rem}
-  tbody td{padding:7px 10px}
-  /* Kill board cards */
-  .kb-grid{grid-template-columns:1fr}
-  .kb-card-value{font-size:2rem}
-  .stat-rows{grid-template-columns:1fr}
-  /* UAV killboard */
-  #uav-killboard{grid-template-columns:1fr}
-  #uav-stat-strip{grid-template-columns:repeat(2,1fr);font-size:0.9rem}
-  .uav-stat-val{font-size:1.2rem}
-  .uav-stat-cell{padding:10px 12px}
-  /* Sources page */
-  .sources-grid{grid-template-columns:1fr}
-  .donate-block{padding:20px 16px}
-  .donate-title{font-size:1.1rem}
-  /* Intro page cards */
-  .intro-page-card{padding:16px}
-  .ipc-title{font-size:0.85rem}
-  /* Disclaimer */
-  .disclaimer{font-size:0.58rem}
+  .hero-left{padding:24px 20px}
+  .hero-h1{font-size:3rem}
+  .intro-stats{grid-template-columns:repeat(2,1fr)}
+  .section-rule,.disclaimer{padding-left:20px;padding-right:20px}
+  .intro-pages{margin:16px 20px 0}
+  .intro-methodology{margin:24px 20px 0}
+  .tab-header,.controls,.table-wrap,.export-row,.kb-section-title{padding-left:20px;padding-right:20px}
+  #uav-stat-strip,#uav-killboard,.kb-grid,.delta-grid,.ad-stat-strip,.ad-weapon-grid,.sources-grid{margin-left:20px;margin-right:20px}
+  .section-rule{padding:20px 20px 0}
+  .uav-chart-grid,.ngrid,.intro-pages{margin-left:20px;margin-right:20px}
+  #territorial-chart-container{margin-left:20px;margin-right:20px}
 }
-
-/* ── VERY SMALL (iPhone SE etc.) ── */
-@media(max-width:375px){
-  .logo-text h1{font-size:0.68rem}
-  .nav-tab{font-size:0.55rem;padding:0 8px}
-  .intro-headline{font-size:1.35rem}
-  #uav-stat-strip{grid-template-columns:1fr 1fr}
-}
-
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7620877350113591" crossorigin="anonymous"></script>
 <link rel="canonical" href="https://unmannedsystemstracker.com">
@@ -417,49 +639,39 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 <header>
   <div class="logo-block">
-    <div class="logo-icon" style="background:none;border:none;width:36px;height:36px;flex-shrink:0">
-      <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2,18 Q18,4 34,18 Q18,32 2,18 Z" fill="#3a7d44" fill-opacity="0.15" stroke="#3a7d44" stroke-width="1.5" stroke-linejoin="round"/>
-        <circle cx="18" cy="18" r="9" fill="none" stroke="#3a7d44" stroke-width="1.2"/>
-        <circle cx="18" cy="18" r="5.5" fill="#3a7d44" fill-opacity="0.2" stroke="#4e9e5a" stroke-width="1.2"/>
-        <circle cx="18" cy="18" r="2.5" fill="#6bbf78"/>
-        <circle cx="20" cy="16" r="1" fill="#6bbf78" opacity="0.5"/>
-        <line x1="18" y1="7"  x2="18" y2="11" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <line x1="18" y1="25" x2="18" y2="29" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <line x1="7"  y1="18" x2="11" y2="18" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <line x1="25" y1="18" x2="29" y2="18" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M3,9 L3,5 L7,5"    fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M33,9 L33,5 L29,5"  fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M3,27 L3,31 L7,31"  fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M33,27 L33,31 L29,31" fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+    <div class="logo-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="#6bbf78" stroke-width="1.5"/>
+        <circle cx="12" cy="12" r="2" fill="#6bbf78"/>
+        <line x1="12" y1="2" x2="12" y2="7" stroke="#6bbf78" stroke-width="1.2"/>
+        <line x1="12" y1="17" x2="12" y2="22" stroke="#6bbf78" stroke-width="1.2"/>
+        <line x1="2" y1="12" x2="7" y2="12" stroke="#6bbf78" stroke-width="1.2"/>
+        <line x1="17" y1="12" x2="22" y2="12" stroke="#6bbf78" stroke-width="1.2"/>
       </svg>
     </div>
     <div class="logo-text">
       <h1>Unmanned Systems Tracker</h1>
-      <p>Russian Invasion of Ukraine 2022–Present</p>
+      <p>Ukraine War · OSINT · War Studies KCL</p>
     </div>
   </div>
   <nav>
-    <button class="nav-tab active" onclick="showTab('intro',this)">📋 Intro</button>
-    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV Strikes</button>
-    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations</button>
-    <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
-    <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
-    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses &amp; Advance</button>
-    <button class="nav-tab" onclick="showTab('analyses',this)">🔬 Analyses</button>
-    <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
-    <button class="nav-tab" onclick="showTab('research',this)">🔒 Deep Strike Research</button>
+    <button class="nav-tab active" onclick="showTab('intro',this)">Intro</button>
+    <button class="nav-tab" onclick="showTab('usv',this)">USV Strikes</button>
+    <button class="nav-tab" onclick="showTab('ugv',this)">UGV Operations</button>
+    <button class="nav-tab" onclick="showTab('uav',this)">UAV Strikes</button>
+    <button class="nav-tab" onclick="showTab('airdef',this)">Air Defence</button>
+    <button class="nav-tab" onclick="showTab('rl',this)">Russian Losses</button>
+    <button class="nav-tab" onclick="showTab('analyses',this)">Analyses</button>
+    <button class="nav-tab" onclick="showTab('sources',this)">Sources</button>
+    <button class="nav-tab" onclick="showTab('research',this)">Deep Strike</button>
   </nav>
   <div class="header-right">
-    <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
+    <a class="share-btn" href="#" onclick="shareToX();return false;" title="Share on X">
       <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.264 5.634L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      <span class="share-label">SHARE</span>
     </a>
-    <a class="share-btn" id="share-li" href="#" onclick="shareToLinkedIn();return false;" title="Share on LinkedIn">
+    <a class="share-btn" href="#" onclick="shareToLinkedIn();return false;" title="Share on LinkedIn">
       <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      <span class="share-label">SHARE</span>
     </a>
-    <span style="color:var(--text3)">Last updated:</span>
     <span id="last-updated" style="color:var(--accent3)">—</span>
   </div>
 </header>
@@ -480,123 +692,173 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 ═══════════════════════════════════════════ -->
 <div id="tab-intro" class="tab-panel active">
 
-  <div class="intro-hero">
-    <div>
-      <div class="intro-headline">Unmanned<br>Systems<br><em>Tracker</em></div>
-      <p style="font-family:var(--head);font-weight:900;font-size:1.05rem;color:#fff;line-height:1.2;margin-bottom:8px">An open-source database of drone warfare in Ukraine.</p>
-      <p class="intro-lead">Tracking confirmed USV strikes, UGV operations, UAV kill data, air defence intercepts and Russian territorial advances and equipment/personnel losses. Built from official Ukrainian military releases, verified OSINT data, and academic sources.</p>
+  <div class="hero-top">
+    <div class="hero-left">
+      <div>
+        <div class="hero-tag">
+          <span class="hero-tag-line"></span>
+          Open-source · OSINT · War Studies KCL
+        </div>
+        <h1 class="hero-h1">
+          Ukraine War<br>
+          Unmanned <span class="thin">Systems</span><br>
+          Tracker
+        </h1>
+        <p class="hero-desc">Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine. Updated weekly.</p>
+      </div>
+      <div class="hero-attrs">
+        <div class="hero-attr">Verified OSINT only</div>
+        <div class="hero-attr">Source citations on all entries</div>
+        <div class="hero-attr">Free to access &amp; share</div>
+      </div>
+    </div>
 
-    </div>
-    <div style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;display:flex;flex-direction:column">
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px">KEY TRENDS · JUN 2025–MAR 2026</div>
-      <div style="font-family:var(--mono);font-size:0.44rem;color:var(--text3);margin-bottom:8px;line-height:1.8">
-        <span style="color:#f0c040">━</span> FPV Strike flights (k) &nbsp;
-        <span style="color:#e74c3c">━</span> Ru. advance km² &nbsp;
-        <span style="color:#6bbf78">━</span> Intercept %
+    <div class="hero-right">
+      <div class="hero-chart-panel">
+        <div class="panel-eyebrow">Key Trends · Jun 2025–Mar 2026</div>
+        <div class="panel-legend">
+          <span><span style="color:#f0c040">━</span> FPV strike flights (k)</span>
+          <span><span style="color:#e74c3c">━</span> Ru. advance km²</span>
+          <span><span style="color:#6bbf78">━</span> Intercept %</span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="intro-trends-chart"></canvas>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.36rem;color:var(--text3);margin-top:6px">Pidrakhuyka · Black Bird Group · Air Force data</div>
       </div>
-      <canvas id="intro-trends-chart" style="flex:1;min-height:0;width:100%"></canvas>
-      <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin-top:6px;line-height:1.6">Pidrakhuyka · Black Bird Group · Air Force data</div>
-    </div>
-    <div style="background:linear-gradient(135deg,#0a1f12 0%,#0f2d18 100%);border:1px solid #2a6b3a;border-left:3px solid var(--accent3);padding:14px 16px;position:relative;overflow:hidden">
-      <div style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:2.8rem;opacity:0.06">🇺🇦</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px">Support Ukraine</div>
-      <div style="font-family:var(--head);font-weight:900;font-size:0.88rem;color:#fff;line-height:1.15;margin-bottom:8px">Support the Unmanned Systems Forces of Ukraine</div>
-      <p style="font-family:var(--body);font-size:0.67rem;color:var(--text2);line-height:1.5;margin-bottom:10px">The world's first dedicated drone warfare branch — operating the USVs, UGVs and UAVs tracked in this database.</p>
-      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px">
-        <div style="font-family:var(--body);font-size:0.64rem;color:var(--text3);line-height:1.4">🛥 Eliminated ~⅓ of Russia's Black Sea Fleet</div>
-        <div style="font-family:var(--body);font-size:0.64rem;color:var(--text3);line-height:1.4">🤖 Removing infantry from the deadliest kill zones</div>
-        <div style="font-family:var(--body);font-size:0.64rem;color:var(--text3);line-height:1.4">✈ Striking deep into Russian territory</div>
+
+      <div class="hero-support">
+        <div class="support-label">Support Ukraine</div>
+        <div class="support-title">Support the Unmanned Systems Forces of Ukraine</div>
+        <div class="support-desc">The world's first dedicated drone warfare branch — operating the USVs, UGVs and UAVs tracked in this database.</div>
+        <ul class="support-points">
+          <li>Eliminated ~⅓ of Russia's Black Sea Fleet</li>
+          <li>Removing infantry from the deadliest kill zones</li>
+          <li>Striking deep into Russian territory</li>
+        </ul>
+        <a href="https://u24.gov.ua" target="_blank" class="btn-solid">Donate via United24</a>
+        <a href="https://buymeacoffee.com/unmannedsystemstracker" target="_blank" class="btn-outline">Buy Me a Coffee</a>
+        <div style="font-family:var(--mono);font-size:0.36rem;color:var(--text3);text-align:center">u24.gov.ua · Official Ukrainian government platform</div>
       </div>
-      <a href="https://u24.gov.ua/uk/donate/unmanned-systems-forces" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--accent3);color:#080d0a;font-family:var(--head);font-weight:700;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:7px 13px;text-decoration:none;margin-bottom:6px">
-        🇺🇦 Donate via United24 ↗
-      </a>
-      <a href="https://buymeacoffee.com/unmannedsystemstracker" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#FFDD00;color:#000000;font-family:var(--head);font-weight:700;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:7px 13px;text-decoration:none;margin-bottom:6px">
-        ☕ Buy Me a Coffee ↗
-      </a>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);line-height:1.6">u24.gov.ua · Official Ukrainian government platform</div>
     </div>
   </div>
-
 
   <div class="intro-stats">
-    <div class="intro-stat" onclick="showTabById('usv')" title="View USV Strikes tab"><div class="intro-stat-val g" id="is-usv">—</div><div class="intro-stat-label">USV Strike Events</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('ugv')" title="View UGV Operations tab"><div class="intro-stat-val b" id="is-ugv">—</div><div class="intro-stat-label">UGV Missions Q1 2026</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('uav')" title="View UAV Strikes tab"><div class="intro-stat-val a" id="is-uav">744,022</div><div class="intro-stat-label">UAV Strikes</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val" style="color:#4a9fd4" id="is-ad-total">—</div><div class="intro-stat-label">Aerial Attacks</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val g" id="is-ad-intercepted">—</div><div class="intro-stat-label">Intercepted</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('airdef')" title="View Air Defence tab"><div class="intro-stat-val a" id="is-ad-rate">—</div><div class="intro-stat-label">Intercept Rate</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
-    <div class="intro-stat" onclick="showTabById('rl')" title="View Russian Losses &amp; Advance tab"><div class="intro-stat-val r">200,186+</div><div class="intro-stat-label">Russian KIA</div><div class="intro-stat-hint">→ VIEW TAB</div></div>
+    <div class="intro-stat" onclick="showTabById('usv')">
+      <span class="intro-stat-val g" id="is-usv">—</span>
+      <span class="intro-stat-label">USV Strike Events</span>
+    </div>
+    <div class="intro-stat" onclick="showTabById('ugv')">
+      <span class="intro-stat-val b" id="is-ugv">—</span>
+      <span class="intro-stat-label">UGV Missions Q1 2026</span>
+    </div>
+    <div class="intro-stat" onclick="showTabById('uav')">
+      <span class="intro-stat-val a" id="is-uav">744,022</span>
+      <span class="intro-stat-label">UAV Strike Flights</span>
+    </div>
+    <div class="intro-stat" onclick="showTabById('airdef')">
+      <span class="intro-stat-val b" id="is-ad-total">—</span>
+      <span class="intro-stat-label">Aerial Attacks on Ukraine</span>
+    </div>
+    <div class="intro-stat" onclick="showTabById('airdef')">
+      <span class="intro-stat-val g" id="is-ad-intercepted">—</span>
+      <span class="intro-stat-label">Intercepted</span>
+    </div>
+    <div class="intro-stat" onclick="showTabById('airdef')">
+      <span class="intro-stat-val a" id="is-ad-rate">—</span>
+      <span class="intro-stat-label">Intercept Rate</span>
+    </div>
+    <div class="intro-stat" onclick="showTabById('rl')">
+      <span class="intro-stat-val r" id="is-rl-kia">200,186+</span>
+      <span class="intro-stat-label">Russian KIA (Mediazona)</span>
+    </div>
   </div>
 
-  <!-- INTERNAL LINKS / EXPLORE -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px">
-    <a href="/usv-strikes/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🛥 USV Strikes</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Black Sea Fleet operations →</div>
-    </a>
-    <a href="/ugv-operations/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🤖 UGV Operations</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Ground robot combat data →</div>
-    </a>
-    <a href="/uav-strikes/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">✈ UAV Kill Board</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">FPV drone strike data →</div>
-    </a>
-    <a href="/air-defence/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🛡 Air Defence</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">100,000+ weapons tracked →</div>
-    </a>
-    <a href="/russian-losses/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">💀 Russian Losses</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">KIA, equipment & advance →</div>
-    </a>
-    <a href="/analyses/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🔬 Analyses</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Original research →</div>
-    </a>
-    <a href="/about/" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">ℹ About</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Methodology & author →</div>
-    </a>
-    <a href="/privacy.html" style="background:var(--bg2);border:1px solid var(--border);padding:14px 16px;text-decoration:none;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent3)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-family:var(--head);font-weight:700;font-size:0.7rem;color:#fff;margin-bottom:4px">🔒 Privacy</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3)">Privacy policy →</div>
-    </a>
+  <!-- INTERNAL LINKS -->
+  <div class="section-rule" style="margin-top:32px">
+    <span class="section-rule-label">Navigate the data</span>
+    <div class="section-rule-line"></div>
   </div>
 
-  
+  <div class="intro-pages">
+    <div class="intro-page-card" onclick="showTabById('usv')">
+      <div class="ipc-idx">01 — USV</div>
+      <div class="ipc-head">USV Strikes</div>
+      <div class="ipc-text">Ukrainian Unmanned Surface Vehicle operations against Russian naval assets in the Black Sea. ~⅓ of the fleet eliminated.</div>
+      <div class="ipc-cta">View data</div>
+    </div>
+    <div class="intro-page-card" onclick="showTabById('ugv')">
+      <div class="ipc-idx">02 — UGV</div>
+      <div class="ipc-head">UGV Operations</div>
+      <div class="ipc-text">Ground robot combat operations from both sides. 24,500+ DELTA-logged missions in Q1 2026. 3× growth since late 2025.</div>
+      <div class="ipc-cta">View data</div>
+    </div>
+    <div class="intro-page-card" onclick="showTabById('uav')">
+      <div class="ipc-idx">03 — UAV</div>
+      <div class="ipc-head">UAV Kill Board</div>
+      <div class="ipc-text">USF Pidrakhuyka verified hit data. 744,022 strike flights. Drone-on-drone now a primary mission type at 97% destruction rate.</div>
+      <div class="ipc-cta">View data</div>
+    </div>
+    <div class="intro-page-card" onclick="showTabById('airdef')">
+      <div class="ipc-idx">04 — AD</div>
+      <div class="ipc-head">Air Defence</div>
+      <div class="ipc-text">100,825 aerial weapons launched against Ukraine since Oct 2022. Daily auto-updating from Ukrainian Air Force data.</div>
+      <div class="ipc-cta">View data</div>
+    </div>
+    <div class="intro-page-card" onclick="showTabById('rl')">
+      <div class="ipc-idx">05 — RL</div>
+      <div class="ipc-head">Russian Losses</div>
+      <div class="ipc-text">200,186+ confirmed KIA by name. Equipment losses, territorial advance, and naval attrition data.</div>
+      <div class="ipc-cta">View data</div>
+    </div>
+    <div class="intro-page-card" onclick="showTabById('analyses')">
+      <div class="ipc-idx">06 — ANALYSIS</div>
+      <div class="ipc-head">Analyses</div>
+      <div class="ipc-text">Original research: weather vs interception rates, saturation thresholds, targeting doctrine comparison.</div>
+      <div class="ipc-cta">View research</div>
+    </div>
+    <div class="intro-page-card" onclick="showTabById('sources')">
+      <div class="ipc-idx">07 — SOURCES</div>
+      <div class="ipc-head">Sources</div>
+      <div class="ipc-text">Primary OSINT sources, analytical tools, recommended reading, and support links.</div>
+      <div class="ipc-cta">View sources</div>
+    </div>
+    <div class="intro-page-card research-card" onclick="showTabById('research')">
+      <div class="ipc-idx">— RESTRICTED</div>
+      <div class="ipc-head">Deep Strike</div>
+      <div class="ipc-text">Password-protected working research. Ukrainian long-range drone corridor analysis. Not peer-reviewed.</div>
+      <div class="ipc-cta">Access</div>
+    </div>
+  </div>
 
+  <!-- METHODOLOGY -->
+  <div class="section-rule" style="margin-top:36px">
+    <span class="section-rule-label">Methodology &amp; Data Standards</span>
+    <div class="section-rule-line"></div>
+  </div>
 
   <div class="intro-methodology">
-    <h2>Methodology &amp; Data Standards</h2>
-    <p><b>Inclusion criteria:</b> Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted where it exists but is not required for inclusion.</p>
-    <p><b>Damage classification:</b> A consistent taxonomy is applied across all entries. <b>Sunk</b> = total loss, vessel confirmed on seabed. <b>Destroyed</b> = total loss confirmed on land or in air. <b>Damaged</b> = partial damage, target operational or repairable. <b>Shot Down</b> = aerial asset destroyed in flight. <b>Disrupted</b> = infrastructure or operation temporarily put out of action.</p>
-    <p><b>Personnel casualty figures:</b> This tracker uses Mediazona/BBC News Russian confirmed-by-name figures as its primary KIA metric — the most rigorous publicly available methodology, cross-checked against Russia's National Probate Registry. These figures are always a floor, not a ceiling. Statistical estimates from Meduza/Mediazona's probate registry model are cited alongside for context.</p>
-
+    <div class="meth-head">
+      <div class="meth-col-head">Inclusion criteria</div>
+      <div class="meth-col-head">Damage classification</div>
+      <div class="meth-col-head">Personnel casualty figures</div>
+    </div>
+    <div class="meth-cols">
+      <div class="meth-col">Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted where it exists but is not required for inclusion.</div>
+      <div class="meth-col"><strong style="color:var(--text1)">Sunk</strong> = total loss confirmed on seabed. <strong style="color:var(--text1)">Destroyed</strong> = total loss confirmed on land or in air. <strong style="color:var(--text1)">Damaged</strong> = partial damage, target operational or repairable. <strong style="color:var(--text1)">Shot Down</strong> = aerial asset destroyed in flight. <strong style="color:var(--text1)">Disrupted</strong> = infrastructure or operation temporarily put out of action.</div>
+      <div class="meth-col">This tracker uses Mediazona/BBC News confirmed-by-name figures as its primary KIA metric — cross-checked against Russia's National Probate Registry. These figures are always a floor, not a ceiling. Statistical estimates from Meduza/Mediazona's probate registry model are cited alongside for context.</div>
+    </div>
   </div>
 
-  <!-- AD: UST Banner 1 -->
-  <div class="ad-unit">
-    <div class="ad-unit-label">Advertisement</div>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-7620877350113591"
-         data-ad-slot="2242151655"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
-
-  <div class="intro-footer">
-    UNMANNED SYSTEMS TRACKER · COMPILED FROM PUBLIC OSINT SOURCES · NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION · DATA PROVIDED FOR RESEARCH AND EDUCATIONAL PURPOSES · ALL ENTRIES CARRY SOURCE CITATIONS FOR INDEPENDENT VERIFICATION · LAST UPDATED <span id="intro-date">—</span> · <a href="privacy.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Privacy Policy</a> · <a href="disclaimer.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">Disclaimer</a>
-    <br><span style="display:inline-flex;align-items:center;gap:6px;vertical-align:middle"><span style="display:inline-flex;flex-direction:column;width:16px;flex-shrink:0"><span style="height:5px;background:#005BBB;display:block"></span><span style="height:5px;background:#FFD500;display:block"></span></span></span> 50% of advertising revenue from this site is donated to support Ukrainian military forces via <a href="https://u24.gov.ua/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border)">United24</a>
+  <div class="disclaimer">
+    UNMANNED SYSTEMS TRACKER · COMPILED FROM PUBLIC OSINT SOURCES · NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION · DATA PROVIDED FOR RESEARCH AND EDUCATIONAL PURPOSES · ALL ENTRIES CARRY SOURCE CITATIONS FOR INDEPENDENT VERIFICATION ·
+    <a href="/privacy.html" style="color:var(--accent3)">Privacy Policy</a> ·
+    <a href="/disclaimer.html" style="color:var(--accent3)">Disclaimer</a><br>
+    <span style="color:var(--accent3)">50%</span> of advertising revenue from this site is donated to support Ukrainian military forces via <a href="https://u24.gov.ua" style="color:var(--accent3)">United24</a>
   </div>
 
 </div>
 
-<!-- ══════════════════════════════════════════
-     TAB 2 — USV STRIKES
-═══════════════════════════════════════════ -->
 <div id="tab-usv" class="tab-panel">
   <div class="section-header">
     <div>
@@ -689,7 +951,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 <div id="tab-uav" class="tab-panel">
 
   <!-- TOP BAR: title + period selector -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
+  <div class="tab-header">
     <div>
       <div class="section-title">UAV <span>Kill Board</span></div>
       <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Since USF creation: Jun 2025 – Mar 2026. Updated manually each quarter.</div>
@@ -727,9 +989,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </label>
     <span id="uav-chart-period-label" style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-left:auto">Monthly total · Jun 2025–Apr 2026</span>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:28px">
-    <div style="background:var(--bg2);padding:16px 18px">
-      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">STRIKE EFFICIENCY · DAMAGED TARGETS PER 1,000 SORTIES</div>
+  <div class="uav-chart-grid">
+    <div class="uav-chart-cell">
+      <div class="uav-chart-label">Strike Efficiency · Damaged targets per 1,000 sorties</div>
       <canvas id="uav-chart-efficiency" height="80"></canvas>
     </div>
     <div style="background:var(--bg2);padding:16px 18px">
@@ -862,7 +1124,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
      TAB 6 — AIR DEFENCE
 ═══════════════════════════════════════════ -->
 <div id="tab-airdef" class="tab-panel">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
+  <div class="tab-header">
     <div>
       <div class="section-title">Air <span>Defence Log</span></div>
       <div class="section-sub">RUSSIAN DRONE & MISSILE STRIKES ON UKRAINE · OCT 2022–PRESENT · SOURCE: UKRAINIAN AIR FORCE VIA PETRO IVANIUK · <span id="airdef-indicator" style="color:var(--accent3)">—</span></div>
@@ -1176,7 +1438,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 </div>
 
 <div id="tab-analyses" class="tab-panel">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
+  <div class="tab-header">
     <div>
       <div class="section-title">Original <span>Analyses</span></div>
       <div class="section-sub">ORIGINAL RESEARCH USING TRACKER DATA · PHD CANDIDATE IN WAR STUDIES · KING'S COLLEGE LONDON</div>
@@ -2749,7 +3011,7 @@ window.addEventListener('scroll',()=>{
   <div id="research-pw-err" style="font-family:var(--mono);font-size:0.58rem;color:#ef5350;display:none">Incorrect password</div>
 </div>
 <div id="research-content" style="display:none">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
+  <div class="tab-header">
     <div><div class="section-title">Deep Strike <span>Research</span></div><div class="section-sub">UKRAINIAN LONG-RANGE DRONE CAMPAIGN AGAINST RUSSIA - WORKING FINDINGS - NOT PEER-REVIEWED</div></div>
   </div>
   <div class="disclaimer" style="margin-bottom:24px">Original research by <strong>Andro Mathewson</strong>, PhD Candidate in War Studies, King's College London. Data: @dronbomber, @mod_russia, Open-Meteo ERA5, Jun 2024-Apr 2026. <a href="https://github.com/Androm2018/ukraine-drone-weather-analysis" target="_blank" style="color:var(--accent)">Code and data on GitHub</a></div>
