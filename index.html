@@ -121,7 +121,7 @@ select option{background:var(--bg3)}
 
 /* ── TABLE ── */
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:0.77rem}td{overflow:hidden;text-overflow:ellipsis}
+table{width:100%;border-collapse:collapse;font-size:0.77rem;min-width:0}td{overflow:hidden;text-overflow:ellipsis}
 thead th{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:9px 13px;text-align:left;background:var(--bg2);border-bottom:2px solid var(--accent);white-space:nowrap;cursor:pointer;user-select:none}
 thead th:hover{color:var(--text2)}
 thead th.sorted{color:var(--accent3)}
@@ -274,7 +274,98 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
 .ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
 @media(max-width:600px){
-  .intro-stat{padding:10px 6px!important}.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
+  .intro-stat{padding:10px 6px!important}
+  .ad-stat-strip{grid-template-columns:repeat(3,1fr)}
+  .ad-weapon-grid{grid-template-columns:1fr}
+  /* Mobile table → card view */
+  .table-wrap{overflow-x:visible!important}
+  .table-wrap table{display:block}
+  .table-wrap thead{display:none}
+  .table-wrap tbody{display:block}
+  .table-wrap tr{
+    display:block;background:var(--bg2);
+    border:1px solid var(--border);margin-bottom:8px;
+    padding:10px 12px;
+  }
+  .table-wrap tr:hover{background:var(--bg3)}
+  .table-wrap td{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    padding:3px 0;border-bottom:1px solid var(--border2);
+    font-size:0.62rem;gap:8px;
+  }
+  .table-wrap td:last-child{border-bottom:none}
+  .table-wrap td::before{
+    content:attr(data-label);
+    font-family:var(--mono);font-size:0.38rem;color:var(--text3);
+    letter-spacing:0.08em;text-transform:uppercase;
+    flex-shrink:0;padding-top:2px;min-width:80px;
+  }
+  /* Keep intro stats strip scrollable on mobile */
+  .intro-stats{display:flex!important;overflow-x:auto;scrollbar-width:none}
+  .intro-stats::-webkit-scrollbar{display:none}
+  .intro-stat{flex:0 0 140px;min-width:140px}
+  /* Nav tabs */
+  nav{overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  .nav-tab{flex:0 0 auto}
+  /* Controls stack */
+  .controls{flex-direction:column}
+  .ctrl-group{width:100%}
+  .controls select,.controls input{width:100%}
+  /* KB grid */
+  .kb-grid{grid-template-columns:1fr 1fr}
+  /* UAV killboard */
+  #uav-killboard{grid-template-columns:1fr}
+  /* UAV stat strip */
+  #uav-stat-strip{grid-template-columns:repeat(4,1fr);overflow-x:auto}
+  /* Intro pages */
+  .intro-pages{grid-template-columns:1fr 1fr}
+  /* Methodology */
+  .intro-methodology .meth-head,.intro-methodology .meth-cols{grid-template-columns:1fr}
+  /* Hero */
+  .intro-hero{grid-template-columns:1fr}
+  /* AD stat strip */
+  .ad-stat-strip{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:380px){
+  .intro-stat{flex:0 0 120px;min-width:120px}
+  .intro-stat-val{font-size:1.2rem}
+  .kb-grid{grid-template-columns:1fr}
+}
+
+/* ── GENERAL MOBILE PADDING & LAYOUT ─────────── */
+@media(max-width:600px){
+  /* Tab section headers */
+  .section-title{font-size:1.2rem}
+  /* Export row */
+  .export-row{flex-direction:column;align-items:flex-start}
+  /* Delta grid */
+  .delta-grid{grid-template-columns:1fr 1fr}
+  /* Analysis blocks */
+  .analysis-grid{grid-template-columns:1fr}
+  /* Sources grid */
+  .sources-grid{grid-template-columns:1fr}
+  /* Research corridor cards */
+  .corridor-grid{grid-template-columns:1fr}
+  /* UAV charts */
+  .uav-charts-grid{grid-template-columns:1fr}
+  /* Analyses findings grid */
+  .findings-grid{grid-template-columns:1fr}
+  /* Territorial chart */
+  #territorial-chart-container{padding:12px}
+  /* Search bar */
+  .search-bar{padding:6px 16px}
+  /* Back to top */
+  #back-to-top{bottom:12px;right:12px;font-size:0.38rem}
+  /* Disable card view on tables wider than 4 cols (airdef has 8 cols) */
+  /* Keep airdef as horizontal scroll - too many columns for cards */
+  #airdef-table-wrap{overflow-x:auto!important}
+  #airdef-table-wrap table{display:table}
+  #airdef-table-wrap thead{display:table-header-group}
+  #airdef-table-wrap tbody{display:table-row-group}
+  #airdef-table-wrap tr{display:table-row;background:none;border:none;margin:0;padding:0}
+  #airdef-table-wrap td{display:table-cell;border-bottom:1px solid var(--border2)}
+}
 /* ── AD UNITS ── */
 .ad-unit{margin:24px 0;text-align:center;opacity:0.85}
 .ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
@@ -1517,7 +1608,7 @@ function showTab(id,btn){
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
   // Update URL hash without triggering a scroll
-  history.replaceState(null,null,'#'+id);
+  history.pushState({tab:id},document.title,'#'+id);
   // Update browser tab title
   document.title=TAB_TITLES[id]||TAB_TITLES.intro;
 }
@@ -1542,6 +1633,16 @@ function checkDsSession(){if(sessionStorage.getItem('ds_unlocked')==='1'){var g=
 // ═══════════════════════════════════════════════════════════
 //  USV TABLE
 // ═══════════════════════════════════════════════════════════
+function addMobileLabels(tbodyId,labels){
+  if(window.innerWidth>600)return;
+  const tbody=document.getElementById(tbodyId);
+  if(!tbody)return;
+  tbody.querySelectorAll('tr').forEach(tr=>{
+    tr.querySelectorAll('td').forEach((td,i)=>{
+      if(labels[i])td.setAttribute('data-label',labels[i]);
+    });
+  });
+}
 function renderUSV(){
   const s=document.getElementById('usv-search').value.toLowerCase();
   const m=document.getElementById('usv-model').value;
@@ -2951,6 +3052,13 @@ window.addEventListener('scroll',()=>{
 </div>
 </div>
 <script>
+window.addEventListener('popstate',function(e){
+  const hash=location.hash.replace('#','');
+  const valid=['intro','usv','ugv','uav','rl','airdef','sources','analyses','research'];
+  if(hash&&valid.includes(hash))showTabById(hash);
+  else showTabById('intro');
+});
+
 document.addEventListener('DOMContentLoaded',function(){
   checkDsSession();
   var gc='rgba(255,255,255,0.07)';
