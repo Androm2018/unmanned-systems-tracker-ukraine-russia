@@ -416,10 +416,10 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   <div class="data-section">
     <div class="data-section-title">Live data — UAV kill board</div>
     <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:14px">
-      <div class="uav-stat-cell"><span class="uav-stat-val" id="uav-s-damaged">—</span><span class="uav-stat-lbl">Damaged targets</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:var(--accent3)" id="uav-s-destroyed">—</span><span class="uav-stat-lbl">Incl. destroyed</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#f0c040" id="uav-s-sorties">—</span><span class="uav-stat-lbl">Strike flights</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#e74c3c" id="uav-s-personnel">—</span><span class="uav-stat-lbl">Personnel hit</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val" id="uav-s-damaged">260 117</span><span class="uav-stat-lbl">Damaged targets</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:var(--accent3)" id="uav-s-destroyed">90 428</span><span class="uav-stat-lbl">Incl. destroyed</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#f0c040" id="uav-s-sorties">648 850</span><span class="uav-stat-lbl">Strike flights</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#e74c3c" id="uav-s-personnel">78 656</span><span class="uav-stat-lbl">Personnel hit</span></div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ Export CSV</button>
@@ -429,7 +429,148 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
     </div>
     <div id="uav-killboard" style="background:var(--bg2);border:1px solid var(--border)">
       <div class="uav-cat-header"><span style="flex:1">Target category</span><span class="uav-num-col">Damaged</span><span class="uav-num-col">Destroyed</span></div>
-      <div id="uav-body"><div class="state-box"><div class="spinner"></div><br>Loading…</div></div>
+      <div id="uav-body">
+        <div class="uav-cat-row highlighted">
+          <span class="uav-cat-name">Enemy personnel</span>
+          <span class="uav-num-col uav-num-damaged">78 656</span>
+          <span class="uav-num-col uav-num-destroyed">43 385</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Drone launch positions</span>
+          <span class="uav-num-col uav-num-damaged">7 520</span>
+          <span class="uav-num-col uav-num-destroyed">261</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Antennas</span>
+          <span class="uav-num-col uav-num-damaged">11 564</span>
+          <span class="uav-num-col uav-num-destroyed">7 407</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">SAMs, SPADs</span>
+          <span class="uav-num-col uav-num-damaged">113</span>
+          <span class="uav-num-col uav-num-destroyed">22</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Radars (system)</span>
+          <span class="uav-num-col uav-num-damaged">32</span>
+          <span class="uav-num-col uav-num-destroyed">6</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Radars (portable)</span>
+          <span class="uav-num-col uav-num-damaged">257</span>
+          <span class="uav-num-col uav-num-destroyed">124</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">EW (system)</span>
+          <span class="uav-num-col uav-num-damaged">23</span>
+          <span class="uav-num-col uav-num-destroyed">8</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">EW (car + portable)</span>
+          <span class="uav-num-col uav-num-damaged">2 310</span>
+          <span class="uav-num-col uav-num-destroyed">1 027</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Enemy wings</span>
+          <span class="uav-num-col uav-num-damaged">14 937</span>
+          <span class="uav-num-col uav-num-destroyed">14 361</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Shaheds and Gerberas</span>
+          <span class="uav-num-col uav-num-damaged">5 045</span>
+          <span class="uav-num-col uav-num-destroyed">4 885</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Tanks</span>
+          <span class="uav-num-col uav-num-damaged">759</span>
+          <span class="uav-num-col uav-num-destroyed">126</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">APCs, IFVs, ACVs</span>
+          <span class="uav-num-col uav-num-damaged">1 229</span>
+          <span class="uav-num-col uav-num-destroyed">296</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Guns, howitzers</span>
+          <span class="uav-num-col uav-num-damaged">3 742</span>
+          <span class="uav-num-col uav-num-destroyed">246</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Self-propelled artillery</span>
+          <span class="uav-num-col uav-num-damaged">290</span>
+          <span class="uav-num-col uav-num-destroyed">37</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Mortars</span>
+          <span class="uav-num-col uav-num-damaged">392</span>
+          <span class="uav-num-col uav-num-destroyed">94</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">MRLS</span>
+          <span class="uav-num-col uav-num-damaged">217</span>
+          <span class="uav-num-col uav-num-destroyed">55</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Light, Heavy, Special-purpose vehicles</span>
+          <span class="uav-num-col uav-num-damaged">11 730</span>
+          <span class="uav-num-col uav-num-destroyed">2 630</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Motorcycles and military buggies</span>
+          <span class="uav-num-col uav-num-damaged">7 332</span>
+          <span class="uav-num-col uav-num-destroyed">2 290</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Ammo, fuel and equipment depots</span>
+          <span class="uav-num-col uav-num-damaged">2 500</span>
+          <span class="uav-num-col uav-num-destroyed">1 418</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Strategic infrastructure</span>
+          <span class="uav-num-col uav-num-damaged">0</span>
+          <span class="uav-num-col uav-num-destroyed">0</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Tactical infrastructure</span>
+          <span class="uav-num-col uav-num-damaged">178</span>
+          <span class="uav-num-col uav-num-destroyed">14</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Shelters</span>
+          <span class="uav-num-col uav-num-damaged">73 592</span>
+          <span class="uav-num-col uav-num-destroyed">3 249</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Dugouts</span>
+          <span class="uav-num-col uav-num-damaged">25 481</span>
+          <span class="uav-num-col uav-num-destroyed">592</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Network equipment</span>
+          <span class="uav-num-col uav-num-damaged">2 288</span>
+          <span class="uav-num-col uav-num-destroyed">1 100</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Cameras</span>
+          <span class="uav-num-col uav-num-damaged">80</span>
+          <span class="uav-num-col uav-num-destroyed">51</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Enemy copter drones</span>
+          <span class="uav-num-col uav-num-damaged">6 252</span>
+          <span class="uav-num-col uav-num-destroyed">5 817</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Enemy unmanned robotic complexes</span>
+          <span class="uav-num-col uav-num-damaged">405</span>
+          <span class="uav-num-col uav-num-destroyed">149</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Other</span>
+          <span class="uav-num-col uav-num-damaged">2 971</span>
+          <span class="uav-num-col uav-num-destroyed">776</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -734,24 +875,13 @@ function renderUAV(){
   });
 
   const nores = document.getElementById('uav-nores');
+  const body = document.getElementById('uav-body');
   if(!catRows.length){
-    document.getElementById('uav-col-left').innerHTML='';
-    document.getElementById('uav-col-right').innerHTML='';
+    if(body)body.innerHTML='';
     if(nores)nores.style.display='block';
     return;
   }
   if(nores)nores.style.display='none';
-
-  // Split into two columns (left: first half, right: second half)
-  const mid = Math.ceil(catRows.length/2);
-  const leftRows  = catRows.slice(0, mid);
-  const rightRows = catRows.slice(mid);
-
-  const header = `<div class="uav-cat-header">
-    <span style="flex:1">Target</span>
-    <span class="uav-num-col">Damaged</span>
-    <span class="uav-num-col">Destroyed</span>
-  </div>`;
 
   const buildRows = (arr) => arr.map((r,i)=>{
     const nums = parseOutcomeNums(r.outcome);
@@ -763,8 +893,7 @@ function renderUAV(){
     </div>`;
   }).join('');
 
-  document.getElementById('uav-col-left').innerHTML  = header + buildRows(leftRows);
-  document.getElementById('uav-col-right').innerHTML = header + buildRows(rightRows);
+  if(body)body.innerHTML = buildRows(catRows);
 }
 
 function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
