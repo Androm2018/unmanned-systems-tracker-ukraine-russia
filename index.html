@@ -1441,7 +1441,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWLX6DF8VxV41OQt4rU
 // ═══════════════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════════════
-let USV_DATA=[], UGV_DATA=[], UAV_DATA=[], KB_DATA=[];
+let USV_DATA=[], UGV_DATA=[], UAV_DATA=[], KB_DATA=[], AIRDEF_DATA=[];
 let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
 
 // ═══════════════════════════════════════════════════════════
@@ -1580,19 +1580,27 @@ async function loadAll() {
 // ═══════════════════════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════════════════════
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function safeUrl(u){
+  const s=String(u||'').trim();
+  return /^https?:\/\//i.test(s)?s:'#';
+}
 function fmtDate(s){
   if(!s)return'—';
+  if(!/^\d{4}-\d{1,2}-\d{1,2}$/.test(s))return s;
   const p=s.split('-');
   const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return`${parseInt(p[2])||''} ${m[(+p[1]||1)-1]||''} ${p[0]||''}`.trim();
 }
 function dmgBadge(d){
   const m={'Sunk':'b-sunk','Damaged':'b-damaged','Destroyed':'b-destroyed','Shot Down':'b-shotdown','Disrupted':'b-disrupted'};
-  return`<span class="badge ${m[d]||'b-unknown'}">${d||'—'}</span>`;
+  return`<span class="badge ${m[d]||'b-unknown'}">${esc(d)||'—'}</span>`;
 }
 function outcomeBadge(o){
   const m={'Destroyed target':'b-sunk','Damaged target':'b-damaged','UGV lost':'b-destroyed','Captured POW':'b-shotdown','Operational milestone':'b-disrupted'};
-  return`<span class="badge ${m[o]||'b-unknown'}">${o||'—'}</span>`;
+  return`<span class="badge ${m[o]||'b-unknown'}">${esc(o)||'—'}</span>`;
 }
 function sideBadge(s){
   return s==='Ukraine'?`<span class="badge b-ua">🇺🇦 Ukraine</span>`:`<span class="badge b-ru">🇷🇺 Russia</span>`;
@@ -1665,14 +1673,14 @@ function renderUSV(){
   nores.style.display='none';
   body.innerHTML=rows.map((r,i)=>`
     <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
-      <td class="cell-date">${fmtDate(r.date)}</td>
-      <td class="cell-target">${r.target||'—'}</td>
-      <td class="cell-type">${r.type||'—'}</td>
-      <td><span class="model-tag">${r.model||'—'}</span></td>
-      <td class="cell-loc">${r.loc||'—'}</td>
+      <td class="cell-date">${esc(fmtDate(r.date))}</td>
+      <td class="cell-target">${esc(r.target)||'—'}</td>
+      <td class="cell-type">${esc(r.type)||'—'}</td>
+      <td><span class="model-tag">${esc(r.model)||'—'}</span></td>
+      <td class="cell-loc">${esc(r.loc)||'—'}</td>
       <td>${dmgBadge(r.damage)}</td>
-      <td class="cell-notes">${r.notes||''}</td>
-      <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
+      <td class="cell-notes">${esc(r.notes)}</td>
+      <td><a class="src-link" href="${esc(safeUrl(r.src))}" target="_blank" rel="noopener">${esc(r.srcl)||'Source'} ↗</a></td>
     </tr>`).join('');
 }
 function sortUSV(c){usvSort={col:c,asc:usvSort.col===c?!usvSort.asc:true};renderUSV()}
@@ -1702,14 +1710,14 @@ function renderUGV(){
   nores.style.display='none';
   body.innerHTML=rows.map((r,i)=>`
     <tr style="animation:fadeIn 0.2s ${i*0.016}s both">
-      <td class="cell-date">${fmtDate(r.date)}</td>
+      <td class="cell-date">${esc(fmtDate(r.date))}</td>
       <td>${sideBadge(r.side)}</td>
-      <td><span class="model-tag">${r.system||'—'}</span></td>
-      <td class="cell-target" style="font-size:0.8rem">${r.op||'—'}</td>
-      <td class="cell-loc">${r.loc||'—'}</td>
+      <td><span class="model-tag">${esc(r.system)||'—'}</span></td>
+      <td class="cell-target" style="font-size:0.8rem">${esc(r.op)||'—'}</td>
+      <td class="cell-loc">${esc(r.loc)||'—'}</td>
       <td>${outcomeBadge(r.outcome)}</td>
-      <td class="cell-notes">${r.notes||''}</td>
-      <td><a class="src-link" href="${r.src||'#'}" target="_blank" rel="noopener">${r.srcl||'Source'} ↗</a></td>
+      <td class="cell-notes">${esc(r.notes)}</td>
+      <td><a class="src-link" href="${esc(safeUrl(r.src))}" target="_blank" rel="noopener">${esc(r.srcl)||'Source'} ↗</a></td>
     </tr>`).join('');
 }
 function sortUGV(c){ugvSort={col:c,asc:ugvSort.col===c?!ugvSort.asc:true};renderUGV()}
@@ -1804,7 +1812,7 @@ function renderUAV(){
     const nums = parseOutcomeNums(r.outcome);
     const isPersonnel = r.type==='Personnel';
     return `<div class="uav-cat-row${isPersonnel?' highlighted':''}">
-      <span class="uav-cat-name">${r.target}</span>
+      <span class="uav-cat-name">${esc(r.target)}</span>
       <span class="uav-num-col uav-num-damaged">${fmtNum(nums.damaged)||'—'}</span>
       <span class="uav-num-col uav-num-destroyed">${fmtNum(nums.destroyed)||'—'}</span>
     </div>`;
@@ -1974,10 +1982,10 @@ function renderKillBoard(){
   const icons={red:'💀',amber:'🛡',green:'✈',blue:'⚓'};
   document.getElementById('kb-cards').innerHTML=cards.map(r=>`
     <div class="kb-card" data-icon="${icons[r.color]||'📊'}">
-      <div class="kb-card-label">${r.label}</div>
-      <div class="kb-card-value ${r.color||''}">${r.value}</div>
-      <div class="kb-card-sub">${r.sub||''}</div>
-      <div class="kb-card-source">${r.source||''}</div>
+      <div class="kb-card-label">${esc(r.label)}</div>
+      <div class="kb-card-value ${r.color||''}">${esc(r.value)}</div>
+      <div class="kb-card-sub">${esc(r.sub)}</div>
+      <div class="kb-card-source">${esc(r.source)}</div>
     </div>`).join('');
   document.getElementById('kb-breakdown').innerHTML=stats.length?`
     <!-- TERRITORIAL GAINS SECTION -->
@@ -1995,8 +2003,8 @@ function renderKillBoard(){
     <div class="kb-section-title">EQUIPMENT BREAKDOWN (ORYX PHOTO-CONFIRMED)</div>
     <div class="stat-rows">${stats.map(r=>`
       <div class="stat-row">
-        <span class="stat-row-label">${r.label}</span>
-        <span class="stat-row-val ${r.color||''}">${r.value}</span>
+        <span class="stat-row-label">${esc(r.label)}</span>
+        <span class="stat-row-val ${r.color||''}">${esc(r.value)}</span>
       </div>`).join('')}
     </div>`:'';
   document.getElementById('kb-tables').innerHTML=`
@@ -2005,9 +2013,9 @@ function renderKillBoard(){
     <div class="table-wrap"><table>
       <thead><tr><th>Date</th><th>Vessel</th><th>Class / Type</th><th>Outcome</th><th>Location</th><th>Notes</th></tr></thead>
       <tbody>${naval.map(r=>`<tr>
-        <td class="cell-date">${r.date||'—'}</td><td class="cell-target">${r.label}</td>
-        <td class="cell-type">${r.type||'—'}</td><td>${dmgBadge(r.damage||r.value)}</td>
-        <td class="cell-loc">${r.loc||'—'}</td><td class="cell-notes">${r.notes||''}</td>
+        <td class="cell-date">${esc(r.date)||'—'}</td><td class="cell-target">${esc(r.label)}</td>
+        <td class="cell-type">${esc(r.type)||'—'}</td><td>${dmgBadge(r.damage||r.value)}</td>
+        <td class="cell-loc">${esc(r.loc)||'—'}</td><td class="cell-notes">${esc(r.notes)}</td>
       </tr>`).join('')}</tbody>
     </table></div>`:''}
     ${air.length?`
@@ -2015,8 +2023,8 @@ function renderKillBoard(){
     <div class="table-wrap"><table>
       <thead><tr><th>Date</th><th>Aircraft</th><th>Outcome</th><th>Notes</th></tr></thead>
       <tbody>${air.map(r=>`<tr>
-        <td class="cell-date">${r.date||'—'}</td><td class="cell-target">${r.label}</td>
-        <td>${dmgBadge(r.damage||r.value)}</td><td class="cell-notes">${r.notes||''}</td>
+        <td class="cell-date">${esc(r.date)||'—'}</td><td class="cell-target">${esc(r.label)}</td>
+        <td>${dmgBadge(r.damage||r.value)}</td><td class="cell-notes">${esc(r.notes)}</td>
       </tr>`).join('')}</tbody>
     </table></div>`:''}
     <div style="margin-top:24px" class="disclaimer">
@@ -2300,7 +2308,7 @@ function renderAirDef(){
   const buildWeapRows=arr=>arr.map(t=>`
     <div class="ad-weapon-row">
       <div style="flex:1;min-width:0">
-        <div class="ad-weapon-name">${t.name}</div>
+        <div class="ad-weapon-name">${esc(t.name)}</div>
         <div class="ad-weapon-bar"><div class="ad-weapon-bar-fill" style="width:${Math.round(t.launched/maxL*100)}%;background:var(--accent)"></div></div>
       </div>
       <span class="ad-weapon-num" style="color:var(--text)">${fmtBig(t.launched)}</span>
@@ -2563,13 +2571,13 @@ function globalSearch(q){
     const text=(r.date||'')+' '+(r.model||'');
     if(text.toLowerCase().includes(term))hits.push({tab:'airdef',icon:'🛡',label:r.date+' · '+(r.model||'')+ ' · '+(r.launched||0)+' launched',sub:'Air Defence'});
   });
-  if(!hits.length){res.innerHTML='<div style="font-family:var(--mono);font-size:0.58rem;color:var(--text3);padding:12px 14px">No results for "'+q+'"</div>';res.style.display='block';return;}
+  if(!hits.length){res.innerHTML='<div style="font-family:var(--mono);font-size:0.58rem;color:var(--text3);padding:12px 14px">No results for "'+esc(q)+'"</div>';res.style.display='block';return;}
   res.innerHTML=hits.map(h=>`
     <div onclick="showTabById('${h.tab}');document.getElementById('global-search').value='';document.getElementById('global-results').style.display='none'"
       style="padding:9px 14px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background 0.1s"
       onmouseover="this.style.background='var(--glowb)'" onmouseout="this.style.background=''">
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:2px">${h.icon} ${h.sub}</div>
-      <div style="font-family:var(--body);font-size:0.7rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${h.label}</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:2px">${h.icon} ${esc(h.sub)}</div>
+      <div style="font-family:var(--body);font-size:0.7rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(h.label)}</div>
     </div>`).join('');
   res.style.display='block';
   const clr=document.getElementById('global-search-clear');
