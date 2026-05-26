@@ -414,7 +414,83 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 
   <div class="data-section">
     <div class="data-section-title">Live data — losses and advance</div>
-    <div id="kb-grid" class="kb-grid"><div class="state-box"><div class="spinner"></div><br>Loading…</div></div>
+    <div id="kb-cards" class="kb-grid">
+      <div class="kb-card" data-icon="💀">
+        <div class="kb-card-label">Confirmed KIA (named, verified)</div>
+        <div class="kb-card-value red">200,186+</div>
+        <div class="kb-card-sub">Individual soldiers confirmed dead by name via obituaries, social media &amp; official sources. As of 24 Feb 2026. The real total is significantly higher.</div>
+        <div class="kb-card-source">Mediazona / BBC News Russian · 200.zona.media · Updated Feb 2026</div>
+      </div>
+      <div class="kb-card" data-icon="💀">
+        <div class="kb-card-label">Statistical KIA estimate</div>
+        <div class="kb-card-value red">~220,000</div>
+        <div class="kb-card-sub">Total deaths estimated via National Probate Registry excess mortality model. Does not include foreign nationals fighting for Russia.</div>
+        <div class="kb-card-source">Meduza / Mediazona probate registry analysis · August 2025</div>
+      </div>
+      <div class="kb-card" data-icon="💀">
+        <div class="kb-card-label">Total casualties (KIA + WIA)</div>
+        <div class="kb-card-value red">1,118,000+</div>
+        <div class="kb-card-sub">Killed and wounded combined. Includes contract soldiers, mobilised personnel, and Wagner/volunteer fighters.</div>
+        <div class="kb-card-source">UK Ministry of Defence Oct 2025 · SACEUR Gen. Cavoli Apr 2025</div>
+      </div>
+      <div class="kb-card" data-icon="🛡">
+        <div class="kb-card-label">Tanks Destroyed / Captured</div>
+        <div class="kb-card-value amber">3,000+</div>
+        <div class="kb-card-sub">Total tank losses (DIA estimate). Oryx photo-confirmed 3,098+ from Jan 2024 alone.</div>
+        <div class="kb-card-source">US DIA May 2025 · CSIS Jun 2025</div>
+      </div>
+      <div class="kb-card" data-icon="🛡">
+        <div class="kb-card-label">Armoured Vehicles Lost</div>
+        <div class="kb-card-value amber">10,000+</div>
+        <div class="kb-card-sub">All ground combat vehicles (APCs, IFVs, SPGs). Oryx photo-confirmed total: 13,742 as of Dec 2025.</div>
+        <div class="kb-card-source">US DIA May 2025 · Oryx Dec 2025</div>
+      </div>
+      <div class="kb-card" data-icon="✈">
+        <div class="kb-card-label">Aircraft Lost</div>
+        <div class="kb-card-value green">353</div>
+        <div class="kb-card-sub">Fixed-wing and rotary aircraft (Oryx photo-confirmed, ceased Jun 2025). DIA estimate: ~250 aircraft + helicopters.</div>
+        <div class="kb-card-source">Oryx Jun 2025 · US DIA May 2025</div>
+      </div>
+      <div class="kb-card" data-icon="⚓">
+        <div class="kb-card-label">Naval Vessels Lost</div>
+        <div class="kb-card-value blue">10+</div>
+        <div class="kb-card-sub">Black Sea Fleet ships sunk or destroyed. BSF forced to relocate from Sevastopol to Novorossiysk.</div>
+        <div class="kb-card-source">US DIA May 2025 · Oryx</div>
+      </div>
+    </div>
+    <div id="kb-breakdown">
+    <div class="kb-section-title">EQUIPMENT BREAKDOWN (ORYX PHOTO-CONFIRMED)</div>
+    <div class="stat-rows">
+      <div class="stat-row"><span class="stat-row-label">Tanks (T-72, T-80, T-90 series)</span><span class="stat-row-val r">3,098+</span></div>
+      <div class="stat-row"><span class="stat-row-label">Infantry Fighting Vehicles</span><span class="stat-row-val r">3,098</span></div>
+      <div class="stat-row"><span class="stat-row-label">Armoured Fighting Vehicles</span><span class="stat-row-val r">1,149</span></div>
+      <div class="stat-row"><span class="stat-row-label">Self-propelled Artillery</span><span class="stat-row-val a">300+</span></div>
+      <div class="stat-row"><span class="stat-row-label">Fighter / Attack Jets</span><span class="stat-row-val a">~180</span></div>
+      <div class="stat-row"><span class="stat-row-label">Helicopters</span><span class="stat-row-val a">~130</span></div>
+      <div class="stat-row"><span class="stat-row-label">Warships (Black Sea Fleet)</span><span class="stat-row-val g">10+</span></div>
+      <div class="stat-row"><span class="stat-row-label">Submarines (confirmed losses)</span><span class="stat-row-val g">1 (Rostov-on-Don, Sep 2023)</span></div>
+    </div>
+    </div>
+    <div id="kb-tables">
+    <div class="kb-section-title">NOTABLE NAVAL LOSSES</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Vessel</th><th>Class / Type</th><th>Outcome</th><th>Location</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="cell-date">13 Apr 2022</td><td class="cell-target">Moskva</td><td class="cell-type">Slava-class cruiser (flagship)</td><td><span class="badge b-sunk">Sunk</span></td><td class="cell-loc">Black Sea</td><td class="cell-notes">Hit by 2× Neptune anti-ship missiles. 40+ crew killed. Russia&#39;s largest naval loss since WWII.</td></tr>
+        <tr><td class="cell-date">27 Sep 2023</td><td class="cell-target">Rostov-on-Don</td><td class="cell-type">Kilo-class submarine</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-loc">Sevastopol drydock</td><td class="cell-notes">Hit by Storm Shadow cruise missiles while in drydock. Total loss confirmed.</td></tr>
+        <tr><td class="cell-date">Feb–Mar 2024</td><td class="cell-target">Ivanovets / Tsezar Kunikov / Sergey Kotov</td><td class="cell-type">Corvette / Landing ship / Patrol ship</td><td><span class="badge b-sunk">Sunk</span></td><td class="cell-loc">Crimea / Black Sea</td><td class="cell-notes">Three ships sunk by MAGURA V5 USVs in six weeks. Forced entire BSF to withdraw from Crimea to Novorossiysk.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="kb-section-title">NOTABLE AIR LOSSES</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Aircraft</th><th>Outcome</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="cell-date">Jan 2024</td><td class="cell-target">A-50 AWACS</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes">Shot down over Sea of Azov. Rare loss of a strategic ISR aircraft worth ~$330M.</td></tr>
+        <tr><td class="cell-date">01 Jun 2025</td><td class="cell-target">~10 strategic bombers (Tu-95, Tu-22M)</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes">Operation Spiderweb — SBU truck-launched drones struck 5 airbases across Russia. ~10 aircraft destroyed including 4 Tu-95s at Olenya Airbase.</td></tr>
+        <tr><td class="cell-date">02 May 2025</td><td class="cell-target">2× Su-30SM fighters</td><td><span class="badge b-shotdown">Shot Down</span></td><td class="cell-notes">Shot down by MAGURA V7 USVs armed with AIM-9 Sidewinder missiles. First ever aircraft downed by a maritime drone.</td></tr>
+      </tbody>
+    </table></div>
+    </div>
   </div>
 
   <div class="data-section">
@@ -423,7 +499,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   </div>
 </div>
 <script>
-const EMBEDDED_KB = const EMBEDDED_KB=[
+const EMBEDDED_KB=[
   {section:"card",label:"Confirmed KIA (named, verified)",value:"200,186+",color:"red",sub:"Individual soldiers confirmed dead by name via obituaries, social media & official sources. As of 24 Feb 2026. The real total is significantly higher.",source:"Mediazona / BBC News Russian · 200.zona.media · Updated Feb 2026"},
   {section:"card",label:"Statistical KIA estimate",value:"~220,000",color:"red",sub:"Total deaths estimated via National Probate Registry excess mortality model. Does not include foreign nationals fighting for Russia.",source:"Meduza / Mediazona probate registry analysis · August 2025"},
   {section:"card",label:"Total casualties (KIA + WIA)",value:"1,118,000+",color:"red",sub:"Killed and wounded combined. Includes contract soldiers, mobilised personnel, and Wagner/volunteer fighters.",source:"UK Ministry of Defence Oct 2025 · SACEUR Gen. Cavoli Apr 2025"},

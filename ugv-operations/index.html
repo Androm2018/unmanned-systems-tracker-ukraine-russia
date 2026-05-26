@@ -453,7 +453,168 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
       <table>
         <colgroup><col style="width:9%"><col style="width:9%"><col style="width:16%"><col style="width:22%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:8%"></colgroup>
         <thead><tr><th onclick="sortUGV(0)">Date ↕</th><th onclick="sortUGV(1)">Side ↕</th><th onclick="sortUGV(2)">UGV System ↕</th><th>Operation / Target</th><th>Location</th><th onclick="sortUGV(5)">Outcome ↕</th><th>Notes</th><th>Source</th></tr></thead>
-        <tbody id="ugv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>Loading live data…</div></td></tr></tbody>
+        <tbody id="ugv-body">
+            <tr>
+              <td class="cell-date">22 Apr 2023</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Ratel S</span></td>
+              <td class="cell-target" style="font-size:0.8rem">First combat UGV strike on Russian positions</td>
+              <td class="cell-loc">Donetsk Oblast</td>
+              <td><span class="badge b-sunk">Destroyed target</span></td>
+              <td class="cell-notes">63rd Mechanised Brigade. First self-destructing UGV strike confirmed.</td>
+              <td><a class="src-link" href="https://jamestown.org/ukraine-becomes-world-leader-in-unmanned-ground-vehicles/" target="_blank" rel="noopener">Jamestown ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 May 2023</td>
+              <td><span class="badge b-ru">🇷🇺 Russia</span></td>
+              <td><span class="model-tag">Platforma-M</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Combat deployment in Russian-occupied Ukraine</td>
+              <td class="cell-loc">Eastern Ukraine</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">First documented Russian combat UGV deployment in Ukraine.</td>
+              <td><a class="src-link" href="https://sites.tufts.edu/fletcherrussia/russian-ugv-developments-influenced-by-ukraine-war/" target="_blank" rel="noopener">Tufts/Fletcher ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">29 Mar 2024</td>
+              <td><span class="badge b-ru">🇷🇺 Russia</span></td>
+              <td><span class="model-tag">Kur&#39;yer (Courier)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Assault on Ukrainian trenches near Avdiivka</td>
+              <td class="cell-loc">Avdiivka, Donetsk</td>
+              <td><span class="badge b-destroyed">UGV lost</span></td>
+              <td class="cell-notes">Multiple Kur&#39;yers stormed Ukrainian positions. Identified and destroyed by Ukrainian FPV drones.</td>
+              <td><a class="src-link" href="https://www.armyrecognition.com" target="_blank" rel="noopener">Army Recognition ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Apr 2024</td>
+              <td><span class="badge b-ru">🇷🇺 Russia</span></td>
+              <td><span class="model-tag">Kur&#39;yer (Courier)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Trench assault, 74th Guards Motorised Rifle Brigade</td>
+              <td class="cell-loc">Eastern Ukraine</td>
+              <td><span class="badge b-damaged">Damaged target</span></td>
+              <td class="cell-notes">Several Kur&#39;yers got within firing range of Ukrainian positions before being destroyed.</td>
+              <td><a class="src-link" href="https://sites.tufts.edu/fletcherrussia/russian-ugv-developments-influenced-by-ukraine-war/" target="_blank" rel="noopener">Tufts/Fletcher ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Oct 2024</td>
+              <td><span class="badge b-ru">🇷🇺 Russia</span></td>
+              <td><span class="model-tag">Kur&#39;yer (Courier)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Reinforcement deployment after battlefield losses</td>
+              <td class="cell-loc">Donetsk front</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">Russia sent new batch of Courier UGVs after earlier models destroyed by Ukrainian FPV drones.</td>
+              <td><a class="src-link" href="https://www.armyrecognition.com" target="_blank" rel="noopener">Army Recognition ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">20 Dec 2024</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Mixed armed UGVs</span></td>
+              <td class="cell-target" style="font-size:0.8rem">All-drone assault near Lyptsi, Kharkiv Oblast</td>
+              <td class="cell-loc">Lyptsi, Kharkiv</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">Khartiia Brigade used dozens of UGVs + FPV drones exclusively. First all-drone tactical assault confirmed.</td>
+              <td><a class="src-link" href="https://kyivindependent.com" target="_blank" rel="noopener">Kyiv Independent ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">20 Dec 2024</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Droid TW (AI-enabled)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Combat deployment with AI target recognition</td>
+              <td class="cell-loc">Kharkiv Oblast</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">First AI-assisted UGV engagement — AI algorithms for enemy personnel recognition.</td>
+              <td><a class="src-link" href="https://sldinfo.com" target="_blank" rel="noopener">SLD Info ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Mar 2025</td>
+              <td><span class="badge b-ru">🇷🇺 Russia</span></td>
+              <td><span class="model-tag">Kur&#39;yer (Courier) ×6</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Coordinated assault near Avdiivka fallback lines</td>
+              <td class="cell-loc">Avdiivka, Donetsk</td>
+              <td><span class="badge b-destroyed">UGV lost</span></td>
+              <td class="cell-notes">Six Courier UGVs all destroyed; two on camera. Fired hundreds of grenades with minimal effect.</td>
+              <td><a class="src-link" href="https://sldinfo.com" target="_blank" rel="noopener">SLD Info ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Apr 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Mixed (50+ domestic types)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Brave-1 UGV field trials — largest to date</td>
+              <td class="cell-loc">Ukraine (undisclosed)</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">70+ UGVs tested under combat-like conditions over 10 km course with EW jamming.</td>
+              <td><a class="src-link" href="https://kyivindependent.com" target="_blank" rel="noopener">Kyiv Independent ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 May 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Ratel H / TerMIT / Lyut</span></td>
+              <td class="cell-target" style="font-size:0.8rem">K-2 Battalion — sustained UGV logistics ops</td>
+              <td class="cell-loc">Pokrovsk / Avdiivka sector</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">UGVs reported to reduce logistics casualties 50–70% in high-intensity sectors.</td>
+              <td><a class="src-link" href="https://english.nv.ua" target="_blank" rel="noopener">New Voice Ukraine ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Jul 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Lyut (Fury)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Strike operations, Sumy Oblast</td>
+              <td class="cell-loc">Sumy Oblast</td>
+              <td><span class="badge b-sunk">Destroyed target</span></td>
+              <td class="cell-notes">Footage shows Lyut robotic platform attacking Russian positions.</td>
+              <td><a class="src-link" href="https://kyivindependent.com" target="_blank" rel="noopener">Kyiv Independent ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Jul 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">UGVs (undisclosed)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Capture of Russian POWs without infantry</td>
+              <td class="cell-loc">Eastern front</td>
+              <td><span class="badge b-shotdown">Captured POW</span></td>
+              <td class="cell-notes">First confirmed UGV-only prisoner capture — no infantry deployed.</td>
+              <td><a class="src-link" href="https://kyivindependent.com" target="_blank" rel="noopener">Kyiv Independent ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Sep 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">D-21-12R</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Surveillance and fire support missions</td>
+              <td class="cell-loc">Eastern front</td>
+              <td><span class="badge b-damaged">Damaged target</span></td>
+              <td class="cell-notes">Large-calibre RCWS UGV conducting patrols and fire support against Russian light armour.</td>
+              <td><a class="src-link" href="https://kyivindependent.com" target="_blank" rel="noopener">Kyiv Independent ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Oct 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">TerMIT (Tencore)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Mass front-line logistics deployment</td>
+              <td class="cell-loc">Multiple sectors</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">MoD deployed 15,000 UGVs in 2025 — exceeding procurement targets by 100%+.</td>
+              <td><a class="src-link" href="https://423grifony.com" target="_blank" rel="noopener">423 Grifony ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Nov 2025</td>
+              <td><span class="badge b-ua">🇺🇦 Ukraine</span></td>
+              <td><span class="model-tag">Ratel S (kamikaze)</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Anti-tank kamikaze strikes</td>
+              <td class="cell-loc">Eastern front</td>
+              <td><span class="badge b-sunk">Destroyed target</span></td>
+              <td class="cell-notes">40 kg explosive payload variants used to destroy Russian armoured vehicles.</td>
+              <td><a class="src-link" href="https://jamestown.org" target="_blank" rel="noopener">Jamestown ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Dec 2025</td>
+              <td><span class="badge b-ru">🇷🇺 Russia</span></td>
+              <td><span class="model-tag">Scorpion-M</span></td>
+              <td class="cell-target" style="font-size:0.8rem">Kamikaze UGV deployment trials</td>
+              <td class="cell-loc">Krasnohorivka, Donetsk</td>
+              <td><span class="badge b-disrupted">Operational milestone</span></td>
+              <td class="cell-notes">Russian volunteer-developed kamikaze UGV. Limited fielding reported.</td>
+              <td><a class="src-link" href="https://militaeraktuell.at" target="_blank" rel="noopener">Militär Aktuell ↗</a></td>
+            </tr>
+          </tbody>
       </table>
     </div>
     <div id="ugv-nores" class="no-results" style="display:none">// NO RESULTS //</div>
@@ -465,7 +626,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   </div>
 </div>
 <script>
-const EMBEDDED_UGV = const EMBEDDED_UGV=[
+const EMBEDDED_UGV=[
   {date:"2023-04-22",side:"Ukraine",system:"Ratel S",op:"First combat UGV strike on Russian positions",loc:"Donetsk Oblast",outcome:"Destroyed target",notes:"63rd Mechanised Brigade. First self-destructing UGV strike confirmed.",src:"https://jamestown.org/ukraine-becomes-world-leader-in-unmanned-ground-vehicles/",srcl:"Jamestown"},
   {date:"2023-05-01",side:"Russia",system:"Platforma-M",op:"Combat deployment in Russian-occupied Ukraine",loc:"Eastern Ukraine",outcome:"Operational milestone",notes:"First documented Russian combat UGV deployment in Ukraine.",src:"https://sites.tufts.edu/fletcherrussia/russian-ugv-developments-influenced-by-ukraine-war/",srcl:"Tufts/Fletcher"},
   {date:"2024-03-29",side:"Russia",system:"Kur'yer (Courier)",op:"Assault on Ukrainian trenches near Avdiivka",loc:"Avdiivka, Donetsk",outcome:"UGV lost",notes:"Multiple Kur'yers stormed Ukrainian positions. Identified and destroyed by Ukrainian FPV drones.",src:"https://www.armyrecognition.com",srcl:"Army Recognition"},
@@ -701,8 +862,8 @@ function renderUGV(){
   });
   const k=['date','side','system','op','loc','outcome'];
   rows.sort((a,b)=>{const va=a[k[ugvSort.col]]||'',vb=b[k[ugvSort.col]]||'';return ugvSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
-  document.getElementById('ugv-rc').textContent=rows.length;
-  
+  {const rc=document.getElementById('ugv-rc')||document.getElementById('ugv-count');if(rc)rc.textContent=rows.length+' operations';}
+
   const body=document.getElementById('ugv-body');
   const nores=document.getElementById('ugv-nores');
   if(!rows.length){body.innerHTML='';nores.style.display='block';return}

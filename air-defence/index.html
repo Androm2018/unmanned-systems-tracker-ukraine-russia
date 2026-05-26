@@ -416,9 +416,9 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   <div class="data-section">
     <div class="data-section-title">Live data — air defence statistics</div>
     <div class="ad-stat-strip" id="airdef-stats">
-    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Total launched</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">100,000+</span><span class="ad-stat-lbl">Total launched</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">~70%</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
@@ -429,7 +429,12 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   <div style="background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:20px">
     <canvas id="airdef-chart" height="140"></canvas>
   </div>
-    <canvas id="airdef-chart" height="100" style="margin-top:14px"></canvas>
+
+  <div class="kb-section-title">WEAPON TYPE BREAKDOWN — LAUNCHED vs INTERCEPTED</div>
+  <div class="ad-weapon-grid">
+    <div class="ad-weapon-col" id="airdef-col-left"></div>
+    <div class="ad-weapon-col" id="airdef-col-right"></div>
+  </div>
   </div>
 
   <div class="data-section" style="margin-top:20px">

@@ -14,20 +14,31 @@ const CSV_FILE    = 'missile_attacks_daily.csv';
 const HEADERS = ['date','time_start','time_end','model','launched','destroyed','not_reach_goal','notes'];
 
 // ── PARSE CSV ─────────────────────────────────────────────
+function splitCsvLine(line) {
+  const fields = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQ && line[i + 1] === '"') { cur += '"'; i++; } // escaped "" → literal "
+      else { inQ = !inQ; }
+    } else if (ch === ',' && !inQ) {
+      fields.push(cur.trim()); cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  fields.push(cur.trim());
+  return fields;
+}
+
 function parseCSV(text) {
   const lines = text.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
+  const headers = splitCsvLine(lines[0]);
   return lines.slice(1).map(line => {
-    const fields = [];
-    let cur = '', inQ = false;
-    for (const ch of line) {
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === ',' && !inQ) { fields.push(cur.trim()); cur = ''; }
-      else { cur += ch; }
-    }
-    fields.push(cur.trim());
+    const fields = splitCsvLine(line);
     const obj = {};
-    headers.forEach((h, i) => obj[h] = (fields[i] || '').replace(/^"|"$/g, ''));
+    headers.forEach((h, i) => obj[h] = fields[i] || '');
     return obj;
   });
 }
@@ -61,6 +72,7 @@ async function main() {
   console.log('Parsing CSV...');
   const raw = parseCSV(fs.readFileSync(csvPath, 'utf8'));
   console.log(`Parsed ${raw.length} records`);
+  if (!raw.length) { console.error('No records parsed from CSV — aborting.'); process.exit(1); }
 
   raw.sort((a, b) => {
     const da = (a.time_start || a.date || '').slice(0,10);
@@ -68,8 +80,8 @@ async function main() {
     return da.localeCompare(db);
   });
 
-  const blankLaunched = raw.filter(r => !parseFloat(r.launched || '')).length;
-  if (blankLaunched > 0) console.log(`⚠ ${blankLaunched} rows had blank/zero launched value`);
+  const blankLaunched = raw.filter(r => isNaN(parseFloat(r.launched))).length;
+  if (blankLaunched > 0) console.log(`⚠ ${blankLaunched} rows had blank/non-numeric launched value`);
 
   // Diagnostic: sum launched directly from raw CSV
   const rawSum = raw.reduce((s, r) => s + (parseFloat(r.launched) || 0), 0);

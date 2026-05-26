@@ -428,7 +428,238 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
       <table>
         <colgroup><col style="width:9%"><col style="width:15%"><col style="width:11%"><col style="width:12%"><col style="width:10%"><col style="width:10%"><col style="width:25%"><col style="width:8%"></colgroup>
         <thead><tr><th onclick="sortUSV(0)">Date ↕</th><th onclick="sortUSV(1)">Target ↕</th><th>Type</th><th onclick="sortUSV(3)">USV Model ↕</th><th>Location</th><th onclick="sortUSV(5)">Damage ↕</th><th>Notes</th><th>Source</th></tr></thead>
-        <tbody id="usv-body"><tr><td colspan="8"><div class="state-box"><div class="spinner"></div><br>Loading live data…</div></td></tr></tbody>
+        <tbody id="usv-body">
+            <tr>
+              <td class="cell-date">21 Sep 2022</td>
+              <td class="cell-target">Sevastopol Harbour (BSF ships)</td>
+              <td class="cell-type">Naval base</td>
+              <td><span class="model-tag">Unknown USV</span></td>
+              <td class="cell-loc">Sevastopol, Crimea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">First confirmed USV raid against the Black Sea Fleet.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Naval_warfare_in_the_Russian_invasion_of_Ukraine" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">8 Oct 2022</td>
+              <td class="cell-target">Crimean Bridge</td>
+              <td class="cell-type">Infrastructure</td>
+              <td><span class="model-tag">Unknown USV</span></td>
+              <td class="cell-loc">Kerch Strait</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Road span collapsed, rail cars caught fire. Ukraine later acknowledged involvement.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/2022_Crimean_Bridge_explosion" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">17 Jul 2023</td>
+              <td class="cell-target">Crimean Bridge</td>
+              <td class="cell-type">Infrastructure</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Kerch Strait</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Two Sea Baby USVs struck the bridge. One road span collapsed. Two civilians killed. SBU confirmed.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/2023_Crimean_Bridge_explosion" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">4 Aug 2023</td>
+              <td class="cell-target">Olenegorsky Gornyak</td>
+              <td class="cell-type">Ropucha-class landing ship</td>
+              <td><span class="model-tag">Unknown USV</span></td>
+              <td class="cell-loc">Novorossiysk, Russia</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">First confirmed USV strike on mainland Russia.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Unmanned_surface_vehicle" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">14 Sep 2023</td>
+              <td class="cell-target">Samum (corvette)</td>
+              <td class="cell-type">Bora-class corvette</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Black Sea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">SBU claimed strike. Damage extent unconfirmed by Russia.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Sea_Baby" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">14 Sep 2023</td>
+              <td class="cell-target">Sergey Kotov</td>
+              <td class="cell-type">Project 22160 patrol ship</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Black Sea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Propeller damage and hole in hull. RuMoD confirmed attack.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Russian_patrol_ship_Sergey_Kotov" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Oct 2023</td>
+              <td class="cell-target">Pavel Derzhavin</td>
+              <td class="cell-type">Grisha-class patrol ship</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Black Sea / Crimea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Damage confirmed; ship required repairs.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Sea_Baby" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Nov 2023</td>
+              <td class="cell-target">Crimean Bridge barrier</td>
+              <td class="cell-type">Anti-USV barrier</td>
+              <td><span class="model-tag">Unknown USV</span></td>
+              <td class="cell-loc">Kerch Strait</td>
+              <td><span class="badge b-destroyed">Destroyed</span></td>
+              <td class="cell-notes">Russian anti-USV barricade near Crimean Bridge destroyed.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">10 Nov 2023</td>
+              <td class="cell-target">Serna &amp; Akula landing craft (×2)</td>
+              <td class="cell-type">Landing craft</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Chornomorske, Crimea</td>
+              <td><span class="badge b-destroyed">Destroyed</span></td>
+              <td class="cell-notes">Both craft at Russian Navy base destroyed. Confirmed by HUR.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/MAGURA_V5" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Dec 2023</td>
+              <td class="cell-target">Volodymyr Kozytskyi</td>
+              <td class="cell-type">Demining/hydrographic ship</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Black Sea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Russian demining vessel damaged by Sea Baby.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Feb 2024</td>
+              <td class="cell-target">Ivanovets</td>
+              <td class="cell-type">Tarantul-III missile corvette</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Donuzlav Bay, Crimea</td>
+              <td><span class="badge b-sunk">Sunk</span></td>
+              <td class="cell-notes">Sunk in Donuzlav Bay. HUR published video confirming the kill.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">14 Feb 2024</td>
+              <td class="cell-target">Tsezar Kunikov</td>
+              <td class="cell-type">Ropucha-class landing ship</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Off Alupka, Crimea</td>
+              <td><span class="badge b-sunk">Sunk</span></td>
+              <td class="cell-notes">Sunk by HUR MO Group 13.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Unmanned_surface_vehicle" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">5 Mar 2024</td>
+              <td class="cell-target">Sergey Kotov</td>
+              <td class="cell-type">Project 22160 patrol ship</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Kerch Strait</td>
+              <td><span class="badge b-sunk">Sunk</span></td>
+              <td class="cell-notes">Second strike; ship sunk along with on-board helicopter.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Russian_patrol_ship_Sergey_Kotov" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">23 Mar 2024</td>
+              <td class="cell-target">Yamal &amp; Azov (×2)</td>
+              <td class="cell-type">Ropucha-class landing ships</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Sevastopol, Crimea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Yamal critically damaged, listing to starboard. Azov also struck.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Black_Sea_Fleet" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">30 May 2024</td>
+              <td class="cell-target">KC-701 Tuna patrol boats (×2)</td>
+              <td class="cell-type">High-speed patrol boats</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Black Sea</td>
+              <td><span class="badge b-destroyed">Destroyed</span></td>
+              <td class="cell-notes">HUR confirmed destruction of both vessels.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">24 Jun 2024</td>
+              <td class="cell-target">Four Russian warships (mine strike)</td>
+              <td class="cell-type">Various warships</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Off Crimea coast</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Sea Baby USVs laid 15+ naval mines; four Russian warships damaged.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">10 Aug 2024</td>
+              <td class="cell-target">KS 701 Tunets</td>
+              <td class="cell-type">High-speed patrol boat</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Chornomorske, Crimea</td>
+              <td><span class="badge b-destroyed">Destroyed</span></td>
+              <td class="cell-notes">MAGURA V5 destroyed Russian high-speed boat.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/385th_Unmanned_Surface_Vehicles_Brigade_(Ukraine)" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">31 Dec 2024</td>
+              <td class="cell-target">Mi-8 helicopter</td>
+              <td class="cell-type">Military helicopter</td>
+              <td><span class="model-tag">MAGURA V5</span></td>
+              <td class="cell-loc">Cape Tarkhankut, Crimea</td>
+              <td><span class="badge b-shotdown">Shot Down</span></td>
+              <td class="cell-notes">MAGURA V5 with R-73 missile shot down Mi-8; second damaged.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/MAGURA_V5" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">1 Feb 2025</td>
+              <td class="cell-target">Shadow fleet tanker</td>
+              <td class="cell-type">Oil tanker</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Black Sea</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Attack on Russian shadow fleet shipping.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Sea_Baby" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">2 May 2025</td>
+              <td class="cell-target">Su-30SM fighter jets (×2)</td>
+              <td class="cell-type">Military aircraft</td>
+              <td><span class="model-tag">MAGURA V7</span></td>
+              <td class="cell-loc">50 km W of Novorossiysk</td>
+              <td><span class="badge b-shotdown">Shot Down</span></td>
+              <td class="cell-notes">First jet aircraft downed by maritime drone. AIM-9 Sidewinder missiles used.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/MAGURA_V5" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">3 Jun 2025</td>
+              <td class="cell-target">Crimean Bridge (pillars)</td>
+              <td class="cell-type">Infrastructure</td>
+              <td><span class="model-tag">Sub Sea Baby</span></td>
+              <td class="cell-loc">Kerch Strait</td>
+              <td><span class="badge b-disrupted">Disrupted</span></td>
+              <td class="cell-notes">UUV detonated near bridge support pillars. Bridge closed hours then reopened.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/2025_Crimean_Bridge_explosion" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">28 Nov 2025</td>
+              <td class="cell-target">MT Kairos &amp; MT Virat (×2)</td>
+              <td class="cell-type">Shadow fleet oil tankers</td>
+              <td><span class="model-tag">Sea Baby</span></td>
+              <td class="cell-loc">Black Sea, nr. Novorossiysk</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">Two shadow fleet tankers struck.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Sea_Baby" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+            <tr>
+              <td class="cell-date">15 Dec 2025</td>
+              <td class="cell-target">Kolpino (B-271) submarine</td>
+              <td class="cell-type">Kilo-class submarine</td>
+              <td><span class="model-tag">Sub Sea Baby</span></td>
+              <td class="cell-loc">Port of Novorossiysk</td>
+              <td><span class="badge b-damaged">Damaged</span></td>
+              <td class="cell-notes">First claimed UUV attack on a submarine. UK MoD assessed B-271 seriously damaged. Russia denied.</td>
+              <td><a class="src-link" href="https://en.wikipedia.org/wiki/Sea_Baby" target="_blank" rel="noopener">Wikipedia ↗</a></td>
+            </tr>
+          </tbody>
       </table>
     </div>
     <div id="usv-nores" class="no-results" style="display:none">// NO RESULTS //</div>
@@ -440,7 +671,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   </div>
 </div>
 <script>
-const EMBEDDED_USV = const EMBEDDED_USV=[
+const EMBEDDED_USV=[
   {date:"2022-09-21",target:"Sevastopol Harbour (BSF ships)",type:"Naval base",model:"Unknown USV",loc:"Sevastopol, Crimea",damage:"Damaged",notes:"First confirmed USV raid against the Black Sea Fleet.",src:"https://en.wikipedia.org/wiki/Naval_warfare_in_the_Russian_invasion_of_Ukraine",srcl:"Wikipedia"},
   {date:"2022-10-08",target:"Crimean Bridge",type:"Infrastructure",model:"Unknown USV",loc:"Kerch Strait",damage:"Damaged",notes:"Road span collapsed, rail cars caught fire. Ukraine later acknowledged involvement.",src:"https://en.wikipedia.org/wiki/2022_Crimean_Bridge_explosion",srcl:"Wikipedia"},
   {date:"2023-07-17",target:"Crimean Bridge",type:"Infrastructure",model:"Sea Baby",loc:"Kerch Strait",damage:"Damaged",notes:"Two Sea Baby USVs struck the bridge. One road span collapsed. Two civilians killed. SBU confirmed.",src:"https://en.wikipedia.org/wiki/2023_Crimean_Bridge_explosion",srcl:"Wikipedia"},
@@ -683,8 +914,8 @@ function renderUSV(){
   });
   const k=['date','target','type','model','loc','damage'];
   rows.sort((a,b)=>{const va=a[k[usvSort.col]]||'',vb=b[k[usvSort.col]]||'';return usvSort.asc?va.localeCompare(vb):vb.localeCompare(va)});
-  document.getElementById('usv-rc').textContent=rows.length;
-  
+  {const rc=document.getElementById('usv-rc')||document.getElementById('usv-count');if(rc)rc.textContent=rows.length+' events';}
+
   const body=document.getElementById('usv-body');
   const nores=document.getElementById('usv-nores');
   if(!rows.length){body.innerHTML='';nores.style.display='block';return}
