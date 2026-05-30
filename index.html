@@ -742,7 +742,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <span class="h1-dim">Tracker</span>
     </h1>
     <div class="hero-bottom reveal d2">
-      <p class="hero-desc">Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine.</p>
+      <p class="hero-desc">Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine. Original analysis by a King's College London War Studies researcher.</p>
       <div class="hero-attrs">
         <div class="hero-attr">Verified OSINT only</div>
         <div class="hero-attr">Source citations on all entries</div>
@@ -2453,12 +2453,18 @@ function buildAirDefFrequency(){
   });
 
   window._freqData={monthly,yearly};
-  buildFreqChart('monthly');
 
   // Update summary
   const total=Object.values(yearly).reduce((s,d)=>s+d.launched,0);
-  const el=document.getElementById('freq-summary');
-  if(el)el.textContent=fmtBig(total)+' total launched';
+  const sumEl=document.getElementById('freq-summary');
+  if(sumEl)sumEl.textContent=fmtBig(total)+' total launched';
+
+  // Build chart — wait for Chart.js if needed
+  if(typeof Chart!=='undefined'){
+    buildFreqChart('monthly');
+  } else {
+    const t=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(t);buildFreqChart('monthly');}},200);
+  }
 }
 
 let _freqChartInst=null;
@@ -2479,7 +2485,11 @@ function setFreqView(view){
 
 function buildFreqChart(view){
   const el=document.getElementById('airdef-freq-chart');
-  if(!el||!window._freqData||typeof Chart==='undefined')return;
+  if(!el||!window._freqData)return;
+  if(typeof Chart==='undefined'){
+    const t=setInterval(()=>{if(typeof Chart!=='undefined'){clearInterval(t);buildFreqChart(view);}},200);
+    return;
+  }
   if(_freqChartInst)_freqChartInst.destroy();
 
   const M="var(--mono),'Share Tech Mono',monospace";
