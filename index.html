@@ -1742,17 +1742,17 @@ async function loadAll() {
     if(elInt)elInt.textContent=fmtIntro(adIntercepted);
     if(elRate)elRate.textContent=adRate+'%';
     // Render tab content — wait for Chart.js if not yet loaded
-    try{renderAirDef();}catch(e){console.error('airdef render:',e);}
+    try{renderAirDef();buildAirDefFrequency();}catch(e){console.error('airdef render:',e);}
     // Rebuild intro chart now that AIRDEF_DATA is available
     if(typeof buildIntroTrendsChart==='function'){try{buildIntroTrendsChart();}catch(e){}}
     if(typeof Chart!=='undefined'){
-      try{buildAirDefChart();}catch(e){console.error('airdef chart:',e);}
+      try{buildAirDefChart();buildAirDefFrequency();}catch(e){console.error('airdef chart:',e);}
     } else {
       // Chart.js not yet loaded — retry when it arrives
       const _waitChart=setInterval(()=>{
         if(typeof Chart!=='undefined'){
           clearInterval(_waitChart);
-          try{buildAirDefChart();}catch(e){console.error('airdef chart retry:',e);}
+          try{buildAirDefChart();buildAirDefFrequency();}catch(e){console.error('airdef chart retry:',e);}
         }
       },200);
     }
