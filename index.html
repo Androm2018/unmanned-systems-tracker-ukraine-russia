@@ -540,6 +540,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .new-stats{
   display:grid;grid-template-columns:repeat(7,1fr);
   border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  -webkit-overflow-scrolling:touch;
 }
 .new-stat{
   padding:18px 14px 14px;border-right:1px solid var(--border);
@@ -619,20 +620,38 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .reveal.d7{transition-delay:0.56s}
 
 @media(max-width:900px){
-  .hero{padding:40px 24px 32px}
-  .hero-h1{font-size:3.5rem}
-  .new-stats{display:flex;overflow-x:auto;scrollbar-width:none}
+  .hero{padding:32px 20px 24px;min-height:auto}
+  .new-stats{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .new-stats::-webkit-scrollbar{display:none}
-  .new-stat{flex:0 0 140px;min-width:140px}
+  .new-stat{flex:0 0 130px;min-width:130px}
   .new-support{grid-template-columns:1fr}
   .new-meth-row{grid-template-columns:1fr}
   .new-meth-cell{border-right:none}
-  .sdiv,.new-chart-panel,.new-support,.new-meth{margin-left:24px;margin-right:24px}
+  .sdiv,.new-chart-panel,.new-support,.new-meth{margin-left:16px;margin-right:16px}
 }
 @media(max-width:600px){
-  .hero-h1{font-size:2.6rem}
-  .hero-bottom{flex-direction:column;gap:20px}
-  .hero-attrs{align-items:flex-start}
+  .hero{padding:24px 16px 20px;min-height:auto}
+  .hero::before{background-size:40px 40px}
+  .hero-eyebrow{font-size:0.4rem;letter-spacing:0.16em;margin-bottom:14px}
+  .hero-h1{
+    font-size:clamp(2.2rem,12vw,3rem) !important;
+    margin-bottom:16px;
+    word-break:break-word;
+  }
+  .hero-bottom{flex-direction:column;gap:14px;align-items:flex-start}
+  .hero-desc{font-size:0.82rem;max-width:100%}
+  .hero-attrs{align-items:flex-start;gap:4px}
+  .hero-attr{font-size:0.4rem}
+  .new-stat{flex:0 0 120px;min-width:120px;padding:14px 10px 10px}
+  .new-stat-n{font-size:1.2rem}
+  .new-stat-l{font-size:0.3rem}
+  .sdiv{padding:24px 16px 12px;gap:10px}
+  .sdiv-label{font-size:0.65rem}
+  .new-chart-panel{padding:14px 12px 10px}
+  .new-chart-wrap{height:130px}
+  .new-chart-title{font-size:0.7rem}
+  .new-support-panel{padding:20px 16px}
+  .new-meth-cell{padding:14px 16px}
 }
 /* ══ END NEW INTRO DESIGN ══════════════════════════════════════════ */
 </style>
@@ -742,7 +761,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <span class="h1-dim">Tracker</span>
     </h1>
     <div class="hero-bottom reveal d2">
-      <p class="hero-desc">Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine.</p>
+      <p class="hero-desc">Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine. Original analysis by a King's College London War Studies researcher.</p>
       <div class="hero-attrs">
         <div class="hero-attr">Verified OSINT only</div>
         <div class="hero-attr">Source citations on all entries</div>
