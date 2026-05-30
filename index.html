@@ -1183,21 +1183,26 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <div class="kb-section-title" style="margin-top:40px;padding-top:20px;border-top:1px solid var(--border2)">ATTACK FREQUENCY — MONTHLY &amp; ANNUAL</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 32px 8px">
-    <div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px">BY MONTH (all weapon types)</div>
-      <div id="airdef-monthly-freq" style="font-family:var(--mono);font-size:0.6rem;color:var(--text2)">
-        <div style="padding:20px;text-align:center;color:var(--text3)">Loading…</div>
-      </div>
-    </div>
-    <div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px">BY YEAR (all weapon types)</div>
-      <div id="airdef-yearly-freq" style="font-family:var(--mono);font-size:0.6rem;color:var(--text2)">
-        <div style="padding:20px;text-align:center;color:var(--text3)">Loading…</div>
-      </div>
+
+  <!-- Toggle buttons -->
+  <div style="display:flex;align-items:center;gap:10px;margin:0 32px 12px;flex-wrap:wrap">
+    <button id="freq-btn-monthly" onclick="setFreqView('monthly')" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--accent3);background:var(--accent3);color:#050a04;cursor:pointer">Monthly</button>
+    <button id="freq-btn-yearly" onclick="setFreqView('yearly')" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer">Annual</button>
+    <span id="freq-summary" style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);margin-left:8px"></span>
+    <span style="font-family:var(--mono);font-size:0.4rem;color:var(--text3);margin-left:auto">Hover for details · Source: Ukrainian Air Force via Petro Ivaniuk</span>
+  </div>
+
+  <!-- Chart container -->
+  <div style="margin:0 32px;border:1px solid var(--border);background:var(--bg2);padding:16px 16px 12px">
+    <div style="height:260px;position:relative">
+      <canvas id="airdef-freq-chart"></canvas>
     </div>
   </div>
-  <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin:0 32px 24px">Source: Ukrainian Air Force via Petro Ivaniuk · All attack types combined</div>
+
+  <!-- Hidden divs kept for JS compatibility -->
+  <div id="airdef-monthly-freq" style="display:none"></div>
+  <div id="airdef-yearly-freq" style="display:none"></div>
+  <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);margin:8px 32px 24px">All weapon types combined · Hover bars for exact figures</div>
 
 </div>
 
@@ -2421,6 +2426,8 @@ function rateClass(pct){
 
 function buildAirDefFrequency(){
   if(!AIRDEF_DATA||!AIRDEF_DATA.length)return;
+
+  // Aggregate monthly
   const monthly={};
   AIRDEF_DATA.forEach(r=>{
     if(!r.date||r.date.length<7)return;
@@ -2429,17 +2436,8 @@ function buildAirDefFrequency(){
     monthly[ym].launched+=(parseFloat(r.launched)||0);
     monthly[ym].waves+=1;
   });
-  const monthEl=document.getElementById('airdef-monthly-freq');
-  if(monthEl){
-    monthEl.innerHTML=Object.keys(monthly).sort().reverse().map(ym=>{
-      const d=monthly[ym];
-      const label=new Date(ym+'-02').toLocaleDateString('en-GB',{month:'short',year:'numeric'});
-      return `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border2);padding:3px 0">
-        <span style="color:var(--text3)">${label}</span>
-        <span><span style="color:var(--text2)">${fmtBig(d.launched)}</span> <span style="color:var(--text3);font-size:0.5rem">launched · ${d.waves} waves</span></span>
-      </div>`;
-    }).join('');
-  }
+
+  // Aggregate yearly
   const yearly={};
   AIRDEF_DATA.forEach(r=>{
     if(!r.date||r.date.length<4)return;
@@ -2448,16 +2446,118 @@ function buildAirDefFrequency(){
     yearly[yr].launched+=(parseFloat(r.launched)||0);
     yearly[yr].waves+=1;
   });
-  const yearEl=document.getElementById('airdef-yearly-freq');
-  if(yearEl){
-    yearEl.innerHTML=Object.keys(yearly).sort().reverse().map(yr=>{
-      const d=yearly[yr];
-      return `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border2);padding:5px 0">
-        <span style="color:var(--text3);font-size:0.8rem">${yr}</span>
-        <span><span style="color:var(--text2);font-size:0.8rem">${fmtBig(d.launched)}</span> <span style="color:var(--text3);font-size:0.5rem">launched · ${d.waves} waves</span></span>
-      </div>`;
-    }).join('');
+
+  window._freqData={monthly,yearly};
+  buildFreqChart('monthly');
+
+  // Update summary
+  const total=Object.values(yearly).reduce((s,d)=>s+d.launched,0);
+  const el=document.getElementById('freq-summary');
+  if(el)el.textContent=fmtBig(total)+' total launched';
+}
+
+let _freqChartInst=null;
+function setFreqView(view){
+  const btnM=document.getElementById('freq-btn-monthly');
+  const btnY=document.getElementById('freq-btn-yearly');
+  if(btnM&&btnY){
+    if(view==='monthly'){
+      btnM.style.background='var(--accent3)';btnM.style.color='#050a04';btnM.style.borderColor='var(--accent3)';
+      btnY.style.background='transparent';btnY.style.color='var(--text3)';btnY.style.borderColor='var(--border)';
+    } else {
+      btnY.style.background='var(--accent3)';btnY.style.color='#050a04';btnY.style.borderColor='var(--accent3)';
+      btnM.style.background='transparent';btnM.style.color='var(--text3)';btnM.style.borderColor='var(--border)';
+    }
   }
+  buildFreqChart(view);
+}
+
+function buildFreqChart(view){
+  const el=document.getElementById('airdef-freq-chart');
+  if(!el||!window._freqData||typeof Chart==='undefined')return;
+  if(_freqChartInst)_freqChartInst.destroy();
+
+  const M="var(--mono),'Share Tech Mono',monospace";
+  const isMonthly=view==='monthly';
+  const data=isMonthly?window._freqData.monthly:window._freqData.yearly;
+  const keys=Object.keys(data).sort();
+  const labels=keys.map(k=>{
+    if(!isMonthly)return k;
+    const d=new Date(k+'-02');
+    return d.toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+  const vals=keys.map(k=>data[k].launched);
+  const waves=keys.map(k=>data[k].waves);
+  const maxVal=Math.max(...vals);
+
+  _freqChartInst=new Chart(el,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label:'Weapons launched',
+        data:vals,
+        backgroundColor:vals.map(v=>{
+          const pct=v/maxVal;
+          if(pct>0.8)return 'rgba(224,82,82,0.85)';
+          if(pct>0.5)return 'rgba(212,160,23,0.75)';
+          return 'rgba(107,191,120,0.65)';
+        }),
+        borderRadius:isMonthly?2:4,
+        borderSkipped:false,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#0d1410',
+          borderColor:'#253d2a',
+          borderWidth:1,
+          titleColor:'#c8d8c0',
+          bodyColor:'#8aaa88',
+          padding:10,
+          callbacks:{
+            title:ctx=>{
+              const k=keys[ctx[0].dataIndex];
+              if(!isMonthly)return k;
+              return new Date(k+'-02').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+            },
+            label:ctx=>{
+              const k=keys[ctx.dataIndex];
+              const d=data[k];
+              return [
+                ' '+fmtBig(d.launched)+' weapons launched',
+                ' '+d.waves+' attack waves',
+                ' avg '+Math.round(d.launched/d.waves)+' per wave'
+              ];
+            }
+          }
+        }
+      },
+      scales:{
+        x:{
+          ticks:{
+            color:'#526650',
+            font:{size:isMonthly?7:9,family:"'Share Tech Mono',monospace"},
+            maxRotation:isMonthly?45:0,
+          },
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'}
+        },
+        y:{
+          ticks:{
+            color:'#526650',
+            font:{size:8,family:"'Share Tech Mono',monospace"},
+            callback:v=>v>=1000?Math.round(v/1000)+'k':v
+          },
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'}
+        }
+      }
+    }
+  });
 }
 
 function renderAirDef(){
