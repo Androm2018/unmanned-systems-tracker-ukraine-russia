@@ -197,7 +197,7 @@ body{background:var(--bg);color:var(--t1);font-family:var(--B);-webkit-font-smoo
   border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);
 }
 .stat{
-  padding:24px 20px 20px;
+  padding:18px 14px 14px;
   border-right:1px solid var(--b1);
   cursor:pointer;
   position:relative;overflow:hidden;
@@ -214,18 +214,18 @@ body{background:var(--bg);color:var(--t1);font-family:var(--B);-webkit-font-smoo
 .stat:hover::after{transform:scaleX(1)}
 .stat-n{
   font-family:var(--H);font-weight:800;
-  font-size:1.9rem;line-height:1;
-  letter-spacing:-0.03em;color:#fff;
-  display:block;margin-bottom:7px;
+  font-size:clamp(1rem,1.8vw,1.6rem);line-height:1;
+  letter-spacing:-0.02em;color:#fff;
+  display:block;margin-bottom:6px;
 }
 .stat-n.g{color:var(--a3)}
 .stat-n.b{color:var(--blue)}
 .stat-n.a{color:var(--amber)}
 .stat-n.r{color:var(--red)}
 .stat-l{
-  font-family:var(--M);font-size:0.38rem;
-  color:var(--t3);letter-spacing:0.1em;
-  text-transform:uppercase;line-height:1.5;
+  font-family:var(--M);font-size:0.34rem;
+  color:var(--t3);letter-spacing:0.08em;
+  text-transform:uppercase;line-height:1.4;
 }
 
 /* ── SECTION DIVIDER ──────────────────────────── */
@@ -537,9 +537,9 @@ tr:hover td{background:rgba(107,191,120,0.025)}
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:1px;background:var(--b1);margin:0 40px 24px;
 }
-.kb-card{background:var(--bg2);padding:22px 22px 18px}
-.kb-cat{font-family:var(--M);font-size:0.38rem;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
-.kb-val{font-family:var(--H);font-weight:800;font-size:2.2rem;color:#fff;line-height:1;letter-spacing:-0.03em;margin-bottom:4px}
+.kb-card{background:var(--bg2);padding:18px 18px 14px}
+.kb-cat{font-family:var(--M);font-size:0.36rem;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px}
+.kb-val{font-family:var(--H);font-weight:700;font-size:1.6rem;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px}
 .kb-val.r{color:var(--red)}
 .kb-val.a{color:var(--amber)}
 .kb-val.g{color:var(--a3)}
@@ -552,8 +552,8 @@ tr:hover td{background:rgba(107,191,120,0.025)}
   display:grid;grid-template-columns:repeat(6,1fr);
   gap:1px;background:var(--b1);margin:0 40px 16px;
 }
-.ad-stat-cell{background:var(--bg2);padding:16px 14px}
-.ad-stat-val{font-family:var(--H);font-weight:800;font-size:1.7rem;color:#fff;line-height:1;letter-spacing:-0.02em;display:block;margin-bottom:4px}
+.ad-stat-cell{background:var(--bg2);padding:14px 12px}
+.ad-stat-val{font-family:var(--H);font-weight:700;font-size:1.35rem;color:#fff;line-height:1;letter-spacing:-0.01em;display:block;margin-bottom:4px}
 .ad-stat-label{font-family:var(--M);font-size:0.38rem;color:var(--t3);letter-spacing:0.08em;text-transform:uppercase}
 
 /* ── UAV STATS ──────────────────────────────── */
@@ -562,7 +562,7 @@ tr:hover td{background:rgba(107,191,120,0.025)}
   gap:1px;background:var(--b1);margin:0 40px 16px;
 }
 .uav-stat-cell{background:var(--bg2);padding:16px 14px}
-.uav-stat-val{font-family:var(--H);font-weight:800;font-size:1.5rem;color:#fff;line-height:1;letter-spacing:-0.02em;display:block;margin-bottom:4px}
+.uav-stat-val{font-family:var(--H);font-weight:700;font-size:1.2rem;color:#fff;line-height:1;letter-spacing:-0.01em;display:block;margin-bottom:4px}
 .uav-stat-lbl{font-family:var(--M);font-size:0.38rem;color:var(--t3);letter-spacing:0.08em;text-transform:uppercase}
 
 /* ── UAV KILLBOARD ──────────────────────────── */
@@ -571,19 +571,20 @@ tr:hover td{background:rgba(107,191,120,0.025)}
   display:grid;grid-template-columns:1fr 1fr;
 }
 .uav-cat-header{
-  display:flex;padding:9px 12px;border-bottom:1px solid var(--b1);
+  display:flex;padding:10px 14px;border-bottom:1px solid var(--b1);
   font-family:var(--M);font-size:0.38rem;color:var(--t3);
-  letter-spacing:0.1em;text-transform:uppercase;grid-column:1/-1;
-  background:var(--bg2);
+  letter-spacing:0.12em;text-transform:uppercase;grid-column:1/-1;
+  background:var(--bg2);border-top:2px solid var(--a3);
 }
 .uav-num-col{width:90px;text-align:right;flex-shrink:0}
 .uav-cat-row{
-  display:flex;padding:7px 12px;border-bottom:1px solid var(--b1);
-  font-family:var(--M);font-size:0.48rem;color:var(--t2);
+  display:flex;padding:8px 14px;border-bottom:1px solid var(--b1);
+  font-family:var(--B);font-size:0.75rem;color:var(--t2);
   border-right:1px solid var(--b1);transition:background 0.1s;
+  align-items:center;
 }
 .uav-cat-row:hover{background:rgba(107,191,120,0.03)}
-.uav-cat-row .uav-num-col{color:#fff}
+.uav-cat-row .uav-num-col{color:#fff;font-family:var(--M);font-size:0.7rem;font-weight:500}
 
 /* ── UAV CHARTS ─────────────────────────────── */
 .uav-chart-grid{
@@ -609,10 +610,10 @@ tr:hover td{background:rgba(107,191,120,0.025)}
   display:flex;align-items:center;gap:10px;padding:7px 0;
   border-bottom:1px solid var(--b1);
 }
-.ad-weapon-name{font-family:var(--B);font-size:0.72rem;color:var(--t2);flex:1;min-width:0}
+.ad-weapon-name{font-family:var(--B);font-size:0.7rem;color:var(--t2);flex:1;min-width:0}
 .ad-weapon-bar-wrap{width:80px;height:3px;background:var(--b1);flex-shrink:0}
 .ad-weapon-bar{height:100%;background:var(--a3)}
-.ad-weapon-nums{font-family:var(--M);font-size:0.42rem;color:var(--t3);text-align:right;flex-shrink:0;min-width:80px}
+.ad-weapon-nums{font-family:var(--M);font-size:0.56rem;color:var(--t1);text-align:right;flex-shrink:0;min-width:88px;font-weight:500}
 .ad-weapon-rate{font-family:var(--M);font-size:0.4rem;padding:1px 5px;border:1px solid;flex-shrink:0}
 .showall-wrap{padding:0 40px;margin-bottom:16px}
 .showall-toggle{
@@ -623,10 +624,10 @@ tr:hover td{background:rgba(107,191,120,0.025)}
 .showall-toggle:hover{color:var(--a3);border-color:var(--a3)}
 
 /* ── SOURCES ────────────────────────────────── */
-.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b1);margin:0 40px 24px}
-.source-card{background:var(--bg2);padding:20px 20px}
+.sources-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--b1);margin:0 40px 24px}
+.source-card{background:var(--bg2);padding:22px 24px}
 .sc-cat{font-family:var(--M);font-size:0.38rem;color:var(--a3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
-.sc-title{font-family:var(--H);font-weight:700;font-size:0.9rem;text-transform:uppercase;color:#fff;margin-bottom:6px;letter-spacing:0.04em}
+.sc-title{font-family:var(--H);font-weight:700;font-size:1rem;text-transform:uppercase;color:#fff;margin-bottom:6px;letter-spacing:0.04em}
 .sc-desc{font-family:var(--B);font-size:0.7rem;color:var(--t2);line-height:1.55;margin-bottom:10px}
 .sc-link a{font-family:var(--M);font-size:0.42rem;color:var(--a3)}
 
@@ -669,7 +670,20 @@ tr:hover td{background:rgba(107,191,120,0.025)}
 .export-count{font-family:var(--M);font-size:0.44rem;color:var(--t3)}
 .disclaimer{font-family:var(--M);font-size:0.44rem;color:var(--t3);line-height:1.7;padding:16px 40px 0;border-top:1px solid var(--b1);letter-spacing:0.04em}
 .disclaimer a{color:var(--a3)}
-#airdef-monthly-freq,#airdef-yearly-freq{font-family:var(--M);font-size:0.52rem;color:var(--t2)}
+#airdef-monthly-freq,#airdef-yearly-freq{font-family:var(--M);font-size:0.56rem;color:var(--t2)}
+.freq-row{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--b1)}
+.freq-month{font-family:var(--M);font-size:0.52rem;color:var(--t3);width:70px;flex-shrink:0}
+.freq-bar-wrap{flex:1;height:4px;background:var(--b1);position:relative}
+.freq-bar{height:100%;background:var(--a3);transition:width 0.8s ease}
+.freq-bar.negative{background:var(--red)}
+.freq-val{font-family:var(--M);font-size:0.52rem;color:var(--t1);text-align:right;flex-shrink:0;min-width:60px}
+.freq-waves{font-family:var(--M);font-size:0.4rem;color:var(--t3);flex-shrink:0;min-width:55px}
+.freq-year-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--b1)}
+.freq-year{font-family:var(--H);font-weight:700;font-size:0.9rem;color:var(--t1);width:55px;flex-shrink:0}
+.freq-year-bar-wrap{flex:1;height:8px;background:var(--b1)}
+.freq-year-bar{height:100%;background:var(--a3)}
+.freq-year-val{font-family:var(--H);font-weight:700;font-size:0.9rem;color:var(--t1);text-align:right;flex-shrink:0;min-width:70px}
+.freq-year-waves{font-family:var(--M);font-size:0.4rem;color:var(--t3);flex-shrink:0}
 
 /* ── INTRO ──────────────────────────────────── */
 .intro-stat-hint{display:none}
@@ -2489,10 +2503,14 @@ function buildAirDefFrequency(){
   if(monthEl){
     monthEl.innerHTML=Object.keys(monthly).sort().reverse().map(ym=>{
       const d=monthly[ym];
-      const label=new Date(ym+'-02').toLocaleDateString('en-GB',{month:'short',year:'numeric'});
-      return `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--b1);padding:3px 0">
-        <span style="color:var(--t3)">${label}</span>
-        <span><span style="color:var(--t2)">${fmtBig(d.launched)}</span> <span style="color:var(--t3);font-size:0.5rem">launched · ${d.waves} waves</span></span>
+      const maxM=Math.max(...Object.values(monthly).map(x=>x.launched));
+      const label=new Date(ym+'-02').toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+      const pct=Math.round(d.launched/maxM*100);
+      return `<div class="freq-row">
+        <span class="freq-month">${label}</span>
+        <div class="freq-bar-wrap"><div class="freq-bar" style="width:${pct}%"></div></div>
+        <span class="freq-val">${fmtBig(d.launched)}</span>
+        <span class="freq-waves">${d.waves} waves</span>
       </div>`;
     }).join('');
   }
@@ -2508,9 +2526,13 @@ function buildAirDefFrequency(){
   if(yearEl){
     yearEl.innerHTML=Object.keys(yearly).sort().reverse().map(yr=>{
       const d=yearly[yr];
-      return `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--b1);padding:5px 0">
-        <span style="color:var(--t3);font-size:0.8rem">${yr}</span>
-        <span><span style="color:var(--t2);font-size:0.8rem">${fmtBig(d.launched)}</span> <span style="color:var(--t3);font-size:0.5rem">launched · ${d.waves} waves</span></span>
+      const maxY=Math.max(...Object.values(yearly).map(x=>x.launched));
+      const pct=Math.round(d.launched/maxY*100);
+      return `<div class="freq-year-row">
+        <span class="freq-year">${yr}</span>
+        <div class="freq-year-bar-wrap"><div class="freq-year-bar" style="width:${pct}%"></div></div>
+        <span class="freq-year-val">${fmtBig(d.launched)}</span>
+        <span class="freq-year-waves">${d.waves} waves</span>
       </div>`;
     }).join('');
   }
