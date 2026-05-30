@@ -155,16 +155,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 /* ── KILL BOARD ── */
 .kb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:28px}
-.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:22px;position:relative;overflow:hidden}
-.kb-card::before{content:attr(data-icon);position:absolute;right:14px;top:10px;font-size:2.2rem;opacity:0.055;line-height:1}
-.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
-.kb-card-value{font-family:var(--head);font-weight:900;font-size:2.5rem;line-height:1;letter-spacing:-0.01em}
+.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:20px 20px 18px;position:relative;overflow:hidden;min-width:0}
+.kb-card::before{content:attr(data-icon);position:absolute;right:10px;top:6px;font-size:1.6rem;opacity:0.06;line-height:1;pointer-events:none}
+.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;padding-right:28px;line-height:1.45}
+.kb-card-value{font-family:var(--head);font-weight:900;font-size:1.9rem;line-height:1.05;letter-spacing:-0.005em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .kb-card-value.red  {color:#e74c3c}
 .kb-card-value.amber{color:#f0c040}
 .kb-card-value.green{color:var(--accent3)}
 .kb-card-value.blue {color:var(--blue)}
-.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:5px;line-height:1.4}
-.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)}
+.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:7px;line-height:1.5}
+.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2);line-height:1.4}
 .kb-section-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
 .kb-section-title::after{content:'';flex:1;height:1px;background:var(--border2)}
 .stat-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
@@ -186,19 +186,20 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
 .intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
-.intro-stats{display:flex;flex-wrap:nowrap;gap:0;border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.intro-stat{flex:0 0 calc(100%/7);min-width:140px;padding:14px 10px;border-right:1px solid var(--border);box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s}
-.intro-stat:hover{background:var(--glowb)}
+.intro-stats{display:flex;flex-wrap:nowrap;gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.intro-stats::-webkit-scrollbar{height:4px}
+.intro-stats::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.intro-stat{background:var(--bg2);flex:0 0 160px;min-width:160px;padding:14px 16px;box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s;scroll-snap-align:start;display:flex;flex-direction:column;gap:5px}
+.intro-stat:hover{background:var(--bg3)}
 .intro-stat:active{transform:scale(0.98)}
 .intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
 .intro-stat:hover .intro-stat-hint{opacity:1;color:var(--accent3)}
-.intro-stat:last-child{border-right:none}
-.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1}
+.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums;color:#fff;overflow-wrap:anywhere}
 .intro-stat-val.g{color:var(--accent3)}
 .intro-stat-val.r{color:#e74c3c}
 .intro-stat-val.a{color:#f0c040}
 .intro-stat-val.b{color:var(--blue)}
-.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;white-space:normal}
 
 /* ── INTRO PAGE CARDS ── */
 .intro-pages{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
@@ -234,7 +235,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
 
 /* ── OSINT SOURCES PAGE ── */
-.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.sources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:32px}
 .source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
 .source-card:hover{border-color:var(--accent)}
 .source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
@@ -254,10 +255,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
 
 /* ── AIR DEFENCE TAB ── */
-.ad-stat-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
-.ad-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff}
-.ad-stat-lbl{font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.ad-stat-strip{display:flex;flex-wrap:nowrap;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.ad-stat-strip::-webkit-scrollbar{height:4px}
+.ad-stat-strip::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.ad-stat-cell{background:var(--bg2);flex:0 0 160px;min-width:160px;box-sizing:border-box;padding:14px 16px;display:flex;flex-direction:column;gap:5px;scroll-snap-align:start}
+.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ad-stat-val.r{color:#e74c3c}
+.ad-stat-val.a{color:#f0c040}
+.ad-stat-val.g{color:var(--accent3)}
+.ad-stat-val.b{color:var(--blue)}
+.ad-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;white-space:normal}
 .ad-weapon-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
 .ad-weapon-col{background:var(--bg2)}
 .ad-weapon-header{display:flex;padding:7px 14px;border-bottom:1px solid var(--border);background:var(--bg3)}
@@ -273,9 +280,21 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ad-rate-good{background:rgba(107,191,120,0.15);color:var(--accent3);border:1px solid var(--accent)}
 .ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
 .ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
+/* ── FREQUENCY BAR-ROW LIST (monthly/annual breakdowns) ── */
+.freq-list{background:var(--bg2);border:1px solid var(--border);padding:6px 14px}
+.freq-row{display:grid;grid-template-columns:74px 1fr 96px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border2)}
+.freq-row:last-child{border-bottom:none}
+.freq-row-label{font-family:var(--mono);font-size:0.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap}
+.freq-row-bar{height:6px;background:var(--border2);border-radius:3px;overflow:hidden;min-width:0}
+.freq-row-bar-fill{display:block;height:100%;background:var(--accent3);border-radius:3px;transition:width 0.6s ease}
+.freq-row-vals{text-align:right;font-family:var(--mono);font-size:0.6rem;color:var(--text2);font-variant-numeric:tabular-nums;line-height:1.3;white-space:nowrap}
+.freq-row-vals .freq-row-val{font-weight:700;color:var(--text)}
+.freq-row-vals .freq-row-sub{display:block;font-size:0.5rem;color:var(--text3);margin-top:1px}
+.freq-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:780px){.freq-grid{grid-template-columns:1fr}}
 @media(max-width:600px){
-  .intro-stat{padding:10px 6px!important}
-  .ad-stat-strip{grid-template-columns:repeat(3,1fr)}
+  .intro-stat,.ad-stat-cell{flex:0 0 140px;min-width:140px;padding:11px 13px}
+  .intro-stat-val,.ad-stat-val{font-size:1.3rem}
   .ad-weapon-grid{grid-template-columns:1fr}
   /* Mobile table → card view */
   .table-wrap{overflow-x:visible!important}
@@ -300,10 +319,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     letter-spacing:0.08em;text-transform:uppercase;
     flex-shrink:0;padding-top:2px;min-width:80px;
   }
-  /* Keep intro stats strip scrollable on mobile */
-  .intro-stats{display:flex!important;overflow-x:auto;scrollbar-width:none}
-  .intro-stats::-webkit-scrollbar{display:none}
-  .intro-stat{flex:0 0 140px;min-width:140px}
+  /* Stat strips (intro + ad) already scroll horizontally; cell sizing handled above */
   /* Nav tabs */
   nav{overflow-x:auto;scrollbar-width:none}
   nav::-webkit-scrollbar{display:none}
@@ -324,12 +340,10 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .intro-methodology .meth-head,.intro-methodology .meth-cols{grid-template-columns:1fr}
   /* Hero */
   .intro-hero{grid-template-columns:1fr}
-  /* AD stat strip */
-  .ad-stat-strip{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:380px){
-  .intro-stat{flex:0 0 120px;min-width:120px}
-  .intro-stat-val{font-size:1.2rem}
+  .intro-stat,.ad-stat-cell{flex:0 0 130px;min-width:130px;padding:10px 11px}
+  .intro-stat-val,.ad-stat-val{font-size:1.2rem}
   .kb-grid{grid-template-columns:1fr}
 }
 
@@ -446,7 +460,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   tbody td{padding:7px 10px}
   /* Kill board cards */
   .kb-grid{grid-template-columns:1fr}
-  .kb-card-value{font-size:2rem}
+  .kb-card-value{font-size:1.7rem}
   .stat-rows{grid-template-columns:1fr}
   /* UAV killboard */
   #uav-killboard{grid-template-columns:1fr}
@@ -874,32 +888,12 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <!-- STAT STRIP -->
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px">
-    <div style="background:var(--bg2);padding:14px 16px">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#e74c3c">77</div>
-      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">SAM systems destroyed (2025)</div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:3px">Oryx photo-confirmed</div>
-    </div>
-    <div style="background:var(--bg2);padding:14px 16px">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#e74c3c">23</div>
-      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Radar stations destroyed (2025)</div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:3px">Oryx photo-confirmed</div>
-    </div>
-    <div style="background:var(--bg2);padding:14px 16px">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#f0c040">80+</div>
-      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Systems struck Winter 2025–26</div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:3px">USF Cmdr Brovdi, Mar 2026</div>
-    </div>
-    <div style="background:var(--bg2);padding:14px 16px">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#f0c040">~50%</div>
-      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Pantsir stockpile neutralised</div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:3px">SBU Alpha unit, Feb 2026</div>
-    </div>
-    <div style="background:var(--bg2);padding:14px 16px">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:var(--accent3)">365</div>
-      <div style="font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Mid-range strikes (Mar 25–Mar 26)</div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin-top:3px">~50% targeted air defence</div>
-    </div>
+  <div class="ad-stat-strip">
+    <div class="ad-stat-cell"><span class="ad-stat-val r">77</span><span class="ad-stat-lbl">SAM systems destroyed (2025)</span><span class="ad-stat-lbl" style="text-transform:none;letter-spacing:0">Oryx photo-confirmed</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val r">23</span><span class="ad-stat-lbl">Radar stations destroyed (2025)</span><span class="ad-stat-lbl" style="text-transform:none;letter-spacing:0">Oryx photo-confirmed</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val a">80+</span><span class="ad-stat-lbl">Systems struck Winter 2025–26</span><span class="ad-stat-lbl" style="text-transform:none;letter-spacing:0">USF Cmdr Brovdi, Mar 2026</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val a">~50%</span><span class="ad-stat-lbl">Pantsir stockpile neutralised</span><span class="ad-stat-lbl" style="text-transform:none;letter-spacing:0">SBU Alpha unit, Feb 2026</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val g">365</span><span class="ad-stat-lbl">Mid-range strikes (Mar 25–Mar 26)</span><span class="ad-stat-lbl" style="text-transform:none;letter-spacing:0">~50% targeted air defence</span></div>
   </div>
 
   <!-- DOCUMENTED STRIKES TABLE -->
@@ -916,16 +910,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <th>Source</th>
       </tr></thead>
       <tbody>
-        <tr><td class="cell-date">Aug 2025</td><td class="cell-target">GLONASS relay + RT-70 telescope</td><td class="cell-type">Strategic comms / SIGINT</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · 31st Air Defence Division HQ complex</td></tr>
-        <tr><td class="cell-date">Sep 10, 2025</td><td class="cell-target">40th Command &amp; Measurement Complex HQ</td><td class="cell-type">C2 / deep space comms</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · HQ building + main comms building struck</td></tr>
-        <tr><td class="cell-date">Sep–Feb 2025/26</td><td class="cell-target">55Zh6U Nebo-U radar (×4 strikes)</td><td class="cell-type">VHF early-warning radar</td><td class="cell-loc">NW Yevpatoriya, Crimea</td><td><span class="dmg-badge damaged">Repeatedly hit</span></td><td class="cell-notes">tochnyi.info · Same position struck at least 4 times</td></tr>
-        <tr><td class="cell-date">Jul 2025</td><td class="cell-target">S-350 Vityaz SAM system</td><td class="cell-type">Medium/long-range SAM</td><td class="cell-loc">Occupied Ukraine</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · 1 of 3 confirmed S-350 strikes (Jul–Feb)</td></tr>
-        <tr><td class="cell-date">Nov 2025</td><td class="cell-target">S-350 Vityaz SAM systems (×7)</td><td class="cell-type">Medium/long-range SAM</td><td class="cell-loc">Occupied Ukraine</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · Peak month — 7 strikes in single month</td></tr>
-        <tr><td class="cell-date">Mar 9, 2026</td><td class="cell-target">5N84A Oborona-14 radar</td><td class="cell-type">Long-range early warning</td><td class="cell-loc">Crimea</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes"><a class="src-link" href="https://united24media.com/latest-news/ukraine-blinds-russian-air-defense-in-crimea-destroying-four-rare-radar-systems-16643" target="_blank" rel="noopener">United24 Media ↗</a> · SSO drone strike</td></tr>
-        <tr><td class="cell-date">Mar 9, 2026</td><td class="cell-target">55Zh6U Nebo-U radar (×2 in radomes)</td><td class="cell-type">VHF early-warning radar</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes"><a class="src-link" href="https://united24media.com/latest-news/ukraine-blinds-russian-air-defense-in-crimea-destroying-four-rare-radar-systems-16643" target="_blank" rel="noopener">United24 Media ↗</a> · 4 radar systems in single operation</td></tr>
-        <tr><td class="cell-date">Mar 22, 2026</td><td class="cell-target">S-400 SAM system radar</td><td class="cell-type">Long-range SAM</td><td class="cell-loc">Occupied Donetsk Oblast</td><td><span class="dmg-badge destroyed">Destroyed</span></td><td class="cell-notes"><a class="src-link" href="https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-march-22-2026" target="_blank" rel="noopener">ISW Mar 22 ↗</a> · USF strike, Brovdi confirmed</td></tr>
-        <tr><td class="cell-date">Mar 1–22, 2026</td><td class="cell-target">Russian air defence equipment (×26)</td><td class="cell-type">Mixed SAM/radar</td><td class="cell-loc">Operational depth</td><td><span class="dmg-badge destroyed">26 systems</span></td><td class="cell-notes"><a class="src-link" href="https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-march-22-2026" target="_blank" rel="noopener">ISW Mar 22 ↗</a> · USF Commander Brovdi statement</td></tr>
-        <tr><td class="cell-date">Mar 2026</td><td class="cell-target">40th C&amp;M Complex HQ (re-strike)</td><td class="cell-type">C2 / deep space comms</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="dmg-badge damaged">Re-struck</span></td><td class="cell-notes">tochnyi.info · Second strike on same complex</td></tr>
+        <tr><td class="cell-date">Aug 2025</td><td class="cell-target">GLONASS relay + RT-70 telescope</td><td class="cell-type">Strategic comms / SIGINT</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · 31st Air Defence Division HQ complex</td></tr>
+        <tr><td class="cell-date">Sep 10, 2025</td><td class="cell-target">40th Command &amp; Measurement Complex HQ</td><td class="cell-type">C2 / deep space comms</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · HQ building + main comms building struck</td></tr>
+        <tr><td class="cell-date">Sep–Feb 2025/26</td><td class="cell-target">55Zh6U Nebo-U radar (×4 strikes)</td><td class="cell-type">VHF early-warning radar</td><td class="cell-loc">NW Yevpatoriya, Crimea</td><td><span class="badge b-damaged">Repeatedly hit</span></td><td class="cell-notes">tochnyi.info · Same position struck at least 4 times</td></tr>
+        <tr><td class="cell-date">Jul 2025</td><td class="cell-target">S-350 Vityaz SAM system</td><td class="cell-type">Medium/long-range SAM</td><td class="cell-loc">Occupied Ukraine</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · 1 of 3 confirmed S-350 strikes (Jul–Feb)</td></tr>
+        <tr><td class="cell-date">Nov 2025</td><td class="cell-target">S-350 Vityaz SAM systems (×7)</td><td class="cell-type">Medium/long-range SAM</td><td class="cell-loc">Occupied Ukraine</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes">tochnyi.info · Peak month — 7 strikes in single month</td></tr>
+        <tr><td class="cell-date">Mar 9, 2026</td><td class="cell-target">5N84A Oborona-14 radar</td><td class="cell-type">Long-range early warning</td><td class="cell-loc">Crimea</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes"><a class="src-link" href="https://united24media.com/latest-news/ukraine-blinds-russian-air-defense-in-crimea-destroying-four-rare-radar-systems-16643" target="_blank" rel="noopener">United24 Media ↗</a> · SSO drone strike</td></tr>
+        <tr><td class="cell-date">Mar 9, 2026</td><td class="cell-target">55Zh6U Nebo-U radar (×2 in radomes)</td><td class="cell-type">VHF early-warning radar</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes"><a class="src-link" href="https://united24media.com/latest-news/ukraine-blinds-russian-air-defense-in-crimea-destroying-four-rare-radar-systems-16643" target="_blank" rel="noopener">United24 Media ↗</a> · 4 radar systems in single operation</td></tr>
+        <tr><td class="cell-date">Mar 22, 2026</td><td class="cell-target">S-400 SAM system radar</td><td class="cell-type">Long-range SAM</td><td class="cell-loc">Occupied Donetsk Oblast</td><td><span class="badge b-destroyed">Destroyed</span></td><td class="cell-notes"><a class="src-link" href="https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-march-22-2026" target="_blank" rel="noopener">ISW Mar 22 ↗</a> · USF strike, Brovdi confirmed</td></tr>
+        <tr><td class="cell-date">Mar 1–22, 2026</td><td class="cell-target">Russian air defence equipment (×26)</td><td class="cell-type">Mixed SAM/radar</td><td class="cell-loc">Operational depth</td><td><span class="badge b-destroyed">26 systems</span></td><td class="cell-notes"><a class="src-link" href="https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-march-22-2026" target="_blank" rel="noopener">ISW Mar 22 ↗</a> · USF Commander Brovdi statement</td></tr>
+        <tr><td class="cell-date">Mar 2026</td><td class="cell-target">40th C&amp;M Complex HQ (re-strike)</td><td class="cell-type">C2 / deep space comms</td><td class="cell-loc">Yevpatoriya, Crimea</td><td><span class="badge b-damaged">Re-struck</span></td><td class="cell-notes">tochnyi.info · Second strike on same complex</td></tr>
       </tbody>
     </table>
   </div>
@@ -970,9 +964,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <!-- HEADLINE STAT STRIP -->
   <div class="ad-stat-strip" id="airdef-stats">
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Total launched</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val g" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val a" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val r" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
   </div>
@@ -1000,21 +994,21 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <div class="kb-section-title" style="margin-top:40px;padding-top:20px;border-top:1px solid var(--border2)">ATTACK FREQUENCY — MONTHLY &amp; ANNUAL</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 32px 8px">
+  <div class="freq-grid">
     <div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px">BY MONTH (all weapon types)</div>
-      <div id="airdef-monthly-freq" style="font-family:var(--mono);font-size:0.6rem;color:var(--text2)">
-        <div style="padding:20px;text-align:center;color:var(--text3)">Loading…</div>
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.12em;margin-bottom:8px;text-transform:uppercase">By month (all weapon types)</div>
+      <div id="airdef-monthly-freq" class="freq-list">
+        <div style="padding:20px;text-align:center;color:var(--text3);font-family:var(--mono);font-size:0.6rem">Loading…</div>
       </div>
     </div>
     <div>
-      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;margin-bottom:8px">BY YEAR (all weapon types)</div>
-      <div id="airdef-yearly-freq" style="font-family:var(--mono);font-size:0.6rem;color:var(--text2)">
-        <div style="padding:20px;text-align:center;color:var(--text3)">Loading…</div>
+      <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.12em;margin-bottom:8px;text-transform:uppercase">By year (all weapon types)</div>
+      <div id="airdef-yearly-freq" class="freq-list">
+        <div style="padding:20px;text-align:center;color:var(--text3);font-family:var(--mono);font-size:0.6rem">Loading…</div>
       </div>
     </div>
   </div>
-  <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin:0 32px 24px">Source: Ukrainian Air Force via Petro Ivaniuk · All attack types combined</div>
+  <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-top:8px">Source: Ukrainian Air Force via Petro Ivaniuk · All attack types combined</div>
 
 </div>
 
@@ -1092,7 +1086,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <p class="source-card-desc">Ukrainian-language defence publication with strong English coverage of weapons systems, unmanned platforms and battlefield technology. Particularly valuable for early reporting on new Ukrainian drone and UGV developments, often sourced directly from manufacturers and the Ministry of Defence.</p>
       <a href="https://militarnyi.com/en/" target="_blank" rel="noopener" class="source-card-link">militarnyi.com ↗</a>
     </div>
-  </div>
 
     <div class="source-card">
       <div class="source-card-header">
@@ -1141,12 +1134,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       </div>
       <p class="source-card-desc">Daily battlefield updates with map assessments. Widely cited by Western governments. Cross-reference with other sources.</p>
       <a href="https://www.understandingwar.org/backgrounder/ukraine-conflict-updates" target="_blank" rel="noopener" class="source-card-link">understandingwar.org ↗</a>
-    </div>  <!-- RECOMMENDED READING -->
+    </div>
+  </div>
+
+  <!-- RECOMMENDED READING -->
   <div class="kb-section-title">RECOMMENDED READING</div>
   <div class="disclaimer" style="margin-bottom:16px">
     <b>AFFILIATE NOTICE:</b> The links below are Amazon affiliate links. If you purchase through them we receive a small commission at no extra cost to you. All books are recommended on their own merits and are directly relevant to the subject matter of this tracker.
   </div>
-  <div class="sources-grid" style="grid-template-columns:repeat(3,1fr);margin-top:0">
+  <div class="sources-grid" style="margin-top:0">
 
     <div class="source-card">
       <div class="source-card-header">
@@ -2245,12 +2241,16 @@ function buildAirDefFrequency(){
   });
   const monthEl=document.getElementById('airdef-monthly-freq');
   if(monthEl){
-    monthEl.innerHTML=Object.keys(monthly).sort().reverse().map(ym=>{
+    const monthKeys=Object.keys(monthly).sort().reverse();
+    const monthMax=Math.max(1,...monthKeys.map(k=>monthly[k].launched));
+    monthEl.innerHTML=monthKeys.map(ym=>{
       const d=monthly[ym];
-      const label=new Date(ym+'-02').toLocaleDateString('en-GB',{month:'short',year:'numeric'});
-      return `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border2);padding:3px 0">
-        <span style="color:var(--text3)">${label}</span>
-        <span><span style="color:var(--text2)">${fmtBig(d.launched)}</span> <span style="color:var(--text3);font-size:0.5rem">launched · ${d.waves} waves</span></span>
+      const label=new Date(ym+'-02').toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+      const pct=Math.max(2,Math.round(d.launched/monthMax*100));
+      return `<div class="freq-row">
+        <span class="freq-row-label">${esc(label)}</span>
+        <span class="freq-row-bar"><span class="freq-row-bar-fill" style="width:${pct}%"></span></span>
+        <span class="freq-row-vals"><span class="freq-row-val">${fmtBig(d.launched)}</span><span class="freq-row-sub">${d.waves} waves</span></span>
       </div>`;
     }).join('');
   }
@@ -2264,11 +2264,15 @@ function buildAirDefFrequency(){
   });
   const yearEl=document.getElementById('airdef-yearly-freq');
   if(yearEl){
-    yearEl.innerHTML=Object.keys(yearly).sort().reverse().map(yr=>{
+    const yearKeys=Object.keys(yearly).sort().reverse();
+    const yearMax=Math.max(1,...yearKeys.map(k=>yearly[k].launched));
+    yearEl.innerHTML=yearKeys.map(yr=>{
       const d=yearly[yr];
-      return `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border2);padding:5px 0">
-        <span style="color:var(--text3);font-size:0.8rem">${yr}</span>
-        <span><span style="color:var(--text2);font-size:0.8rem">${fmtBig(d.launched)}</span> <span style="color:var(--text3);font-size:0.5rem">launched · ${d.waves} waves</span></span>
+      const pct=Math.max(2,Math.round(d.launched/yearMax*100));
+      return `<div class="freq-row">
+        <span class="freq-row-label">${esc(yr)}</span>
+        <span class="freq-row-bar"><span class="freq-row-bar-fill" style="width:${pct}%"></span></span>
+        <span class="freq-row-vals"><span class="freq-row-val">${fmtBig(d.launched)}</span><span class="freq-row-sub">${d.waves} waves</span></span>
       </div>`;
     }).join('');
   }
