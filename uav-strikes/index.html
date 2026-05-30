@@ -88,7 +88,7 @@ main{padding:28px 32px;max-width:1600px;margin:0 auto}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── SECTION HEADER ── */
-.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
+.section-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border2);flex-wrap:wrap}
 .section-title{font-family:var(--head);font-weight:900;font-size:1.55rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;line-height:1}
 .section-title span{color:var(--accent3);font-weight:300}
 .section-sub{font-family:var(--mono);font-size:0.62rem;color:var(--text3);letter-spacing:0.06em;margin-top:5px}
@@ -278,9 +278,13 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
 
 /* ── UAV KILLBOARD ── */
-.uav-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff}
-.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.uav-stat-cell{background:var(--bg2);flex:0 0 160px;min-width:160px;box-sizing:border-box;padding:14px 16px;display:flex;flex-direction:column;gap:5px;scroll-snap-align:start}
+.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.uav-stat-val.r{color:#e74c3c}
+.uav-stat-val.a{color:#f0c040}
+.uav-stat-val.g{color:var(--accent3)}
+.uav-stat-val.b{color:var(--blue)}
+.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;white-space:normal}
 .uav-cat-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px;transition:background 0.1s}
 .uav-cat-row:last-child{border-bottom:none}
 .uav-cat-row:hover{background:var(--glowb)}
@@ -315,7 +319,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   table{table-layout:auto;min-width:600px}
   /* UAV killboard: stack columns */
   #uav-killboard{grid-template-columns:1fr}
-  #uav-stat-strip{grid-template-columns:repeat(4,1fr)}
 }
 
 /* ── MOBILE ── */
@@ -357,9 +360,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .stat-rows{grid-template-columns:1fr}
   /* UAV killboard */
   #uav-killboard{grid-template-columns:1fr}
-  #uav-stat-strip{grid-template-columns:repeat(2,1fr);font-size:0.9rem}
-  .uav-stat-val{font-size:1.2rem}
-  .uav-stat-cell{padding:10px 12px}
+  .uav-stat-cell{flex:0 0 140px;min-width:140px;padding:11px 13px}
+  .uav-stat-val{font-size:1.3rem}
   /* Sources page */
   .sources-grid{grid-template-columns:1fr}
   .donate-block{padding:20px 16px}
@@ -376,7 +378,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .logo-text h1{font-size:0.68rem}
   .nav-tab{font-size:0.55rem;padding:0 8px}
   .intro-headline{font-size:1.35rem}
-  #uav-stat-strip{grid-template-columns:1fr 1fr}
+  .uav-stat-cell{flex:0 0 130px;min-width:130px;padding:10px 11px}
+  .uav-stat-val{font-size:1.2rem}
 }
 
 
@@ -422,11 +425,11 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 
   <div class="data-section">
     <div class="data-section-title">Live data — UAV kill board</div>
-    <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:14px">
+    <div id="uav-stat-strip" class="ad-stat-strip" style="margin-bottom:14px">
       <div class="uav-stat-cell"><span class="uav-stat-val" id="uav-s-damaged">260 117</span><span class="uav-stat-lbl">Damaged targets</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:var(--accent3)" id="uav-s-destroyed">90 428</span><span class="uav-stat-lbl">Incl. destroyed</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#f0c040" id="uav-s-sorties">648 850</span><span class="uav-stat-lbl">Strike flights</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#e74c3c" id="uav-s-personnel">78 656</span><span class="uav-stat-lbl">Personnel hit</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val g" id="uav-s-destroyed">90 428</span><span class="uav-stat-lbl">Incl. destroyed</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val a" id="uav-s-sorties">648 850</span><span class="uav-stat-lbl">Strike flights</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val r" id="uav-s-personnel">78 656</span><span class="uav-stat-lbl">Personnel hit</span></div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ Export CSV</button>
