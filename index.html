@@ -3107,7 +3107,7 @@ window.addEventListener('scroll',()=>{
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:20px">
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">CLAIMED INTERCEPTS</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350">48,615</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Russian MoD propaganda</div></div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">CONFIRMED STRIKES</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:var(--accent)">2,480</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">@dronbomber OSINT</div></div>
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">INFLATION FACTOR</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ce93d8">20:1</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Rising to 36:1 Apr 2026 · Reflects either Russian overclaiming, @dronbomber undercounting, or both — gap widening is the meaningful signal</div></div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">INFLATION FACTOR</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ce93d8">20:1</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Rising to 36:1 Apr 2026 · Measures the gap between Russian intercept claims and OSINT-confirmed hits — two differently-scoped datasets, not a direct ratio. Treat as a trend signal, not a precise multiplier. Gap widening is the meaningful signal regardless of cause</div></div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">STRIKE DAYS</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#fff">624</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">94% of all days</div></div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">AD ATTRITION EFFECT</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#81c784">+84%</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Severity post-campaign p=0.0000</div></div>
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px"><div style="font-family:var(--mono);font-size:0.45rem;color:var(--text3);margin-bottom:4px">MAX STRIKE RANGE</div><div style="font-family:var(--head);font-weight:900;font-size:1.2rem;color:#ef5350">1,355 km</div><div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Bashkortostan, mean 510 km</div></div>
@@ -3135,7 +3135,7 @@ window.addEventListener('scroll',()=>{
       <div style="position:relative;height:140px"><canvas id="ds-a1" role="img" aria-label="Severity doubles">Severity doubles.</canvas></div>
       <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin:10px 0 6px">CONFIRMATION RATE (%)</div>
       <div style="position:relative;height:100px"><canvas id="ds-a2" role="img" aria-label="Confirmation triples">Rate triples.</canvas></div>
-      <p style="font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:8px;line-height:1.6">Severity +84%, confirmation rate +162% after AD campaign. p=0.0000.</p>
+      <p style="font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:8px;line-height:1.6">Severity +84%, confirmation rate +162% after the AD attrition campaign. p=0.0000 (time-series comparison). Caution: multiple confounders — improved drone technology, operator experience, target selection shift, and changing Russian AD posture — all coincide with the campaign period. Causality cannot be cleanly attributed to radar/SAM destruction without further controls.</p>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:16px">
@@ -3241,7 +3241,7 @@ window.addEventListener('scroll',()=>{
         </div>
         <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD density: <span style="color:#6bbf78">Very low (Russia undefended here)</span></div>
         <div style="background:var(--border);height:3px;margin-bottom:10px"><div style="background:#6bbf78;width:5%;height:100%"></div></div>
-        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Russia has almost no AD at this depth. Tatarstan (KAMAZ, TANECO), Bashkortostan (oil), and Siberia (airbases) are effectively undefended against drone attack. @mod_russia almost never reports intercepts in these oblasts — they reach their targets or don't. Key limitation: extreme range requires very long battery/fuel endurance.</p>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Russia has historically had minimal AD at this depth — though deployments of Pantsir systems to deep rear areas have been reported since 2024 and the picture is changing. Tatarstan (KAMAZ, TANECO), Bashkortostan (oil), and Siberia (airbases) remain among the least defended targets in the dataset as of early 2026. @mod_russia almost never reports intercepts in these oblasts. Key limitation: extreme range requires very long battery/fuel endurance.</p>
       </div>
 
       <!-- Pre-positioned -->
@@ -3258,7 +3258,7 @@ window.addEventListener('scroll',()=>{
         </div>
         <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:4px">AD exposure in flight: <span style="color:#6bbf78">None</span></div>
         <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);margin-bottom:10px">Operational complexity: <span style="color:#ef5350">Extremely high</span></div>
-        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Eliminates the corridor problem entirely. Operation Spiderweb smuggled 117 FPV drones into Russia via cargo trucks, launching within 20km of target airbases. ArdUPilot dead-reckoning navigation resists GPS jamming. Agents evacuated before launch. Requires 18+ months of preparation, HUMINT networks, and significant counterintelligence risk. Not replicable at scale — but best exchange ratio of any method by far (6,452:1).</p>
+        <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Eliminates the corridor problem entirely. Operation Spiderweb smuggled 117 FPV drones into Russia via cargo trucks, launching within 20km of target airbases. ArdUPilot dead-reckoning navigation resists GPS jamming. Agents evacuated before launch. Requires 18+ months of preparation, HUMINT networks, and significant counterintelligence risk. Not replicable at scale and not directly comparable to corridor penetration rates — this is a covert HUMINT operation, not a drone corridor. The 6,452:1 exchange ratio reflects the unique zero-AD-exposure profile of this specific operation only.</p>
       </div>
 
     </div>
@@ -3285,7 +3285,7 @@ window.addEventListener('scroll',()=>{
         </div>
         <div style="padding-left:12px;border-left:2px solid var(--border)">
           <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:4px">Step 3 · Volume saturation</div>
-          <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Even on defended corridors, Ukraine launches enough drones to overwhelm point defences. 94% of all days see strikes. Pantsir and Tor have limited magazine depth — reloading takes time.</p>
+          <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.65">Even on defended corridors, Ukraine launches enough drones to overwhelm point defences. 94% of all days see strikes. Pantsir and Tor have limited magazine depth — reloading takes time. Note: Russia has adapted with mobile reload vehicles and the Pantsir-SM (extended magazine); EW-based interception also reduces dependence on kinetics. Magazine depletion was a stronger constraint in 2022–23 than today.</p>
         </div>
         <div style="padding-left:12px;border-left:2px solid var(--border)">
           <div style="font-family:var(--mono);font-size:0.52rem;color:var(--accent3);margin-bottom:4px">Step 4 · Terrain / route variation</div>
@@ -3295,7 +3295,7 @@ window.addEventListener('scroll',()=>{
     </div>
 
     <div style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);line-height:1.7;padding-top:12px;border-top:1px solid var(--border2)">
-      Penetration rate = @dronbomber confirmed/reported hits ÷ @mod_russia intercept reports grouped by oblast cluster. Metric is imperfect: @mod_russia systematically under-reports intercepts in deep/eastern oblasts. Northern Baltic corridor penetration rate reflects land-route baseline — sea approach data insufficient for robust calculation. Working research — not peer-reviewed.
+      Penetration rate = @dronbomber confirmed/reported hits ÷ @mod_russia intercept reports grouped by oblast cluster. Metric is imperfect: @mod_russia systematically under-reports intercepts in deep/eastern oblasts. Northern Baltic corridor penetration rate reflects land-route baseline — sea approach data insufficient for robust calculation. Damage severity scores (0–3 scale) are coded from @dronbomber imagery and reporting descriptions; inter-rater reliability not formally tested — potential for unconscious scoring bias exists and should be noted when interpreting severity trends. Working research — not peer-reviewed.
     </div>
   </div>
 
