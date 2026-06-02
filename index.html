@@ -780,7 +780,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <span class="new-stat-l">UGV Missions Q1 2026</span>
     </div>
     <div class="new-stat d3" onclick="showTabById('uav')">
-      <span class="new-stat-n a" id="is-uav">822,781</span>
+      <span class="new-stat-n a" id="is-uav">863,911</span>
       <span class="new-stat-l">UAV Strike Flights</span>
     </div>
     <div class="new-stat d4" onclick="showTabById('airdef')">
@@ -2329,8 +2329,8 @@ const EMBEDDED_KB=[
   {section:"card",label:"Statistical KIA estimate",value:"~352,000",color:"red",sub:"Total deaths estimated via National Probate Registry excess mortality model to end of 2025. Does not include foreign nationals fighting for Russia.",source:"Meduza / Mediazona probate registry analysis · May 2026"},
   {section:"card",label:"UK Intelligence estimate",value:"~500,000",color:"red",sub:"Highest on-the-record government estimate of total Russian military deaths since the war began. Includes killed and died of wounds.",source:"British Intelligence (GCHQ/DI) · May 2026"},
   {section:"card",label:"Total casualties (KIA + WIA)",value:"1,118,000+",color:"red",sub:"Killed and wounded combined. Includes contract soldiers, mobilised personnel, and Wagner/volunteer fighters.",source:"UK Ministry of Defence Oct 2025 · SACEUR Gen. Cavoli Apr 2025"},
-  {section:"card",label:"Tanks Destroyed / Captured",value:"3,000+",color:"amber",sub:"Total tank losses (DIA estimate). Oryx photo-confirmed 3,098+ from Jan 2024 alone.",source:"US DIA May 2025 · CSIS Jun 2025"},
-  {section:"card",label:"Armoured Vehicles Lost",value:"10,000+",color:"amber",sub:"All ground combat vehicles (APCs, IFVs, SPGs). Oryx photo-confirmed total: 13,742 as of Dec 2025.",source:"US DIA May 2025 · Oryx Dec 2025"},
+  {section:"card",label:"Tanks Destroyed / Captured",value:"3,000+",color:"amber",sub:"Total tank losses (DIA estimate). Oryx photo-confirmed 23,556+ total losses (all categories) as of June 2026.",source:"US DIA May 2025 · CSIS Jun 2025"},
+  {section:"card",label:"Armoured Vehicles Lost",value:"10,000+",color:"amber",sub:"All ground combat vehicles (APCs, IFVs, SPGs). Oryx photo-confirmed total: 23,556 as of June 2026 (18,551 destroyed, 979 damaged, 1,199 abandoned, 2,827 captured).",source:"US DIA May 2025 · Oryx June 2026"},
   {section:"card",label:"Aircraft Lost",value:"353",color:"green",sub:"Fixed-wing and rotary aircraft (Oryx photo-confirmed, ceased Jun 2025). DIA estimate: ~250 aircraft + helicopters.",source:"Oryx Jun 2025 · US DIA May 2025"},
   {section:"card",label:"Naval Vessels Lost",value:"10+",color:"blue",sub:"Black Sea Fleet ships sunk or destroyed. BSF forced to relocate from Sevastopol to Novorossiysk.",source:"US DIA May 2025 · Oryx"},
   {section:"stat",label:"Tanks (T-72, T-80, T-90 series)",value:"3,098+",color:"r"},
@@ -2351,13 +2351,13 @@ const EMBEDDED_KB=[
 
 const EMBEDDED_UAV=[
   // ── Annual totals (Jun 2025 – Mar 2026) ──
-  {date:"yearly_2025",target:"total damaged targets",outcome:"330915"},
-  {date:"yearly_2025",target:"total destroyed targets",outcome:"119925"},
-  {date:"yearly_2025",target:"strike flights",outcome:"822781"},
-  {date:"yearly_2025",target:"recon flights",outcome:"741222"},
-  {date:"yearly_2025",target:"enemy personnel hit",outcome:"95933"},
-  {date:"yearly_2025",target:"enemy personnel killed",outcome:"51490"},
-  {date:"yearly_2025",target:"enemy personnel wounded",outcome:"44443"},
+  {date:"yearly_2025",target:"total damaged targets",outcome:"346572"},
+  {date:"yearly_2025",target:"total destroyed targets",outcome:"126650"},
+  {date:"yearly_2025",target:"strike flights",outcome:"863911"},
+  {date:"yearly_2025",target:"recon flights",outcome:"787163"},
+  {date:"yearly_2025",target:"enemy personnel hit",outcome:"99416"},
+  {date:"yearly_2025",target:"enemy personnel killed",outcome:"53149"},
+  {date:"yearly_2025",target:"enemy personnel wounded",outcome:"46267"},
   // ── Monthly headline stats ──
   {date:"monthly_2025-06",target:"strike flights",outcome:"49874"},{date:"monthly_2025-06",target:"recon flights",outcome:"59619"},{date:"monthly_2025-06",target:"damaged targets",outcome:"19653"},{date:"monthly_2025-06",target:"destroyed targets",outcome:"5024"},{date:"monthly_2025-06",target:"enemy personnel hit",outcome:"4521"},{date:"monthly_2025-06",target:"enemy personnel killed",outcome:"2548"},
   {date:"monthly_2025-07",target:"strike flights",outcome:"55853"},{date:"monthly_2025-07",target:"recon flights",outcome:"64799"},{date:"monthly_2025-07",target:"damaged targets",outcome:"23433"},{date:"monthly_2025-07",target:"destroyed targets",outcome:"5887"},{date:"monthly_2025-07",target:"enemy personnel hit",outcome:"5134"},{date:"monthly_2025-07",target:"enemy personnel killed",outcome:"3018"},
@@ -2400,34 +2400,34 @@ const EMBEDDED_UAV=[
   {date:"yearly_2025",target:"Other",outcome:"2971 damaged, 776 destroyed"},
   {date:"monthly_2026-04",target:"strike flights",outcome:"95172"},
   {date:"monthly_2026-04",target:"recon flights",outcome:"76224"},
-  {date:"monthly_2026-04",target:"Enemy personnel",outcome:"95933 damaged, 51490 destroyed"},
-  {date:"monthly_2026-04",target:"Drone launch positions",outcome:"10331 damaged, 331 destroyed"},
-  {date:"monthly_2026-04",target:"Antennas",outcome:"16096 damaged, 9993 destroyed"},
-  {date:"monthly_2026-04",target:"SAMs, SPADs",outcome:"155 damaged, 29 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy personnel",outcome:"99416 damaged, 53149 destroyed"},
+  {date:"monthly_2026-04",target:"Drone launch positions",outcome:"10707 damaged, 345 destroyed"},
+  {date:"monthly_2026-04",target:"Antennas",outcome:"17102 damaged, 10464 destroyed"},
+  {date:"monthly_2026-04",target:"SAMs, SPADs",outcome:"159 damaged, 30 destroyed"},
   {date:"monthly_2026-04",target:"Helicopters",outcome:"2 damaged, 0 destroyed"},
   {date:"monthly_2026-04",target:"Radars (system)",outcome:"12 damaged, 1 destroyed"},
-  {date:"monthly_2026-04",target:"Radars (portable)",outcome:"353 damaged, 160 destroyed"},
+  {date:"monthly_2026-04",target:"Radars (portable)",outcome:"363 damaged, 164 destroyed"},
   {date:"monthly_2026-04",target:"EW (system)",outcome:"1 damaged, 0 destroyed"},
-  {date:"monthly_2026-04",target:"EW (car + portable)",outcome:"3082 damaged, 1284 destroyed"},
-  {date:"monthly_2026-04",target:"Enemy wings",outcome:"26548 damaged, 25702 destroyed"},
-  {date:"monthly_2026-04",target:"Shaheds and Gerberas",outcome:"6897 damaged, 6667 destroyed"},
-  {date:"monthly_2026-04",target:"Tanks",outcome:"812 damaged, 134 destroyed"},
-  {date:"monthly_2026-04",target:"APCs, IFVs, ACVs",outcome:"1349 damaged, 314 destroyed"},
-  {date:"monthly_2026-04",target:"Guns, howitzers",outcome:"4724 damaged, 275 destroyed"},
-  {date:"monthly_2026-04",target:"Self-propelled artillery",outcome:"339 damaged, 44 destroyed"},
-  {date:"monthly_2026-04",target:"Mortars",outcome:"415 damaged, 96 destroyed"},
-  {date:"monthly_2026-04",target:"MRLS",outcome:"259 damaged, 62 destroyed"},
-  {date:"monthly_2026-04",target:"Light, Heavy, Special-purpose vehicles",outcome:"15517 damaged, 3388 destroyed"},
-  {date:"monthly_2026-04",target:"Motorcycles and military buggies",outcome:"9062 damaged, 2803 destroyed"},
-  {date:"monthly_2026-04",target:"Ammo, fuel and equipment depots",outcome:"3127 damaged, 1762 destroyed"},
+  {date:"monthly_2026-04",target:"EW (car + portable)",outcome:"3284 damaged, 1367 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy wings",outcome:"29283 damaged, 28367 destroyed"},
+  {date:"monthly_2026-04",target:"Shaheds and Gerberas",outcome:"7548 damaged, 7287 destroyed"},
+  {date:"monthly_2026-04",target:"Tanks",outcome:"814 damaged, 136 destroyed"},
+  {date:"monthly_2026-04",target:"APCs, IFVs, ACVs",outcome:"1376 damaged, 323 destroyed"},
+  {date:"monthly_2026-04",target:"Guns, howitzers",outcome:"4853 damaged, 289 destroyed"},
+  {date:"monthly_2026-04",target:"Self-propelled artillery",outcome:"340 damaged, 45 destroyed"},
+  {date:"monthly_2026-04",target:"Mortars",outcome:"418 damaged, 98 destroyed"},
+  {date:"monthly_2026-04",target:"MRLS",outcome:"276 damaged, 68 destroyed"},
+  {date:"monthly_2026-04",target:"Light, Heavy, Special-purpose vehicles",outcome:"16593 damaged, 3630 destroyed"},
+  {date:"monthly_2026-04",target:"Motorcycles and military buggies",outcome:"9557 damaged, 2954 destroyed"},
+  {date:"monthly_2026-04",target:"Ammo, fuel and equipment depots",outcome:"3325 damaged, 1880 destroyed"},
   {date:"monthly_2026-04",target:"Tactical infrastructure",outcome:"76 damaged, 5 destroyed"},
-  {date:"monthly_2026-04",target:"Shelters and dugouts",outcome:"119401 damaged, 4546 destroyed"},
-  {date:"monthly_2026-04",target:"Network equipment",outcome:"2675 damaged, 1258 destroyed"},
-  {date:"monthly_2026-04",target:"Cameras",outcome:"106 damaged, 65 destroyed"},
-  {date:"monthly_2026-04",target:"Enemy copter drones",outcome:"8578 damaged, 8020 destroyed"},
-  {date:"monthly_2026-04",target:"Enemy unmanned robotic complexes",outcome:"535 damaged, 187 destroyed"},
-  {date:"monthly_2026-04",target:"Other",outcome:"3955 damaged, 1272 destroyed"},
-  {date:"monthly_2026-05",target:"strike flights",outcome:"50838"},
+  {date:"monthly_2026-04",target:"Shelters and dugouts",outcome:"123722 damaged, 4714 destroyed"},
+  {date:"monthly_2026-04",target:"Network equipment",outcome:"2796 damaged, 1292 destroyed"},
+  {date:"monthly_2026-04",target:"Cameras",outcome:"113 damaged, 68 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy copter drones",outcome:"8995 damaged, 8402 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy unmanned robotic complexes",outcome:"577 damaged, 202 destroyed"},
+  {date:"monthly_2026-04",target:"Other",outcome:"4239 damaged, 1320 destroyed"},
+  {date:"monthly_2026-05",target:"strike flights",outcome:"41130"},
   {date:"monthly_2026-05",target:"Enemy personnel",outcome:"4306 damaged, 2111 destroyed"},
 ];
 
@@ -2961,9 +2961,9 @@ function buildTerritorialChart(){
   }
   if(el._chart)el._chart.destroy();
 
-  const labels=['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04'];
-  const changes=[56, 155, 51, 105, 311, 84, 211, 403, 422, 491, 750, 451, 332, 202, 185, 226, 538, 423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94];
-  const totals=[110306, 110461, 110512, 110617, 110928, 111012, 111223, 111626, 112048, 112539, 113289, 113740, 114072, 114274, 114459, 114685, 115223, 115646, 116148, 116578, 116976, 117444, 117972, 118319, 118744, 118707, 118732, 118826];
+  const labels=['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05'];
+  const changes=[56, 155, 51, 105, 311, 84, 211, 403, 422, 491, 750, 451, 332, 202, 185, 226, 538, 423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47];
+  const totals=[110306, 110461, 110512, 110617, 110928, 111012, 111223, 111626, 112048, 112539, 113289, 113740, 114072, 114274, 114459, 114685, 115223, 115646, 116148, 116578, 116976, 117444, 117972, 118319, 118744, 118707, 118732, 118826, 118779];
   const barColors=['rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(107,191,120,0.85)', 'rgba(231,76,60,0.75)'];
 
   const fmtLabel=ym=>{
@@ -3041,9 +3041,9 @@ function buildIntroTrendsChart(){
   if(!el||typeof Chart==='undefined')return;
   if(el._chart)el._chart.destroy();
   const M="'DM Mono',monospace";
-  const labels=['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26'];
-  const terr=[423,502,430,398,468,528,347,425,-37,25,94];
-  const pers=[4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581];
+  const labels=['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26'];
+  const terr=[423,502,430,398,468,528,347,425,-37,25,94,-47];
+  const pers=[4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,3483];
   el._chart=new Chart(el,{
     data:{labels,datasets:[
       {type:'bar',data:terr,backgroundColor:terr.map(v=>v<0?'rgba(107,191,120,0.75)':'rgba(224,82,82,0.65)'),yAxisID:'y',borderRadius:2,order:2},
