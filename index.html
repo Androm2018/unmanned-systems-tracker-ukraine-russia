@@ -805,7 +805,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <span class="sdiv-num">01</span>
     <span class="sdiv-label">Key Trends</span>
     <div class="sdiv-line"></div>
-    <span style="font-family:var(--M2);font-size:0.4rem;color:var(--text3)">Jun 2025–Apr 2026</span>
+    <span style="font-family:var(--M2);font-size:0.4rem;color:var(--text3)">Jun 2025–May 2026</span>
   </div>
 
   <div class="new-chart-panel reveal">
@@ -1017,7 +1017,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:0.52rem;color:var(--text2)">
       <input type="radio" name="uav-period" value="daily" onchange="buildUAVChart()" style="accent-color:var(--accent3)"> Daily averages
     </label>
-    <span id="uav-chart-period-label" style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-left:auto">Monthly total · Jun 2025–Apr 2026</span>
+    <span id="uav-chart-period-label" style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-left:auto">Monthly total · Jun 2025–May 2026</span>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:28px">
     <div style="background:var(--bg2);padding:16px 18px">
@@ -2973,7 +2973,7 @@ function buildTerritorialChart(){
   const labels=['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05'];
   const changes=[56, 155, 51, 105, 311, 84, 211, 403, 422, 491, 750, 451, 332, 202, 185, 226, 538, 423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47];
   const totals=[110306, 110461, 110512, 110617, 110928, 111012, 111223, 111626, 112048, 112539, 113289, 113740, 114072, 114274, 114459, 114685, 115223, 115646, 116148, 116578, 116976, 117444, 117972, 118319, 118744, 118707, 118732, 118826, 118779];
-  const barColors=['rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(231,76,60,0.75)', 'rgba(107,191,120,0.85)', 'rgba(231,76,60,0.75)'];
+  const barColors=changes.map(v=>v<0?'rgba(107,191,120,0.85)':'rgba(231,76,60,0.75)');
 
   const fmtLabel=ym=>{
     const[y,m]=ym.split('-');
@@ -3052,7 +3052,7 @@ function buildIntroTrendsChart(){
   const M="'DM Mono',monospace";
   const labels=['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26'];
   const terr=[423,502,430,398,468,528,347,425,-37,25,94,-47];
-  const pers=[4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,3483];
+  const pers=[4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,9617];
   el._chart=new Chart(el,{
     data:{labels,datasets:[
       {type:'bar',data:terr,backgroundColor:terr.map(v=>v<0?'rgba(107,191,120,0.75)':'rgba(224,82,82,0.65)'),yAxisID:'y',borderRadius:2,order:2},
