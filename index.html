@@ -2046,7 +2046,7 @@ function buildUAVChart(){
 
   const periodEl=document.querySelector('#tab-uav input[name="uav-period"]:checked');
   const isDailyView=periodEl&&periodEl.value==='daily';
-  const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30};
+  const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30,'2026-05':31};
   const lbl=document.getElementById('uav-chart-period-label');
   if(lbl)lbl.textContent=isDailyView?'Daily average per month':'Monthly total · Jun 2025–Apr 2026';
 
@@ -2400,6 +2400,9 @@ const EMBEDDED_UAV=[
   {date:"yearly_2025",target:"Other",outcome:"2971 damaged, 776 destroyed"},
   {date:"monthly_2026-04",target:"strike flights",outcome:"95172"},
   {date:"monthly_2026-04",target:"recon flights",outcome:"76224"},
+  {date:"monthly_2026-04",target:"damaged targets",outcome:"40151"},
+  {date:"monthly_2026-04",target:"enemy personnel hit",outcome:"10581"},
+  {date:"monthly_2026-04",target:"enemy personnel killed",outcome:"4876"},
   {date:"monthly_2026-04",target:"Enemy personnel",outcome:"99416 damaged, 53149 destroyed"},
   {date:"monthly_2026-04",target:"Drone launch positions",outcome:"10707 damaged, 345 destroyed"},
   {date:"monthly_2026-04",target:"Antennas",outcome:"17102 damaged, 10464 destroyed"},
@@ -2427,7 +2430,13 @@ const EMBEDDED_UAV=[
   {date:"monthly_2026-04",target:"Enemy copter drones",outcome:"8995 damaged, 8402 destroyed"},
   {date:"monthly_2026-04",target:"Enemy unmanned robotic complexes",outcome:"577 damaged, 202 destroyed"},
   {date:"monthly_2026-04",target:"Other",outcome:"4239 damaged, 1320 destroyed"},
-  {date:"monthly_2026-05",target:"strike flights",outcome:"41130"},
+  {date:"monthly_2026-05",target:"strike flights",outcome:"113332"},
+  {date:"monthly_2026-05",target:"Enemy personnel",outcome:"9617 damaged, 4619 destroyed"},
+  {date:"monthly_2026-05",target:"damaged targets",outcome:"44138"},
+  {date:"monthly_2026-05",target:"destroyed targets",outcome:"18287"},
+  {date:"monthly_2026-05",target:"enemy personnel hit",outcome:"9617"},
+  {date:"monthly_2026-05",target:"enemy personnel killed",outcome:"4619"},
+  {date:"monthly_2026-05",target:"enemy personnel wounded",outcome:"4998"},
   {date:"monthly_2026-05",target:"Enemy personnel",outcome:"4306 damaged, 2111 destroyed"},
 ];
 
@@ -3300,6 +3309,171 @@ window.addEventListener('scroll',()=>{
   </div>
 
   <div class="disclaimer">WARNING: @mod_russia figures are state propaganda. @dronbomber provides OSINT floor estimates. Working findings - not peer-reviewed.</div>
+
+  <!-- ══ LOGISTICS LOCKDOWN ══════════════════════════════════════════ -->
+  <div style="border-top:2px solid var(--accent3);margin:32px 0 0;padding-top:32px">
+
+    <div style="display:flex;align-items:center;gap:16px;padding:0 32px;margin-bottom:8px">
+      <div style="font-family:var(--head);font-weight:700;font-size:1.4rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff">Logistics Lockdown</div>
+      <div style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);border:1px solid var(--accent3);padding:2px 8px;letter-spacing:0.1em">NEW · MAY 2026</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.44rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;padding:0 32px;margin-bottom:6px">Ukraine's mid-strike campaign against Russian rear logistics · Announced 27 May 2026</div>
+    <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.7;padding:0 32px;margin-bottom:24px;max-width:900px">
+      On 27 May 2026, Ukrainian Defence Minister Mykhailo Fedorov formalised a $113 million programme — "Logistics Lockdown" — to scale medium-range drone strikes (20–200km depth) against Russian rear-area supply chains. The programme directs funding to the most effective brigades and runs centralised tenders for mid-range strike systems. Fedorov tied the push to a measurable drop in Russian assault tempo at the contact line. This section tracks the campaign's operational data and analytical findings. Not peer-reviewed — working findings only.
+    </div>
+
+    <!-- KEY METRICS -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin:0 32px 24px">
+      <div style="background:var(--bg2);padding:16px 14px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.6rem;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">$113M</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Programme budget</div>
+      </div>
+      <div style="background:var(--bg2);padding:16px 14px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.6rem;color:var(--accent3);line-height:1;letter-spacing:-0.02em;margin-bottom:4px">483</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Daily record · 29 May 2026</div>
+      </div>
+      <div style="background:var(--bg2);padding:16px 14px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.6rem;color:var(--accent3);line-height:1;letter-spacing:-0.02em;margin-bottom:4px">7,704</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Vehicles destroyed · May 2026</div>
+      </div>
+      <div style="background:var(--bg2);padding:16px 14px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.6rem;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">100,713</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Cumulative since 2022</div>
+      </div>
+      <div style="background:var(--bg2);padding:16px 14px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.6rem;color:#d4a017;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">150km</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Max confirmed strike depth</div>
+      </div>
+    </div>
+
+    <!-- TARGET BREAKDOWN -->
+    <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;padding:0 32px;margin-bottom:12px;display:flex;align-items:center;gap:16px">
+      TARGET CATEGORIES (Tochnyi dataset · Jul 2025–Apr 2026)
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:0 32px 24px">
+      <div style="background:var(--bg2);padding:20px 22px">
+        <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px">Inside Russia — strike type breakdown</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);flex:1">Electricity infrastructure</div>
+          <div style="width:100px;height:4px;background:var(--border2)"><div style="width:100%;height:100%;background:#e74c3c"></div></div>
+          <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text);min-width:30px;text-align:right">162</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);flex:1">Fuel stations / transport</div>
+          <div style="width:100px;height:4px;background:var(--border2)"><div style="width:55%;height:100%;background:#d4a017"></div></div>
+          <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text);min-width:30px;text-align:right">89</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);flex:1">Telecommunications</div>
+          <div style="width:100px;height:4px;background:var(--border2)"><div style="width:33%;height:100%;background:#4a9fd4"></div></div>
+          <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text);min-width:30px;text-align:right">53</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);flex:1">Railways</div>
+          <div style="width:100px;height:4px;background:var(--border2)"><div style="width:17%;height:100%;background:#6bbf78"></div></div>
+          <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text);min-width:30px;text-align:right">28</div>
+        </div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.4rem;color:var(--text3);margin-top:12px">57% of all strikes inside Russia targeted infrastructure and logistics</div>
+      </div>
+      <div style="background:var(--bg2);padding:20px 22px">
+        <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px">Occupied territory — key routes targeted</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
+            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Rostov–Crimea highway</div>
+            <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">15 geolocated strikes confirmed · Russia forced to divert traffic</div>
+          </div>
+          <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
+            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Mariupol–Donetsk route</div>
+            <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">30+ geolocated strikes · Mangush–Berdiansk highway closed</div>
+          </div>
+          <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
+            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Taganrog–Melitopol highway</div>
+            <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Primary Russian land corridor to Crimea under sustained attack</div>
+          </div>
+          <div style="padding:8px 0">
+            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Volnovakha–Mariupol railway</div>
+            <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">ATESH partisan disruption · bypass route for Kerch Bridge-wary logistics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICAL FINDINGS -->
+    <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;padding:0 32px;margin-bottom:12px;display:flex;align-items:center;gap:16px">
+      Analytical Findings
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin:0 32px 24px">
+      <div style="background:var(--bg2);padding:18px 18px;border-left:3px solid var(--accent3)">
+        <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Finding 1</div>
+        <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:8px;text-transform:uppercase">Record-pace vehicle attrition</div>
+        <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65">483 vehicles destroyed in a single day (29 May 2026) — the highest daily figure since the full-scale invasion began. May's total of 7,704 vehicles represents a 4× acceleration versus the monthly average through 2025. Fedorov directly attributed the drop in Russian assault tempo to this attrition rate.</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:10px">Source: Ukrainian General Staff · Euromaidan Press</div>
+      </div>
+      <div style="background:var(--bg2);padding:18px 18px;border-left:3px solid var(--border)">
+        <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Finding 2</div>
+        <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:8px;text-transform:uppercase">Infrastructure targeting dominates</div>
+        <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65">57% of all strikes inside Russia targeted infrastructure and logistics (electricity, telecoms, railways, fuel). Electricity strikes alone reached 31/month in Jan–Feb 2026 — a sustained winter-pressure strategy aimed at the Russian energy grid supplying occupied territories and border regions. Consistent with the systemic degradation hypothesis over point-strike approaches.</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:10px">Source: Tochnyi dataset · NV.ua</div>
+      </div>
+      <div style="background:var(--bg2);padding:18px 18px;border-left:3px solid var(--border)">
+        <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Finding 3 — Caution</div>
+        <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:8px;text-transform:uppercase">Assault tempo correlation</div>
+        <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65">Fedorov claims a direct link between the vehicle attrition rate and a drop in Russian infantry assaults at the contact line. This is plausible but not yet independently verified — the correlation may reflect seasonal patterns, ceasefire dynamics around the May 9 period, or Russian operational pausing rather than logistics degradation alone. Treat as a working hypothesis pending further data.</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:10px">Working hypothesis — not independently verified</div>
+      </div>
+    </div>
+
+    <!-- CONNECTIONS TO OTHER ANALYSES -->
+    <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;padding:0 32px;margin-bottom:12px;display:flex;align-items:center;gap:16px">
+      Connections to Other Tracker Analyses
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:0 32px 24px">
+      <div style="background:var(--bg2);padding:14px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);flex-shrink:0;margin-top:2px">→</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:0.4rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px">Analysis 5 · Geographic Dispersion</div>
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.6">The dispersion of strikes to 8+ oblasts per attack observed in early 2026 may partly reflect the Logistics Lockdown's deliberate targeting of the southern land corridor — a geographic shift that Analysis 5 recorded as a trend without identifying a causal mechanism.</div>
+        </div>
+      </div>
+      <div style="background:var(--bg2);padding:14px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);flex-shrink:0;margin-top:2px">→</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:0.4rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px">Analysis 6 · Targeting Doctrine</div>
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.6">Logistics Lockdown targets vehicles and supply infrastructure — not personnel. This represents a deliberate shift toward materiel attrition at operational depth, consistent with the doctrinal asymmetry identified in Analysis 6 but at a different range band from FPV strikes.</div>
+        </div>
+      </div>
+      <div style="background:var(--bg2);padding:14px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);flex-shrink:0;margin-top:2px">→</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:0.4rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px">Deep Strike · Southern Corridor</div>
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.6">The Rostov–Crimea and Mariupol–Donetsk routes targeted by Logistics Lockdown overlap directly with the Southern corridor in the corridor analysis. The campaign effectively operationalises the corridor data — targeting the routes with the highest confirmed hit density.</div>
+        </div>
+      </div>
+      <div style="background:var(--bg2);padding:14px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);flex-shrink:0;margin-top:2px">→</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:0.4rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px">Territorial Data · May 2026</div>
+          <div style="font-family:var(--body);font-size:0.72rem;color:var(--text2);line-height:1.6">May 2026 saw Russia's first net territorial loss since February. Fedorov attributes this to logistics degradation reducing Russian assault capacity. Plausible but unproven — the May territorial figure may also reflect seasonal factors and the lull around the Victory Day ceasefire period.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:0.44rem;color:var(--text3);line-height:1.7;margin:0 32px 8px;padding:12px 0;border-top:1px solid var(--border2)">
+      Sources: Fedorov / Ukrainian MoD · Tochnyi OSINT dataset · Euromaidan Press · CEPA · Militarnyi · NV.ua · Ukrainian General Staff<br>
+      Working research — not peer-reviewed. Data collection ongoing. Last updated: June 2026.
+    </div>
+
+  </div>
+  <!-- ══ END LOGISTICS LOCKDOWN ══════════════════════════════════════ -->
+
 </div>
 </div>
 <script>
