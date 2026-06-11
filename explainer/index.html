@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding Unmanned Systems in the Ukraine War | Unmanned Systems Tracker</title>
+<meta name="description" content="A plain-language guide to UAVs, FPV drones, USVs and UGVs as deployed in the Russia-Ukraine war. What they are, how they work, and why they matter.">
+<link rel="canonical" href="https://unmannedsystemstracker.com/explainer/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080d0a;--bg2:#0d1410;--bg3:#111a13;
+  --border:#253d2a;--border2:#1e3022;
+  --accent3:#6bbf78;--text:#c8d8c0;--text2:#9abf92;--text3:#637a60;
+  --amber:#d4a017;--red:#e74c3c;--blue:#5dade2;
+  --M:'Share Tech Mono',monospace;
+  --H:'Syne','Barlow Condensed',sans-serif;
+  --B:'DM Sans','Barlow',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--B);-webkit-font-smoothing:antialiased;font-weight:300}
+a{color:var(--accent3);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── HEADER ─────────────────────────────── */
+.hdr{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 40px;display:flex;align-items:center;
+  justify-content:space-between;min-height:52px;
+  position:sticky;top:0;z-index:100;
+}
+.hdr-brand{display:flex;align-items:center;gap:10px}
+.hdr-dot{
+  width:24px;height:24px;border:1.5px solid var(--accent3);
+  border-radius:50%;display:grid;place-items:center;flex-shrink:0;
+}
+.hdr-dot::after{content:'';width:6px;height:6px;background:var(--accent3);border-radius:50%}
+.hdr-name{font-family:var(--H);font-weight:800;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:#fff;line-height:1.1}
+.hdr-name small{display:block;color:var(--accent3);font-weight:400;font-size:0.46rem;letter-spacing:0.12em}
+.hdr-nav-link{font-family:var(--M);font-size:0.46rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.hdr-nav-link:hover{color:var(--accent3);text-decoration:none}
+
+/* ── HERO ────────────────────────────────── */
+.hero{
+  padding:64px 40px 52px;
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--border2) 1px,transparent 1px),linear-gradient(90deg,var(--border2) 1px,transparent 1px);
+  background-size:60px 60px;opacity:0.3;pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(107,191,120,0.07) 0%,transparent 70%);
+  top:-100px;right:-100px;pointer-events:none;
+}
+.hero-kicker{font-family:var(--M);font-size:0.46rem;color:var(--accent3);letter-spacing:0.24em;text-transform:uppercase;margin-bottom:18px;position:relative;z-index:1}
+.hero-h1{
+  font-family:var(--H);font-weight:800;
+  font-size:clamp(2.4rem,5vw,4.5rem);
+  line-height:0.92;letter-spacing:-0.02em;text-transform:uppercase;
+  color:#fff;margin-bottom:24px;position:relative;z-index:1;max-width:16ch;
+}
+.hero-h1 em{color:var(--accent3);font-style:normal}
+.hero-desc{font-size:0.95rem;color:var(--text2);line-height:1.75;max-width:60ch;margin-bottom:32px;position:relative;z-index:1}
+.hero-author{font-family:var(--M);font-size:0.44rem;color:var(--text3);letter-spacing:0.08em;position:relative;z-index:1}
+.hero-author a{color:var(--accent3)}
+
+/* ── STICKY NAV ──────────────────────────── */
+.section-nav{
+  position:sticky;top:52px;z-index:90;
+  background:var(--bg3);border-bottom:1px solid var(--border2);
+  padding:0 40px;display:flex;align-items:stretch;gap:0;
+  overflow-x:auto;scrollbar-width:none;
+}
+.section-nav::-webkit-scrollbar{display:none}
+.snav-item{
+  font-family:var(--M);font-size:0.46rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--text3);padding:14px 20px;white-space:nowrap;
+  border-bottom:2px solid transparent;transition:color 0.15s,border-color 0.15s;
+  display:flex;align-items:center;gap:8px;
+}
+.snav-item:hover{color:var(--text2);text-decoration:none}
+.snav-item.active{color:var(--accent3);border-bottom-color:var(--accent3)}
+.snav-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* ── SECTIONS ────────────────────────────── */
+.section{border-bottom:1px solid var(--border)}
+.section-inner{max-width:1200px;margin:0 auto;padding:56px 40px}
+
+.section-eyebrow{
+  font-family:var(--M);font-size:0.44rem;color:var(--accent3);
+  letter-spacing:0.24em;text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-eyebrow::before{content:'';width:24px;height:1px;background:var(--accent3)}
+.section-h2{
+  font-family:var(--H);font-weight:800;
+  font-size:clamp(2rem,4vw,3.2rem);line-height:0.92;
+  letter-spacing:-0.02em;text-transform:uppercase;color:#fff;
+  margin-bottom:8px;
+}
+.section-h2 em{color:var(--accent3);font-style:normal}
+.section-subtitle{font-family:var(--M);font-size:0.5rem;color:var(--text3);letter-spacing:0.08em;margin-bottom:36px}
+
+/* ── INTRO PARAGRAPH ─────────────────────── */
+.lead{font-size:1rem;line-height:1.75;color:var(--text2);margin-bottom:28px;max-width:72ch}
+.body-text{font-size:0.85rem;line-height:1.75;color:var(--text2);margin-bottom:20px;max-width:72ch}
+
+/* ── SPEC GRID ───────────────────────────── */
+.spec-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);margin:32px 0;
+}
+.spec-cell{background:var(--bg2);padding:18px 18px}
+.spec-label{font-family:var(--M);font-size:0.38rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.spec-val{font-family:var(--H);font-weight:700;font-size:1.2rem;color:#fff;line-height:1;margin-bottom:4px}
+.spec-val.g{color:var(--accent3)}
+.spec-val.a{color:var(--amber)}
+.spec-val.r{color:var(--red)}
+.spec-val.b{color:var(--blue)}
+.spec-note{font-family:var(--M);font-size:0.38rem;color:var(--text3)}
+
+/* ── CONTENT GRID (2 col) ────────────────── */
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:32px 0;align-items:start}
+.content-grid.three{grid-template-columns:1fr 1fr 1fr}
+
+/* ── INFO CARDS ──────────────────────────── */
+.info-card{background:var(--bg2);border:1px solid var(--border);padding:22px 22px}
+.info-card-head{font-family:var(--H);font-weight:700;font-size:0.9rem;text-transform:uppercase;color:#fff;letter-spacing:0.04em;margin-bottom:8px}
+.info-card-text{font-size:0.78rem;line-height:1.65;color:var(--text2)}
+.info-card-tag{display:inline-block;font-family:var(--M);font-size:0.36rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--border);color:var(--text3);margin-bottom:10px}
+.info-card-tag.g{border-color:rgba(107,191,120,0.4);color:var(--accent3);background:rgba(107,191,120,0.07)}
+.info-card-tag.r{border-color:rgba(231,76,60,0.4);color:var(--red);background:rgba(231,76,60,0.07)}
+.info-card-tag.a{border-color:rgba(212,160,23,0.4);color:var(--amber);background:rgba(212,160,23,0.07)}
+.info-card-tag.b{border-color:rgba(93,173,226,0.4);color:var(--blue);background:rgba(93,173,226,0.07)}
+
+/* ── CALLOUT BOX ─────────────────────────── */
+.callout{
+  border-left:3px solid var(--accent3);padding:16px 20px;
+  background:rgba(107,191,120,0.04);margin:24px 0;
+}
+.callout-label{font-family:var(--M);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px}
+.callout-text{font-size:0.82rem;line-height:1.65;color:var(--text2)}
+.callout.amber{border-left-color:var(--amber);background:rgba(212,160,23,0.04)}
+.callout.amber .callout-label{color:var(--amber)}
+.callout.red{border-left-color:var(--red);background:rgba(231,76,60,0.04)}
+.callout.red .callout-label{color:var(--red)}
+
+/* ── TIMELINE ────────────────────────────── */
+.timeline{margin:28px 0}
+.tl-item{display:flex;gap:20px;padding-bottom:20px;position:relative}
+.tl-item::before{content:'';position:absolute;left:7px;top:18px;bottom:0;width:1px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:16px;height:16px;border:1.5px solid var(--accent3);border-radius:50%;flex-shrink:0;background:var(--bg);position:relative;z-index:1;margin-top:2px}
+.tl-content{}
+.tl-date{font-family:var(--M);font-size:0.4rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.tl-text{font-size:0.78rem;line-height:1.6;color:var(--text2)}
+
+/* ── COMPARISON TABLE ────────────────────── */
+.comp-table{width:100%;border-collapse:collapse;margin:24px 0}
+.comp-table th{font-family:var(--M);font-size:0.38rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);padding:8px 14px;text-align:left;background:var(--bg2);border-bottom:1px solid var(--border)}
+.comp-table td{font-size:0.75rem;color:var(--text2);padding:8px 14px;border-bottom:1px solid var(--border2);line-height:1.5}
+.comp-table tr:hover td{background:var(--bg2)}
+
+/* ── SECTION DIVIDER ─────────────────────── */
+.sdiv{display:flex;align-items:center;gap:16px;margin:40px 0 32px}
+.sdiv-label{font-family:var(--M);font-size:0.42rem;color:var(--text3);letter-spacing:0.18em;text-transform:uppercase;white-space:nowrap}
+.sdiv-line{flex:1;height:1px;background:var(--border)}
+
+/* ── TRACKER LINK ────────────────────────── */
+.tracker-cta{
+  background:var(--bg2);border:1px solid var(--border);
+  border-left:3px solid var(--accent3);
+  padding:20px 24px;display:flex;align-items:center;justify-content:space-between;
+  gap:20px;margin:32px 0;flex-wrap:wrap;
+}
+.tracker-cta-text{font-family:var(--M);font-size:0.48rem;color:var(--text2);letter-spacing:0.06em}
+.tracker-cta-text strong{color:#fff}
+.tracker-cta-btn{
+  font-family:var(--M);font-size:0.46rem;letter-spacing:0.12em;text-transform:uppercase;
+  background:var(--accent3);color:#050a04;padding:9px 18px;flex-shrink:0;
+  transition:opacity 0.15s;font-weight:600;
+}
+.tracker-cta-btn:hover{opacity:0.85;text-decoration:none}
+
+/* ── FOOTER ──────────────────────────────── */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot-copy{font-family:var(--M);font-size:0.4rem;color:var(--text3);letter-spacing:0.06em;line-height:1.7}
+.foot-links{display:flex;gap:16px;font-family:var(--M);font-size:0.42rem}
+.foot-links a{color:var(--text3)}
+.foot-links a:hover{color:var(--accent3);text-decoration:none}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media(max-width:900px){
+  .hero,.section-inner{padding-left:24px;padding-right:24px}
+  .section-nav{padding:0 20px}
+  .spec-grid{grid-template-columns:1fr 1fr}
+  .content-grid,.content-grid.three{grid-template-columns:1fr}
+  footer{padding:16px 24px}
+  .hdr{padding:0 20px}
+}
+@media(max-width:600px){
+  .hero-h1{font-size:2rem}
+  .spec-grid{grid-template-columns:1fr 1fr}
+  .tracker-cta{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <a href="/" class="hdr-brand" style="text-decoration:none">
+    <div class="hdr-dot"></div>
+    <div class="hdr-name">
+      Unmanned Systems Tracker
+      <small>Ukraine War · OSINT</small>
+    </div>
+  </a>
+  <a href="/" class="hdr-nav-link">← Back to tracker</a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">Explainer · Ukraine War Unmanned Systems</div>
+  <h1 class="hero-h1">
+    Drones,<br>
+    <em>Robots</em><br>
+    &amp; Sea<br>
+    Weapons
+  </h1>
+  <p class="hero-desc">A plain-language guide to the unmanned systems reshaping the Russia-Ukraine war — what they are, how they work, and why they matter. No military background required.</p>
+  <div class="hero-author">
+    Written by <a href="https://andromathewson.com">Andro Mathewson</a>, PhD Candidate in War Studies, King's College London ·
+    <a href="/">Ukraine War Unmanned Systems Tracker</a>
+  </div>
+</div>
+
+<!-- STICKY SECTION NAV -->
+<nav class="section-nav" id="section-nav">
+  <a href="#uav" class="snav-item active">
+    <div class="snav-dot" style="background:var(--amber)"></div>
+    UAVs / Loitering Munitions
+  </a>
+  <a href="#fpv" class="snav-item">
+    <div class="snav-dot" style="background:var(--accent3)"></div>
+    FPV Drones
+  </a>
+  <a href="#usv" class="snav-item">
+    <div class="snav-dot" style="background:var(--blue)"></div>
+    USVs
+  </a>
+  <a href="#ugv" class="snav-item">
+    <div class="snav-dot" style="background:var(--red)"></div>
+    UGVs
+  </a>
+</nav>
+
+<!-- ══ SECTION 1: UAV ═══════════════════════════════════════════════ -->
+<section class="section" id="uav">
+  <div class="section-inner">
+
+    <div class="section-eyebrow">01 — UAV</div>
+    <h2 class="section-h2">Unmanned <em>Aerial</em> Vehicles</h2>
+    <div class="section-subtitle">Also called: One-Way Attack UAVs (OWA-UAVs) · Kamikaze drones · Loitering munitions · Shaheds</div>
+
+    <p class="lead">A UAV — Unmanned Aerial Vehicle — is any aircraft that flies without a pilot on board. In the Ukraine war, when people say "drone strike," they usually mean a specific type: a <strong>one-way attack UAV</strong> that flies to a target and detonates. Think of it as a very cheap, slow cruise missile.</p>
+
+    <p class="body-text">Russia's primary long-range strike weapon against Ukraine is the Shahed-136, an Iranian-designed drone now manufactured in Russia as the "Geran-2." It looks like a large model aircraft with a distinctive delta wing, weighs around 200kg, carries a warhead of roughly 40–50kg, and flies at around 180km/h — slow enough that Ukraine's air defence can shoot it down with everything from Patriot missiles to Soviet-era ZU-23 guns. But it costs roughly $50,000. A Patriot interceptor costs $4 million. Russia can afford to send hundreds at once.</p>
+
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <div class="spec-label">Primary Russian type</div>
+        <div class="spec-val">Shahed-136</div>
+        <div class="spec-note">Geran-2 in Russian designation</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Cost per drone</div>
+        <div class="spec-val a">~$50k</div>
+        <div class="spec-note">vs $4M Patriot interceptor</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Intercept rate (2022–2026)</div>
+        <div class="spec-val g">75%</div>
+        <div class="spec-note">From tracker data (100k+ attacks)</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Attacks on Ukraine (Oct 22–now)</div>
+        <div class="spec-val">100k+</div>
+        <div class="spec-note">Tracked in air defence tab</div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">How Russia uses them</span><div class="sdiv-line"></div></div>
+
+    <div class="content-grid">
+      <div>
+        <p class="body-text">Russia rarely sends Shaheds alone. A typical attack combines <strong>waves of drones</strong> with a smaller number of cruise or ballistic missiles. The drones arrive first — slow, audible, predictable — forcing Ukraine to activate its air defence radars and expend interceptors. The missiles follow, targeting the now-active and partly depleted defences.</p>
+        <p class="body-text">The strategy is economic exhaustion. Ukraine can shoot down 75% of drones but cannot afford to keep doing so indefinitely at the current exchange rate. Russia's domestic Geran-2 production has scaled to an estimated 300–400 drones per month, possibly more. The drone has become Russia's primary means of attacking Ukrainian cities, energy infrastructure, and military logistics.</p>
+      </div>
+      <div>
+        <div class="callout">
+          <div class="callout-label">By the numbers (tracker data)</div>
+          <div class="callout-text">Russia has launched over <strong>100,000</strong> aerial weapons against Ukraine since October 2022. Drones account for approximately <strong>93%</strong> of all launches. The Shahed-136/131 family alone accounts for roughly <strong>87%</strong> of everything — making it the single most consequential weapon system of the war by volume.</div>
+        </div>
+        <div class="callout amber" style="margin-top:16px">
+          <div class="callout-label">Why 75% interception isn't enough</div>
+          <div class="callout-text">A 75% intercept rate sounds impressive. But 25% of 100,000 attacks = 25,000 impacts. At an average of 100 attacks per night, Ukraine's air defence teams operate every single night. The cumulative strain on interceptor stocks, radar systems, and personnel is enormous — which is exactly what Russia is counting on.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">Types of UAVs in this war</span><div class="sdiv-line"></div></div>
+
+    <div class="content-grid three">
+      <div class="info-card">
+        <div class="info-card-tag r">Russian — Strike</div>
+        <div class="info-card-head">Shahed-136 / Geran-2</div>
+        <div class="info-card-text">The workhorse. Delta-wing design, 180km/h, ~2,500km range, ~50kg warhead. Produced in Russia as Geran-2 since 2023. Identified by its distinctive "lawn mower" engine noise. Ukraine's most intercepted weapon by volume.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-tag r">Russian — Loitering</div>
+        <div class="info-card-head">Lancet-3</div>
+        <div class="info-card-text">A precision loitering munition — it orbits a target area for up to 40 minutes searching for vehicles, artillery, or radar systems, then dives to detonate. Highly effective against Ukrainian armoured vehicles and HIMARS. About $35,000 per unit.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-tag r">Russian — ISR</div>
+        <div class="info-card-head">Orlan-10</div>
+        <div class="info-card-text">Russia's primary intelligence, surveillance, and reconnaissance (ISR) drone. Used to spot Ukrainian positions, correct artillery fire, and relay targeting data to strike systems. Not a weapon itself — its value is what it enables others to do.</div>
+      </div>
+    </div>
+
+    <div class="tracker-cta">
+      <div class="tracker-cta-text"><strong>Air Defence tab:</strong> All 100,000+ attacks tracked by date, weapon type, launched and intercepted counts — with an interactive chart of monthly attack frequency</div>
+      <a href="/#airdef" class="tracker-cta-btn">View Air Defence Data →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 2: FPV ═══════════════════════════════════════════════ -->
+<section class="section" id="fpv">
+  <div class="section-inner">
+
+    <div class="section-eyebrow">02 — FPV</div>
+    <h2 class="section-h2"><em>First-Person</em> View Drones</h2>
+    <div class="section-subtitle">Also called: FPV kamikaze drones · Racing drones · Strike FPVs</div>
+
+    <p class="lead">FPV drones are racing drones modified to carry explosives. The operator wears video goggles and flies the drone from a first-person view — as if sitting in the cockpit — typically at speeds of 100–150km/h over distances of 3–10km. When they find a target, they fly directly into it. They cost between $300 and $800 each.</p>
+
+    <p class="body-text">FPVs are fundamentally different from Shaheds. A Shahed is a long-range strategic weapon that flies autonomously to a pre-programmed target. An FPV is a short-range tactical weapon flown in real time by a human operator. You cannot compare their capabilities directly — they operate in completely different domains of the battlefield. But they share one property that has made them transformative: they are cheap enough to be genuinely expendable.</p>
+
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <div class="spec-label">Cost per unit</div>
+        <div class="spec-val g">$300–800</div>
+        <div class="spec-note">vs $20k+ anti-tank missile</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Typical range</div>
+        <div class="spec-val">3–10km</div>
+        <div class="spec-note">Fibre-optic variants: up to 20km</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">USF strike flights (since Jun 2025)</div>
+        <div class="spec-val a">863k+</div>
+        <div class="spec-note">Tracker data: Pidrakhuyka source</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Personnel hit (same period)</div>
+        <div class="spec-val r">99k+</div>
+        <div class="spec-note">Damaged + destroyed combined</div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">Why FPVs changed everything</span><div class="sdiv-line"></div></div>
+
+    <div class="content-grid">
+      <div>
+        <p class="body-text">Before FPVs, anti-tank warfare required either a large missile system (expensive, visible, targeted) or infantry approaching close enough to use rocket-propelled grenades (lethal). An FPV operator can sit in a fortified position several kilometres from the front and fly a drone into a tank, an ammunition truck, or — most commonly — individual soldiers. For the first time in history, infantry has become a high-priority drone target rather than a protected one.</p>
+        <p class="body-text">Ukraine's Unmanned Systems Forces (USF) logged 863,911 strike flights and 99,416 enemy personnel hit between June 2025 and June 2026 alone. The scale is without precedent in the history of drone warfare. For context: the entire US drone campaign in Afghanistan over 20 years conducted fewer than 14,000 strikes.</p>
+      </div>
+      <div>
+        <div class="callout">
+          <div class="callout-label">The economics of FPV warfare</div>
+          <div class="callout-text">Russia spends approximately $2 million equipping one soldier for front-line service when you account for training, equipment, and logistics over a career. A Ukrainian FPV operator can neutralise that soldier with a $400 drone. The exchange ratio — sometimes cited as 1:20 or worse — is what makes FPVs strategically significant beyond their tactical impact.</div>
+        </div>
+        <div class="callout amber" style="margin-top:16px">
+          <div class="callout-label">Drone-on-drone combat</div>
+          <div class="callout-text">By 2025, a significant proportion of USF FPV sorties were targeting Russian drones rather than personnel or vehicles. Both sides now field <strong>anti-drone FPVs</strong> — smaller, faster drones designed specifically to intercept the other side's FPVs. This drone-on-drone dynamic has no historical parallel and represents an entirely new domain of aerial combat at the platoon level.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">Key developments</span><div class="sdiv-line"></div></div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">2022–2023 · Early adoption</div>
+          <div class="tl-text">Both sides adapt commercial racing drones for warfare. Initial use is mainly for reconnaissance and dropping small grenades. Kill rates are low; operators use direct video feed over 2.4GHz radio, easily jammed.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">2023–2024 · Scaling and specialisation</div>
+          <div class="tl-text">Dedicated FPV units form on both sides. Ukraine creates volunteer-funded production networks; Russia industrialises. Electronic warfare intensifies — GPS jamming forces development of analogue and fibre-optic control systems. FPVs become the primary cause of armoured vehicle losses on both sides.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">2025 · USF creation and institutionalisation</div>
+          <div class="tl-text">Ukraine formalises its drone forces as a separate military branch — the Unmanned Systems Forces (USF) — the first dedicated drone warfare branch in any armed forces in the world. Monthly FPV strike flights exceed 100,000. The "Logistics Lockdown" programme begins targeting Russian supply routes at 20–150km depth.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">2026 · Record pace</div>
+          <div class="tl-text">USF records 483 vehicle destructions in a single day (29 May 2026) — an all-time record. Monthly vehicle losses exceed 7,700. Russia's territorial advance compresses to near-zero and briefly goes negative — partly attributed to logistics degradation from sustained FPV campaigns.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tracker-cta">
+      <div class="tracker-cta-text"><strong>UAV Kill Board:</strong> USF strike flights, personnel hit, vehicles destroyed — with efficiency and lethality charts by month</div>
+      <a href="/#uav" class="tracker-cta-btn">View UAV Kill Board →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 3: USV ═══════════════════════════════════════════════ -->
+<section class="section" id="usv">
+  <div class="section-inner">
+
+    <div class="section-eyebrow">03 — USV</div>
+    <h2 class="section-h2">Unmanned <em>Surface</em> Vessels</h2>
+    <div class="section-subtitle">Also called: Naval drones · Sea drones · Maritime USVs · Seababy · Magura</div>
+
+    <p class="lead">A USV — Unmanned Surface Vessel — is a boat that operates on the water's surface without a crew on board, controlled remotely or autonomously. Ukraine has used them to conduct the most successful naval drone campaign in history, eliminating approximately one-third of Russia's Black Sea Fleet without a single Ukrainian naval vessel.</p>
+
+    <p class="body-text">Ukraine had no USV programme before the full-scale invasion. The first successful USV strikes in October 2022 used improvised craft — modified civilian speedboats packed with explosives, guided by satellite and a camera mounted on the bow. Within two years, Ukraine had developed sophisticated purpose-built platforms capable of carrying multiple warheads, operating in coordinated swarms, and evading both electronic countermeasures and naval gunfire.</p>
+
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <div class="spec-label">USV strike events tracked</div>
+        <div class="spec-val g">230+</div>
+        <div class="spec-note">Since Oct 2022 — tracker database</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Russian vessels sunk/damaged</div>
+        <div class="spec-val r">~⅓ of Black Sea Fleet</div>
+        <div class="spec-note">Including flagship Moskva (missile, not USV)</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Key platform</div>
+        <div class="spec-val">Magura V5</div>
+        <div class="spec-note">Also: Sea Baby, Marichka</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Payload</div>
+        <div class="spec-val a">320kg</div>
+        <div class="spec-note">Warhead capacity (Magura V5)</div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">Why USVs matter strategically</span><div class="sdiv-line"></div></div>
+
+    <div class="content-grid">
+      <div>
+        <p class="body-text">Russia's Black Sea Fleet was one of the most significant conventional military advantages it held over Ukraine at the start of the war. It blockaded Ukrainian ports, threatened amphibious landings, launched cruise missile strikes from stand-off range, and projected power into the western Black Sea. Ukraine had no surface navy capable of challenging it.</p>
+        <p class="body-text">USVs changed that calculation entirely. By 2024, Russia had withdrawn its Black Sea Fleet from Sevastopol (its main Crimean base) to Novorossiysk on the Russian coast — a tactical retreat forced by the drone threat. Ukrainian grain exports resumed after Russia's blockade collapsed. The bridge linking Crimea to Russia was struck twice. The strategic value delivered by a programme that cost a fraction of a single warship is extraordinary.</p>
+      </div>
+      <div>
+        <div class="info-card">
+          <div class="info-card-tag b">Key platform</div>
+          <div class="info-card-head">Magura V5</div>
+          <div class="info-card-text">Ukraine's primary purpose-built naval USV. 5.5m long, 320kg warhead capacity, operational range of approximately 450km. Guided by satellite navigation and a forward-facing camera, with real-time operator control. First used in combat in 2023. Has been modified to carry air defence missiles, making it one of the world's first sea-based drone air defence systems.</div>
+        </div>
+        <div class="info-card" style="margin-top:16px">
+          <div class="info-card-tag b">Also notable</div>
+          <div class="info-card-head">Sea Baby</div>
+          <div class="info-card-text">A larger USV developed by Ukraine's Security Service (SBU) rather than the military. Used in the two Kerch Bridge strikes. Carries up to 850kg of explosives — significantly more than the Magura. Both platforms demonstrate Ukraine's rapid indigenous development capability.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">Notable strikes</span><div class="sdiv-line"></div></div>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Target</th>
+          <th>Outcome</th>
+          <th>Significance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Oct 2022</td>
+          <td>Sevastopol harbour (mixed attack)</td>
+          <td>Damaged — Admiral Makarov frigate</td>
+          <td>First USV combat use at scale; proved concept</td>
+        </tr>
+        <tr>
+          <td>Jul 2023</td>
+          <td>Kerch Bridge (truck bomb + USV)</td>
+          <td>Seriously damaged — partial collapse</td>
+          <td>Primary Russian Crimea supply route disrupted</td>
+        </tr>
+        <tr>
+          <td>Aug 2023</td>
+          <td>Olenegorsky Gornyak landing ship</td>
+          <td>Sunk</td>
+          <td>First naval vessel sunk by USV in combat history</td>
+        </tr>
+        <tr>
+          <td>Feb 2024</td>
+          <td>Caesar Kunikov landing ship</td>
+          <td>Sunk</td>
+          <td>Largest vessel sunk by drone to date</td>
+        </tr>
+        <tr>
+          <td>Mar 2024</td>
+          <td>Sergei Kotov patrol vessel</td>
+          <td>Sunk</td>
+          <td>Magura V5 swarm attack — three USVs</td>
+        </tr>
+        <tr>
+          <td>2024 onward</td>
+          <td>Black Sea Fleet withdrawal from Sevastopol</td>
+          <td>Russia relocates to Novorossiysk</td>
+          <td>Strategic withdrawal forced by USV threat</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tracker-cta">
+      <div class="tracker-cta-text"><strong>USV Strikes database:</strong> 230+ verified events with date, target, vessel type, damage assessment and source citations</div>
+      <a href="/#usv" class="tracker-cta-btn">View USV Strike Data →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 4: UGV ═══════════════════════════════════════════════ -->
+<section class="section" id="ugv">
+  <div class="section-inner">
+
+    <div class="section-eyebrow">04 — UGV</div>
+    <h2 class="section-h2">Unmanned <em>Ground</em> Vehicles</h2>
+    <div class="section-subtitle">Also called: Ground robots · Combat robots · Robotic combat vehicles · UGVs</div>
+
+    <p class="lead">UGVs — Unmanned Ground Vehicles — are ground-based robots operated remotely or autonomously. They represent the newest and least mature category of unmanned system in the Ukraine war, but their growth rate is extraordinary: from near-zero in 2022 to over 24,500 logged combat missions in Q1 2026 alone.</p>
+
+    <p class="body-text">Unlike aerial drones, ground robots face unique challenges: terrain, obstacles, mud, mechanical failure under fire. The battlefield physics that makes drones relatively straightforward — three-dimensional movement, no friction, no terrain — makes ground robotics genuinely hard. Yet both sides are deploying them at scale, driven by the same logic as FPVs: keeping infantry away from the most lethal kill zones.</p>
+
+    <div class="spec-grid">
+      <div class="spec-cell">
+        <div class="spec-label">UGV missions (Q1 2026)</div>
+        <div class="spec-val g">24,500+</div>
+        <div class="spec-note">DELTA system logged — Ukrainian</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Growth rate</div>
+        <div class="spec-val a">3×</div>
+        <div class="spec-note">Since late 2025</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Primary role</div>
+        <div class="spec-val">Logistics + casualty</div>
+        <div class="spec-note">Evacuation under fire</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-label">Data source</div>
+        <div class="spec-val b">DELTA</div>
+        <div class="spec-note">Ukrainian battlefield management system</div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">What UGVs actually do</span><div class="sdiv-line"></div></div>
+
+    <div class="content-grid three">
+      <div class="info-card">
+        <div class="info-card-tag g">Most common role</div>
+        <div class="info-card-head">Logistics under fire</div>
+        <div class="info-card-text">Carrying ammunition, water, and supplies to forward positions that drones have made too dangerous for human runners. A small wheeled or tracked robot can move 50–100kg of supplies to a trench line under enemy observation without risking a soldier's life. This is currently the dominant UGV mission type.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-tag a">High value role</div>
+        <div class="info-card-head">Casualty evacuation</div>
+        <div class="info-card-text">Retrieving wounded soldiers from positions under drone surveillance. A medic running to a casualty under FPV coverage faces near-certain death — a robot can reach the same position and drag a wounded soldier to safety. Ukraine has developed several platforms specifically for "casevac" (casualty evacuation) under fire.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-tag r">Emerging role</div>
+        <div class="info-card-head">Direct combat</div>
+        <div class="info-card-text">Armed ground robots attacking enemy positions. Still relatively rare compared to logistics and evacuation roles — the challenges of navigation, obstacle avoidance, and target identification in complex urban or trench environments remain significant. But both sides are investing heavily in this capability for 2026–2027.</div>
+      </div>
+    </div>
+
+    <div class="sdiv"><span class="sdiv-label">Key platforms</span><div class="sdiv-line"></div></div>
+
+    <div class="content-grid">
+      <div>
+        <div class="info-card">
+          <div class="info-card-tag g">Ukrainian</div>
+          <div class="info-card-head">THEMIS / Ironclad / Ratel</div>
+          <div class="info-card-text">Ukraine operates a range of domestically-developed tracked and wheeled ground robots. The Ironclad is a logistics platform; the Ratel series includes both logistics and armed variants. Several Ukrainian startups (Roboneers, Fortis, others) have gone from prototype to battlefield in under 12 months — a development timeline that would be unthinkable for traditional defence procurement.</div>
+        </div>
+      </div>
+      <div>
+        <div class="info-card">
+          <div class="info-card-tag r">Russian</div>
+          <div class="info-card-head">Marker / Uran-9</div>
+          <div class="info-card-text">Russia's most advanced UGV is the Uran-9 — a tracked armed robot that carries a 30mm cannon and anti-tank missiles. It was deployed in Syria and briefly in Ukraine but has suffered significant reliability problems. Russia's more commonly used platforms are smaller logistics robots similar to Ukraine's. The Marker system, developed by Android Techniques, is Russia's most serious attempt at a capable armed ground robot.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Why UGVs are different from aerial drones</div>
+      <div class="callout-text">Aerial drones benefit from a simple physical environment — open air, no obstacles, gravity-assisted descent. Ground robots operate in a complex, contested, terrain-dependent environment. A drone that loses signal crashes. A ground robot that loses signal stops moving in the middle of a minefield. The engineering challenges are an order of magnitude harder, which is why UGV deployment has lagged aerial drones despite similar levels of investment. The 3× growth rate in Q1 2026 suggests those challenges are being solved.</div>
+    </div>
+
+    <div class="tracker-cta">
+      <div class="tracker-cta-text"><strong>UGV Operations database:</strong> Combat missions, platform types, operational outcomes — DELTA-logged data for both sides</div>
+      <a href="/#ugv" class="tracker-cta-btn">View UGV Data →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FURTHER READING ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Go deeper</div>
+    <h2 class="section-h2" style="font-size:1.8rem;margin-bottom:24px">Further <em>Reading</em></h2>
+
+    <div class="content-grid three">
+      <div class="info-card">
+        <div class="info-card-tag">Database</div>
+        <div class="info-card-head">Ukraine War Unmanned Systems Tracker</div>
+        <div class="info-card-text">The full database behind this explainer — 230+ USV events, 24,500+ UGV missions, 863,000+ UAV strike flights, 100,000+ air defence records, and original analyses. Free to access.</div>
+        <div style="margin-top:12px"><a href="/" style="font-family:var(--M);font-size:0.42rem;letter-spacing:0.08em;text-transform:uppercase">→ unmannedsystemstracker.com</a></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-tag">Academic</div>
+        <div class="info-card-head">War Studies, King's College London</div>
+        <div class="info-card-text">The institutional home of this research. KCL's War Studies department has produced some of the most rigorous academic analysis of the Ukraine conflict, including work on emerging military technologies.</div>
+        <div style="margin-top:12px"><a href="https://www.kcl.ac.uk/war-studies" target="_blank" style="font-family:var(--M);font-size:0.42rem;letter-spacing:0.08em;text-transform:uppercase">→ kcl.ac.uk/war-studies</a></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-tag">OSINT</div>
+        <div class="info-card-head">Key data sources</div>
+        <div class="info-card-text">USF Pidrakhuyka (UAV kill board) · Petro Ivaniuk / Kaggle (air defence) · Black Bird Group / DeepState (territorial) · Mediazona / BBC (KIA) · Oryx (equipment losses) · @dronbomber (confirmed strikes)</div>
+        <div style="margin-top:12px"><a href="/#sources" style="font-family:var(--M);font-size:0.42rem;letter-spacing:0.08em;text-transform:uppercase">→ Full sources list</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-copy">
+    UKRAINE WAR UNMANNED SYSTEMS TRACKER · KING'S COLLEGE LONDON WAR STUDIES · CC BY-NC 4.0<br>
+    NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION · DATA FOR RESEARCH AND EDUCATIONAL PURPOSES
+  </div>
+  <div class="foot-links">
+    <a href="/">Tracker</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+  </div>
+</footer>
+
+<script>
+// Highlight active section in sticky nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.snav-item');
+
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navItems.forEach(n=>n.classList.remove('active'));
+      const active = document.querySelector(`.snav-item[href="#${e.target.id}"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
