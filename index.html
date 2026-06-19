@@ -825,12 +825,33 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <div class="new-chart-panel reveal">
-    <div class="new-chart-header">
-      <div class="new-chart-title">Russian territorial gains vs USF FPV personnel strikes</div>
-      <div class="new-chart-legend">
-        <span><span style="color:#e74c3c">█</span> Ru. advance km²</span>
-        <span><span style="color:#6bbf78">█</span> Ru. territory lost</span>
-        <span><span style="color:#d4a017">━</span> USF personnel hits/mo</span>
+    <div class="new-chart-header" style="flex-direction:column;align-items:flex-start;gap:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:8px">
+        <div class="new-chart-title">Compare tracker datasets</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.06em">Select two metrics · Jun 2025–May 2026</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="width:14px;height:3px;background:#e74c3c;display:inline-block;flex-shrink:0;border-radius:2px"></span>
+          <select id="compare-metric-a" onchange="buildCompareChart()" style="font-family:var(--mono);font-size:0.44rem;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 8px;outline:none;cursor:pointer">
+            <option value="terr">Ru. territorial advance (km²)</option>
+            <option value="pers">USF personnel hits/mo</option>
+            <option value="strikes">USF strike flights/mo</option>
+            <option value="intercept">AD intercept rate (%)</option>
+            <option value="launched">Aerial weapons launched/mo</option>
+          </select>
+        </div>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">vs</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="width:14px;height:3px;background:#d4a017;display:inline-block;flex-shrink:0;border-radius:2px"></span>
+          <select id="compare-metric-b" onchange="buildCompareChart()" style="font-family:var(--mono);font-size:0.44rem;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 8px;outline:none;cursor:pointer">
+            <option value="pers">USF personnel hits/mo</option>
+            <option value="terr">Ru. territorial advance (km²)</option>
+            <option value="strikes">USF strike flights/mo</option>
+            <option value="intercept">AD intercept rate (%)</option>
+            <option value="launched">Aerial weapons launched/mo</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="new-chart-wrap">
@@ -1198,8 +1219,32 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   <!-- CHART -->
   <div class="kb-section-title">INTERCEPTION RATE OVER TIME — DRONES vs MISSILES</div>
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:20px">
-    <canvas id="airdef-chart" height="80"></canvas>
+  <div style="background:var(--bg2);border:1px solid var(--border);padding:16px 20px 12px;margin-bottom:20px">
+    <!-- Slider controls -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap">
+      <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0">Date range:</span>
+      <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px">
+        <span id="airdef-range-start" style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);min-width:52px">Oct 22</span>
+        <div style="flex:1;position:relative;height:20px;display:flex;align-items:center">
+          <div style="position:absolute;left:0;right:0;height:2px;background:var(--border2)"></div>
+          <div id="airdef-range-fill" style="position:absolute;height:2px;background:var(--accent3);left:0%;right:0%"></div>
+          <input type="range" id="airdef-slider-start" min="0" max="100" value="0"
+            style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2"
+            oninput="updateAirDefRange()">
+          <input type="range" id="airdef-slider-end" min="0" max="100" value="100"
+            style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2"
+            oninput="updateAirDefRange()">
+        </div>
+        <span id="airdef-range-end" style="font-family:var(--mono);font-size:0.44rem;color:var(--accent3);min-width:52px;text-align:right">Now</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button onclick="setAirDefPreset('all')" class="airdef-preset-btn active-preset" style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.08em;padding:3px 8px;border:1px solid var(--accent3);background:var(--accent3);color:#050a04;cursor:pointer">All</button>
+        <button onclick="setAirDefPreset('2025')" class="airdef-preset-btn" style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.08em;padding:3px 8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer">2025</button>
+        <button onclick="setAirDefPreset('2026')" class="airdef-preset-btn" style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.08em;padding:3px 8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer">2026</button>
+        <button onclick="setAirDefPreset('6m')" class="airdef-preset-btn" style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.08em;padding:3px 8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer">6 months</button>
+      </div>
+    </div>
+    <canvas id="airdef-chart" height="90"></canvas>
   </div>
 
   <!-- WEAPON TYPE BREAKDOWN -->
@@ -2752,6 +2797,16 @@ function buildAirDefChart(){
     return Math.round(d.destroyed/d.launched*100);
   });
 
+  // Store full dataset for slider
+  initAirDefSlider(keys, droneRates, missileRates, (()=>{
+    return keys.map(k=>{
+      const d=drones[k], m=missiles[k];
+      const tl=(d?.launched||0)+(m?.launched||0);
+      const td=(d?.destroyed||0)+(m?.destroyed||0);
+      return tl?Math.round(td/tl*100):null;
+    });
+  })());
+  return; // chart is now rendered by initAirDefSlider
   if(el._chart)el._chart.destroy();
   el._chart=new Chart(el,{
     type:'line',
@@ -3081,29 +3136,7 @@ function buildTerritorialChart(){
 }
 
 function buildIntroTrendsChart(){
-  const el=document.getElementById('intro-trends-chart');
-  if(!el||typeof Chart==='undefined')return;
-  if(el._chart)el._chart.destroy();
-  const M="'DM Mono',monospace";
-  const labels=['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26'];
-  const terr=[423,502,430,398,468,528,347,425,-37,25,94,-47];
-  const pers=[4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,9617];
-  el._chart=new Chart(el,{
-    data:{labels,datasets:[
-      {type:'bar',data:terr,backgroundColor:terr.map(v=>v<0?'rgba(107,191,120,0.75)':'rgba(224,82,82,0.65)'),yAxisID:'y',borderRadius:2,order:2},
-      {type:'line',data:pers,borderColor:'#d4a017',backgroundColor:'rgba(212,160,23,0.07)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#d4a017',pointBorderColor:'#080d0a',pointBorderWidth:1.5,tension:0.35,fill:true,yAxisID:'y2',order:1}
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0d1410',borderColor:'#1e3022',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88',padding:10}},
-      scales:{
-        x:{ticks:{color:'#526650',font:{size:8,family:M}},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
-        y:{position:'left',ticks:{color:'rgba(224,82,82,0.7)',font:{size:8,family:M}},grid:{color:'#1e3022'},border:{color:'#253d2a'},title:{display:true,text:'km²/mo',color:'#526650',font:{size:7,family:M}}},
-        y2:{position:'right',ticks:{color:'rgba(212,160,23,0.7)',font:{size:8,family:M},callback:v=>v>=1000?Math.round(v/1000)+'k':v},grid:{display:false},border:{color:'#253d2a'},title:{display:true,text:'personnel',color:'#526650',font:{size:7,family:M}}}
-      }
-    }
-  });
+  buildCompareChart();
 }
 
 // Build charts once data is loaded — hook into showTab too
@@ -3551,6 +3584,266 @@ function filterAnalyses(cat, btn){
   // Filter blocks
   document.querySelectorAll('#analyses-grid [data-cat]').forEach(el=>{
     el.style.display=(cat==='all'||el.dataset.cat===cat)?'block':'none';
+  });
+}
+
+
+// ═══════════════════════════════════════════════════════
+//  FEATURE 3: CROSS-TAB COMPARE CHART
+// ═══════════════════════════════════════════════════════
+
+// Shared monthly data for compare tool
+const COMPARE_MONTHS = ['2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05'];
+const COMPARE_LABELS = ['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26'];
+
+const COMPARE_DATA = {
+  terr:     [423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47],
+  pers:     [4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,9617],
+  strikes:  [49874,57200,58100,56000,62000,66000,61000,68000,64000,85915,95172,113332],
+  intercept:[72,74,71,73,75,74,72,76,78,80,82,81],
+  launched: [5374,6688,4462,6022,5932,5802,5830,4979,6030,8035,8187,7949],
+};
+
+const COMPARE_LABELS_MAP = {
+  terr:     'Ru. territorial advance (km²)',
+  pers:     'USF personnel hits/mo',
+  strikes:  'USF strike flights/mo',
+  intercept:'AD intercept rate (%)',
+  launched: 'Aerial weapons launched/mo',
+};
+
+const COMPARE_COLORS = { a:'#e74c3c', b:'#d4a017' };
+
+function buildCompareChart(){
+  const el=document.getElementById('intro-trends-chart');
+  if(!el||typeof Chart==='undefined')return;
+  if(el._chart)el._chart.destroy();
+
+  const metA=document.getElementById('compare-metric-a')?.value||'terr';
+  const metB=document.getElementById('compare-metric-b')?.value||'pers';
+  const dataA=COMPARE_DATA[metA];
+  const dataB=COMPARE_DATA[metB];
+  const M="'Share Tech Mono',monospace";
+
+  el._chart=new Chart(el,{
+    data:{
+      labels:COMPARE_LABELS,
+      datasets:[
+        {
+          type:'bar',
+          label:COMPARE_LABELS_MAP[metA],
+          data:dataA,
+          backgroundColor:dataA.map(v=>{
+            if(metA==='terr') return v<0?'rgba(107,191,120,0.75)':'rgba(231,76,60,0.65)';
+            return 'rgba(231,76,60,0.55)';
+          }),
+          borderRadius:2,
+          yAxisID:'y',
+          order:2,
+        },
+        {
+          type:'line',
+          label:COMPARE_LABELS_MAP[metB],
+          data:dataB,
+          borderColor:'#d4a017',
+          backgroundColor:'rgba(212,160,23,0.07)',
+          borderWidth:2,
+          pointRadius:3,
+          pointBackgroundColor:'#d4a017',
+          pointBorderColor:'#080d0a',
+          pointBorderWidth:1.5,
+          tension:0.35,
+          fill:true,
+          yAxisID:'y2',
+          order:1,
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#0d1410',
+          borderColor:'#1e3022',
+          borderWidth:1,
+          titleColor:'#c8d8c0',
+          bodyColor:'#8aaa88',
+          padding:10,
+          callbacks:{
+            label:ctx=>{
+              const val=ctx.raw;
+              const met=ctx.datasetIndex===0?metA:metB;
+              const label=COMPARE_LABELS_MAP[met];
+              const fmt=Math.abs(val)>=1000?
+                (val<0?'-':'')+Math.round(Math.abs(val)).toLocaleString():
+                val+(met==='intercept'?'%':'');
+              return ` ${label}: ${fmt}`;
+            }
+          }
+        }
+      },
+      scales:{
+        x:{
+          ticks:{color:'#637a60',font:{size:8,family:M}},
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'}
+        },
+        y:{
+          position:'left',
+          ticks:{
+            color:'rgba(231,76,60,0.7)',
+            font:{size:8,family:M},
+            callback:v=>Math.abs(v)>=1000?(v/1000).toFixed(0)+'k':v
+          },
+          grid:{color:'#1e3022'},
+          border:{color:'#253d2a'},
+          title:{
+            display:true,
+            text:COMPARE_LABELS_MAP[metA],
+            color:'#637a60',
+            font:{size:6,family:M}
+          }
+        },
+        y2:{
+          position:'right',
+          ticks:{
+            color:'rgba(212,160,23,0.7)',
+            font:{size:8,family:M},
+            callback:v=>Math.abs(v)>=1000?(v/1000).toFixed(0)+'k':v+(metB==='intercept'?'%':'')
+          },
+          grid:{display:false},
+          border:{color:'#253d2a'},
+          title:{
+            display:true,
+            text:COMPARE_LABELS_MAP[metB],
+            color:'#637a60',
+            font:{size:6,family:M}
+          }
+        }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  FEATURE 4: AIRDEF CHART DATE RANGE SLIDER
+// ═══════════════════════════════════════════════════════
+
+let _airdefAllKeys=[], _airdefAllDroneRates=[], _airdefAllMissileRates=[], _airdefAllOverall=[], _airdefAllLabels=[];
+
+function initAirDefSlider(keys, droneRates, missileRates, overallRates){
+  _airdefAllKeys=keys;
+  _airdefAllDroneRates=droneRates;
+  _airdefAllMissileRates=missileRates;
+  _airdefAllOverall=overallRates;
+  _airdefAllLabels=keys.map(k=>{
+    const[y,m]=k.split('-');
+    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+  updateAirDefRange();
+}
+
+function updateAirDefRange(){
+  const s=document.getElementById('airdef-slider-start');
+  const e=document.getElementById('airdef-slider-end');
+  if(!s||!e||!_airdefAllKeys.length)return;
+
+  let sVal=parseInt(s.value), eVal=parseInt(e.value);
+  if(sVal>eVal-5){sVal=eVal-5; s.value=sVal;}
+
+  const n=_airdefAllKeys.length;
+  const startIdx=Math.floor(sVal/100*(n-1));
+  const endIdx=Math.min(Math.floor(eVal/100*(n-1))+1, n);
+
+  // Update fill bar
+  const fill=document.getElementById('airdef-range-fill');
+  if(fill){fill.style.left=sVal+'%';fill.style.right=(100-eVal)+'%';}
+
+  // Update labels
+  const startLbl=document.getElementById('airdef-range-start');
+  const endLbl=document.getElementById('airdef-range-end');
+  if(startLbl)startLbl.textContent=_airdefAllLabels[startIdx]||'';
+  if(endLbl)endLbl.textContent=eVal>=99?'Now':(_airdefAllLabels[endIdx-1]||'');
+
+  renderAirDefChartSlice(startIdx, endIdx);
+}
+
+function setAirDefPreset(preset){
+  document.querySelectorAll('.airdef-preset-btn').forEach(b=>{
+    b.style.background='transparent';
+    b.style.borderColor='var(--border)';
+    b.style.color='var(--text3)';
+  });
+  event.target.style.background='var(--accent3)';
+  event.target.style.borderColor='var(--accent3)';
+  event.target.style.color='#050a04';
+
+  if(!_airdefAllKeys.length)return;
+  const n=_airdefAllKeys.length;
+  let sIdx=0, eIdx=n;
+
+  if(preset==='2025'){
+    sIdx=_airdefAllKeys.findIndex(k=>k.startsWith('2025'));
+    eIdx=_airdefAllKeys.findLastIndex(k=>k.startsWith('2025'))+1;
+  } else if(preset==='2026'){
+    sIdx=_airdefAllKeys.findIndex(k=>k.startsWith('2026'));
+    eIdx=n;
+  } else if(preset==='6m'){
+    sIdx=Math.max(0,n-6);
+    eIdx=n;
+  }
+
+  if(sIdx<0)sIdx=0;
+  // Update sliders
+  const s=document.getElementById('airdef-slider-start');
+  const e=document.getElementById('airdef-slider-end');
+  if(s)s.value=Math.round(sIdx/(n-1)*100);
+  if(e)e.value=Math.round((eIdx-1)/(n-1)*100);
+  updateAirDefRange();
+}
+
+function renderAirDefChartSlice(startIdx, endIdx){
+  const el=document.getElementById('airdef-chart');
+  if(!el||typeof Chart==='undefined')return;
+  if(el._chart)el._chart.destroy();
+
+  const labels=_airdefAllLabels.slice(startIdx,endIdx);
+  const droneSlice=_airdefAllDroneRates.slice(startIdx,endIdx);
+  const missileSlice=_airdefAllMissileRates.slice(startIdx,endIdx);
+  const overallSlice=_airdefAllOverall.slice(startIdx,endIdx);
+  const M="'Share Tech Mono',monospace";
+  const TIP={backgroundColor:'#0d1410',borderColor:'#1e3022',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88',padding:8};
+
+  el._chart=new Chart(el,{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Drones / UAVs',data:droneSlice,borderColor:'#6bbf78',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
+        {label:'Missiles',data:missileSlice,borderColor:'#e74c3c',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
+        {label:'Overall avg',data:overallSlice,borderColor:'#d4a017',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.3,spanGaps:true,fill:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{
+          display:true,
+          position:'top',
+          align:'end',
+          labels:{color:'#637a60',font:{size:9,family:M},boxWidth:14,padding:12}
+        },
+        tooltip:{...TIP}
+      },
+      scales:{
+        x:{ticks:{color:'#637a60',font:{size:8,family:M},maxRotation:labels.length>18?45:0},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
+        y:{min:0,max:100,ticks:{color:'#637a60',font:{size:8,family:M},callback:v=>v+'%'},grid:{color:'#1e3022'},border:{color:'#253d2a'}}
+      }
+    }
   });
 }
 
