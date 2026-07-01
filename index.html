@@ -796,7 +796,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <span class="new-stat-l">UGV Missions Q1 2026</span>
     </div>
     <div class="new-stat d3" onclick="showTabById('uav')">
-      <span class="new-stat-n a" id="is-uav">863,911</span>
+      <span class="new-stat-n a" id="is-uav">977,020</span>
       <span class="new-stat-l">UAV Strike Flights</span>
     </div>
     <div class="new-stat d4" onclick="showTabById('airdef')">
@@ -935,7 +935,63 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
     <button class="btn btn-accent" onclick="exportCSV('usv')">⬇ EXPORT CSV</button>
   </div>
-  <div class="controls">
+  
+  <!-- UKRAINIAN NAVY MONTHLY SUMMARY -->
+  <div style="margin:0 32px 20px;border:1px solid var(--border);background:var(--bg2)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px">Ukrainian Naval Forces · June 2026 Monthly Summary</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em">Destroyed by naval forces in the grouping · Source: Ukrainian Navy official release</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em">June 2026</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)">
+      <div style="background:var(--bg2);padding:14px 16px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:var(--accent3);line-height:1;letter-spacing:-0.02em;margin-bottom:4px">14,673</div>
+        <div style="font-family:var(--mono);font-size:0.36rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">FPV drones destroyed</div>
+      </div>
+      <div style="background:var(--bg2);padding:14px 16px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">2,279</div>
+        <div style="font-family:var(--mono);font-size:0.36rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Attack UAVs destroyed</div>
+      </div>
+      <div style="background:var(--bg2);padding:14px 16px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#e74c3c;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">310</div>
+        <div style="font-family:var(--mono);font-size:0.36rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Shaheds-136/131 destroyed</div>
+      </div>
+      <div style="background:var(--bg2);padding:14px 16px">
+        <div style="font-family:var(--head);font-weight:900;font-size:1.5rem;color:#d4a017;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">18</div>
+        <div style="font-family:var(--mono);font-size:0.36rem;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase">Boats destroyed</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border)">
+      <div style="background:var(--bg2);padding:12px 14px">
+        <div style="font-family:var(--head);font-weight:700;font-size:1.1rem;color:#fff;line-height:1;margin-bottom:3px">197</div>
+        <div style="font-family:var(--mono);font-size:0.34rem;color:var(--text3);text-transform:uppercase">Vehicles</div>
+      </div>
+      <div style="background:var(--bg2);padding:12px 14px">
+        <div style="font-family:var(--head);font-weight:700;font-size:1.1rem;color:#fff;line-height:1;margin-bottom:3px">175</div>
+        <div style="font-family:var(--mono);font-size:0.34rem;color:var(--text3);text-transform:uppercase">Personnel</div>
+      </div>
+      <div style="background:var(--bg2);padding:12px 14px">
+        <div style="font-family:var(--head);font-weight:700;font-size:1.1rem;color:#fff;line-height:1;margin-bottom:3px">40</div>
+        <div style="font-family:var(--mono);font-size:0.34rem;color:var(--text3);text-transform:uppercase">OTL UAVs</div>
+      </div>
+      <div style="background:var(--bg2);padding:12px 14px">
+        <div style="font-family:var(--head);font-weight:700;font-size:1.1rem;color:#fff;line-height:1;margin-bottom:3px">13</div>
+        <div style="font-family:var(--mono);font-size:0.34rem;color:var(--text3);text-transform:uppercase">Artillery systems</div>
+      </div>
+      <div style="background:var(--bg2);padding:12px 14px">
+        <div style="font-family:var(--head);font-weight:700;font-size:1.1rem;color:#fff;line-height:1;margin-bottom:3px">5</div>
+        <div style="font-family:var(--mono);font-size:0.34rem;color:var(--text3);text-transform:uppercase">Ammo depots</div>
+      </div>
+      <div style="background:var(--bg2);padding:12px 14px">
+        <div style="font-family:var(--head);font-weight:700;font-size:1.1rem;color:var(--accent3);line-height:1;margin-bottom:3px">1</div>
+        <div style="font-family:var(--mono);font-size:0.34rem;color:var(--text3);text-transform:uppercase">USV (МБЕК)</div>
+      </div>
+    </div>
+  </div>
+
+<div class="controls">
     <div class="ctrl-group"><span class="ctrl-label">Search</span><input type="text" id="usv-search" placeholder="target, location…" oninput="renderUSV()"></div>
     <div class="ctrl-group"><span class="ctrl-label">Model</span><select id="usv-model" onchange="renderUSV()"><option value="">All models</option></select></div>
     <div class="ctrl-group"><span class="ctrl-label">Damage</span><select id="usv-damage" onchange="renderUSV()"><option value="">All</option><option>Sunk</option><option>Damaged</option><option>Destroyed</option><option>Shot Down</option><option>Disrupted</option></select></div>
@@ -2120,7 +2176,7 @@ function buildUAVChart(){
 
   const periodEl=document.querySelector('#tab-uav input[name="uav-period"]:checked');
   const isDailyView=periodEl&&periodEl.value==='daily';
-  const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30,'2026-05':31};
+  const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30,'2026-05':31,'2026-06':30};
   const lbl=document.getElementById('uav-chart-period-label');
   if(lbl)lbl.textContent=isDailyView?'Daily average per month':'Monthly total · Jun 2025–Apr 2026';
 
@@ -2425,13 +2481,13 @@ const EMBEDDED_KB=[
 
 const EMBEDDED_UAV=[
   // ── Annual totals (Jun 2025 – Mar 2026) ──
-  {date:"yearly_2025",target:"total damaged targets",outcome:"346572"},
-  {date:"yearly_2025",target:"total destroyed targets",outcome:"126650"},
-  {date:"yearly_2025",target:"strike flights",outcome:"863911"},
-  {date:"yearly_2025",target:"recon flights",outcome:"787163"},
-  {date:"yearly_2025",target:"enemy personnel hit",outcome:"99416"},
-  {date:"yearly_2025",target:"enemy personnel killed",outcome:"53149"},
-  {date:"yearly_2025",target:"enemy personnel wounded",outcome:"46267"},
+  {date:"yearly_2025",target:"total damaged targets",outcome:"396719"},
+  {date:"yearly_2025",target:"total destroyed targets",outcome:"147987"},
+  {date:"yearly_2025",target:"strike flights",outcome:"977020"},
+  {date:"yearly_2025",target:"recon flights",outcome:"874494"},
+  {date:"yearly_2025",target:"enemy personnel hit",outcome:"109162"},
+  {date:"yearly_2025",target:"enemy personnel killed",outcome:"57802"},
+  {date:"yearly_2025",target:"enemy personnel wounded",outcome:"51360"},
   // ── Monthly headline stats ──
   {date:"monthly_2025-06",target:"strike flights",outcome:"49874"},{date:"monthly_2025-06",target:"recon flights",outcome:"59619"},{date:"monthly_2025-06",target:"damaged targets",outcome:"19653"},{date:"monthly_2025-06",target:"destroyed targets",outcome:"5024"},{date:"monthly_2025-06",target:"enemy personnel hit",outcome:"4521"},{date:"monthly_2025-06",target:"enemy personnel killed",outcome:"2548"},
   {date:"monthly_2025-07",target:"strike flights",outcome:"55853"},{date:"monthly_2025-07",target:"recon flights",outcome:"64799"},{date:"monthly_2025-07",target:"damaged targets",outcome:"23433"},{date:"monthly_2025-07",target:"destroyed targets",outcome:"5887"},{date:"monthly_2025-07",target:"enemy personnel hit",outcome:"5134"},{date:"monthly_2025-07",target:"enemy personnel killed",outcome:"3018"},
@@ -2464,7 +2520,7 @@ const EMBEDDED_UAV=[
   {date:"yearly_2025",target:"Motorcycles and military buggies",outcome:"7332 damaged, 2290 destroyed"},
   {date:"yearly_2025",target:"Ammo, fuel and equipment depots",outcome:"2500 damaged, 1418 destroyed"},
   {date:"yearly_2025",target:"Strategic infrastructure",outcome:"TOP SECRET"},
-  {date:"yearly_2025",target:"Tactical infrastructure",outcome:"178 damaged, 14 destroyed"},
+  {date:"yearly_2025",target:"Tactical infrastructure",outcome:"255 damaged, 17 destroyed"},
   {date:"yearly_2025",target:"Shelters",outcome:"73592 damaged, 3249 destroyed"},
   {date:"yearly_2025",target:"Dugouts",outcome:"25481 damaged, 592 destroyed"},
   {date:"yearly_2025",target:"Network equipment",outcome:"2288 damaged, 1100 destroyed"},
@@ -2477,34 +2533,39 @@ const EMBEDDED_UAV=[
   {date:"monthly_2026-04",target:"damaged targets",outcome:"40151"},
   {date:"monthly_2026-04",target:"enemy personnel hit",outcome:"10581"},
   {date:"monthly_2026-04",target:"enemy personnel killed",outcome:"4876"},
-  {date:"monthly_2026-04",target:"Enemy personnel",outcome:"99416 damaged, 53149 destroyed"},
-  {date:"monthly_2026-04",target:"Drone launch positions",outcome:"10707 damaged, 345 destroyed"},
-  {date:"monthly_2026-04",target:"Antennas",outcome:"17102 damaged, 10464 destroyed"},
-  {date:"monthly_2026-04",target:"SAMs, SPADs",outcome:"159 damaged, 30 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy personnel",outcome:"109162 damaged, 57802 destroyed"},
+  {date:"monthly_2026-04",target:"Drone launch positions",outcome:"12788 damaged, 388 destroyed"},
+  {date:"monthly_2026-04",target:"Antennas",outcome:"19800 damaged, 11824 destroyed"},
+  {date:"monthly_2026-04",target:"SAMs, SPADs",outcome:"171 damaged, 31 destroyed"},
   {date:"monthly_2026-04",target:"Helicopters",outcome:"2 damaged, 0 destroyed"},
   {date:"monthly_2026-04",target:"Radars (system)",outcome:"12 damaged, 1 destroyed"},
-  {date:"monthly_2026-04",target:"Radars (portable)",outcome:"363 damaged, 164 destroyed"},
+  {date:"monthly_2026-04",target:"Radars (portable)",outcome:"430 damaged, 194 destroyed"},
   {date:"monthly_2026-04",target:"EW (system)",outcome:"1 damaged, 0 destroyed"},
-  {date:"monthly_2026-04",target:"EW (car + portable)",outcome:"3284 damaged, 1367 destroyed"},
-  {date:"monthly_2026-04",target:"Enemy wings",outcome:"29283 damaged, 28367 destroyed"},
-  {date:"monthly_2026-04",target:"Shaheds and Gerberas",outcome:"7548 damaged, 7287 destroyed"},
-  {date:"monthly_2026-04",target:"Tanks",outcome:"814 damaged, 136 destroyed"},
-  {date:"monthly_2026-04",target:"APCs, IFVs, ACVs",outcome:"1376 damaged, 323 destroyed"},
-  {date:"monthly_2026-04",target:"Guns, howitzers",outcome:"4853 damaged, 289 destroyed"},
-  {date:"monthly_2026-04",target:"Self-propelled artillery",outcome:"340 damaged, 45 destroyed"},
-  {date:"monthly_2026-04",target:"Mortars",outcome:"418 damaged, 98 destroyed"},
-  {date:"monthly_2026-04",target:"MRLS",outcome:"276 damaged, 68 destroyed"},
-  {date:"monthly_2026-04",target:"Light, Heavy, Special-purpose vehicles",outcome:"16593 damaged, 3630 destroyed"},
-  {date:"monthly_2026-04",target:"Motorcycles and military buggies",outcome:"9557 damaged, 2954 destroyed"},
-  {date:"monthly_2026-04",target:"Ammo, fuel and equipment depots",outcome:"3325 damaged, 1880 destroyed"},
+  {date:"monthly_2026-04",target:"EW (car + portable)",outcome:"3899 damaged, 1569 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy wings",outcome:"38570 damaged, 37415 destroyed"},
+  {date:"monthly_2026-04",target:"Shaheds and Gerberas",outcome:"8500 damaged, 8180 destroyed"},
+  {date:"monthly_2026-04",target:"Tanks",outcome:"843 damaged, 139 destroyed"},
+  {date:"monthly_2026-04",target:"APCs, IFVs, ACVs",outcome:"1474 damaged, 345 destroyed"},
+  {date:"monthly_2026-04",target:"Guns, howitzers",outcome:"5341 damaged, 341 destroyed"},
+  {date:"monthly_2026-04",target:"Self-propelled artillery",outcome:"372 damaged, 48 destroyed"},
+  {date:"monthly_2026-04",target:"Mortars",outcome:"427 damaged, 100 destroyed"},
+  {date:"monthly_2026-04",target:"MRLS",outcome:"292 damaged, 70 destroyed"},
+  {date:"monthly_2026-04",target:"Light, Heavy, Special-purpose vehicles",outcome:"20115 damaged, 4463 destroyed"},
+  {date:"monthly_2026-04",target:"Motorcycles and military buggies",outcome:"11004 damaged, 3393 destroyed"},
+  {date:"monthly_2026-04",target:"Ammo, fuel and equipment depots",outcome:"3988 damaged, 2284 destroyed"},
   {date:"monthly_2026-04",target:"Tactical infrastructure",outcome:"76 damaged, 5 destroyed"},
-  {date:"monthly_2026-04",target:"Shelters and dugouts",outcome:"123722 damaged, 4714 destroyed"},
-  {date:"monthly_2026-04",target:"Network equipment",outcome:"2796 damaged, 1292 destroyed"},
+  {date:"monthly_2026-04",target:"Shelters and dugouts",outcome:"138664 damaged, 5128 destroyed"},
+  {date:"monthly_2026-04",target:"Network equipment",outcome:"3331 damaged, 1421 destroyed"},
   {date:"monthly_2026-04",target:"Cameras",outcome:"113 damaged, 68 destroyed"},
-  {date:"monthly_2026-04",target:"Enemy copter drones",outcome:"8995 damaged, 8402 destroyed"},
-  {date:"monthly_2026-04",target:"Enemy unmanned robotic complexes",outcome:"577 damaged, 202 destroyed"},
-  {date:"monthly_2026-04",target:"Other",outcome:"4239 damaged, 1320 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy copter drones",outcome:"10546 damaged, 9833 destroyed"},
+  {date:"monthly_2026-04",target:"Enemy unmanned robotic complexes",outcome:"685 damaged, 238 destroyed"},
+  {date:"monthly_2026-04",target:"Other",outcome:"5352 damaged, 1653 destroyed"},
   {date:"monthly_2026-05",target:"strike flights",outcome:"113332"},
+  {date:"monthly_2026-06",target:"strike flights",outcome:"113109"},
+  {date:"monthly_2026-06",target:"damaged targets",outcome:"50147"},
+  {date:"monthly_2026-06",target:"enemy personnel hit",outcome:"9746"},
+  {date:"monthly_2026-06",target:"enemy personnel killed",outcome:"4653"},
+  {date:"monthly_2026-06",target:"enemy personnel wounded",outcome:"5093"},
   {date:"monthly_2026-05",target:"Enemy personnel",outcome:"9617 damaged, 4619 destroyed"},
   {date:"monthly_2026-05",target:"damaged targets",outcome:"44138"},
   {date:"monthly_2026-05",target:"destroyed targets",outcome:"18287"},
@@ -3593,15 +3654,15 @@ function filterAnalyses(cat, btn){
 // ═══════════════════════════════════════════════════════
 
 // Shared monthly data for compare tool
-const COMPARE_MONTHS = ['2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05'];
-const COMPARE_LABELS = ['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26'];
+const COMPARE_MONTHS = ['2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05','2026-06'];
+const COMPARE_LABELS = ['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26'];
 
 const COMPARE_DATA = {
-  terr:     [423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47],
-  pers:     [4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,9617],
-  strikes:  [49874,57200,58100,56000,62000,66000,61000,68000,64000,85915,95172,113332],
-  intercept:[72,74,71,73,75,74,72,76,78,80,82,81],
-  launched: [5374,6688,4462,6022,5932,5802,5830,4979,6030,8035,8187,7949],
+  terr:     [423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47, null],
+  pers:     [4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,9617,9746],
+  strikes:  [49874,57200,58100,56000,62000,66000,61000,68000,64000,85915,95172,113332,113109],
+  intercept:[72,74,71,73,75,74,72,76,78,80,82,81,null],
+  launched: [5374,6688,4462,6022,5932,5802,5830,4979,6030,8035,8187,7949,null],
 };
 
 const COMPARE_LABELS_MAP = {
