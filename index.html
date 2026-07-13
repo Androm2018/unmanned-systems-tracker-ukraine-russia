@@ -1298,6 +1298,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Total launched</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#5dade2" id="ads-cruise-rate">—</span><span class="ad-stat-lbl">Cruise missile rate</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-ballistic-rate">—</span><span class="ad-stat-lbl">Ballistic rate</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
@@ -2813,9 +2815,20 @@ function renderAirDef(){
   const overallRate=totalLaunched>0?Math.round(totalDestroyed/totalLaunched*100):0;
   const largest=Math.max(...AIRDEF_DATA.map(r=>parseFloat(r.launched)||0));
   const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  // Cruise vs ballistic rates
+  function isCruiseMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('kalibr')||s.includes('kh-')||s.includes('x-101')||s.includes('x-555')||s.includes('x-59')||s.includes('x-22')||s.includes('x-32')||s.includes('x-69')||s.includes('zircon')||s.includes('oniks')||s.includes('3m14')||s.includes('p-800');}
+  function isBallisticMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('iskander')||s.includes('kinzhal')||s.includes('ballistic')||s.includes('kn-23')||s.includes('c-300')||s.includes('c-400')||s.includes('s-300')||s.includes('s-400');}
+  const cruiseLaunched=AIRDEF_DATA.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
+  const cruiseDestroyed=AIRDEF_DATA.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.destroyed)||0),0);
+  const ballisticLaunched=AIRDEF_DATA.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
+  const ballisticDestroyed=AIRDEF_DATA.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.destroyed)||0),0);
+  const cruiseRate=cruiseLaunched>0?Math.round(cruiseDestroyed/cruiseLaunched*100):0;
+  const ballisticRate=ballisticLaunched>0?Math.round(ballisticDestroyed/ballisticLaunched*100):0;
   setVal('ads-total-launched',fmtBig(totalLaunched));
   setVal('ads-total-destroyed',fmtBig(totalDestroyed));
   setVal('ads-intercept-rate',overallRate+'%');
+  setVal('ads-cruise-rate',cruiseRate+'%');
+  setVal('ads-ballistic-rate',ballisticRate+'%');
   setVal('ads-got-through',fmtBig(gotThrough));
   setVal('ads-attack-days',fmtBig(AIRDEF_DATA.length));
   setVal('ads-largest',fmtBig(largest));
@@ -2863,159 +2876,67 @@ function buildAirDefChart(){
   const el=document.getElementById('airdef-chart');
   if(!el||!AIRDEF_DATA.length)return;
 
-  // Classify each row as drone, missile, or other
-  function isDrone(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
-           m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
-           m.includes('lancet')||m.includes('orlan')||m.includes('mohajer');
+  function isDrone(m){
+    if(!m)return false; const s=m.toLowerCase();
+    return s.includes('shahed')||s.includes('geran')||s.includes('gerbera')||
+           s.includes('uav')||s.includes('drone')||s.includes('reconnaissance')||
+           s.includes('lancet')||s.includes('orlan')||s.includes('mohajer')||
+           s.includes('molni')||s.includes('merlin')||s.includes('kub-')||
+           s.includes('zala')||s.includes('supercam');
   }
-  function isMissile(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
-           m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
-           m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
-           m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
-           m.includes('oreshnik');
+  function isCruise(m){
+    if(!m)return false; const s=m.toLowerCase();
+    return s.includes('kalibr')||s.includes('kh-')||s.includes('x-101')||
+           s.includes('x-555')||s.includes('x-59')||s.includes('x-22')||
+           s.includes('x-32')||s.includes('x-69')||s.includes('zircon')||
+           s.includes('oniks')||s.includes('3m14')||s.includes('p-800')||
+           (s.includes('cruise')&&!s.includes('ballistic'));
+  }
+  function isBallistic(m){
+    if(!m)return false; const s=m.toLowerCase();
+    return s.includes('iskander')||s.includes('kinzhal')||
+           s.includes('ballistic')||s.includes('kn-23')||s.includes('kh-47')||
+           (s.includes('c-300')||s.includes('c-400')||s.includes('s-300')||s.includes('s-400'));
   }
 
-  // Aggregate monthly intercept rates
-  const drones={},missiles={};
+  const drones={}, cruise={}, ballistic={};
   AIRDEF_DATA.forEach(r=>{
     if(!r.date||r.date.length<7)return;
     const ym=r.date.slice(0,7);
     const launched=parseFloat(r.launched)||0;
     const destroyed=parseFloat(r.destroyed)||0;
     if(!launched)return;
-    const bucket=isDrone(r.model)?drones:isMissile(r.model)?missiles:null;
+    const bucket=isDrone(r.model)?drones:isCruise(r.model)?cruise:isBallistic(r.model)?ballistic:null;
     if(!bucket)return;
     if(!bucket[ym])bucket[ym]={launched:0,destroyed:0};
     bucket[ym].launched+=launched;
     bucket[ym].destroyed+=destroyed;
   });
 
-  // Build unified key list
-  const allKeys=[...new Set([...Object.keys(drones),...Object.keys(missiles)])].sort();
-  // Only show months where we have at least one category with data
-  const keys=allKeys.filter(k=>drones[k]||missiles[k]);
+  const allKeys=[...new Set([...Object.keys(drones),...Object.keys(cruise),...Object.keys(ballistic)])].sort();
+  const keys=allKeys.filter(k=>drones[k]||cruise[k]||ballistic[k]);
 
   const labels=keys.map(k=>{
     const[y,m]=k.split('-');
     return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
   });
 
-  const droneRates=keys.map(k=>{
-    const d=drones[k];
-    if(!d||!d.launched)return null;
-    return Math.round(d.destroyed/d.launched*100);
-  });
-  const missileRates=keys.map(k=>{
-    const d=missiles[k];
-    if(!d||!d.launched)return null;
-    return Math.round(d.destroyed/d.launched*100);
+  const droneRates=keys.map(k=>{const d=drones[k];return(d&&d.launched)?Math.round(d.destroyed/d.launched*100):null;});
+  const cruiseRates=keys.map(k=>{const d=cruise[k];return(d&&d.launched)?Math.round(d.destroyed/d.launched*100):null;});
+  const ballisticRates=keys.map(k=>{const d=ballistic[k];return(d&&d.launched)?Math.round(d.destroyed/d.launched*100):null;});
+  const overallRates=keys.map(k=>{
+    const dl=drones[k]?.launched||0, dd=drones[k]?.destroyed||0;
+    const cl=cruise[k]?.launched||0, cd=cruise[k]?.destroyed||0;
+    const bl=ballistic[k]?.launched||0, bd=ballistic[k]?.destroyed||0;
+    const tl=dl+cl+bl;
+    return tl?Math.round((dd+cd+bd)/tl*100):null;
   });
 
-  // Store full dataset for slider
-  initAirDefSlider(keys, droneRates, missileRates, (()=>{
-    return keys.map(k=>{
-      const d=drones[k], m=missiles[k];
-      const tl=(d?.launched||0)+(m?.launched||0);
-      const td=(d?.destroyed||0)+(m?.destroyed||0);
-      return tl?Math.round(td/tl*100):null;
-    });
-  })());
-  return; // chart is now rendered by initAirDefSlider
-  if(el._chart)el._chart.destroy();
-  el._chart=new Chart(el,{
-    type:'line',
-    data:{
-      labels,
-      datasets:[
-        {
-          label:'Drones / UAVs',
-          data:droneRates,
-          borderColor:'#6bbf78',
-          backgroundColor:'rgba(107,191,120,0.08)',
-          borderWidth:2,
-          pointRadius:2,
-          pointHoverRadius:5,
-          tension:0.3,
-          spanGaps:true,
-          fill:false
-        },
-        {
-          label:'Missiles',
-          data:missileRates,
-          borderColor:'#e74c3c',
-          backgroundColor:'rgba(231,76,60,0.08)',
-          borderWidth:2,
-          pointRadius:2,
-          pointHoverRadius:5,
-          tension:0.3,
-          spanGaps:true,
-          fill:false
-        },
-        {
-          label:'Overall avg',
-          data:(()=>{
-            // Compute overall monthly rate across all weapon types
-            const tot={};
-            AIRDEF_DATA.forEach(r=>{
-              if(!r.date||r.date.length<7)return;
-              const ym=r.date.slice(0,7);
-              const l=parseFloat(r.launched)||0, d=parseFloat(r.destroyed)||0;
-              if(!l)return;
-              if(!tot[ym])tot[ym]={l:0,d:0};
-              tot[ym].l+=l; tot[ym].d+=d;
-            });
-            return keys.map(k=>tot[k]&&tot[k].l?Math.round(tot[k].d/tot[k].l*100):null);
-          })(),
-          borderColor:'#f0c040',
-          backgroundColor:'transparent',
-          borderWidth:1.5,
-          borderDash:[5,4],
-          pointRadius:0,
-          pointHoverRadius:4,
-          tension:0.3,
-          spanGaps:true,
-          fill:false,
-          order:0
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:20,usePointStyle:true}},
-        tooltip:{
-          backgroundColor:'#0d1410',
-          borderColor:'#253d2a',
-          borderWidth:1,
-          titleColor:'#c8d8c0',
-          bodyColor:'#8aaa88',
-          callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y !== null ? ctx.parsed.y+'%' : '—'}`}
-        }
-      },
-      scales:{
-        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},maxRotation:45,maxTicksLimit:24},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
-        y:{
-          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},callback:v=>v+'%'},
-          grid:{color:'#1e3022'},
-          border:{color:'#253d2a'},
-          min:0,max:100,
-          title:{display:true,text:'Intercept rate',color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"}}
-        }
-      }
-    }
-  });
+  // Store for slider
+  initAirDefSlider(keys, droneRates, cruiseRates, ballisticRates, overallRates);
+  return;
 }
 
-// ═══════════════════════════════════════════════════════════
-//  CHARTS
-// ═══════════════════════════════════════════════════════════
 function buildChart(canvasId, data, label, color){
   const el=document.getElementById(canvasId);
   if(!el||!data.length)return;
@@ -3852,12 +3773,13 @@ function buildCompareChart(){
 //  FEATURE 4: AIRDEF CHART DATE RANGE SLIDER
 // ═══════════════════════════════════════════════════════
 
-let _airdefAllKeys=[], _airdefAllDroneRates=[], _airdefAllMissileRates=[], _airdefAllOverall=[], _airdefAllLabels=[];
+let _airdefAllKeys=[], _airdefAllDroneRates=[], _airdefAllMissileRates=[], _airdefAllBallisticRates=[], _airdefAllOverall=[], _airdefAllLabels=[];
 
-function initAirDefSlider(keys, droneRates, missileRates, overallRates){
+function initAirDefSlider(keys, droneRates, cruiseRates, ballisticRates, overallRates){
   _airdefAllKeys=keys;
   _airdefAllDroneRates=droneRates;
-  _airdefAllMissileRates=missileRates;
+  _airdefAllMissileRates=cruiseRates;
+  _airdefAllBallisticRates=ballisticRates;
   _airdefAllOverall=overallRates;
   _airdefAllLabels=keys.map(k=>{
     const[y,m]=k.split('-');
@@ -3937,13 +3859,16 @@ function renderAirDefChartSlice(startIdx, endIdx){
   const M="'Share Tech Mono',monospace";
   const TIP={backgroundColor:'#0d1410',borderColor:'#1e3022',borderWidth:1,titleColor:'#c8d8c0',bodyColor:'#8aaa88',padding:8};
 
+  const ballisticSlice=_airdefAllBallisticRates.slice(startIdx,endIdx);
+
   el._chart=new Chart(el,{
     type:'line',
     data:{
       labels,
       datasets:[
         {label:'Drones / UAVs',data:droneSlice,borderColor:'#6bbf78',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
-        {label:'Missiles',data:missileSlice,borderColor:'#e74c3c',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
+        {label:'Cruise missiles',data:missileSlice,borderColor:'#5dade2',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
+        {label:'Ballistic / S-300',data:ballisticSlice,borderColor:'#e74c3c',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
         {label:'Overall avg',data:overallSlice,borderColor:'#d4a017',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.3,spanGaps:true,fill:false}
       ]
     },
