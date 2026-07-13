@@ -1299,7 +1299,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#5dade2" id="ads-cruise-rate">—</span><span class="ad-stat-lbl">Cruise missile rate</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-ballistic-rate">—</span><span class="ad-stat-lbl">Ballistic rate</span></div>
+    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-ballistic-rate">—</span><span class="ad-stat-lbl">Ballistic rate (excl. S-300)</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
@@ -2817,7 +2817,7 @@ function renderAirDef(){
   const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   // Cruise vs ballistic rates
   function isCruiseMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('kalibr')||s.includes('kh-')||s.includes('x-101')||s.includes('x-555')||s.includes('x-59')||s.includes('x-22')||s.includes('x-32')||s.includes('x-69')||s.includes('zircon')||s.includes('oniks')||s.includes('3m14')||s.includes('p-800');}
-  function isBallisticMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('iskander')||s.includes('kinzhal')||s.includes('ballistic')||s.includes('kn-23')||s.includes('c-300')||s.includes('c-400')||s.includes('s-300')||s.includes('s-400');}
+  function isBallisticMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('iskander')||s.includes('kinzhal')||s.includes('ballistic')||s.includes('kn-23');}
   const cruiseLaunched=AIRDEF_DATA.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
   const cruiseDestroyed=AIRDEF_DATA.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.destroyed)||0),0);
   const ballisticLaunched=AIRDEF_DATA.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
@@ -2895,8 +2895,7 @@ function buildAirDefChart(){
   function isBallistic(m){
     if(!m)return false; const s=m.toLowerCase();
     return s.includes('iskander')||s.includes('kinzhal')||
-           s.includes('ballistic')||s.includes('kn-23')||s.includes('kh-47')||
-           (s.includes('c-300')||s.includes('c-400')||s.includes('s-300')||s.includes('s-400'));
+           s.includes('ballistic')||s.includes('kn-23')||s.includes('kh-47');
   }
 
   const drones={}, cruise={}, ballistic={};
@@ -3868,7 +3867,7 @@ function renderAirDefChartSlice(startIdx, endIdx){
       datasets:[
         {label:'Drones / UAVs',data:droneSlice,borderColor:'#6bbf78',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
         {label:'Cruise missiles',data:missileSlice,borderColor:'#5dade2',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
-        {label:'Ballistic / S-300',data:ballisticSlice,borderColor:'#e74c3c',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
+        {label:'Ballistic (Iskander/Kinzhal)',data:ballisticSlice,borderColor:'#e74c3c',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
         {label:'Overall avg',data:overallSlice,borderColor:'#d4a017',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0.3,spanGaps:true,fill:false}
       ]
     },
