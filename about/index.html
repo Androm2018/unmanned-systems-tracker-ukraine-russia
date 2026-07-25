@@ -400,69 +400,177 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   <a href="/" class="page-header-logo">Unmanned Systems <span>Tracker</span></a>
   <a href="/" class="page-header-back">← Back to tracker</a>
 </header>
-<div class="page-hero">
-  <h1>About the <span>Tracker</span></h1>
-  <p>The Ukraine War Unmanned Systems Tracker is an independent open-source research project built and maintained by Andro Mathewson, PhD Candidate in War Studies at King's College London. It documents the confirmed and claimed combat use of unmanned systems in the Russian invasion of Ukraine and publishes original quantitative analysis of the conflict's drone warfare dimensions.</p>
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div style="padding:52px 40px 44px;border-bottom:1px solid var(--border);position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(var(--border2) 1px,transparent 1px),linear-gradient(90deg,var(--border2) 1px,transparent 1px);background-size:60px 60px;opacity:0.25;pointer-events:none"></div>
+  <div style="font-family:var(--mono);font-size:0.46rem;color:var(--accent3);letter-spacing:0.24em;text-transform:uppercase;margin-bottom:16px;position:relative;z-index:1">About the Tracker</div>
+  <h1 style="font-family:var(--head);font-weight:900;font-size:clamp(2.2rem,5vw,4rem);line-height:0.92;letter-spacing:-0.02em;text-transform:uppercase;color:#fff;margin-bottom:20px;position:relative;z-index:1;max-width:18ch">Ukraine War <span style="color:var(--accent3)">Unmanned Systems</span> Tracker</h1>
+  <p style="font-family:var(--body);font-size:0.92rem;color:var(--text2);line-height:1.72;max-width:64ch;position:relative;z-index:1;font-weight:300">An independent open-source research project tracking drone warfare, naval drone operations, ground robot deployments, and Russian losses in Ukraine. The data presented here is <strong style="color:var(--text)">compiled and curated</strong> from publicly available sources — not independently generated. The analytical work on top of it is original.</p>
 </div>
-<div class="page-content">
 
-  <div class="data-section">
-    <div class="data-section-title">About the author</div>
-    <div class="insight-block">
-      <div class="insight-label">Andro Mathewson</div>
-      <div class="insight-text" style="margin-bottom:10px">PhD Candidate in War Studies, King's College London. Research focus: the strategic impact of emerging military technologies, with a specific focus on unmanned systems in the Russia-Ukraine conflict. The tracker is built alongside dissertation research and serves as both a public resource and a source of original data underpinning that research.</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="https://kcl.ac.uk/war-studies" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border)">King's College London — War Studies ↗</a>
-        <a href="https://github.com/Androm2018/ukraine-drone-weather-analysis" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border)">GitHub — Analysis Code ↗</a>
+<!-- ══ WHAT THIS IS ═══════════════════════════════════════════════════ -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:32px 40px 0">
+
+  <div style="background:var(--bg2);padding:28px 28px">
+    <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:12px">What this is</div>
+    <p style="font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.72;margin-bottom:14px">The tracker is a structured database of open-source intelligence on unmanned systems in the Russia-Ukraine war, maintained alongside doctoral research at King's College London. Its value lies in the curation, structuring, and analysis of data that exists across hundreds of disparate public sources — not in any claim to original data collection.</p>
+    <p style="font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.72">All primary data comes from Ukrainian government bodies, open-source researchers, verified video evidence, and credible media reporting. Every entry carries source citations. Where sources conflict, the more conservative assessment is applied.</p>
+  </div>
+
+  <div style="background:var(--bg2);padding:28px 28px">
+    <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:12px">What this isn't</div>
+    <p style="font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.72;margin-bottom:14px">This tracker does not conduct original fieldwork, interview combatants, or have access to classified or government-restricted information. It is not affiliated with any military, government, or intelligence organisation. It does not claim to be comprehensive — particularly for recent events where open-source coverage is still developing.</p>
+    <p style="font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.72">The original analyses in the Analyses and Deep Strike Research tabs are working findings — data-driven but not peer-reviewed. They should be treated as research-in-progress, not authoritative conclusions.</p>
+  </div>
+
+</div>
+
+<!-- ══ ABOUT THE AUTHOR ════════════════════════════════════════════════ -->
+<div style="margin:1px 40px 0;background:var(--bg2);border:1px solid var(--border);border-top:none;padding:28px 28px">
+  <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:16px">About the author</div>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start">
+    <div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;text-transform:uppercase;color:#fff;letter-spacing:0.04em;margin-bottom:6px">Andro Mathewson</div>
+      <div style="font-family:var(--mono);font-size:0.46rem;color:var(--accent3);letter-spacing:0.1em;margin-bottom:16px">PhD Candidate in War Studies · King's College London</div>
+      <p style="font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.72;margin-bottom:14px">Doctoral researcher specialising in the strategic impact of emerging military technologies, with a focus on unmanned systems in the Russia-Ukraine conflict. Dissertation: <em>The Strategic Impact of Emerging Military Technologies</em>, examining how FPV drones, unmanned surface vessels, and unmanned ground vehicles have influenced strategic outcomes.</p>
+      <p style="font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.72;margin-bottom:20px">This tracker began as a research tool for the dissertation and has since developed into a public-facing database. The analytical framework behind the original analyses — a two-variable matrix of technological effectiveness and perceived threat — is drawn directly from the doctoral research.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);border:1px solid var(--border);padding:3px 8px">2024 Bellingcat Tech Fellow</span>
+        <span style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);border:1px solid var(--border);padding:3px 8px">Junior Associate Fellow · NATO Defense College</span>
+        <span style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);border:1px solid var(--border);padding:3px 8px">Centre for Information Resilience</span>
+        <span style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);border:1px solid var(--border);padding:3px 8px">Scottish International Education Trust</span>
+      </div>
+    </div>
+    <div style="flex-shrink:0;min-width:180px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Published in</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">Bellingcat</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">Military Times</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">Modern War Institute · West Point</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">Bulletin of the Atomic Scientists</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">The National Interest</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">Wavell Room</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">Internationale Politik</span>
+        <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text2)">The Arctic Institute</span>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="data-section">
-    <div class="data-section-title">Data methodology & inclusion criteria</div>
-    <div class="insight-block"><div class="insight-label">Inclusion criteria</div><div class="insight-text">Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted where it exists but is not required for inclusion.</div></div>
-    <div class="insight-block"><div class="insight-label">Damage classification</div><div class="insight-text">A consistent taxonomy is applied across all entries. Sunk = total loss, vessel confirmed on seabed. Destroyed = total loss confirmed on land or in air. Damaged = partial damage, target operational or repairable. Shot Down = aerial asset destroyed in flight. Disrupted = infrastructure or operation temporarily put out of action.</div></div>
-    <div class="insight-block"><div class="insight-label">Personnel casualty figures</div><div class="insight-text">This tracker uses Mediazona/BBC News Russian confirmed-by-name figures as its primary KIA metric — the most rigorous publicly available methodology, cross-checked against Russia's National Probate Registry. These figures are always a floor, not a ceiling. Statistical estimates from Meduza/Mediazona's probate registry model are cited alongside for context.</div></div>
+<!-- ══ DATA SOURCES ════════════════════════════════════════════════════ -->
+<div style="margin:32px 40px 0;display:flex;align-items:center;gap:16px">
+  <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap">Data sources &amp; attribution</span>
+  <div style="flex:1;height:1px;background:var(--border)"></div>
+</div>
+
+<div style="margin:16px 40px 0;border:1px solid var(--border)">
+  <div style="padding:16px 20px;background:var(--bg2);border-bottom:1px solid var(--border)">
+    <p style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.7">The tracker compiles data from the following primary sources. Each source retains full ownership of its data. This project curates, structures, and contextualises that data — it does not claim ownership of any primary dataset. Where a source's own terms restrict commercial use, that restriction applies to the underlying data here.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+    <div style="background:var(--bg);padding:16px 20px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">UAV Kill Board</div>
+      <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:4px"><strong style="color:var(--text)">USF Pidrakhuyka</strong> — Unmanned Systems Forces of Ukraine verified kill data</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3)">Strike flights, personnel hit, vehicle and equipment destruction · Updated manually each quarter</div>
+    </div>
+    <div style="background:var(--bg);padding:16px 20px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Air Defence</div>
+      <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:4px"><strong style="color:var(--text)">Petro Ivaniuk</strong> — Ukrainian Air Force daily reports, compiled via Kaggle</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3)">Weapons launched, intercepted, weapon type breakdown · Auto-updated daily</div>
+    </div>
+    <div style="background:var(--bg);padding:16px 20px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Territorial Advance</div>
+      <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:4px"><strong style="color:var(--text)">Black Bird Group / DeepState</strong> — Net monthly territorial change in km²</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3)">Russian-controlled Ukrainian territory · Updated quarterly</div>
+    </div>
+    <div style="background:var(--bg);padding:16px 20px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Russian KIA</div>
+      <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:4px"><strong style="color:var(--text)">Mediazona / BBC News</strong> — Confirmed deaths cross-checked against Russia's National Probate Registry</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3)">Most rigorous publicly available methodology · Always a floor figure</div>
+    </div>
+    <div style="background:var(--bg);padding:16px 20px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Equipment Losses</div>
+      <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:4px"><strong style="color:var(--text)">Oryx</strong> — Photo-confirmed equipment losses with source imagery</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3)">Gold standard for equipment loss confirmation · Updated as imagery emerges</div>
+    </div>
+    <div style="background:var(--bg);padding:16px 20px">
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Deep Strike Research</div>
+      <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.6;margin-bottom:4px"><strong style="color:var(--text)">@dronbomber</strong> (OSINT confirmed strikes) · <strong style="color:var(--text)">@mod_russia</strong> (intercept claims)</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3)">Original corridor analysis uses these as numerator/denominator for penetration rates</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ METHODOLOGY ══════════════════════════════════════════════════════ -->
+<div style="margin:32px 40px 0;display:flex;align-items:center;gap:16px">
+  <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap">Methodology</span>
+  <div style="flex:1;height:1px;background:var(--border)"></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin:16px 40px 0">
+  <div style="background:var(--bg2);padding:20px 20px">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px">Inclusion criteria</div>
+    <p style="font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65">Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted but not required.</p>
+  </div>
+  <div style="background:var(--bg2);padding:20px 20px">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px">Damage classification</div>
+    <p style="font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65"><strong style="color:var(--text)">Sunk</strong> = total loss on seabed. <strong style="color:var(--text)">Destroyed</strong> = total loss confirmed. <strong style="color:var(--text)">Damaged</strong> = partial damage, target repairable. <strong style="color:var(--text)">Shot Down</strong> = aerial asset destroyed in flight. <strong style="color:var(--text)">Disrupted</strong> = operation temporarily affected.</p>
+  </div>
+  <div style="background:var(--bg2);padding:20px 20px">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px">Uncertainty &amp; limitations</div>
+    <p style="font-family:var(--body);font-size:0.76rem;color:var(--text2);line-height:1.65">Active conflict reporting is inherently incomplete. Russian-side data systematically underreports losses. Ukrainian official figures may overstate. All quantitative analyses carry methodology notes flagging known limitations, sample size constraints, and confounding variables.</p>
+  </div>
+</div>
+
+<!-- ══ CITATION GUIDANCE ═══════════════════════════════════════════════ -->
+<div style="margin:32px 40px 0;display:flex;align-items:center;gap:16px">
+  <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap">How to cite this work</span>
+  <div style="flex:1;height:1px;background:var(--border)"></div>
+</div>
+
+<div style="margin:16px 40px 0;border:1px solid var(--border)">
+  <div style="padding:16px 20px;background:rgba(107,191,120,0.04);border-bottom:1px solid var(--border);border-left:3px solid var(--accent3)">
+    <p style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.7;margin-bottom:8px">This tracker curates open-source data rather than generating primary data. When citing figures from the tracker, please cite both this resource <em>and</em> the underlying primary source where possible. The primary source is always listed on each entry.</p>
+    <p style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.7">The original analytical work — the corridor analysis, saturation findings, interception rate analyses, and Logistics Lockdown research — is the intellectual contribution of this project and should be attributed accordingly.</p>
   </div>
 
-  <div class="data-section">
-    <div class="data-section-title">Data sources</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.8">Air defence data: Petro Ivaniuk / Ukrainian Air Force (verified by CSIS) · UAV kill data: USF Pidrakhuyka · Personnel KIA: Mediazona/BBC News · Equipment losses: Oryx, DIA, CSIS · Territorial advance: Black Bird Group / DeepState · USV/UGV events: compiled from official Ukrainian releases, verified reporting, and OSINT.</p>
-  </div>
-
-  <div class="data-section">
-    <div class="data-section-title">Disclaimer</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.8">This tracker is not affiliated with any government, military organisation, or commercial entity. It is not affiliated with any of the organisations listed as sources. Links are provided for research and verification purposes only. Users are encouraged to consult primary sources directly and apply their own critical judgement to all conflict data.</p>
-    <div style="margin-top:12px;display:flex;gap:14px">
-      <a href="/privacy.html" style="font-family:var(--mono);font-size:0.58rem;color:var(--accent3);text-decoration:none">Privacy Policy ↗</a>
-      <a href="/disclaimer.html" style="font-family:var(--mono);font-size:0.58rem;color:var(--accent3);text-decoration:none">Full Disclaimer ↗</a>
+  <div style="padding:20px 20px;border-bottom:1px solid var(--border)">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">Citing the tracker (general)</div>
+    <div style="background:var(--bg3);border:1px solid var(--border);padding:12px 16px;font-family:var(--mono);font-size:0.52rem;color:var(--text2);line-height:1.7">
+      Mathewson, A. (2024–2026). <em>Ukraine War Unmanned Systems Tracker</em>. King's College London, Department of War Studies. Retrieved [date] from https://unmannedsystemstracker.com
     </div>
   </div>
 
+  <div style="padding:20px 20px;border-bottom:1px solid var(--border)">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">Citing the original analyses</div>
+    <div style="background:var(--bg3);border:1px solid var(--border);padding:12px 16px;font-family:var(--mono);font-size:0.52rem;color:var(--text2);line-height:1.7">
+      Mathewson, A. (2025). '[Analysis title]'. In <em>Ukraine War Unmanned Systems Tracker</em>. King's College London, Department of War Studies. https://unmannedsystemstracker.com/#analyses
+    </div>
+  </div>
+
+  <div style="padding:20px 20px;border-bottom:1px solid var(--border)">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">Citing underlying primary data</div>
+    <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.65">When citing air defence figures, cite <strong style="color:var(--text)">Petro Ivaniuk / Ukrainian Air Force</strong> as the primary source. For KIA figures, cite <strong style="color:var(--text)">Mediazona / BBC News</strong>. For equipment losses, cite <strong style="color:var(--text)">Oryx</strong>. For territorial data, cite <strong style="color:var(--text)">Black Bird Group / DeepState</strong>. For UAV kill board data, cite <strong style="color:var(--text)">USF Pidrakhuyka</strong>. This tracker compiles these sources and should be credited as such, not as a replacement for citing the originators.</div>
+  </div>
+
+  <div style="padding:20px 20px">
+    <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">For media use</div>
+    <div style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.65">Journalists may cite the tracker and its analyses freely with attribution. For comment, context, or interview requests, contact via the <a href="/#sources" style="color:var(--accent3)">Sources tab</a>. The tracker is available for research collaboration and data partnership — please get in touch to discuss.</div>
+  </div>
 </div>
-<script>
-  // Structured data for E-E-A-T
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Andro Mathewson",
-    "jobTitle": "PhD Candidate",
-    "affiliation": {
-      "@type": "EducationalOrganization",
-      "name": "King's College London",
-      "department": "War Studies"
-    },
-    "url": "https://unmannedsystemstracker.com/about/",
-    "sameAs": [
-      "https://github.com/Androm2018",
-      "https://kcl.ac.uk/war-studies"
-    ]
-  };
-  const s = document.createElement('script');
-  s.type = 'application/ld+json';
-  s.textContent = JSON.stringify(schema);
-  document.head.appendChild(s);
-</script>
+
+<!-- ══ LICENSE ═════════════════════════════════════════════════════════ -->
+<div style="margin:32px 40px 0;display:flex;align-items:center;gap:16px">
+  <span style="font-family:var(--mono);font-size:0.42rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap">License</span>
+  <div style="flex:1;height:1px;background:var(--border)"></div>
+</div>
+
+<div style="margin:16px 40px 40px;border:1px solid var(--border);padding:20px 24px;background:var(--bg2)">
+  <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;text-transform:uppercase;color:#fff;margin-bottom:8px;letter-spacing:0.04em">Creative Commons BY-NC 4.0</div>
+  <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.65;margin-bottom:12px">The original work on this site — code, analytical findings, curation methodology, and written content — is licensed under <strong style="color:var(--text)">Creative Commons Attribution-NonCommercial 4.0 International</strong>. You may share and adapt it for non-commercial purposes with attribution. Commercial use requires explicit written permission.</p>
+  <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.65;margin-bottom:12px">This license covers the <em>original contribution</em> — the compilation, curation, analysis, and code. It does not and cannot cover the underlying primary data from third-party sources (Ukrainian Air Force figures, Mediazona KIA counts, Oryx photo-confirmed losses), which remain subject to their originators' own terms.</p>
+  <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.08em;text-transform:uppercase">→ Full license text</a>
+</div>
 
 <footer class="page-footer">
   <span>© 2026 Andro Mathewson · King's College London · War Studies</span>
