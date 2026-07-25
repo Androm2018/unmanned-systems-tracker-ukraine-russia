@@ -95,8 +95,10 @@ async function appendRows(sheets, rows) {
 
 function convertDate(raw) {
   const parts = raw.trim().split('.');
-  if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
-  return raw;
+  if (parts.length !== 3 || parts.some(p => !/^\d+$/.test(p))) {
+    throw new Error(`Unexpected date format: "${raw}" (expected DD.MM.YYYY)`);
+  }
+  return `${parts[2]}-${parts[1]}-${parts[0]}`;
 }
 
 function categoriseTarget(category) {
@@ -219,13 +221,15 @@ async function scrape() {
         const next = (texts[i + 1] || '').toLowerCase();
         if (!/[0-9]/.test(t) || t !== String(parseInt(t,10))) continue;
         const n = parseInt(t, 10);
-        if (next.includes('damaged targets'))   { result.totalDamaged   = n; continue; }
-        if (next.includes('incl. destroyed') && result.totalDamaged > 0 && result.totalDestroyed === 0) { result.totalDestroyed = n; continue; }
-        if (next.includes('enemy personnel'))   { result.personnel      = n; continue; }
+        // Check the most specific labels first so "enemy personnel killed"
+        // doesn't get captured by the broader "enemy personnel" match.
         if (next.includes('killed'))            { result.killed         = n; continue; }
         if (next.includes('wounded'))           { result.wounded        = n; continue; }
+        if (next.includes('damaged targets'))   { result.totalDamaged   = n; continue; }
+        if (next.includes('incl. destroyed') && result.totalDamaged > 0 && result.totalDestroyed === 0) { result.totalDestroyed = n; continue; }
         if (next.includes('strike flights'))    { result.strikeFlights  = n; continue; }
         if (next.includes('recon flights'))     { result.reconFlights   = n; continue; }
+        if (next.includes('enemy personnel'))   { result.personnel      = n; continue; }
       }
       return result;
     });

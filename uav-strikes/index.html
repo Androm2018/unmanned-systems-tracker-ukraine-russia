@@ -88,7 +88,7 @@ main{padding:28px 32px;max-width:1600px;margin:0 auto}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── SECTION HEADER ── */
-.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
+.section-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border2);flex-wrap:wrap}
 .section-title{font-family:var(--head);font-weight:900;font-size:1.55rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;line-height:1}
 .section-title span{color:var(--accent3);font-weight:300}
 .section-sub{font-family:var(--mono);font-size:0.62rem;color:var(--text3);letter-spacing:0.06em;margin-top:5px}
@@ -146,16 +146,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
 /* ── KILL BOARD ── */
 .kb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:28px}
-.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:22px;position:relative;overflow:hidden}
-.kb-card::before{content:attr(data-icon);position:absolute;right:14px;top:10px;font-size:2.2rem;opacity:0.055;line-height:1}
-.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
-.kb-card-value{font-family:var(--head);font-weight:900;font-size:2.5rem;line-height:1;letter-spacing:-0.01em}
+.kb-card{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--accent);padding:20px 20px 18px;position:relative;overflow:hidden;min-width:0}
+.kb-card::before{content:attr(data-icon);position:absolute;right:10px;top:6px;font-size:1.6rem;opacity:0.06;line-height:1;pointer-events:none}
+.kb-card-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;padding-right:28px;line-height:1.45}
+.kb-card-value{font-family:var(--head);font-weight:900;font-size:1.9rem;line-height:1.05;letter-spacing:-0.005em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .kb-card-value.red  {color:#e74c3c}
 .kb-card-value.amber{color:#f0c040}
 .kb-card-value.green{color:var(--accent3)}
 .kb-card-value.blue {color:var(--blue)}
-.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:5px;line-height:1.4}
-.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)}
+.kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:7px;line-height:1.5}
+.kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2);line-height:1.4}
 .kb-section-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
 .kb-section-title::after{content:'';flex:1;height:1px;background:var(--border2)}
 .stat-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
@@ -177,19 +177,20 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .intro-headline{font-family:var(--head);font-weight:900;font-size:2.2rem;letter-spacing:0.04em;text-transform:uppercase;color:#fff;line-height:0.95;margin-bottom:12px}
 .intro-headline em{color:var(--accent3);font-style:normal;font-weight:300}
 .intro-lead{font-family:var(--body);font-size:0.82rem;color:var(--text2);line-height:1.6;max-width:680px;margin-bottom:0}
-.intro-stats{display:flex;flex-wrap:nowrap;gap:0;border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.intro-stat{flex:0 0 calc(100%/7);min-width:140px;padding:14px 10px;border-right:1px solid var(--border);box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s}
-.intro-stat:hover{background:var(--glowb)}
+.intro-stats{display:flex;flex-wrap:nowrap;gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.intro-stats::-webkit-scrollbar{height:4px}
+.intro-stats::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.intro-stat{background:var(--bg2);flex:0 0 160px;min-width:160px;padding:14px 16px;box-sizing:border-box;cursor:pointer;transition:background 0.15s,transform 0.1s;scroll-snap-align:start;display:flex;flex-direction:column;gap:5px}
+.intro-stat:hover{background:var(--bg3)}
 .intro-stat:active{transform:scale(0.98)}
 .intro-stat .intro-stat-hint{font-family:var(--mono);font-size:0.48rem;color:var(--border2);letter-spacing:0.08em;margin-top:3px;transition:color 0.15s;opacity:0}
 .intro-stat:hover .intro-stat-hint{opacity:1;color:var(--accent3)}
-.intro-stat:last-child{border-right:none}
-.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1}
+.intro-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums;color:#fff;overflow-wrap:anywhere}
 .intro-stat-val.g{color:var(--accent3)}
 .intro-stat-val.r{color:#e74c3c}
 .intro-stat-val.a{color:#f0c040}
 .intro-stat-val.b{color:var(--blue)}
-.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intro-stat-label{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;white-space:normal}
 
 /* ── INTRO PAGE CARDS ── */
 .intro-pages{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;overflow:hidden}
@@ -225,7 +226,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .empty-desc{font-family:var(--mono);font-size:0.63rem;color:var(--text3);line-height:1.85;max-width:500px;margin:0 auto}
 
 /* ── OSINT SOURCES PAGE ── */
-.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.sources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:32px}
 .source-card{background:var(--bg2);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.18s}
 .source-card:hover{border-color:var(--accent)}
 .source-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
@@ -245,10 +246,16 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
 
 /* ── AIR DEFENCE TAB ── */
-.ad-stat-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
-.ad-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff}
-.ad-stat-lbl{font-family:var(--mono);font-size:0.54rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.ad-stat-strip{display:flex;flex-wrap:nowrap;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.ad-stat-strip::-webkit-scrollbar{height:4px}
+.ad-stat-strip::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.ad-stat-cell{background:var(--bg2);flex:0 0 160px;min-width:160px;box-sizing:border-box;padding:14px 16px;display:flex;flex-direction:column;gap:5px;scroll-snap-align:start}
+.ad-stat-val{font-family:var(--head);font-weight:900;font-size:1.5rem;line-height:1;color:#fff;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ad-stat-val.r{color:#e74c3c}
+.ad-stat-val.a{color:#f0c040}
+.ad-stat-val.g{color:var(--accent3)}
+.ad-stat-val.b{color:var(--blue)}
+.ad-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;white-space:normal}
 .ad-weapon-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
 .ad-weapon-col{background:var(--bg2)}
 .ad-weapon-header{display:flex;padding:7px 14px;border-bottom:1px solid var(--border);background:var(--bg3)}
@@ -265,15 +272,19 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .ad-rate-mid{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid #f0c040}
 .ad-rate-bad{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid #e74c3c}
 @media(max-width:600px){
-  .intro-stat{padding:10px 6px!important}.ad-stat-strip{grid-template-columns:repeat(3,1fr)}.ad-weapon-grid{grid-template-columns:1fr}}
+  .intro-stat,.ad-stat-cell{flex:0 0 140px;min-width:140px;padding:11px 13px}.intro-stat-val,.ad-stat-val{font-size:1.3rem}.ad-weapon-grid{grid-template-columns:1fr}}
 /* ── AD UNITS ── */
 .ad-unit{margin:24px 0;text-align:center;opacity:0.85}
 .ad-unit-label{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
 
 /* ── UAV KILLBOARD ── */
-.uav-stat-cell{background:var(--bg2);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff}
-.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.uav-stat-cell{background:var(--bg2);flex:0 0 160px;min-width:160px;box-sizing:border-box;padding:14px 16px;display:flex;flex-direction:column;gap:5px;scroll-snap-align:start}
+.uav-stat-val{font-family:var(--head);font-weight:900;font-size:1.6rem;line-height:1;color:#fff;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.uav-stat-val.r{color:#e74c3c}
+.uav-stat-val.a{color:#f0c040}
+.uav-stat-val.g{color:var(--accent3)}
+.uav-stat-val.b{color:var(--blue)}
+.uav-stat-lbl{font-family:var(--mono);font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;line-height:1.4;white-space:normal}
 .uav-cat-row{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);gap:10px;transition:background 0.1s}
 .uav-cat-row:last-child{border-bottom:none}
 .uav-cat-row:hover{background:var(--glowb)}
@@ -308,7 +319,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   table{table-layout:auto;min-width:600px}
   /* UAV killboard: stack columns */
   #uav-killboard{grid-template-columns:1fr}
-  #uav-stat-strip{grid-template-columns:repeat(4,1fr)}
 }
 
 /* ── MOBILE ── */
@@ -346,13 +356,12 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   tbody td{padding:7px 10px}
   /* Kill board cards */
   .kb-grid{grid-template-columns:1fr}
-  .kb-card-value{font-size:2rem}
+  .kb-card-value{font-size:1.7rem}
   .stat-rows{grid-template-columns:1fr}
   /* UAV killboard */
   #uav-killboard{grid-template-columns:1fr}
-  #uav-stat-strip{grid-template-columns:repeat(2,1fr);font-size:0.9rem}
-  .uav-stat-val{font-size:1.2rem}
-  .uav-stat-cell{padding:10px 12px}
+  .uav-stat-cell{flex:0 0 140px;min-width:140px;padding:11px 13px}
+  .uav-stat-val{font-size:1.3rem}
   /* Sources page */
   .sources-grid{grid-template-columns:1fr}
   .donate-block{padding:20px 16px}
@@ -369,7 +378,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .logo-text h1{font-size:0.68rem}
   .nav-tab{font-size:0.55rem;padding:0 8px}
   .intro-headline{font-size:1.35rem}
-  #uav-stat-strip{grid-template-columns:1fr 1fr}
+  .uav-stat-cell{flex:0 0 130px;min-width:130px;padding:10px 11px}
+  .uav-stat-val{font-size:1.2rem}
 }
 
 
@@ -415,11 +425,11 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 
   <div class="data-section">
     <div class="data-section-title">Live data — UAV kill board</div>
-    <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:14px">
-      <div class="uav-stat-cell"><span class="uav-stat-val" id="uav-s-damaged">—</span><span class="uav-stat-lbl">Damaged targets</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:var(--accent3)" id="uav-s-destroyed">—</span><span class="uav-stat-lbl">Incl. destroyed</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#f0c040" id="uav-s-sorties">—</span><span class="uav-stat-lbl">Strike flights</span></div>
-      <div class="uav-stat-cell"><span class="uav-stat-val" style="color:#e74c3c" id="uav-s-personnel">—</span><span class="uav-stat-lbl">Personnel hit</span></div>
+    <div id="uav-stat-strip" class="ad-stat-strip" style="margin-bottom:14px">
+      <div class="uav-stat-cell"><span class="uav-stat-val" id="uav-s-damaged">260 117</span><span class="uav-stat-lbl">Damaged targets</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val g" id="uav-s-destroyed">90 428</span><span class="uav-stat-lbl">Incl. destroyed</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val a" id="uav-s-sorties">648 850</span><span class="uav-stat-lbl">Strike flights</span></div>
+      <div class="uav-stat-cell"><span class="uav-stat-val r" id="uav-s-personnel">78 656</span><span class="uav-stat-lbl">Personnel hit</span></div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn btn-accent" onclick="exportCSV('uav')">⬇ Export CSV</button>
@@ -429,7 +439,148 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
     </div>
     <div id="uav-killboard" style="background:var(--bg2);border:1px solid var(--border)">
       <div class="uav-cat-header"><span style="flex:1">Target category</span><span class="uav-num-col">Damaged</span><span class="uav-num-col">Destroyed</span></div>
-      <div id="uav-body"><div class="state-box"><div class="spinner"></div><br>Loading…</div></div>
+      <div id="uav-body">
+        <div class="uav-cat-row highlighted">
+          <span class="uav-cat-name">Enemy personnel</span>
+          <span class="uav-num-col uav-num-damaged">78 656</span>
+          <span class="uav-num-col uav-num-destroyed">43 385</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Drone launch positions</span>
+          <span class="uav-num-col uav-num-damaged">7 520</span>
+          <span class="uav-num-col uav-num-destroyed">261</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Antennas</span>
+          <span class="uav-num-col uav-num-damaged">11 564</span>
+          <span class="uav-num-col uav-num-destroyed">7 407</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">SAMs, SPADs</span>
+          <span class="uav-num-col uav-num-damaged">113</span>
+          <span class="uav-num-col uav-num-destroyed">22</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Radars (system)</span>
+          <span class="uav-num-col uav-num-damaged">32</span>
+          <span class="uav-num-col uav-num-destroyed">6</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Radars (portable)</span>
+          <span class="uav-num-col uav-num-damaged">257</span>
+          <span class="uav-num-col uav-num-destroyed">124</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">EW (system)</span>
+          <span class="uav-num-col uav-num-damaged">23</span>
+          <span class="uav-num-col uav-num-destroyed">8</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">EW (car + portable)</span>
+          <span class="uav-num-col uav-num-damaged">2 310</span>
+          <span class="uav-num-col uav-num-destroyed">1 027</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Enemy wings</span>
+          <span class="uav-num-col uav-num-damaged">14 937</span>
+          <span class="uav-num-col uav-num-destroyed">14 361</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Shaheds and Gerberas</span>
+          <span class="uav-num-col uav-num-damaged">5 045</span>
+          <span class="uav-num-col uav-num-destroyed">4 885</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Tanks</span>
+          <span class="uav-num-col uav-num-damaged">759</span>
+          <span class="uav-num-col uav-num-destroyed">126</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">APCs, IFVs, ACVs</span>
+          <span class="uav-num-col uav-num-damaged">1 229</span>
+          <span class="uav-num-col uav-num-destroyed">296</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Guns, howitzers</span>
+          <span class="uav-num-col uav-num-damaged">3 742</span>
+          <span class="uav-num-col uav-num-destroyed">246</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Self-propelled artillery</span>
+          <span class="uav-num-col uav-num-damaged">290</span>
+          <span class="uav-num-col uav-num-destroyed">37</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Mortars</span>
+          <span class="uav-num-col uav-num-damaged">392</span>
+          <span class="uav-num-col uav-num-destroyed">94</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">MRLS</span>
+          <span class="uav-num-col uav-num-damaged">217</span>
+          <span class="uav-num-col uav-num-destroyed">55</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Light, Heavy, Special-purpose vehicles</span>
+          <span class="uav-num-col uav-num-damaged">11 730</span>
+          <span class="uav-num-col uav-num-destroyed">2 630</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Motorcycles and military buggies</span>
+          <span class="uav-num-col uav-num-damaged">7 332</span>
+          <span class="uav-num-col uav-num-destroyed">2 290</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Ammo, fuel and equipment depots</span>
+          <span class="uav-num-col uav-num-damaged">2 500</span>
+          <span class="uav-num-col uav-num-destroyed">1 418</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Strategic infrastructure</span>
+          <span class="uav-num-col uav-num-damaged">0</span>
+          <span class="uav-num-col uav-num-destroyed">0</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Tactical infrastructure</span>
+          <span class="uav-num-col uav-num-damaged">178</span>
+          <span class="uav-num-col uav-num-destroyed">14</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Shelters</span>
+          <span class="uav-num-col uav-num-damaged">73 592</span>
+          <span class="uav-num-col uav-num-destroyed">3 249</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Dugouts</span>
+          <span class="uav-num-col uav-num-damaged">25 481</span>
+          <span class="uav-num-col uav-num-destroyed">592</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Network equipment</span>
+          <span class="uav-num-col uav-num-damaged">2 288</span>
+          <span class="uav-num-col uav-num-destroyed">1 100</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Cameras</span>
+          <span class="uav-num-col uav-num-damaged">80</span>
+          <span class="uav-num-col uav-num-destroyed">51</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Enemy copter drones</span>
+          <span class="uav-num-col uav-num-damaged">6 252</span>
+          <span class="uav-num-col uav-num-destroyed">5 817</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Enemy unmanned robotic complexes</span>
+          <span class="uav-num-col uav-num-damaged">405</span>
+          <span class="uav-num-col uav-num-destroyed">149</span>
+        </div>
+        <div class="uav-cat-row">
+          <span class="uav-cat-name">Other</span>
+          <span class="uav-num-col uav-num-damaged">2 971</span>
+          <span class="uav-num-col uav-num-destroyed">776</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -439,7 +590,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   </div>
 </div>
 <script>
-const EMBEDDED_UAV = const EMBEDDED_UAV=[
+const EMBEDDED_UAV=[
   // ── Annual totals (Jun 2025 – Mar 2026) ──
   {date:"yearly_2025",target:"total damaged targets",outcome:"260117"},
   {date:"yearly_2025",target:"total destroyed targets",outcome:"90428"},
@@ -734,24 +885,13 @@ function renderUAV(){
   });
 
   const nores = document.getElementById('uav-nores');
+  const body = document.getElementById('uav-body');
   if(!catRows.length){
-    document.getElementById('uav-col-left').innerHTML='';
-    document.getElementById('uav-col-right').innerHTML='';
+    if(body)body.innerHTML='';
     if(nores)nores.style.display='block';
     return;
   }
   if(nores)nores.style.display='none';
-
-  // Split into two columns (left: first half, right: second half)
-  const mid = Math.ceil(catRows.length/2);
-  const leftRows  = catRows.slice(0, mid);
-  const rightRows = catRows.slice(mid);
-
-  const header = `<div class="uav-cat-header">
-    <span style="flex:1">Target</span>
-    <span class="uav-num-col">Damaged</span>
-    <span class="uav-num-col">Destroyed</span>
-  </div>`;
 
   const buildRows = (arr) => arr.map((r,i)=>{
     const nums = parseOutcomeNums(r.outcome);
@@ -763,8 +903,7 @@ function renderUAV(){
     </div>`;
   }).join('');
 
-  document.getElementById('uav-col-left').innerHTML  = header + buildRows(leftRows);
-  document.getElementById('uav-col-right').innerHTML = header + buildRows(rightRows);
+  if(body)body.innerHTML = buildRows(catRows);
 }
 
 function sortUAV(c){uavSort={col:c,asc:uavSort.col===c?!uavSort.asc:true};renderUAV()}
