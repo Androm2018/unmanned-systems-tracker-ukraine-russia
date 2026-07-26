@@ -15,7 +15,7 @@
 <meta property="og:description" content="Open-source database of 3,500+ Russian aerial attacks, USV strikes, UGV operations and Russian losses. Free OSINT resource updated daily.">
 <meta property="og:url" content="https://unmannedsystemstracker.com">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://unmannedsystemstracker.com/preview.png">
+<meta property="og:image" content="https://unmannedsystemstracker.com/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ukraine War Unmanned Systems Tracker — USV, UGV &amp; Air Defence Data">
 <meta name="twitter:description" content="Open-source database of 3,500+ Russian aerial attacks, USV strikes, UGV operations and Russian losses. Updated daily.">
-<meta name="twitter:image" content="https://unmannedsystemstracker.com/preview.png">
+<meta name="twitter:image" content="https://unmannedsystemstracker.com/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -105,7 +105,7 @@ main{padding:28px 32px;max-width:1600px;margin:0 auto}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── SECTION HEADER ── */
-.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
+.section-header{padding:8px 0 4px;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
 .section-title{font-family:var(--head);font-weight:900;font-size:1.55rem;letter-spacing:0.08em;text-transform:uppercase;color:#fff;line-height:1}
 .section-title span{color:var(--accent3);font-weight:300}
 .section-sub{font-family:var(--mono);font-size:0.62rem;color:var(--text3);letter-spacing:0.06em;margin-top:5px}
@@ -137,7 +137,7 @@ tbody tr{border-bottom:1px solid var(--border2);transition:background 0.1s}
 tbody tr:hover{background:var(--glowb)}
 tbody td{padding:9px 13px;vertical-align:top}
 .cell-date{font-family:var(--mono);font-size:0.65rem;color:var(--text3);white-space:nowrap}
-.cell-target{font-weight:600;color:#e0ead8;font-family:var(--head);font-size:0.88rem;letter-spacing:0.02em}
+.cell-target{font-weight:600;color:#e0ead8;font-family:var(--head);font-size:0.9rem;letter-spacing:0.02em}
 .cell-type,.cell-loc,.cell-notes{font-size:0.7rem;color:var(--text2);line-height:1.5}
 .cell-notes{max-width:300px}
 
@@ -173,7 +173,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .kb-card-value.blue {color:var(--blue)}
 .kb-card-sub{font-family:var(--body);font-size:0.7rem;color:var(--text3);margin-top:5px;line-height:1.4}
 .kb-card-source{font-family:var(--mono);font-size:0.56rem;color:var(--text3);margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)}
-.kb-section-title{font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
+.kb-section-title{padding-top:8px;padding-bottom:4px;margin-bottom:12px;font-family:var(--head);font-weight:700;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);margin:26px 0 13px;display:flex;align-items:center;gap:12px}
 .kb-section-title::after{content:'';flex:1;height:1px;background:var(--border2)}
 .stat-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
 .stat-row{background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;padding:12px 16px;gap:14px}
@@ -228,7 +228,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 /* ── METHODOLOGY / SOURCES ── */
 .intro-methodology{background:var(--bg2);border:1px solid var(--border);padding:26px 28px;margin-bottom:28px}
 .intro-methodology h3{font-family:var(--head);font-weight:700;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);margin-bottom:13px}
-.intro-methodology p{font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.75;margin-bottom:10px}
+.intro-methodology p{font-family:var(--body);font-size:0.84rem;color:var(--text3);line-height:1.75;margin-bottom:10px}
 .intro-methodology p:last-of-type{margin-bottom:0}
 .intro-methodology b{color:var(--text2)}
 .source-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
@@ -262,7 +262,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
 
 /* ── AIR DEFENCE TAB ── */
-.ad-stat-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 20px;overflow:hidden}
+.ad-stat-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 28px;overflow:hidden}
 .ad-stat-cell{background:var(--bg2);padding:10px 8px;display:flex;flex-direction:column;gap:3px}
 .ad-stat-val{font-family:var(--head);font-weight:900;font-size:clamp(0.85rem,1.3vw,1.2rem);line-height:1;color:#fff}
 .ad-stat-lbl{font-family:var(--mono);font-size:0.32rem;color:var(--text3);letter-spacing:0.07em;text-transform:uppercase}
@@ -449,7 +449,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   /* Header: icon + title only, no subtitle */
   header{padding:0 12px;min-height:50px}
   .logo-icon{width:26px;height:26px}
-  .logo-text h1{font-size:0.78rem;letter-spacing:0.08em}
+  .logo-text h1{font-size:0.84rem;letter-spacing:0.08em}
   /* Nav: scrollable row of small tabs */
   nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .nav-tab{flex:0 0 auto!important;min-width:fit-content!important}
@@ -615,7 +615,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   display:flex;align-items:center;gap:20px;padding:48px 40px 20px;
 }
 .sdiv-num{font-family:var(--M2);font-size:0.5rem;color:var(--border);letter-spacing:0.08em;flex-shrink:0}
-.sdiv-label{font-family:var(--H2);font-weight:700;font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);flex-shrink:0}
+.sdiv-label{font-family:var(--H2);font-weight:700;font-size:0.84rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);flex-shrink:0}
 .sdiv-line{flex:1;height:1px;background:var(--border)}
 
 /* New chart panel */
@@ -636,7 +636,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .new-support-panel{background:var(--bg2);padding:28px 28px}
 .new-support-tag{font-family:var(--M2);font-size:0.42rem;color:var(--accent3);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px}
 .new-support-title{font-family:var(--H2);font-weight:700;font-size:1.05rem;text-transform:uppercase;color:#fff;line-height:1.15;margin-bottom:10px}
-.new-support-desc{font-family:var(--B2);font-size:0.78rem;color:var(--text2);line-height:1.65;margin-bottom:16px;font-weight:300}
+.new-support-desc{font-family:var(--B2);font-size:0.84rem;color:var(--text2);line-height:1.65;margin-bottom:16px;font-weight:300}
 .new-support-pts{margin-bottom:18px}
 .new-support-pt{font-family:var(--M2);font-size:0.46rem;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px}
 .new-support-pt::before{content:'→';color:var(--accent3)}
@@ -651,7 +651,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .new-meth-cell{padding:20px 22px;border-right:1px solid var(--border);border-top:1px solid var(--border)}
 .new-meth-cell:last-child{border-right:none}
 .new-meth-label{font-family:var(--M2);font-size:0.42rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
-.new-meth-text{font-family:var(--B2);font-size:0.74rem;color:var(--text2);line-height:1.65;font-weight:300}
+.new-meth-text{font-family:var(--B2);font-size:0.8rem;color:var(--text2);line-height:1.65;font-weight:300}
 
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(.22,1,.36,1),transform 0.6s cubic-bezier(.22,1,.36,1)}
@@ -696,6 +696,66 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .new-meth-cell{padding:14px 16px}
 }
 /* ══ END NEW INTRO DESIGN ══════════════════════════════════════════ */
+
+/* Mobile additions */
+
+  .hero-h1{font-size:clamp(2.2rem,12vw,3rem) !important;word-break:break-word}
+  .hero-bottom{flex-direction:column;gap:14px;align-items:flex-start}
+  .hero-desc{font-size:0.82rem;max-width:100%}
+  .hero-attrs{align-items:flex-start;gap:4px}
+  .hero-attr{font-size:0.4rem}
+  .new-stat{flex:0 0 120px;min-width:120px;padding:14px 10px 10px}
+  .new-stat-n{font-size:1.2rem}
+  .new-stat-l{font-size:0.3rem}
+  .sdiv{padding:24px 16px 12px;gap:10px}
+  .sdiv-label{font-size:0.65rem}
+  .new-chart-panel{padding:14px 12px 10px}
+  .new-chart-wrap{height:130px}
+  .new-chart-title{font-size:0.7rem}
+  .new-support-panel{padding:20px 16px}
+  .new-meth-cell{padding:14px 16px}
+
+  /* Mobile table → card view for USV/UGV */
+  .mobile-card-table thead{display:none}
+  .mobile-card-table tbody tr{
+    display:block;
+    background:var(--bg2);
+    border:1px solid var(--border);
+    margin-bottom:10px;
+    padding:14px 14px;
+    position:relative;
+  }
+  .mobile-card-table td{
+    display:flex;align-items:flex-start;gap:10px;
+    padding:4px 0;border:none;font-size:0.78rem;
+  }
+  .mobile-card-table td::before{
+    content:attr(data-label);
+    font-family:var(--mono);font-size:0.34rem;color:var(--text3);
+    letter-spacing:0.1em;text-transform:uppercase;
+    min-width:72px;flex-shrink:0;padding-top:2px;
+  }
+  .mobile-card-table td:first-child{
+    font-family:var(--head);font-weight:700;font-size:0.95rem;
+    color:#fff;display:block;border-bottom:1px solid var(--border2);
+    padding-bottom:8px;margin-bottom:6px;
+  }
+  .mobile-card-table td:first-child::before{display:none}
+
+  /* Hide less important columns on mobile */
+  .mobile-hide{display:none !important}
+
+  /* Nav tab font smaller on mobile */
+  .nav-tab{font-size:0.38rem;padding:12px 8px}
+
+  /* Section headers tighter on mobile */
+  .section-header{padding:16px 16px 10px !important}
+  .kb-section-title{margin:20px 16px 8px !important}
+
+  /* Stat strips scroll */
+  .ad-stat-strip{grid-template-columns:repeat(4,1fr) !important}
+
+}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7620877350113591" crossorigin="anonymous"></script>
 <link rel="canonical" href="https://unmannedsystemstracker.com">
@@ -755,15 +815,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
   </div>
   <nav>
-    <button class="nav-tab active" onclick="showTab('intro',this)">📋 Intro</button>
-    <button class="nav-tab" onclick="showTab('usv',this)">🛥 USV Strikes</button>
-    <button class="nav-tab" onclick="showTab('ugv',this)">🤖 UGV Operations</button>
-    <button class="nav-tab" onclick="showTab('uav',this)">✈ UAV Strikes</button>
-    <button class="nav-tab" onclick="showTab('airdef',this)">🛡 Air Defence</button>
-    <button class="nav-tab" onclick="showTab('rl',this)">💀 Russian Losses &amp; Advance</button>
-    <button class="nav-tab" onclick="showTab('analyses',this)">🔬 Analyses</button>
-    <button class="nav-tab" onclick="showTab('sources',this)">🔗 Sources</button>
-    <button class="nav-tab" onclick="showTab('research',this)">🔒 Deep Strike Research</button>
+    <button class="nav-tab active" onclick="showTab('intro',this)">Intro</button>
+    <button class="nav-tab" onclick="showTab('usv',this)">USV Strikes</button>
+    <button class="nav-tab" onclick="showTab('ugv',this)">UGV Operations</button>
+    <button class="nav-tab" onclick="showTab('uav',this)">UAV Strikes</button>
+    <button class="nav-tab" onclick="showTab('airdef',this)">Air Defence</button>
+    <button class="nav-tab" onclick="showTab('rl',this)">Russian Losses</button>
+    <button class="nav-tab" onclick="showTab('analyses',this)">Analyses</button>
+    <button class="nav-tab" onclick="showTab('sources',this)">Sources</button>
+    <button class="nav-tab" onclick="showTab('research',this)">🔒 Research</button>
   </nav>
   <div class="header-right">
     <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
@@ -1030,8 +1090,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
     <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Losses &amp; Advance →</button>
-    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
-    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">Air Defence →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">Sources →</button>
   </div>
 <div class="table-wrap">
     <table>
@@ -1086,9 +1146,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <span class="result-count">Showing <b id="ugv-rc">—</b> events</span>
   </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <button class="btn" onclick="showTabById('usv')" style="font-size:0.6rem;padding:4px 10px">🛥 USV Strikes →</button>
+    <button class="btn" onclick="showTabById('usv')" style="font-size:0.6rem;padding:4px 10px">USV Strikes →</button>
     <button class="btn" onclick="showTabById('uav')" style="font-size:0.6rem;padding:4px 10px">✈ UAV Kill Board →</button>
-    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">Sources →</button>
   </div>
 <div class="table-wrap">
     <table>
@@ -1117,9 +1177,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   </div>
 
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
+    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">Air Defence →</button>
     <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Losses &amp; Advance →</button>
-    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">Sources →</button>
   </div>
   <!-- HEADLINE STAT STRIP -->
   <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px">
@@ -1181,9 +1241,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">🛡 Air Defence →</button>
-    <button class="btn" onclick="showTabById('usv')" style="font-size:0.6rem;padding:4px 10px">🛥 USV Strikes →</button>
-    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+    <button class="btn" onclick="showTabById('airdef')" style="font-size:0.6rem;padding:4px 10px">Air Defence →</button>
+    <button class="btn" onclick="showTabById('usv')" style="font-size:0.6rem;padding:4px 10px">USV Strikes →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">Sources →</button>
   </div>
   <div class="disclaimer">
     <b>⚠ DATA NOTICE:</b> Personnel killed figures use Mediazona/BBC News Russian confirmed-by-name methodology as the primary source — the most rigorous publicly available approach. Equipment losses use Oryx photo-confirmed figures where available, supplemented by DIA and CSIS estimates. All figures represent floors, not ceilings. Sources are cited individually for each metric. Oryx ceased updating equipment loss estimates in 2025.
@@ -1287,7 +1347,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
     <button class="btn" onclick="showTabById('rl')" style="font-size:0.6rem;padding:4px 10px">💀 Losses &amp; Advance →</button>
-    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">🔗 Sources →</button>
+    <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">Sources →</button>
   </div>
   <div class="disclaimer" style="margin-bottom:18px">
     <b>DATA SOURCE:</b> Ukrainian Air Force official daily reports, compiled and verified by data scientist Petro Ivaniuk. Dataset verified by CSIS as matching official Ukrainian Air Force figures. Coverage from 27 September 2022 to present. Each row represents a single attack wave. · <a class="src-link" href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener">github.com/PetroIvaniuk ↗</a>
@@ -1665,7 +1725,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">April 2026 · n = 603 attack days · Shahed/Geran only · Oct 2022–Mar 2026</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Air defence data: Petro Ivaniuk / Ukrainian Air Force · Weather: Open-Meteo Historical Archive API</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Cross-referencing 603 Shahed/Geran attack days with night-time weather conditions from the Open-Meteo Historical Archive API. Each attack day was classified as Clear, Overcast, or Adverse based on cloud cover and precipitation.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Cross-referencing 603 Shahed/Geran attack days with night-time weather conditions from the Open-Meteo Historical Archive API. Each attack day was classified as Clear, Overcast, or Adverse based on cloud cover and precipitation.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">~70% consistent across all weather</div>
         <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Clear nights: 70.7% (n=110) · Overcast: 72.2% (n=193) · Adverse: 68.2% (n=300). The 4-point range across conditions is not statistically significant — Ukraine's interception rate is weather-robust.</p>
@@ -1690,7 +1750,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">April 2026 · n = 955 attack nights</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tests whether Ukrainian air defence degrades under high launch volumes — identifying the saturation threshold above which interception rates fall. Attack nights are bucketed by total weapons launched across nine volume bands.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tests whether Ukrainian air defence degrades under high launch volumes — identifying the saturation threshold above which interception rates fall. Attack nights are bucketed by total weapons launched across nine volume bands.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Degradation zone: 61–150 weapons (66–67%)</div>
         <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">The only volume band that consistently falls below the 74% overall mean. Medium-intensity attacks — not mass salvos — are most effective at degrading performance.</p>
@@ -1715,7 +1775,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">April 2026 · n = 1,060 attack nights</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">A widely cited claim holds that Russia uses Shaheds as decoys to saturate Ukrainian air defence and enable missile penetration. If true, mixed salvos (Shahed + missile) should produce lower overall interception rates than Shahed-only attacks.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">A widely cited claim holds that Russia uses Shaheds as decoys to saturate Ukrainian air defence and enable missile penetration. If true, mixed salvos (Shahed + missile) should produce lower overall interception rates than Shahed-only attacks.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Hypothesis not supported: 73% vs 75%</div>
         <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Mixed salvos (Shahed + missile, n=497) produce a 73% interception rate vs 75% for Shahed-only (n=411). The 2-point difference is within error margins — mixed salvos do not measurably degrade overall interception.</p>
@@ -1740,7 +1800,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">April 2026 · Full campaign period</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force · Aug 2022–Mar 2026</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tracks the composition of Russian aerial strikes over the full campaign — examining how the balance between Shaheds, missiles, and other UAVs has shifted since August 2022. Both absolute volume and proportional share are examined.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tracks the composition of Russian aerial strikes over the full campaign — examining how the balance between Shaheds, missiles, and other UAVs has shifted since August 2022. Both absolute volume and proportional share are examined.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Shahed now 85–90% of all launches</div>
         <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Up from roughly 45–50% in late 2022. The campaign has become a drone-dominant operation, with missiles representing under 10% of launches proportionally by 2025–2026.</p>
@@ -1765,7 +1825,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">April 2026 · Oct 2022–Mar 2026</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tracks how many Ukrainian oblasts are affected per attack over time. Higher values indicate Russia is spreading strikes across more regions simultaneously — with implications for how Ukraine must allocate air defence resources nationally.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tracks how many Ukrainian oblasts are affected per attack over time. Higher values indicate Russia is spreading strikes across more regions simultaneously — with implications for how Ukraine must allocate air defence resources nationally.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Mean oblasts per attack: ~3 → 8+ (mid-2025 to Mar 2026)</div>
         <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">After falling to a low of ~3 oblasts per attack in mid-2025, geographic reach tripled to 8+ by March 2026 — a significant shift in Russia's targeting strategy.</p>
@@ -1791,7 +1851,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">April 2026 · Rubikon / USF Pidrakhuyka · n=24,000+ Russian engagements</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Sources: Boris Rozhin (@colonelcassad Telegram) · Veterans Notes (Telegram) · USF official statistics · via @ChrisO_wiki</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Russia's Rubikon drone unit has published target breakdown statistics across 24,000+ engagements, enabling the first direct comparison of Russian and Ukrainian FPV targeting doctrine. The contrast is striking — and has prompted concern among Russian warbloggers about doctrinal mismatch.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Russia's Rubikon drone unit has published target breakdown statistics across 24,000+ engagements, enabling the first direct comparison of Russian and Ukrainian FPV targeting doctrine. The contrast is striking — and has prompted concern among Russian warbloggers about doctrinal mismatch.</p>
 
     <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
       <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Russian Rubikon targeting breakdown</div>
@@ -1821,7 +1881,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <div class="an-card-date">July 2026 · Monthly anchor points Nov 2025–May 2026</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">AFU General Staff daily loss reports · Syrskyi / Brovdi monthly unmanned systems reports</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.75;margin-bottom:18px">The General Staff publishes cumulative Russian loss figures (~1.41M personnel as of July 2026); Ukraine's drone command publishes monthly, video-confirmed figures for personnel struck by unmanned systems. Dividing the second by the first, month by month, yields an attribution series: what proportion of claimed Russian personnel losses is drone-caused. Because both series originate from the same Ukrainian reporting ecosystem, the ratio is more internally consistent than either absolute figure.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">The General Staff publishes cumulative Russian loss figures (~1.41M personnel as of July 2026); Ukraine's drone command publishes monthly, video-confirmed figures for personnel struck by unmanned systems. Dividing the second by the first, month by month, yields an attribution series: what proportion of claimed Russian personnel losses is drone-caused. Because both series originate from the same Ukrainian reporting ecosystem, the ratio is more internally consistent than either absolute figure.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">~94–96% of monthly personnel losses now drone-attributed</div>
         <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Dec 2025: 33,019 drone-attributed of ~35,050 total claimed casualties (94%). Mar 2026: 96% of 35,351 total, per the AFU, with artillery and small arms accounting for the remainder. Since Dec 2025, monthly drone-attributed losses have exceeded Russian monthly recruitment; by May 2026 the cumulative 2026 gap stood at ~12,500.</p>
@@ -3276,7 +3336,7 @@ window.addEventListener('scroll',()=>{
   <div style="border-top:1px solid var(--border2);margin-top:28px;padding-top:24px">
     <div style="font-family:var(--head);font-weight:900;font-size:0.95rem;color:#fff;margin-bottom:4px">Ukrainian Long-Range Drone Corridor Analysis</div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.08em;margin-bottom:12px">APRIL 2026 · SOURCE: @MOD_RUSSIA TELEGRAM (n=5,927 INTERCEPT REPORTS) · @DRONBOMBER OSINT (n=2,480 CONFIRMED STRIKES)</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.8;margin-bottom:20px">Analysis of Ukrainian long-range drone penetration rates by geographic corridor, cross-referencing Russian MoD intercept claims with @dronbomber OSINT-confirmed strikes. Penetration rate = confirmed OSINT hits ÷ Russian MoD intercept reports by oblast cluster. Higher penetration indicates Russia is under-reporting successful Ukrainian strikes.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.8;margin-bottom:20px">Analysis of Ukrainian long-range drone penetration rates by geographic corridor, cross-referencing Russian MoD intercept claims with @dronbomber OSINT-confirmed strikes. Penetration rate = confirmed OSINT hits ÷ Russian MoD intercept reports by oblast cluster. Higher penetration indicates Russia is under-reporting successful Ukrainian strikes.</p>
 
     <!-- Corridor cards grid -->
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px">
@@ -3496,19 +3556,19 @@ window.addEventListener('scroll',()=>{
         <div style="font-family:var(--mono);font-size:0.4rem;color:var(--accent3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px">Occupied territory — key routes targeted</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
-            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Rostov–Crimea highway</div>
+            <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);margin-bottom:3px">Rostov–Crimea highway</div>
             <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">15 geolocated strikes confirmed · Russia forced to divert traffic</div>
           </div>
           <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
-            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Mariupol–Donetsk route</div>
+            <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);margin-bottom:3px">Mariupol–Donetsk route</div>
             <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">30+ geolocated strikes · Mangush–Berdiansk highway closed</div>
           </div>
           <div style="padding:8px 0;border-bottom:1px solid var(--border2)">
-            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Taganrog–Melitopol highway</div>
+            <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);margin-bottom:3px">Taganrog–Melitopol highway</div>
             <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">Primary Russian land corridor to Crimea under sustained attack</div>
           </div>
           <div style="padding:8px 0">
-            <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);margin-bottom:3px">Volnovakha–Mariupol railway</div>
+            <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);margin-bottom:3px">Volnovakha–Mariupol railway</div>
             <div style="font-family:var(--mono);font-size:0.42rem;color:var(--text3)">ATESH partisan disruption · bypass route for Kerch Bridge-wary logistics</div>
           </div>
         </div>
@@ -3525,19 +3585,19 @@ window.addEventListener('scroll',()=>{
       <div style="background:var(--bg2);padding:18px 18px;border-left:3px solid var(--accent3)">
         <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Finding 1</div>
         <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:8px;text-transform:uppercase">Record-pace vehicle attrition</div>
-        <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65">483 vehicles destroyed in a single day (29 May 2026) — the highest daily figure since the full-scale invasion began. May's total of 7,704 vehicles represents a 4× acceleration versus the monthly average through 2025. Fedorov directly attributed the drop in Russian assault tempo to this attrition rate.</div>
+        <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.65">483 vehicles destroyed in a single day (29 May 2026) — the highest daily figure since the full-scale invasion began. May's total of 7,704 vehicles represents a 4× acceleration versus the monthly average through 2025. Fedorov directly attributed the drop in Russian assault tempo to this attrition rate.</div>
         <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:10px">Source: Ukrainian General Staff · Euromaidan Press</div>
       </div>
       <div style="background:var(--bg2);padding:18px 18px;border-left:3px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Finding 2</div>
         <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:8px;text-transform:uppercase">Infrastructure targeting dominates</div>
-        <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65">57% of all strikes inside Russia targeted infrastructure and logistics (electricity, telecoms, railways, fuel). Electricity strikes alone reached 31/month in Jan–Feb 2026 — a sustained winter-pressure strategy aimed at the Russian energy grid supplying occupied territories and border regions. Consistent with the systemic degradation hypothesis over point-strike approaches.</div>
+        <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.65">57% of all strikes inside Russia targeted infrastructure and logistics (electricity, telecoms, railways, fuel). Electricity strikes alone reached 31/month in Jan–Feb 2026 — a sustained winter-pressure strategy aimed at the Russian energy grid supplying occupied territories and border regions. Consistent with the systemic degradation hypothesis over point-strike approaches.</div>
         <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:10px">Source: Tochnyi dataset · NV.ua</div>
       </div>
       <div style="background:var(--bg2);padding:18px 18px;border-left:3px solid var(--border)">
         <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Finding 3 — Caution</div>
         <div style="font-family:var(--head);font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:8px;text-transform:uppercase">Assault tempo correlation</div>
-        <div style="font-family:var(--body);font-size:0.74rem;color:var(--text2);line-height:1.65">Fedorov claims a direct link between the vehicle attrition rate and a drop in Russian infantry assaults at the contact line. This is plausible but not yet independently verified — the correlation may reflect seasonal patterns, ceasefire dynamics around the May 9 period, or Russian operational pausing rather than logistics degradation alone. Treat as a working hypothesis pending further data.</div>
+        <div style="font-family:var(--body);font-size:0.8rem;color:var(--text2);line-height:1.65">Fedorov claims a direct link between the vehicle attrition rate and a drop in Russian infantry assaults at the contact line. This is plausible but not yet independently verified — the correlation may reflect seasonal patterns, ceasefire dynamics around the May 9 period, or Russian operational pausing rather than logistics degradation alone. Treat as a working hypothesis pending further data.</div>
         <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);margin-top:10px">Working hypothesis — not independently verified</div>
       </div>
     </div>
