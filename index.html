@@ -7,12 +7,12 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
-<meta name="description" content="Open-source database tracking drone warfare, USV strikes, UGV operations, and Russian losses in Ukraine. Updated weekly.">
+<meta name="description" content="Open-source database of the drone war in Ukraine: USV strikes, UGV missions, Shahed interception rates and Russian losses. Every entry cited, free to use.">
 <meta name="keywords" content="Ukraine war tracker, Russia Ukraine drone strikes, USV strikes Black Sea, UGV operations Ukraine, Russian losses, air defence Ukraine, OSINT Ukraine war, Shahed drone intercepts, unmanned systems Ukraine">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Unmanned Systems Tracker">
 <meta property="og:title" content="Ukraine War Unmanned Systems Tracker — USV, UGV &amp; Air Defence Data">
-<meta property="og:description" content="Open-source database of 3,500+ Russian aerial attacks, USV strikes, UGV operations and Russian losses. Free OSINT resource updated daily.">
+<meta property="og:description" content="Open-source database of the drone war in Ukraine: 100,000+ aerial weapons tracked, USV strikes on the Black Sea Fleet, UGV missions and Russian losses. Free to use.">
 <meta property="og:url" content="https://unmannedsystemstracker.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://unmannedsystemstracker.com/og-card.png">
@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Unmanned Systems Tracker">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ukraine War Unmanned Systems Tracker — USV, UGV &amp; Air Defence Data">
-<meta name="twitter:description" content="Open-source database of 3,500+ Russian aerial attacks, USV strikes, UGV operations and Russian losses. Updated daily.">
+<meta name="twitter:description" content="Open-source database of the drone war in Ukraine: USV strikes, UGV missions, Shahed intercept rates and Russian losses. Every entry cited.">
 <meta name="twitter:image" content="https://unmannedsystemstracker.com/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -86,25 +86,6 @@ nav::-webkit-scrollbar{display:none}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
-.header-pulse{
-  display:flex;align-items:stretch;gap:0;padding:0 4px;flex-shrink:0;
-  border-right:1px solid var(--border);margin-right:4px;
-}
-.header-pulse-item{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:0 14px;border-right:1px solid var(--border2);
-  min-width:80px;
-}
-.header-pulse-item:last-child{border-right:none}
-.header-pulse-val{
-  font-family:var(--head);font-weight:900;font-size:0.82rem;
-  color:#fff;line-height:1;letter-spacing:-0.01em;
-}
-.header-pulse-lbl{
-  font-family:var(--mono);font-size:0.3rem;color:var(--text3);
-  letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;
-}
-@media(max-width:1100px){.header-pulse{display:none}}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.54rem;color:var(--text3);flex-shrink:0}
 .share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
@@ -858,24 +839,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div class="logo-text">
       <h1>Unmanned Systems Tracker</h1>
       <p>Russian Invasion of Ukraine 2022–Present</p>
-    </div>
-  </div>
-  <div class="header-pulse">
-    <div class="header-pulse-item">
-      <span class="header-pulse-val" id="hp-flights">977,020</span>
-      <span class="header-pulse-lbl">Strike flights</span>
-    </div>
-    <div class="header-pulse-item">
-      <span class="header-pulse-val" id="hp-intercept" style="color:var(--accent3)">75%</span>
-      <span class="header-pulse-lbl">Intercept rate</span>
-    </div>
-    <div class="header-pulse-item">
-      <span class="header-pulse-val" id="hp-usv" style="color:#5dade2">28</span>
-      <span class="header-pulse-lbl">USV events</span>
-    </div>
-    <div class="header-pulse-item">
-      <span class="header-pulse-val" id="hp-kia" style="color:#e74c3c">217,800+</span>
-      <span class="header-pulse-lbl">Ru. KIA</span>
     </div>
   </div>
   <nav>
