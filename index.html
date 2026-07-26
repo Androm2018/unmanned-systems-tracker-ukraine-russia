@@ -74,7 +74,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 14p
 nav{display:flex;align-items:stretch;flex:1;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
 .intro-stats::-webkit-scrollbar{display:none}
-.nav-tab{font-family:var(--head);font-weight:700;font-size:0.5rem;letter-spacing:0.03em;text-transform:uppercase;color:var(--text3);padding:0 5px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1}
+.nav-tab{font-family:var(--head);font-weight:700;font-size:0.62rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--text3);padding:0 5px;border:none;background:none;cursor:pointer;transition:color 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:1;padding:0 8px}
 .nav-tab:hover{color:var(--text2)}
 .nav-sep{
   display:flex;align-items:center;padding:0 8px 0 10px;
@@ -86,6 +86,25 @@ nav::-webkit-scrollbar{display:none}
 .nav-tab.active{color:var(--accent3);border-bottom-color:var(--accent)}
 .tab-count{font-family:var(--mono);font-size:0.58rem;background:var(--bg3);border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--text3);line-height:1.4}
 .nav-tab.active .tab-count{color:var(--accent3);border-color:var(--accent)}
+.header-pulse{
+  display:flex;align-items:stretch;gap:0;padding:0 4px;flex-shrink:0;
+  border-right:1px solid var(--border);margin-right:4px;
+}
+.header-pulse-item{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 14px;border-right:1px solid var(--border2);
+  min-width:80px;
+}
+.header-pulse-item:last-child{border-right:none}
+.header-pulse-val{
+  font-family:var(--head);font-weight:900;font-size:0.82rem;
+  color:#fff;line-height:1;letter-spacing:-0.01em;
+}
+.header-pulse-lbl{
+  font-family:var(--mono);font-size:0.3rem;color:var(--text3);
+  letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;
+}
+@media(max-width:1100px){.header-pulse{display:none}}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid var(--border);font-family:var(--mono);font-size:0.54rem;color:var(--text3);flex-shrink:0}
 .share-btn{display:flex;align-items:center;gap:4px;padding:3px 7px;border:1px solid var(--border);background:none;color:var(--text3);font-family:var(--mono);font-size:0.48rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;text-decoration:none;white-space:nowrap}
 .share-btn:hover{border-color:var(--accent);color:var(--accent3);background:var(--glowb)}
@@ -449,6 +468,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   /* Header: icon + title only, no subtitle */
   header{padding:0 12px;min-height:50px}
   .logo-icon{width:26px;height:26px}
+  .ust-rotor-glyphs{display:none}
   .logo-text h1{font-size:0.84rem;letter-spacing:0.08em}
   /* Nav: scrollable row of small tabs */
   nav{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -530,6 +550,21 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   background:radial-gradient(circle,rgba(107,191,120,0.06) 0%,transparent 70%);
   top:-100px;right:-100px;pointer-events:none;
 }
+/* ── HERO RETICLE WATERMARK ── */
+.hero-reticle{
+  position:absolute;pointer-events:none;user-select:none;
+  width:min(58vw,760px);height:min(58vw,760px);
+  right:-13%;top:50%;transform:translateY(-50%);
+  opacity:0.13;z-index:0;
+}
+.hero-reticle .rtc-sweep{transform-origin:210px 210px;animation:rtc-spin 96s linear infinite}
+.hero-reticle .rtc-drone{transform-origin:210px 210px;animation:rtc-drift 14s ease-in-out infinite}
+@keyframes rtc-spin{to{transform:rotate(360deg)}}
+@keyframes rtc-drift{0%,100%{transform:translateY(-6px)}50%{transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){
+  .hero-reticle .rtc-sweep,.hero-reticle .rtc-drone{animation:none}
+}
+@media(max-width:900px){.hero-reticle{opacity:0.08;right:-28%}}
 .hero-eyebrow{
   font-family:var(--M2);font-size:0.48rem;color:var(--accent3);
   letter-spacing:0.28em;text-transform:uppercase;
@@ -793,25 +828,54 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 <header>
   <div class="logo-block">
     <div class="logo-icon" style="background:none;border:none;width:36px;height:36px;flex-shrink:0">
-      <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2,18 Q18,4 34,18 Q18,32 2,18 Z" fill="#3a7d44" fill-opacity="0.15" stroke="#3a7d44" stroke-width="1.5" stroke-linejoin="round"/>
-        <circle cx="18" cy="18" r="9" fill="none" stroke="#3a7d44" stroke-width="1.2"/>
-        <circle cx="18" cy="18" r="5.5" fill="#3a7d44" fill-opacity="0.2" stroke="#4e9e5a" stroke-width="1.2"/>
-        <circle cx="18" cy="18" r="2.5" fill="#6bbf78"/>
-        <circle cx="20" cy="16" r="1" fill="#6bbf78" opacity="0.5"/>
-        <line x1="18" y1="7"  x2="18" y2="11" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <line x1="18" y1="25" x2="18" y2="29" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <line x1="7"  y1="18" x2="11" y2="18" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <line x1="25" y1="18" x2="29" y2="18" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M3,9 L3,5 L7,5"    fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M33,9 L33,5 L29,5"  fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M3,27 L3,31 L7,31"  fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
-        <path d="M33,27 L33,31 L29,31" fill="none" stroke="#6bbf78" stroke-width="1" stroke-linecap="round"/>
+      <svg class="ust-mark" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="none" stroke-linecap="round">
+          <circle cx="18" cy="18" r="15.4" stroke="#4e9e5a" stroke-opacity=".85" stroke-width=".9"/>
+          <g stroke="#6bbf78" stroke-width="1.15">
+            <line x1="18" y1=".7" x2="18" y2="5.4"/><line x1="18" y1="35.3" x2="18" y2="30.6"/>
+            <line x1=".7" y1="18" x2="5.4" y2="18"/><line x1="35.3" y1="18" x2="30.6" y2="18"/>
+          </g>
+          <g stroke="#6bbf78" stroke-width="1.7">
+            <line x1="18" y1="18" x2="13.1" y2="13.1"/><line x1="18" y1="18" x2="22.9" y2="13.1"/>
+            <line x1="18" y1="18" x2="13.1" y2="22.9"/><line x1="18" y1="18" x2="22.9" y2="22.9"/>
+          </g>
+        </g>
+        <g fill="#3a7d44" fill-opacity=".3" stroke="#4e9e5a" stroke-width=".9">
+          <circle cx="13.1" cy="13.1" r="3.05"/><circle cx="22.9" cy="13.1" r="3.05"/>
+          <circle cx="13.1" cy="22.9" r="3.05"/><circle cx="22.9" cy="22.9" r="3.05"/>
+        </g>
+        <g class="ust-rotor-glyphs" stroke="#4a9455" stroke-width=".95" stroke-linecap="round">
+          <line x1="11.6" y1="11.6" x2="14.6" y2="14.6"/><line x1="14.6" y1="11.6" x2="11.6" y2="14.6"/>
+          <line x1="21.4" y1="21.4" x2="24.4" y2="24.4"/><line x1="24.4" y1="21.4" x2="21.4" y2="24.4"/>
+          <line x1="22.9" y1="10.95" x2="22.9" y2="15.25"/><line x1="20.75" y1="13.1" x2="25.05" y2="13.1"/>
+          <line x1="13.1" y1="20.75" x2="13.1" y2="25.05"/><line x1="10.95" y1="22.9" x2="15.25" y2="22.9"/>
+        </g>
+        <path d="M18 15.4 L20.2 16.7 L20.2 19.3 L18 20.6 L15.8 19.3 L15.8 16.7 Z"
+              fill="#3a7d44" fill-opacity=".3" stroke="#6bbf78" stroke-width="1" stroke-linejoin="round"/>
+        <circle cx="18" cy="18" r="1.05" fill="#6bbf78"/>
       </svg>
     </div>
     <div class="logo-text">
       <h1>Unmanned Systems Tracker</h1>
       <p>Russian Invasion of Ukraine 2022–Present</p>
+    </div>
+  </div>
+  <div class="header-pulse">
+    <div class="header-pulse-item">
+      <span class="header-pulse-val" id="hp-flights">977,020</span>
+      <span class="header-pulse-lbl">Strike flights</span>
+    </div>
+    <div class="header-pulse-item">
+      <span class="header-pulse-val" id="hp-intercept" style="color:var(--accent3)">75%</span>
+      <span class="header-pulse-lbl">Intercept rate</span>
+    </div>
+    <div class="header-pulse-item">
+      <span class="header-pulse-val" id="hp-usv" style="color:#5dade2">28</span>
+      <span class="header-pulse-lbl">USV events</span>
+    </div>
+    <div class="header-pulse-item">
+      <span class="header-pulse-val" id="hp-kia" style="color:#e74c3c">217,800+</span>
+      <span class="header-pulse-lbl">Ru. KIA</span>
     </div>
   </div>
   <nav>
@@ -856,6 +920,45 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 <div id="tab-intro" class="tab-panel active">
 
   <section class="hero">
+    <svg class="hero-reticle" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <g class="rtc-sweep" fill="none" stroke-linecap="round">
+        <circle cx="210" cy="210" r="182" stroke="#4e9e5a" stroke-width="2"/>
+        <g stroke="#3a7d44" stroke-width="2.2">
+          <line x1="87.6" y1="87.6" x2="122.9" y2="122.9"/><line x1="332.4" y1="87.6" x2="297.1" y2="122.9"/>
+          <line x1="87.6" y1="332.4" x2="122.9" y2="297.1"/><line x1="332.4" y1="332.4" x2="297.1" y2="297.1"/>
+        </g>
+      </g>
+      <g fill="none" stroke-linecap="round">
+        <circle cx="210" cy="210" r="121" stroke="#3a7d44" stroke-opacity=".42" stroke-width="1.8"/>
+        <g stroke="#6bbf78" stroke-width="3">
+          <line x1="210" y1="9" x2="210" y2="65"/><line x1="210" y1="411" x2="210" y2="355"/>
+          <line x1="9" y1="210" x2="65" y2="210"/><line x1="411" y1="210" x2="355" y2="210"/>
+        </g>
+      </g>
+      <g class="rtc-drone">
+        <g fill="none" stroke="#6bbf78" stroke-width="11" stroke-linecap="round">
+          <line x1="210" y1="210" x2="152.5" y2="152.5"/><line x1="210" y1="210" x2="267.5" y2="152.5"/>
+          <line x1="210" y1="210" x2="152.5" y2="267.5"/><line x1="210" y1="210" x2="267.5" y2="267.5"/>
+        </g>
+        <g fill="#3a7d44" fill-opacity=".16" stroke="#4e9e5a" stroke-width="2.2">
+          <circle cx="152.5" cy="152.5" r="33"/><circle cx="267.5" cy="152.5" r="33"/>
+          <circle cx="152.5" cy="267.5" r="33"/><circle cx="267.5" cy="267.5" r="33"/>
+        </g>
+        <g fill="none" stroke="#3d8448" stroke-width="5.5" stroke-linecap="round">
+          <line x1="134.5" y1="134.5" x2="170.5" y2="170.5"/><line x1="170.5" y1="134.5" x2="134.5" y2="170.5"/>
+          <line x1="249.5" y1="249.5" x2="285.5" y2="285.5"/><line x1="285.5" y1="249.5" x2="249.5" y2="285.5"/>
+          <line x1="267.5" y1="127.5" x2="267.5" y2="177.5"/><line x1="242.5" y1="152.5" x2="292.5" y2="152.5"/>
+          <line x1="152.5" y1="242.5" x2="152.5" y2="292.5"/><line x1="127.5" y1="267.5" x2="177.5" y2="267.5"/>
+        </g>
+        <g fill="#6bbf78">
+          <circle cx="152.5" cy="152.5" r="3.4"/><circle cx="267.5" cy="152.5" r="3.4"/>
+          <circle cx="152.5" cy="267.5" r="3.4"/><circle cx="267.5" cy="267.5" r="3.4"/>
+        </g>
+        <path d="M210 179.5 L235.5 194.75 L235.5 225.25 L210 240.5 L184.5 225.25 L184.5 194.75 Z"
+              fill="#3a7d44" fill-opacity=".16" stroke="#6bbf78" stroke-width="3.2" stroke-linejoin="round"/>
+        <path d="M210 202 L216 210 L210 218 L204 210 Z" fill="#6bbf78"/>
+      </g>
+    </svg>
     <div class="hero-eyebrow reveal">Ukraine War · Open Source Intelligence · 2022–Present</div>
     <h1 class="hero-h1 reveal d1">
       Unmanned<br>
