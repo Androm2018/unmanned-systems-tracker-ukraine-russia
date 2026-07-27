@@ -965,14 +965,14 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <span class="sdiv-num">01</span>
     <span class="sdiv-label">Key Trends</span>
     <div class="sdiv-line"></div>
-    <span style="font-family:var(--M2);font-size:0.4rem;color:var(--text3)">Jun 2025–May 2026</span>
+    <span style="font-family:var(--M2);font-size:0.4rem;color:var(--text3)">Jun 2025–Jun 2026</span>
   </div>
 
   <div class="new-chart-panel reveal">
     <div class="new-chart-header" style="flex-direction:column;align-items:flex-start;gap:10px">
       <div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:8px">
         <div class="new-chart-title">Compare tracker datasets</div>
-        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.06em">Select two metrics · Jun 2025–May 2026</div>
+        <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.06em">Select two metrics · Jun 2025–Jun 2026</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <div style="display:flex;align-items:center;gap:6px">
@@ -981,7 +981,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
             <option value="terr">Ru. territorial advance (km²)</option>
             <option value="pers">USF personnel hits/mo</option>
             <option value="strikes">USF strike flights/mo</option>
-            <option value="intercept">AD intercept rate (%)</option>
+            <option value="intercept">Shahed-class intercept rate (%)</option>
             <option value="launched">Aerial weapons launched/mo</option>
           </select>
         </div>
@@ -992,7 +992,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
             <option value="pers">USF personnel hits/mo</option>
             <option value="terr">Ru. territorial advance (km²)</option>
             <option value="strikes">USF strike flights/mo</option>
-            <option value="intercept">AD intercept rate (%)</option>
+            <option value="intercept">Shahed-class intercept rate (%)</option>
             <option value="launched">Aerial weapons launched/mo</option>
           </select>
         </div>
@@ -1233,7 +1233,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:0.52rem;color:var(--text2)">
       <input type="radio" name="uav-period" value="daily" onchange="buildUAVChart()" style="accent-color:var(--accent3)"> Daily averages
     </label>
-    <span id="uav-chart-period-label" style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-left:auto">Monthly total · Jun 2025–May 2026</span>
+    <span id="uav-chart-period-label" style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);margin-left:auto">Monthly total</span>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:28px">
     <div style="background:var(--bg2);padding:16px 18px">
@@ -2330,13 +2330,21 @@ function buildUAVChart(){
   const periodEl=document.querySelector('#tab-uav input[name="uav-period"]:checked');
   const isDailyView=periodEl&&periodEl.value==='daily';
   const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30,'2026-05':31,'2026-06':30};
-  const lbl=document.getElementById('uav-chart-period-label');
-  if(lbl)lbl.textContent=isDailyView?'Daily average per month':'Monthly total · Jun 2025–Apr 2026';
-
   const months=UAV_DATA
     .filter(r=>r.date&&r.date.startsWith('monthly_')&&r.target==='strike flights')
     .map(r=>r.date.replace('monthly_',''))
     .sort();
+
+  const lbl=document.getElementById('uav-chart-period-label');
+  if(lbl){
+    const fmtM=m=>{
+      const [y,mo]=m.split('-');
+      return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+mo-1]+' '+y.slice(2);
+    };
+    lbl.textContent = isDailyView ? 'Daily average per month'
+      : (months.length ? 'Monthly total · '+fmtM(months[0])+'–'+fmtM(months[months.length-1])
+                       : 'Monthly total');
+  }
 
   const getVal=(month,target)=>{
     const r=UAV_DATA.find(d=>d.date==='monthly_'+month&&d.target===target);
@@ -3734,18 +3742,18 @@ const COMPARE_MONTHS = ['2025-06','2025-07','2025-08','2025-09','2025-10','2025-
 const COMPARE_LABELS = ['Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26'];
 
 const COMPARE_DATA = {
-  terr:     [423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47, null],
+  terr:     [423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47, -9],
   pers:     [4420,5680,6100,6840,7200,7900,6300,8100,7600,9300,10581,9617,9746],
   strikes:  [49874,57200,58100,56000,62000,66000,61000,68000,64000,85915,95172,113332,113109],
-  intercept:[72,74,71,73,75,74,72,76,78,80,82,81,null],
-  launched: [5374,6688,4462,6022,5932,5802,5830,4979,6030,8035,8187,7949,null],
+  intercept:[87,88,84,87,80,83,81,84,87,90,89,92,90],
+  launched: [5374,7853,4462,6022,5932,5802,5830,4979,6030,6757,8187,10098,7904],
 };
 
 const COMPARE_LABELS_MAP = {
   terr:     'Ru. territorial advance (km²)',
   pers:     'USF personnel hits/mo',
   strikes:  'USF strike flights/mo',
-  intercept:'AD intercept rate (%)',
+  intercept:'Shahed-class intercept rate (%)',
   launched: 'Aerial weapons launched/mo',
 };
 
