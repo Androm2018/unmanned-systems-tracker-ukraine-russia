@@ -328,9 +328,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   #uav-stat-strip{grid-template-columns:repeat(4,1fr);overflow-x:auto}
   /* Intro pages */
   .intro-pages{grid-template-columns:1fr 1fr}
-  /* Methodology */
-  .intro-methodology .meth-head,.intro-methodology .meth-cols{grid-template-columns:1fr}
-  /* Hero */
+    /* Hero */
   .intro-hero{grid-template-columns:1fr}
   /* AD stat strip */
   .ad-stat-strip{grid-template-columns:repeat(2,1fr)}
@@ -662,12 +660,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .new-btn-outline:hover{background:rgba(107,191,120,0.08)}
 
 /* Methodology */
-.new-meth{margin:0 40px 48px;border:1px solid var(--border);border-top:none}
-.new-meth-row{display:grid;grid-template-columns:repeat(3,1fr)}
-.new-meth-cell{padding:20px 22px;border-right:1px solid var(--border);border-top:1px solid var(--border)}
-.new-meth-cell:last-child{border-right:none}
-.new-meth-label{font-family:var(--M2);font-size:0.42rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
-.new-meth-text{font-family:var(--B2);font-size:0.8rem;color:var(--text2);line-height:1.65;font-weight:300}
 
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(.22,1,.36,1),transform 0.6s cubic-bezier(.22,1,.36,1)}
@@ -683,9 +675,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .new-stats::-webkit-scrollbar{display:none}
   .new-stat{flex:0 0 130px;min-width:130px}
   .new-support{grid-template-columns:1fr}
-  .new-meth-row{grid-template-columns:1fr}
-  .new-meth-cell{border-right:none}
-  .sdiv,.new-chart-panel,.new-support,.new-meth{margin-left:16px;margin-right:16px}
+  .sdiv,.new-chart-panel,.new-support{margin-left:16px;margin-right:16px}
 }
 @media(max-width:600px){
   .hero{padding:24px 16px 20px;min-height:auto}
@@ -709,7 +699,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .new-chart-wrap{height:130px}
   .new-chart-title{font-size:0.7rem}
   .new-support-panel{padding:20px 16px}
-  .new-meth-cell{padding:14px 16px}
 }
 /* ══ END NEW INTRO DESIGN ══════════════════════════════════════════ */
 
@@ -729,7 +718,6 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .new-chart-wrap{height:130px}
   .new-chart-title{font-size:0.7rem}
   .new-support-panel{padding:20px 16px}
-  .new-meth-cell{padding:14px 16px}
 
   /* Mobile table → card view for USV/UGV */
   .mobile-card-table thead{display:none}
@@ -1050,30 +1038,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
   </div>
 
-  <div class="sdiv reveal">
-    <span class="sdiv-num">03</span>
-    <span class="sdiv-label">Methodology &amp; Data Standards</span>
-    <div class="sdiv-line"></div>
-  </div>
-
-  <div class="new-meth reveal">
-    <div class="new-meth-row">
-      <div class="new-meth-cell">
-        <div class="new-meth-label">Inclusion criteria</div>
-        <div class="new-meth-text">Events are included where there is at least one credible open-source report — an official Ukrainian military or intelligence statement, verified video evidence, or reporting by two or more independent outlets. Russian acknowledgement is noted but not required.</div>
-      </div>
-      <div class="new-meth-cell">
-        <div class="new-meth-label">Damage classification</div>
-        <div class="new-meth-text"><strong style="color:var(--text)">Sunk</strong> = total loss on seabed. <strong style="color:var(--text)">Destroyed</strong> = total loss confirmed. <strong style="color:var(--text)">Damaged</strong> = partial damage. <strong style="color:var(--text)">Shot Down</strong> = aerial asset destroyed in flight. <strong style="color:var(--text)">Disrupted</strong> = temporarily out of action.</div>
-      </div>
-      <div class="new-meth-cell">
-        <div class="new-meth-label">Personnel KIA figures</div>
-        <div class="new-meth-text">Mediazona/BBC News confirmed-by-name methodology — cross-checked against Russia's National Probate Registry. Always a floor, not a ceiling. UK intelligence estimate (~500,000) and Meduza statistical model (~352,000) cited alongside for context.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="disclaimer" style="margin:0 40px 0;padding:16px 0 0;border-top:1px solid var(--border2)">
+  <div class="disclaimer" style="margin:48px 40px 0;padding:16px 0 0;border-top:1px solid var(--border2)">
     UNMANNED SYSTEMS TRACKER · COMPILED FROM PUBLIC OSINT SOURCES · NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION ·
     DATA PROVIDED FOR RESEARCH AND EDUCATIONAL PURPOSES ·
     <a href="/privacy.html" style="color:var(--accent3)">Privacy Policy</a> ·
