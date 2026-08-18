@@ -1391,6 +1391,17 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <b>METHODOLOGY — CORRECTED AUGUST 2026:</b> Rates on this page report <b>neutralisation</b>: weapons kinetically destroyed plus those suppressed by electronic warfare and lost before reaching target. The Ukrainian Air Force reported these two outcomes in separate fields between roughly October 2024 and July 2025, then merged them into a single destroyed figure. Earlier versions of this tracker counted only the destroyed field, which understated the all-time rate by around 10 points and produced an artificial collapse and recovery across that window. The whole series has been recomputed on the corrected basis and is now consistent with the Air Force's own published headline figures. Kinetic and EW components are broken out separately above.
   </div>
 
+  <!-- PERIOD FILTER -->
+  <div id="airdef-period-bar" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border)">
+    <span style="font-family:var(--M2);font-size:0.42rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase">Period</span>
+    <select id="airdef-period" onchange="renderAirDef()"
+      style="font-family:var(--mono);font-size:0.6rem;background:var(--bg);color:var(--text);border:1px solid var(--border2);padding:5px 8px;cursor:pointer;min-width:150px">
+      <option value="all">All time</option>
+    </select>
+    <span id="airdef-period-note" style="font-family:var(--mono);font-size:0.5rem;color:var(--text3)"></span>
+    <span style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);opacity:.75;margin-left:auto">Filters the stats and weapon breakdown below. The trend chart has its own range control.</span>
+  </div>
+
   <!-- HEADLINE STAT STRIP -->
   <div class="ad-stat-strip" id="airdef-stats">
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Total launched</span></div>
@@ -1961,6 +1972,29 @@ let USV_DATA=[], UGV_DATA=[], UAV_DATA=[], KB_DATA=[];
 const adKinetic = r => parseFloat(r.destroyed)||0;
 const adEW      = r => parseFloat(r.not_reach_goal)||0;
 const adNeutralised = r => adKinetic(r)+adEW(r);
+// Period filter for the air defence tab. Returns the rows in scope.
+function adScope(){
+  const v=(document.getElementById('airdef-period')||{}).value||'all';
+  if(v==='all')return AIRDEF_DATA;
+  if(v.length===4)return AIRDEF_DATA.filter(r=>(r.date||'').slice(0,4)===v);
+  return AIRDEF_DATA.filter(r=>(r.date||'').slice(0,7)===v);
+}
+function populateAirDefPeriods(){
+  const sel=document.getElementById('airdef-period');
+  if(!sel||sel.dataset.filled)return;
+  const months=[...new Set(AIRDEF_DATA.map(r=>(r.date||'').slice(0,7)).filter(Boolean))].sort().reverse();
+  const years=[...new Set(months.map(m=>m.slice(0,4)))].sort().reverse();
+  const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  let html='<option value="all">All time</option>';
+  years.forEach(y=>{
+    html+=`<option value="${y}">${y} — full year</option>`;
+    months.filter(m=>m.startsWith(y)).forEach(m=>{
+      html+=`<option value="${m}">&nbsp;&nbsp;${MN[+m.slice(5,7)-1]} ${y}</option>`;
+    });
+  });
+  sel.innerHTML=html;
+  sel.dataset.filled='1';
+}
 let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
 
 // ═══════════════════════════════════════════════════════════
@@ -2963,23 +2997,25 @@ function buildFreqChart(view){
 
 function renderAirDef(){
   const s=(document.getElementById('airdef-search')||{}).value?.toLowerCase()||'';
+  populateAirDefPeriods();
+  const SCOPE=adScope();
 
-  // ── Stat strip from full dataset ─────────────────────────────────
-  const totalLaunched=AIRDEF_DATA.reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
-  const totalDestroyed=AIRDEF_DATA.reduce((a,r)=>a+adNeutralised(r),0);
-  const totalKinetic=AIRDEF_DATA.reduce((a,r)=>a+adKinetic(r),0);
-  const totalEW=AIRDEF_DATA.reduce((a,r)=>a+adEW(r),0);
+  // ── Stat strip from rows in scope ────────────────────────────────
+  const totalLaunched=SCOPE.reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
+  const totalDestroyed=SCOPE.reduce((a,r)=>a+adNeutralised(r),0);
+  const totalKinetic=SCOPE.reduce((a,r)=>a+adKinetic(r),0);
+  const totalEW=SCOPE.reduce((a,r)=>a+adEW(r),0);
   const gotThrough=totalLaunched-totalDestroyed;
   const overallRate=totalLaunched>0?Math.round(totalDestroyed/totalLaunched*100):0;
-  const largest=Math.max(...AIRDEF_DATA.map(r=>parseFloat(r.launched)||0));
+  const largest=SCOPE.length?Math.max(...SCOPE.map(r=>parseFloat(r.launched)||0)):0;
   const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   // Cruise vs ballistic rates
   function isCruiseMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('kalibr')||s.includes('kh-')||s.includes('x-101')||s.includes('x-555')||s.includes('x-59')||s.includes('x-22')||s.includes('x-32')||s.includes('x-69')||s.includes('zircon')||s.includes('oniks')||s.includes('3m14')||s.includes('p-800');}
   function isBallisticMdl(m){if(!m)return false;const s=m.toLowerCase();return s.includes('iskander')||s.includes('kinzhal')||s.includes('ballistic')||s.includes('kn-23');}
-  const cruiseLaunched=AIRDEF_DATA.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
-  const cruiseDestroyed=AIRDEF_DATA.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+adNeutralised(r),0);
-  const ballisticLaunched=AIRDEF_DATA.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
-  const ballisticDestroyed=AIRDEF_DATA.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+adNeutralised(r),0);
+  const cruiseLaunched=SCOPE.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
+  const cruiseDestroyed=SCOPE.filter(r=>isCruiseMdl(r.model)).reduce((a,r)=>a+adNeutralised(r),0);
+  const ballisticLaunched=SCOPE.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
+  const ballisticDestroyed=SCOPE.filter(r=>isBallisticMdl(r.model)).reduce((a,r)=>a+adNeutralised(r),0);
   const cruiseRate=cruiseLaunched>0?Math.round(cruiseDestroyed/cruiseLaunched*100):0;
   const ballisticRate=ballisticLaunched>0?Math.round(ballisticDestroyed/ballisticLaunched*100):0;
   setVal('ads-total-launched',fmtBig(totalLaunched));
@@ -2988,14 +3024,21 @@ function renderAirDef(){
   setVal('ads-cruise-rate',cruiseRate+'%');
   setVal('ads-ballistic-rate',ballisticRate+'%');
   setVal('ads-got-through',fmtBig(gotThrough));
-  setVal('ads-attack-days',fmtBig(AIRDEF_DATA.length));
+  setVal('ads-attack-days',fmtBig(SCOPE.length));
   setVal('ads-largest',fmtBig(largest));
   setVal('ads-kinetic',fmtBig(totalKinetic));
   setVal('ads-ew',fmtBig(totalEW));
+  const noteEl=document.getElementById('airdef-period-note');
+  if(noteEl){
+    const pv=(document.getElementById('airdef-period')||{}).value||'all';
+    noteEl.textContent = pv==='all'
+      ? SCOPE.length+' attack waves · full dataset'
+      : `${SCOPE.length} attack waves · ballistic ${fmtBig(ballisticLaunched)} launched / ${fmtBig(ballisticDestroyed)} neutralised · cruise ${fmtBig(cruiseLaunched)} / ${fmtBig(cruiseDestroyed)}`;
+  }
 
   // ── Weapon type breakdown ────────────────────────────────────────
   const byType={};
-  AIRDEF_DATA.forEach(r=>{
+  SCOPE.forEach(r=>{
     const t=r.model||r.type||'Unknown';
     if(!byType[t])byType[t]={launched:0,destroyed:0};
     byType[t].launched+=(parseFloat(r.launched)||0);
