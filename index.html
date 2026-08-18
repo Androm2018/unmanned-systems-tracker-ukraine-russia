@@ -262,7 +262,19 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 .donate-note{font-family:var(--mono);font-size:0.58rem;color:var(--text3);margin-top:10px;line-height:1.6}
 
 /* ── AIR DEFENCE TAB ── */
-.ad-stat-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 28px;overflow:hidden}
+#airdef-period-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding:12px 14px;
+  background:linear-gradient(90deg,rgba(107,191,120,0.10),rgba(107,191,120,0.02));
+  border:1px solid var(--border);border-left:3px solid var(--accent3)}
+.apf-lbl{font-family:var(--M2);font-size:0.5rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase;cursor:pointer}
+.apf-sel{font-family:var(--mono);font-size:0.72rem;background:var(--bg);color:#fff;border:1px solid var(--accent3);
+  padding:7px 10px;cursor:pointer;min-width:180px}
+.apf-sel:hover{background:rgba(107,191,120,0.08)}
+.apf-note{font-family:var(--mono);font-size:0.52rem;color:var(--text2)}
+.apf-hint{font-family:var(--mono);font-size:0.46rem;color:var(--text3);opacity:.7;margin-left:auto}
+@media(max-width:900px){.apf-hint{display:none}}
+.ad-stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 28px;overflow:hidden}
+@media(max-width:1150px){.ad-stat-strip{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:860px){.ad-stat-strip{grid-template-columns:repeat(3,1fr)}}
 .ad-stat-cell{background:var(--bg2);padding:10px 8px;display:flex;flex-direction:column;gap:3px}
 .ad-stat-val{font-family:var(--head);font-weight:900;font-size:clamp(0.85rem,1.3vw,1.2rem);line-height:1;color:#fff}
 .ad-stat-lbl{font-family:var(--mono);font-size:0.32rem;color:var(--text3);letter-spacing:0.07em;text-transform:uppercase}
@@ -703,7 +715,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 /* ══ END NEW INTRO DESIGN ══════════════════════════════════════════ */
 
 /* Mobile additions */
-
+@media(max-width:600px){
   .hero-h1{font-size:clamp(2.2rem,12vw,3rem) !important;word-break:break-word}
   .hero-bottom{flex-direction:column;gap:14px;align-items:flex-start}
   .hero-desc{font-size:0.82rem;max-width:100%}
@@ -757,7 +769,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .kb-section-title{margin:20px 16px 8px !important}
 
   /* Stat strips scroll */
-  .ad-stat-strip{grid-template-columns:repeat(4,1fr) !important}
+  .ad-stat-strip{grid-template-columns:repeat(2,1fr) !important}
 
 }
 </style>
@@ -1387,19 +1399,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="disclaimer" style="margin-bottom:18px">
     <b>DATA SOURCE:</b> Ukrainian Air Force official daily reports, compiled and verified by data scientist Petro Ivaniuk. Dataset verified by CSIS as matching official Ukrainian Air Force figures. Coverage from 27 September 2022 to present. Each row represents a single attack wave. · <a class="src-link" href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener">github.com/PetroIvaniuk ↗</a>
   </div>
-  <div class="disclaimer" style="margin-bottom:18px;border-left-color:var(--accent3)">
-    <b>METHODOLOGY — CORRECTED AUGUST 2026:</b> Rates on this page report <b>neutralisation</b>: weapons kinetically destroyed plus those suppressed by electronic warfare and lost before reaching target. The Ukrainian Air Force reported these two outcomes in separate fields between roughly October 2024 and July 2025, then merged them into a single destroyed figure. Earlier versions of this tracker counted only the destroyed field, which understated the all-time rate by around 10 points and produced an artificial collapse and recovery across that window. The whole series has been recomputed on the corrected basis and is now consistent with the Air Force's own published headline figures. Kinetic and EW components are broken out separately above.
-  </div>
 
   <!-- PERIOD FILTER -->
-  <div id="airdef-period-bar" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border)">
-    <span style="font-family:var(--M2);font-size:0.42rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase">Period</span>
-    <select id="airdef-period" onchange="renderAirDef()"
-      style="font-family:var(--mono);font-size:0.6rem;background:var(--bg);color:var(--text);border:1px solid var(--border2);padding:5px 8px;cursor:pointer;min-width:150px">
+  <div id="airdef-period-bar">
+    <label for="airdef-period" class="apf-lbl">▼ Filter by month</label>
+    <select id="airdef-period" onchange="renderAirDef()" class="apf-sel">
       <option value="all">All time</option>
     </select>
-    <span id="airdef-period-note" style="font-family:var(--mono);font-size:0.5rem;color:var(--text3)"></span>
-    <span style="font-family:var(--mono);font-size:0.46rem;color:var(--text3);opacity:.75;margin-left:auto">Filters the stats and weapon breakdown below. The trend chart has its own range control.</span>
+    <span id="airdef-period-note" class="apf-note"></span>
+    <span class="apf-hint">Filters the stats and weapon table below. The trend chart has its own range control.</span>
   </div>
 
   <!-- HEADLINE STAT STRIP -->
@@ -1983,6 +1991,7 @@ function populateAirDefPeriods(){
   const sel=document.getElementById('airdef-period');
   if(!sel||sel.dataset.filled)return;
   const months=[...new Set(AIRDEF_DATA.map(r=>(r.date||'').slice(0,7)).filter(Boolean))].sort().reverse();
+  if(!months.length)return;               // data not loaded yet — retry on next render
   const years=[...new Set(months.map(m=>m.slice(0,4)))].sort().reverse();
   const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   let html='<option value="all">All time</option>';
