@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology &amp; Glossary — Ukraine War Unmanned Systems Tracker</title>
+<meta name="description" content="How to read the Ukraine drone war data: claimed versus confirmed figures, counting conventions, known artefacts, and a glossary of unmanned systems terms.">
+<link rel="canonical" href="https://unmannedsystemstracker.com/methodology/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.png">
+<meta property="og:title" content="Methodology &amp; Glossary — Unmanned Systems Tracker">
+<meta property="og:description" content="How to read claimed versus confirmed figures in the drone war, the counting conventions behind every number on the tracker, and a glossary of unmanned systems terms.">
+<meta property="og:url" content="https://unmannedsystemstracker.com/methodology/">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://unmannedsystemstracker.com/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080d0a; --bg2:#0d1410; --bg3:#111a13;
+  --border:#253d2a; --border2:#1e3022;
+  --accent:#3a7d44; --accent2:#4e9e5a; --accent3:#6bbf78;
+  --text:#c8d8c0; --text2:#9abf92; --text3:#637a60;
+  --mono:'Share Tech Mono',monospace;
+  --head:'Barlow Condensed',sans-serif;
+  --body:'Barlow',sans-serif;
+  --amber:#f0c040; --red:#e74c3c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* header */
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;position:sticky;top:0;z-index:200;display:flex;align-items:center;min-height:60px;gap:14px}
+.logo-icon{flex-shrink:0;width:34px;height:34px;display:flex;align-items:center}
+.logo-text{font-family:var(--head);font-weight:900;font-size:0.95rem;letter-spacing:0.14em;text-transform:uppercase;color:#fff;line-height:1;white-space:nowrap}
+.back-link{margin-left:auto;font-family:var(--mono);font-size:0.62rem;color:var(--accent3);text-decoration:none;letter-spacing:0.08em;border:1px solid var(--border);padding:7px 12px;transition:background .2s}
+.back-link:hover{background:rgba(107,191,120,0.08)}
+
+main{max-width:1080px;margin:0 auto;padding:0 24px 90px}
+
+/* hero */
+.page-hero{padding:56px 0 34px;border-bottom:1px solid var(--border2);position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--border2) 1px,transparent 1px),linear-gradient(90deg,var(--border2) 1px,transparent 1px);
+  background-size:60px 60px;opacity:.28;pointer-events:none}
+.eyebrow{font-family:var(--mono);font-size:0.52rem;color:var(--accent3);letter-spacing:0.24em;text-transform:uppercase;margin-bottom:16px;position:relative}
+.eyebrow::before{content:'// ';opacity:.5}
+h1{font-family:var(--head);font-weight:900;font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:-0.015em;line-height:1.02;text-transform:uppercase;color:#fff;position:relative}
+h1 .dim{color:var(--accent3)}
+.standfirst{font-size:1rem;color:var(--text2);max-width:660px;margin-top:20px;position:relative;line-height:1.75}
+
+/* contents */
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:34px 0 8px}
+.toc a{background:var(--bg2);padding:14px 16px;text-decoration:none;display:block;transition:background .2s}
+.toc a:hover{background:var(--bg3)}
+.toc-n{font-family:var(--mono);font-size:0.46rem;color:var(--accent3);letter-spacing:0.16em;display:block;margin-bottom:5px}
+.toc-t{font-family:var(--head);font-weight:700;font-size:0.9rem;text-transform:uppercase;color:var(--text);letter-spacing:0.03em}
+
+/* sections */
+section{padding-top:58px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.sec-n{font-family:var(--mono);font-size:0.6rem;color:var(--accent3);letter-spacing:0.14em}
+h2{font-family:var(--head);font-weight:900;font-size:1.55rem;text-transform:uppercase;letter-spacing:0.02em;color:#fff}
+.sec-rule{height:1px;background:var(--border);margin:0 0 24px}
+h3{font-family:var(--head);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--accent3);margin:30px 0 10px}
+p{margin-bottom:15px;max-width:760px}
+p a,li a{color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border)}
+p a:hover,li a:hover{border-bottom-color:var(--accent3)}
+strong{color:var(--text);font-weight:500}
+ul{margin:0 0 16px 20px;max-width:760px}
+li{margin-bottom:9px}
+
+/* callouts */
+.note{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent3);padding:16px 18px;margin:20px 0;max-width:760px;font-size:0.92rem}
+.note.warn{border-left-color:var(--amber)}
+.note-t{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent3);margin-bottom:8px}
+.note.warn .note-t{color:var(--amber)}
+
+/* tier table */
+.tiers{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin:22px 0}
+.tier{background:var(--bg2);padding:16px 18px;display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:start}
+.tier-lbl{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px}
+.t1{color:var(--accent3)} .t2{color:var(--amber)} .t3{color:var(--red)}
+.tier-body{font-size:0.92rem;color:var(--text2)}
+.tier-body b{color:var(--text);font-weight:500}
+
+/* glossary */
+.gl-filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0 20px}
+#gl-search{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.72rem;padding:9px 12px;min-width:230px;outline:none}
+#gl-search:focus{border-color:var(--accent3)}
+.gl-count{font-family:var(--mono);font-size:0.55rem;color:var(--text3);letter-spacing:0.08em}
+.glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.gl{background:var(--bg2);padding:15px 17px}
+.gl-term{font-family:var(--head);font-weight:700;font-size:0.98rem;text-transform:uppercase;letter-spacing:0.04em;color:#fff;margin-bottom:3px}
+.gl-alt{font-family:var(--mono);font-size:0.5rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:7px}
+.gl-def{font-size:0.87rem;color:var(--text2);line-height:1.65}
+.gl-none{font-family:var(--mono);font-size:0.65rem;color:var(--text3);padding:22px;text-align:center;grid-column:1/-1;background:var(--bg2)}
+
+footer{border-top:1px solid var(--border);margin-top:70px;padding:26px 0 0;font-family:var(--mono);font-size:0.58rem;color:var(--text3);line-height:1.9}
+footer a{color:var(--accent3);text-decoration:none}
+@media(max-width:600px){
+  main{padding:0 16px 60px}
+  .tier{grid-template-columns:1fr;gap:8px}
+  .glossary{grid-template-columns:1fr}
+  .logo-text{font-size:0.72rem;letter-spacing:0.08em}
+  header{padding:0 12px;min-height:52px}
+  .back-link{font-size:0.52rem;padding:6px 9px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-icon">
+    <svg width="34" height="34" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke-linecap="round">
+        <circle cx="18" cy="18" r="15.4" stroke="#4e9e5a" stroke-opacity=".85" stroke-width=".9"/>
+        <g stroke="#6bbf78" stroke-width="1.15">
+          <line x1="18" y1=".7" x2="18" y2="5.4"/><line x1="18" y1="35.3" x2="18" y2="30.6"/>
+          <line x1=".7" y1="18" x2="5.4" y2="18"/><line x1="35.3" y1="18" x2="30.6" y2="18"/>
+        </g>
+        <g stroke="#6bbf78" stroke-width="1.7">
+          <line x1="18" y1="18" x2="13.1" y2="13.1"/><line x1="18" y1="18" x2="22.9" y2="13.1"/>
+          <line x1="18" y1="18" x2="13.1" y2="22.9"/><line x1="18" y1="18" x2="22.9" y2="22.9"/>
+        </g>
+      </g>
+      <g fill="#3a7d44" fill-opacity=".3" stroke="#4e9e5a" stroke-width=".9">
+        <circle cx="13.1" cy="13.1" r="3.05"/><circle cx="22.9" cy="13.1" r="3.05"/>
+        <circle cx="13.1" cy="22.9" r="3.05"/><circle cx="22.9" cy="22.9" r="3.05"/>
+      </g>
+      <path d="M18 15.4 L20.2 16.7 L20.2 19.3 L18 20.6 L15.8 19.3 L15.8 16.7 Z"
+            fill="#3a7d44" fill-opacity=".3" stroke="#6bbf78" stroke-width="1" stroke-linejoin="round"/>
+      <circle cx="18" cy="18" r="1.05" fill="#6bbf78"/>
+    </svg>
+  </div>
+  <div class="logo-text">Unmanned Systems Tracker</div>
+  <a href="/" class="back-link">← Back to tracker</a>
+</header>
+
+<main>
+
+<div class="page-hero">
+  <div class="eyebrow">Reading the data</div>
+  <h1>Methodology<br><span class="dim">&amp; Glossary</span></h1>
+  <p class="standfirst">
+    Almost every number published about this war is a claim by an interested party. This page sets out where each
+    figure on the tracker comes from, what it counts, what it does not count, and the specific artefacts that will
+    mislead you if you read the series without knowing about them. A glossary of unmanned systems terminology follows.
+  </p>
+</div>
+
+<div class="toc">
+  <a href="#confidence"><span class="toc-n">01</span><span class="toc-t">Confidence tiers</span></a>
+  <a href="#counting"><span class="toc-n">02</span><span class="toc-t">Counting rules</span></a>
+  <a href="#artefacts"><span class="toc-n">03</span><span class="toc-t">Known artefacts</span></a>
+  <a href="#sources"><span class="toc-n">04</span><span class="toc-t">Sources</span></a>
+  <a href="#glossary"><span class="toc-n">05</span><span class="toc-t">Glossary</span></a>
+</div>
+
+<!-- ─────────────── 01 ─────────────── -->
+<section id="confidence">
+  <div class="sec-head"><span class="sec-n">01</span><h2>Confidence tiers</h2></div>
+  <div class="sec-rule"></div>
+
+  <p>
+    Figures on this tracker fall into three tiers of evidential strength. They are not interchangeable, and the single
+    most common analytical error in drone-war reporting is summing across them. A photo-confirmed loss and a claimed
+    strike are different kinds of object.
+  </p>
+
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-lbl t1">Tier 1 · Confirmed</div>
+      <div class="tier-body">
+        <b>Photographic or video evidence, independently catalogued.</b> Oryx and WarSpotting only enter a loss when
+        visual evidence exists. These figures are floors, not totals: they undercount by an unknown margin because not
+        every loss is filmed. WarSpotting states plainly that its data does not correspond to the actual number of
+        losses, though it approaches it. Use these to establish a minimum, never a maximum.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-lbl t2">Tier 2 · Institutionally reported</div>
+      <div class="tier-body">
+        <b>Published by a party to the conflict through a systematic process.</b> Ukrainian Air Force daily air defence
+        reports, USF Pidrakhuyka strike figures verified in the DELTA system, MoD mission counts. There is a real
+        counting process behind these, and internal consistency is usually good. They remain the claims of a belligerent
+        with an interest in the result, and they are not externally audited.
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-lbl t3">Tier 3 · Claimed</div>
+      <div class="tier-body">
+        <b>Statements by commanders, ministries or spokespeople without an underlying published dataset.</b> Campaign
+        totals, milestone announcements, proportions of a fleet destroyed. Often approximately right, occasionally
+        aspirational, and impossible to verify or reproduce. Treated on this site as directional rather than
+        quantitative.
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note-t">Why the distinction matters in practice</div>
+    In July 2026 the Unmanned Systems Forces reported striking 30 Russian air defence assets. WarSpotting recorded five
+    visually confirmed Russian air defence losses in the same month. Neither figure is wrong. They measure different
+    things — a strike claim against a photographed loss — and the ratio between them is itself the useful number,
+    because it gives an empirical sense of how much confirmation lags claim.
+  </div>
+
+  <p>
+    Where both a claimed and a confirmed figure exist for the same thing, this tracker aims to show both rather than
+    reconcile them. Averaging across tiers produces a number belonging to no methodology at all.
+  </p>
+</section>
+
+<!-- ─────────────── 02 ─────────────── -->
+<section id="counting">
+  <div class="sec-head"><span class="sec-n">02</span><h2>Counting rules</h2></div>
+  <div class="sec-rule"></div>
+
+  <h3>Neutralised, not intercepted</h3>
+  <p>
+    Air defence rates on this site report <strong>neutralisation</strong>: weapons kinetically destroyed plus those
+    suppressed by electronic warfare and lost before reaching their target. This matches how the Ukrainian Air Force
+    reports its own headline figure, and it is the basis on which comparable trackers publish.
+  </p>
+  <p>
+    The distinction is not cosmetic. Counting only kinetic destruction understates the all-time rate by roughly ten
+    percentage points, because electronic warfare accounts for a substantial and varying share of drones brought down.
+    A rate computed on one basis cannot be compared against a rate computed on the other.
+  </p>
+
+  <h3>Damaged and destroyed are separate columns</h3>
+  <p>
+    USF strike figures report targets <em>hit</em> and, within that, targets <em>destroyed</em>. The two are nested,
+    not additive: a category showing 3,675 hit and 834 destroyed means 3,675 targets were struck, of which 834 were
+    assessed as destroyed. Summing the columns double-counts.
+  </p>
+
+  <h3>Monthly versus cumulative</h3>
+  <p>
+    Series labelled monthly contain that month alone. Series labelled cumulative contain everything to date. Where a
+    source publishes a running total under a monthly heading, it is relabelled here rather than silently converted,
+    because the conversion is not always recoverable.
+  </p>
+
+  <h3>Floors versus exact counts</h3>
+  <p>
+    Where a source publishes "more than 10,000" or "almost 20,000", the figure is recorded as a floor and marked as
+    such — on charts, by a hollow rather than solid bar. Treating a floor as an exact count creates false precision and,
+    worse, false month-to-month movement when a floor in one month is compared against an exact figure in the next.
+  </p>
+
+  <h3>Gaps are left empty</h3>
+  <p>
+    Months with no published figure are omitted, not interpolated. A missing point is information; an invented one is
+    not.
+  </p>
+
+  <h3>Event logs are not samples</h3>
+  <p>
+    The USV and UGV logs record notable, well-sourced individual operations — firsts, capability milestones, unusually
+    well-documented actions. They are curated, not systematic. Counting entries per month measures reporting attention,
+    not operational tempo, and the two move independently.
+  </p>
+</section>
+
+<!-- ─────────────── 03 ─────────────── -->
+<section id="artefacts">
+  <div class="sec-head"><span class="sec-n">03</span><h2>Known artefacts</h2></div>
+  <div class="sec-rule"></div>
+
+  <p>
+    Long-running open-source datasets accumulate distortions that look like findings. These are the ones known to
+    affect data on this site. Each has produced an apparent trend that is not real.
+  </p>
+
+  <h3>Reporting convention changes</h3>
+  <p>
+    Between roughly October 2024 and July 2025 the Ukrainian Air Force reported electronic warfare suppression in a
+    field separate from kinetic destruction, then merged the two. Any series built on the destroyed field alone shows a
+    collapse in interception through that window and a recovery afterwards. Neither happened. The apparent trend is
+    entirely an artefact of which fields were populated when.
+  </p>
+  <div class="note warn">
+    <div class="note-t">General principle</div>
+    When a time series shows a sharp break followed by a return to trend, suspect the reporting method before the
+    battlefield. Structural change in war is usually gradual; changes in how a ministry formats a spreadsheet are
+    instantaneous.
+  </div>
+
+  <h3>Taxonomy revisions</h3>
+  <p>
+    USF revised its target categories during 2026. Categories were renamed, merged and added — copter drones became
+    multirotor drones, robotic complexes became UGVs, and roughly a dozen new headings appeared. Category-level series
+    do not run continuously across that break, and matching old to new categories involves judgement that would be
+    invisible in a chart.
+  </p>
+
+  <h3>Retroactive correction</h3>
+  <p>
+    Territorial assessments are revised as control is clarified, often weeks later. A published monthly figure may
+    incorporate corrections belonging to earlier months, which means the headline number for a month is not the same
+    thing as that month's own change. Where the difference is known, it is stated alongside the figure.
+  </p>
+
+  <h3>Aggregation of unlike categories</h3>
+  <p>
+    Some air defence records log multiple weapon types in a single row — a strike package combining surface-to-air
+    missiles and cruise missiles, for instance. Any filter that classifies by weapon type will attribute the whole row
+    to whichever type it matches. Type-specific rates drawn from small samples should be read with this in mind,
+    particularly where launch volumes are low.
+  </p>
+
+  <h3>Novelty bias</h3>
+  <p>
+    Unusual events are over-reported when a capability is new and under-reported once it becomes routine. The first
+    ground robot casualty evacuation was widely covered; the ten-thousandth was not. Apparent declines in novel
+    capabilities frequently reflect the fading of news value rather than the fading of the capability.
+  </p>
+
+  <h3>Confirmation as a function of drone coverage</h3>
+  <p>
+    Drone footage is now the primary confirmation mechanism for battlefield claims on both sides. This creates a
+    circularity: strikes conducted without drone observation are less likely to be confirmed and therefore less likely
+    to be counted at all. High drone attribution in casualty data partly reflects what can be filmed, not only what
+    drones did.
+  </p>
+</section>
+
+<!-- ─────────────── 04 ─────────────── -->
+<section id="sources">
+  <div class="sec-head"><span class="sec-n">04</span><h2>Sources</h2></div>
+  <div class="sec-rule"></div>
+
+  <p>Primary sources behind the datasets on this site, with what each is good for and where it stops.</p>
+
+  <ul>
+    <li><strong>Ukrainian Air Force daily reports</strong>, compiled by Petro Ivaniuk. Attack-wave level records of
+      weapons launched, destroyed and EW-suppressed, from September 2022. The backbone of the air defence tab.</li>
+    <li><strong>USF Pidrakhuyka</strong> — Unmanned Systems Forces strike reporting, verified in the DELTA combat
+      system. Category-level detail on targets hit and destroyed. Covers USF-branch units only, not all Ukrainian
+      unmanned units, which is why its personnel figures sit below General Staff totals.</li>
+    <li><strong>Oryx</strong> and <strong>WarSpotting</strong> (Jakub Janovsky) — visually confirmed equipment losses.
+      The strictest standard available and correspondingly the most conservative.</li>
+    <li><strong>Mediazona / BBC News Russian</strong> — Russian military deaths confirmed by name through obituaries,
+      social media and official records. A hard floor; the real total is substantially higher.</li>
+    <li><strong>DeepState</strong>, <strong>ISW</strong> and <strong>Black Bird Group</strong> — territorial
+      assessment. Read net change rather than gross gains, and expect revision.</li>
+    <li><strong>Ukrainian MoD</strong> — UGV mission counts from DELTA, published monthly.</li>
+    <li><strong>Ukrainian General Staff</strong> — daily aggregate loss reporting. Broad in scope, unaudited, and the
+      standard denominator for attribution ratios.</li>
+  </ul>
+
+  <div class="note">
+    <div class="note-t">Corrections</div>
+    Errors in this tracker are corrected in place, and material corrections that change a published figure are noted
+    where they occur. If you believe something here is wrong, please say so — corrections from readers are welcome and
+    acted on. Underlying data and code are available on request.
+  </div>
+</section>
+
+<!-- ─────────────── 05 ─────────────── -->
+<section id="glossary">
+  <div class="sec-head"><span class="sec-n">05</span><h2>Glossary</h2></div>
+  <div class="sec-rule"></div>
+
+  <p>Terms as used on this site and in the sources it draws on. Usage in the field is not always consistent; where a
+     term is contested, that is noted.</p>
+
+  <div class="gl-filter">
+    <input id="gl-search" type="text" placeholder="Filter terms…" autocomplete="off" aria-label="Filter glossary terms">
+    <span class="gl-count" id="gl-count"></span>
+  </div>
+
+  <div class="glossary" id="glossary-grid">
+
+    <div class="gl"><div class="gl-term">FPV</div><div class="gl-alt">First-person view</div><div class="gl-def">A small drone flown through a live video feed by a pilot wearing goggles, usually carrying an explosive charge and expended on impact. The dominant strike weapon of the war by volume. Cheap, short-ranged, and highly dependent on radio link quality.</div></div>
+
+    <div class="gl"><div class="gl-term">Fibre-optic drone</div><div class="gl-alt">Wire-guided FPV</div><div class="gl-def">An FPV trailing a spool of fibre-optic cable, typically ten to fifty kilometres long. Because it carries no radio link it cannot be jammed, which makes it the standard counter to electronic warfare. Trades range, manoeuvrability and reusability of the operating area for immunity.</div></div>
+
+    <div class="gl"><div class="gl-term">Loitering munition</div><div class="gl-alt">Sometimes "kamikaze drone"</div><div class="gl-def">A guided weapon that can search an area before committing to a target, destroyed in the attack. The boundary with FPV is blurred: loitering munitions are generally more autonomous and longer-endurance, but usage varies by speaker.</div></div>
+
+    <div class="gl"><div class="gl-term">OWA-UAS</div><div class="gl-alt">One-way attack UAS</div><div class="gl-def">Umbrella term for uncrewed aircraft expended on the target. Preferred in technical writing because it describes the flight profile without implying anything about guidance, autonomy or operator intent.</div></div>
+
+    <div class="gl"><div class="gl-term">Shahed / Geran</div><div class="gl-alt">Shahed-136, Shahed-131, Geran-2</div><div class="gl-def">Iranian-designed long-range one-way attack drone, now produced in Russia as the Geran series. Slow, propeller-driven, launched in large salvos against infrastructure and cities. The single largest category in Russian aerial attack data.</div></div>
+
+    <div class="gl"><div class="gl-term">Gerbera</div><div class="gl-alt">Decoy</div><div class="gl-def">A cheap plywood and foam Shahed lookalike, sometimes carrying a small payload or electronics. Flown alongside real strike drones to saturate radar, exhaust interceptors and map air defence positions. Counted in launch totals, which inflates raw launch figures relative to actual threat.</div></div>
+
+    <div class="gl"><div class="gl-term">Interceptor drone</div><div class="gl-alt"></div><div class="gl-def">A drone built to shoot down other drones, usually by collision. Developed as a cost-exchange answer to Shahed salvos, where using a surface-to-air missile against a cheap airframe is economically unsustainable.</div></div>
+
+    <div class="gl"><div class="gl-term">USV</div><div class="gl-alt">Uncrewed surface vessel · МБЕК</div><div class="gl-def">A remotely operated boat, typically explosive-laden, used against warships, bridges and port infrastructure. Ukrainian types include Magura and Sea Baby. Increasingly used as a launch platform for other systems rather than solely as a strike weapon.</div></div>
+
+    <div class="gl"><div class="gl-term">UGV</div><div class="gl-alt">Uncrewed ground vehicle · GRS</div><div class="gl-def">A ground robot used for logistics resupply, casualty evacuation, mine-laying, engineering and occasionally direct assault. The overwhelming majority of missions are logistics and evacuation rather than combat, which matters when reading mission counts as a measure of combat effect.</div></div>
+
+    <div class="gl"><div class="gl-term">EW</div><div class="gl-alt">Electronic warfare</div><div class="gl-def">Jamming or spoofing the radio and satellite links a drone depends on. Brings drones down without destroying them, which is why interception and neutralisation are different measurements.</div></div>
+
+    <div class="gl"><div class="gl-term">Neutralised</div><div class="gl-alt"></div><div class="gl-def">On this site, a weapon either kinetically destroyed or suppressed by electronic warfare and lost before reaching its target. The basis on which air defence rates here are calculated.</div></div>
+
+    <div class="gl"><div class="gl-term">Leakage</div><div class="gl-alt">Got through</div><div class="gl-def">Weapons launched minus weapons neutralised. Often more informative than the interception rate, because absolute leakage can rise while the percentage rate holds steady if launch volumes fall.</div></div>
+
+    <div class="gl"><div class="gl-term">Kill zone</div><div class="gl-alt">Grey zone, drone belt</div><div class="gl-def">The band either side of the front line within which movement is observed and struck by drones almost continuously. Its depth is contested and often quoted from commanders describing aspiration rather than measurement.</div></div>
+
+    <div class="gl"><div class="gl-term">DELTA</div><div class="gl-alt"></div><div class="gl-def">Ukraine's battlefield situational awareness and reporting system. Strike and mission claims verified in DELTA carry a video confirmation requirement, which is why DELTA-sourced figures sit above commander statements in evidential terms.</div></div>
+
+    <div class="gl"><div class="gl-term">Oryx standard</div><div class="gl-alt">Visual confirmation</div><div class="gl-def">The convention of recording an equipment loss only where photographic or video evidence exists. Produces conservative totals that undercount real losses, and is not comparable with claimed figures.</div></div>
+
+    <div class="gl"><div class="gl-term">Deep strike</div><div class="gl-alt">Long-range strike</div><div class="gl-def">Attacks well beyond the front line against refineries, airbases, logistics and industry. Distinguished from tactical drone use by range, target class and the planning cycle behind it.</div></div>
+
+    <div class="gl"><div class="gl-term">Attack wave</div><div class="gl-alt">Salvo</div><div class="gl-def">A single co-ordinated aerial attack, usually overnight, potentially mixing drones, cruise missiles and ballistic missiles. The unit of record in the air defence dataset: one row per wave, not per weapon.</div></div>
+
+    <div class="gl"><div class="gl-term">Ballistic vs cruise</div><div class="gl-alt"></div><div class="gl-def">Ballistic missiles follow a high arcing trajectory and arrive fast, making them far harder to intercept and largely dependent on Patriot-class systems. Cruise missiles fly low and slow enough to be engaged by a wider range of defences. Interception rates for the two are not comparable.</div></div>
+
+    <div class="gl"><div class="gl-term">Shadow fleet</div><div class="gl-alt"></div><div class="gl-def">Ageing, opaquely owned tankers used to move sanctioned Russian oil outside Western insurance and inspection regimes. A recurring target class in the maritime strike campaign.</div></div>
+
+    <div class="gl"><div class="gl-term">Claimed vs confirmed</div><div class="gl-alt"></div><div class="gl-def">Claimed figures come from a party to the conflict. Confirmed figures rest on independent visual evidence. Confirmed totals are always lower and always incomplete. The gap between them is a measure of verification lag, not of dishonesty.</div></div>
+
+  </div>
+</section>
+
+<footer>
+  Ukraine War Unmanned Systems Tracker · Compiled by Andro Mathewson, PhD Candidate in War Studies, King's College London.<br>
+  Data free to access and share under CC BY-NC 4.0. Corrections and enquiries welcome.<br>
+  <a href="/">Return to the tracker →</a>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var input=document.getElementById('gl-search');
+  var cards=[].slice.call(document.querySelectorAll('#glossary-grid .gl'));
+  var count=document.getElementById('gl-count');
+  var empty=document.createElement('div');
+  empty.className='gl-none';
+  empty.textContent='// NO MATCHING TERMS //';
+  empty.style.display='none';
+  document.getElementById('glossary-grid').appendChild(empty);
+
+  function render(){
+    var q=(input.value||'').trim().toLowerCase();
+    var shown=0;
+    cards.forEach(function(c){
+      var hit=!q||c.textContent.toLowerCase().indexOf(q)!==-1;
+      c.style.display=hit?'':'none';
+      if(hit)shown++;
+    });
+    empty.style.display=shown?'none':'block';
+    count.textContent=shown+' of '+cards.length+' terms';
+  }
+  input.addEventListener('input',render);
+  render();
+})();
+</script>
+
+</body>
+</html>
