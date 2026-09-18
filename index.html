@@ -1955,7 +1955,7 @@ async function loadAll() {
   clearTimeout(_loadTimeout);
   document.getElementById('last-updated').textContent=d;
   const metaLM=document.getElementById('meta-last-modified');if(metaLM)metaLM.setAttribute('content',new Date().toISOString().slice(0,10));
-  document.getElementById('intro-date').textContent=d;
+  const introDate=document.getElementById('intro-date');if(introDate)introDate.textContent=d;
   // Re-apply hash routing after data loads (ensures correct tab is active)
   if(window._hashTab&&window._hashTab!=='intro'){showTabById(window._hashTab);}
 
@@ -3265,6 +3265,9 @@ function buildTerritorialChart(){
 }
 
 function buildIntroTrendsChart(){
+  // buildCompareChart is declared in a later script element, so it is not
+  // hoisted into this one. Early callers (Chart.js onload) must not throw.
+  if(typeof buildCompareChart!=='function')return;
   buildCompareChart();
 }
 
