@@ -1,0 +1,91 @@
+name: Export tracker data to static JSON
+
+# Keeps /data/*.json in sync with the Google Sheet.
+# The site reads these files from its own domain, so visitors never call
+# Google directly: no CORS, no Google session dependency, no Apps Script quota.
+
+on:
+  schedule:
+    - cron: '30 6 * * *'        # daily, 06:30 UTC (after the USF scraper)
+  workflow_dispatch:             # allow manual runs
+  workflow_run:
+    workflows: ["Scrape Air Defence Data"]    # rename to match your existing scraper workflow
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch each tab and write static JSON
+        env:
+          SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
+        run: |
+          python3 - <<'PY'
+          import json, os, time, urllib.request, sys
+
+          BASE = os.environ["SCRIPT_URL"]
+          TABS = ["airdefence", "usv", "ugv", "uav", "killboard"]
+          os.makedirs("data", exist_ok=True)
+          failures = []
+
+          def get(url, attempts=4):
+              for i in range(attempts):
+                  try:
+                      with urllib.request.urlopen(url, timeout=120) as r:
+                          return json.loads(r.read().decode("utf-8"))
+                  except Exception as e:
+                      if i == attempts - 1:
+                          raise
+                      time.sleep(2 ** i)
+
+          for tab in TABS:
+              try:
+                  rows, chunk = [], 0
+                  while True:
+                      d = get(f"{BASE}?tab={tab}&chunk={chunk}&t={int(time.time()*1000)}")
+                      if not d.get("ok"):
+                          raise RuntimeError(d.get("error", "API error"))
+                      rows += d.get("data") or []
+                      total = d.get("totalChunks") or 1
+                      chunk += 1
+                      if chunk >= total:
+                          break
+
+                  path = f"data/{tab}.json"
+
+                  # Never overwrite a good snapshot with an empty one: a transient
+                  # API failure must not blank the live site.
+                  if not rows and os.path.exists(path):
+                      print(f"{tab}: returned 0 rows, keeping existing snapshot")
+                      failures.append(tab)
+                      continue
+
+                  with open(path, "w", encoding="utf-8") as f:
+                      json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
+                  print(f"{tab}: {len(rows)} rows written")
+
+              except Exception as e:
+                  print(f"{tab}: FAILED — {e}")
+                  failures.append(tab)
+
+          # Fail the run if the critical dataset could not be refreshed.
+          if "airdefence" in failures:
+              sys.exit("airdefence export failed — not committing")
+          PY
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Refresh static data snapshots"
+            git push
+          fi
