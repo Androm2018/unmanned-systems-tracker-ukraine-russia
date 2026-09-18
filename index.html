@@ -963,7 +963,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       <span class="new-stat-l">Neutralisation Rate</span>
     </div>
     <div class="new-stat d7" onclick="showTabById('rl')">
-      <span class="new-stat-n r" id="is-rl-kia">233,200+</span>
+      <span class="new-stat-n r" id="is-rl-kia">248,800+</span>
       <span class="new-stat-l">Russian KIA (Mediazona)</span>
     </div>
     <div class="new-stat d8" onclick="showTabById('research')">
@@ -1185,24 +1185,24 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <!-- DELTA MISSION STATS -->
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:18px">
     <div style="background:var(--bg2);padding:14px 16px;text-align:center">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">~20,000</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Missions in Jul 2026</div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">25,143</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Missions in Aug 2026</div>
     </div>
     <div style="background:var(--bg2);padding:14px 16px;text-align:center">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">66,300</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Missions Jan–Jun 2026</div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">111,377</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Missions Jan–Aug 2026</div>
     </div>
     <div style="background:var(--bg2);padding:14px 16px;text-align:center">
       <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">230</div>
       <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Units equipped (mid-2026)</div>
     </div>
     <div style="background:var(--bg2);padding:14px 16px;text-align:center">
-      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">2.7&#215;</div>
-      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Jul vs Jan 2026</div>
+      <div style="font-family:var(--head);font-weight:900;font-size:1.4rem;color:var(--accent3);line-height:1">3.3&#215;</div>
+      <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px">Aug vs Jan 2026</div>
     </div>
   </div>
   <div style="font-family:var(--mono);font-size:0.52rem;color:var(--text3);margin-bottom:16px;line-height:1.6">
-    Mission data via Ukraine MoD DELTA combat system &middot; figures to Jul 2026 &middot;
+    Mission data via Ukraine MoD DELTA combat system &middot; figures to Aug 2026 &middot;
     <a href="https://mod.gov.ua/en/news/over-9-000-frontline-missions-in-march-the-defence-forces-continue-to-expand-the-use-of-ground-robotic-systems" target="_blank" rel="noopener" class="src-link">MoD Mar 2026 &#8599;</a> &middot;
     <a href="https://united24media.com/war-in-ukraine/ukraines-ground-robots-surpass-16000-battlefield-missions-in-a-single-month-20714" target="_blank" rel="noopener" class="src-link">H1 2026 figures &#8599;</a> &middot;
     <a href="https://mod.gov.ua/en/news/delta-expands-mission-reporting-and-result-tracking-for-ground-robotic-systems-1" target="_blank" rel="noopener" class="src-link">DELTA tracking &#8599;</a>
@@ -1214,9 +1214,9 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     <div style="height:230px"><canvas id="ugv-monthly-chart"></canvas></div>
   </div>
   <div style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);margin:0 32px 24px;line-height:1.6">
-    Logistics, casualty evacuation, mine-laying, engineering and assault missions logged in the DELTA combat system.
-    Solid bars are exact published figures; hollow bars are MoD statements of "more than" or "almost" X and are floors, not exact counts.
-    Months with no published figure are omitted rather than interpolated.
+    Logistics and casualty evacuation missions logged in the DELTA combat system, as published monthly by the Ukrainian
+    Ministry of Defence. Figures are exact counts from the MoD's own series, not estimates. Combat and fire-support
+    missions are counted separately by MoD and are not included here.
   </div>
 
   <div class="controls">
@@ -1840,7 +1840,22 @@ let usvSort={col:0,asc:true}, ugvSort={col:0,asc:true};
 // ═══════════════════════════════════════════════════════════
 //  FETCH
 // ═══════════════════════════════════════════════════════════
+// Static snapshots are served from this site's own domain. They are the
+// primary source: no cross-origin request, no Google session dependency,
+// no Apps Script quota. The live API remains as a fallback only.
+async function fetchStatic(tabName){
+  try{
+    const r = await fetch(`/data/${tabName}.json`, {cache:'no-cache'});
+    if(!r.ok) return null;
+    const d = await r.json();
+    return (Array.isArray(d) && d.length) ? d : null;
+  }catch(e){ return null; }
+}
+
 async function fetchTab(tab) {
+  const [staticName] = tab.split('&');
+  const localFirst = await fetchStatic(staticName);
+  if(localFirst) return localFirst;
   if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
   try{
     const [tabName, extra] = tab.split('&');
@@ -2104,12 +2119,15 @@ function sortUSV(c){usvSort={col:c,asc:usvSort.col===c?!usvSort.asc:true};render
 //  UGV TABLE
 // ═══════════════════════════════════════════════════════════
 const UGV_MONTHLY=[
-  // [month, missions, isApproximate]  — isApproximate = published as "more than"/"almost"
-  ['2026-01', 7495,  false],
-  ['2026-03', 9000,  true ],
-  ['2026-04', 10000, true ],
-  ['2026-06', 16676, false],
-  ['2026-07', 20000, true ]
+  // [month, missions, isApproximate] — MoD/DELTA published series, exact figures
+  ['2026-01',  7511, false],
+  ['2026-02',  7960, false],
+  ['2026-03',  9072, false],
+  ['2026-04', 11028, false],
+  ['2026-05', 14059, false],
+  ['2026-06', 16664, false],
+  ['2026-07', 19940, false],
+  ['2026-08', 25143, false]
 ];
 let ugvMonthlyChart=null;
 function buildUGVMonthlyChart(){
@@ -2547,7 +2565,7 @@ const EMBEDDED_UGV=[
   {date:"2025-12-01",side:"Russia",system:"Scorpion-M",op:"Kamikaze UGV deployment trials",loc:"Krasnohorivka, Donetsk",outcome:"Operational milestone",notes:"Russian volunteer-developed kamikaze UGV. Limited fielding reported.",src:"https://militaeraktuell.at",srcl:"Militär Aktuell"},
 ];
 const EMBEDDED_KB=[
-  {section:"card",label:"Confirmed KIA (named, verified)",value:"233,200+",color:"red",sub:"Individual soldiers confirmed dead by name via obituaries, social media & official sources. As of 17 Jul 2026. The real total is significantly higher.",source:"Mediazona / BBC News Russian · 200.zona.media · Updated Jul 2026"},
+  {section:"card",label:"Confirmed KIA (named, verified)",value:"248,800+",color:"red",sub:"Individual soldiers confirmed dead by name via obituaries, social media & official sources. As of 11 Sep 2026. The real total is significantly higher.",source:"Mediazona / BBC News Russian · 200.zona.media · Updated Sep 2026"},
   {section:"card",label:"Statistical KIA estimate",value:"~352,000",color:"red",sub:"Total deaths estimated via National Probate Registry excess mortality model to end of 2025. Does not include foreign nationals fighting for Russia.",source:"Meduza / Mediazona probate registry analysis · May 2026"},
   {section:"card",label:"UK Intelligence estimate",value:"~500,000",color:"red",sub:"Highest on-the-record government estimate of total Russian military deaths since the war began. Includes killed and died of wounds.",source:"British Intelligence (GCHQ/DI) · May 2026"},
   {section:"card",label:"Total casualties (KIA + WIA)",value:"1,118,000+",color:"red",sub:"Killed and wounded combined. Includes contract soldiers, mobilised personnel, and Wagner/volunteer fighters.",source:"UK Ministry of Defence Oct 2025 · SACEUR Gen. Cavoli Apr 2025"},
@@ -3985,8 +4003,8 @@ const COMPARE_DATA = {
   terr:     [423, 502, 430, 398, 468, 528, 347, 425, -37, 25, 94, -47, -9, 36, null],
   pers:     [4521,5134,5354,6659,8060,8473,12037,9381,8672,10404,10581,9617,9746,11609,11010],
   strikes:  [49874,55853,58778,60781,65514,64437,72091,71615,64390,85915,95172,113332,113109,128254,142828],
-  intercept:[87,88,84,87,80,83,81,84,87,90,89,92,90,87,null],
-  launched: [5374,7853,4462,6022,5932,5802,5830,4979,6030,6757,8187,10098,7904,7519,null],
+  intercept:[87,88,84,87,80,83,81,84,87,90,89,92,90,87,83],
+  launched: [5374,7853,4462,6022,5932,5802,5830,4979,6030,6757,8187,10098,7904,7519,7224],
 };
 
 const COMPARE_LABELS_MAP = {
