@@ -804,7 +804,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 }
 </script>
 </head>
-<body>
+<body><a href="https://unmannedsystemstracker.com/cdn-cgi/content?id=b2pWTMNV_hZufFczDHFU3w9QjhaZZdNLJwMyNE8EmIA-1790684114.0183332-1.2.1.1-ObtkyUTLV0RNC1f6BOUn2hjstHNWNo9XYQ1OjnEXMSwZXvQlCn7KboeIi70BK7y1" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <header>
   <div class="logo-block">
@@ -1075,7 +1075,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         <div style="font-family:var(--mono);font-size:0.42rem;color:var(--accent3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px">Maritime &amp; USV Operations · July 2026</div>
         <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em">Sources: Ukraine MoD (DELTA-verified) · USF Cmdr Brovdi · Ukrainian Navy · DIU</div>
       </div>
-      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em">July 2026</div>
+      <div style="font-family:var(--mono);font-size:0.38rem;color:var(--text3);letter-spacing:0.08em">Stats Jul 2026 · events to 27 Sep</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)">
       <div style="background:var(--bg2);padding:14px 16px">
@@ -1096,7 +1096,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
       </div>
     </div>
     <div style="padding:12px 18px;border-top:1px solid var(--border);font-family:var(--B2);font-size:0.78rem;color:var(--text2);line-height:1.65;font-weight:300">
-      July marked a doctrinal shift in USV employment. DIU's Group 13 used Magura platforms as FPV carriers to strike a Podlyot radar command vehicle and a Parol-4 IFF interrogator in occupied Crimea, the first Magura strikes against land targets. Marines separately launched FPV drones from Barracuda USVs against positions near Zaliznyi Port, Kherson Oblast, losing one vessel to Lancet fire. USF struck a Russian naval USV base at Snizhne in Crimea, indicating both sides now field surface drones and target each other's basing. Of the 205 tankers struck since Operation MoLoChKa began, 130 were in the Sea of Azov and 75 in the Black Sea.
+      The figures above are July's, the most recent monthly USF maritime tallies published. The campaign has since moved from tanker interdiction toward fleet targets and drone-on-drone fighting. On 12 August a combined strike on Novorossiysk using jet-powered drones, Neptune cruise missiles and sea-based suicide drones left the frigates <em>Admiral Essen</em> and <em>Admiral Makarov</em> with moderate damage concentrated on their forward VLS cell banks, disabling both ships' ability to launch surface-to-surface and surface-to-air missiles; a Buyan-M corvette, a Project 22160 patrol ship, an S-300 radar and a grain terminal were also hit. The USV contribution to individual vessel damage is not separable from the aerial and missile components. Ukraine unveiled the MV11 Magura on 24 August, a 2,200 kg payload, seven-day endurance platform intended as a mothership for smaller unmanned systems rather than a strike craft. A USV attack damaged the offshore supply vessel <em>Nefrit</em> at Sochi on 3 September. On 12 September the Navy claimed the first engagement ever fought between opposing unmanned surface vessels, a Sargan 3000 carrying a 12.7 mm remote weapon station destroying a Russian drone boat — a Ukrainian claim, with neither the Russian craft nor the location identified, and not independently corroborated.
     </div>
   </div>
 
@@ -1919,23 +1919,6 @@ async function loadAll() {
   UAV_DATA=EMBEDDED_UAV; // UAV updated manually — always use embedded data
   KB_DATA =(kbRaw&&kbRaw.length>0)?kbRaw:EMBEDDED_KB;
   AIRDEF_DATA=airRaw||[];
-  if(!AIRDEF_DATA.length){
-    // Air defence is the only dataset with no embedded fallback. If the live
-    // fetch fails the tab would otherwise render blank with no explanation.
-    const panel=document.getElementById('tab-airdef');
-    if(panel && !document.getElementById('airdef-load-error')){
-      const msg=document.createElement('div');
-      msg.id='airdef-load-error';
-      msg.className='disclaimer';
-      msg.style.cssText='margin:0 32px 18px;border-left-color:#e74c3c';
-      msg.innerHTML='<b>\u26a0 LIVE DATA DID NOT LOAD.</b> The air defence dataset is fetched at page load and did not arrive. '+
-        'This is usually a network or content-blocker issue rather than a fault with the data. '+
-        'Try reloading, or disabling any blocker for this site. If it persists, the underlying dataset is available at '+
-        '<a class="src-link" href="https://github.com/PetroIvaniuk/2022-Ukraine-Russia-War-Dataset" target="_blank" rel="noopener">github.com/PetroIvaniuk \u2197</a> '+
-        'and bulk exports can be requested via <a class="src-link" href="/methodology/#data-access">the methodology page</a>.';
-      panel.insertBefore(msg, panel.children[1]||null);
-    }
-  }
 
   // USV model filter
   [...new Set(USV_DATA.map(r=>r.model).filter(Boolean))].sort().forEach(m=>{
@@ -3358,7 +3341,7 @@ window.addEventListener('scroll',()=>{
     This section holds original research that is still in progress and not yet peer-reviewed, so it is shared on request rather than published openly.
     Access is normally granted to researchers, journalists and analysts. Get in touch with a short note on who you are and what you are working on, and I will usually reply within a few days.
     <div style="margin-top:14px">
-      <a href="mailto:andro@unmannedsystemstracker.com?subject=Research%20access%20request" style="color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border2)">andro@unmannedsystemstracker.com</a>
+      <a href="/cdn-cgi/l/email-protection#24454a40564b64514a49454a4a4140575d5750414957505645474f41560a474b491b5751464e41475019764157414556474c01161445474741575701161456415551415750" style="color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border2)"><span class="__cf_email__" data-cfemail="84e5eae0f6ebc4f1eae9e5eaeae1e0f7fdf7f0e1e9f7f0f6e5e7efe1f6aae7ebe9">[email&#160;protected]</span></a>
       &nbsp;·&nbsp;
       <a href="https://andromathewson.com" target="_blank" rel="noopener" style="color:var(--accent3);text-decoration:none;border-bottom:1px solid var(--border2)">andromathewson.com</a>
     </div>
@@ -3946,7 +3929,7 @@ window.addEventListener('scroll',()=>{
   </div>
 </div>
 </div>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 window.addEventListener('popstate',function(e){
   let hash=location.hash.replace('#','');
   if(hash==='analyses')hash='research';
@@ -4262,5 +4245,5 @@ function renderAirDefChartSlice(startIdx, endIdx){
   document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 })();
 </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a42ae9809b4afe99',t:'MTc5MDY4NDExNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
