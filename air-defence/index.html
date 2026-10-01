@@ -393,6 +393,43 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 .page-footer{background:var(--bg2);border-top:1px solid var(--border);padding:16px 32px;font-family:var(--mono);font-size:0.5rem;color:var(--text3);display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .page-footer a{color:var(--accent3);text-decoration:none}
 @media(max-width:600px){.page-hero,.page-content{padding-left:16px;padding-right:16px}.page-header{padding:0 14px}.page-footer{padding:12px 16px}}
+/* ── additions for corrected air-defence page ───────────────────── */
+.md-callout{background:linear-gradient(160deg,rgba(58,125,68,.10),rgba(13,20,16,0) 70%),var(--bg2);border:1px solid var(--border);border-left:3px solid #f0c040;padding:18px 20px;margin-bottom:26px}
+.md-callout-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#f0c040;margin-bottom:10px}
+.md-callout p{font-family:var(--body);font-size:.8rem;line-height:1.75;color:var(--text3);margin:0 0 9px}
+.md-callout p:last-child{margin-bottom:0}
+.md-callout code{font-family:var(--mono);font-size:.74rem;color:var(--accent3);background:rgba(107,191,120,.08);padding:1px 4px}
+.md-callout strong{color:var(--text)}
+.md-callout a{color:var(--accent3)}
+.md-formula{font-family:var(--mono);font-size:.82rem;color:var(--text);background:var(--bg);border:1px solid var(--border);padding:11px 14px;margin:11px 0;text-align:center;letter-spacing:.02em}
+.chart-wrap{background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:24px}
+.chart-box{position:relative;height:320px}
+.chart-note{font-family:var(--body);font-size:.74rem;line-height:1.65;color:var(--text3);margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.chart-note code{font-family:var(--mono);color:var(--accent3)}
+.section-lede{font-family:var(--body);font-size:.8rem;line-height:1.7;color:var(--text3);margin:0 0 14px}
+.ad-substat{font-family:var(--mono);font-size:.72rem;color:var(--text3);margin-top:10px;letter-spacing:.04em}
+.ad-error{font-family:var(--mono);font-size:.74rem;color:#e74c3c;border:1px solid #e74c3c;background:rgba(231,76,60,.07);padding:10px 12px;margin-top:12px}
+.ad-loading{font-family:var(--mono);font-size:.74rem;color:var(--text3);padding:14px 0}
+#airdef-bands{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.bandtable{width:100%;min-width:560px;border-collapse:collapse;font-family:var(--mono);font-size:.76rem}
+.bandtable th{text-align:right;padding:8px 10px;color:var(--text3);font-weight:400;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.bandtable th:first-child{text-align:left}
+.bandtable td{text-align:right;padding:8px 10px;border-bottom:1px solid rgba(37,61,42,.5);color:var(--text)}
+.bandtable td:first-child{text-align:left;color:var(--text3)}
+.bandtable tr.band-hi td{background:rgba(240,192,64,.06)}
+.bandtable .c-narrow{color:#4894c9}
+.bandtable .c-corr{color:#5aa869}
+.bandtable .c-share{color:#f0c040}
+.ad-verdict{font-family:var(--body);font-size:.8rem;line-height:1.75;color:var(--text3);margin-top:16px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent3)}
+.ad-verdict strong{color:var(--text)}
+.ad-weapon-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
+.ad-toggle-wrap{display:flex;align-items:center;gap:14px;margin-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--text3)}
+.ad-toggle-wrap label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.insight-withdrawn{border-left:3px solid #7a6a4a;opacity:.92}
+.insight-withdrawn .insight-label{color:#b09a63;text-decoration:line-through;text-decoration-color:rgba(176,154,99,.45)}
+.insight-withdrawn .insight-text strong{color:#d8c88f}
+@media(max-width:760px){.ad-weapon-cols{grid-template-columns:1fr}}
+@media(max-width:600px){.md-callout{padding:14px 15px}.chart-wrap{padding:14px}.chart-box{height:240px}.bandtable{font-size:.7rem}.bandtable th,.bandtable td{padding:7px 5px}}
 </style>
 </head>
 <body>
@@ -402,481 +439,495 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 </header>
 <div class="page-hero">
   <h1>Air <span>Defence Log</span></h1>
-  <p>Russian drone and missile strikes on Ukraine tracked from October 2022 to present, with Ukrainian Air Force interception data verified by CSIS. Over 100,000 aerial weapons have been launched against Ukraine — primarily Shahed/Geran loitering munitions — with a sustained ~70% overall interception rate maintained throughout the campaign despite Russian adaptation and volume increases.</p>
+  <p>Russian drone and missile strikes on Ukraine, logged wave by wave from 28 September 2022 to the present from Ukrainian Air Force daily reports. More than 145,000 aerial weapons have been launched — overwhelmingly Shahed/Geran-class loitering munitions. Roughly <strong>87%</strong> have been neutralised: shot down, or electronically suppressed so that they failed to reach their target.</p>
 </div>
 <div class="page-content">
+
+  <!-- ── METHODOLOGY CALLOUT ─────────────────────────────────────── -->
+  <div class="md-callout">
+    <div class="md-callout-title">Read this before quoting a rate</div>
+    <p>Ukrainian Air Force reports carry two separate loss columns: <code>destroyed</code> (kinetic kills) and <code>not_reach_goal</code> (drones downed or diverted by electronic warfare and never reaching target). A weapon counted in either column did not strike. The defensible measure is therefore:</p>
+    <div class="md-formula">neutralisation rate = (destroyed + not_reach_goal) ÷ launched</div>
+    <p><strong>Dividing <code>destroyed</code> by <code>launched</code> alone understates Ukrainian performance by up to 33 points in some months, and produces artefacts that look like findings.</strong> Between July 2024 and July 2025 the Air Force reported EW suppression as a separate line; before and after that window those kills are folded into <code>destroyed</code>. A kinetic-only rate therefore shows a collapse and recovery across that boundary which did not happen. The chart below plots both bases so the reporting change is visible rather than hidden. Full detail on the <a href="/methodology/">methodology page</a>.</p>
+  </div>
+
+  <div class="data-section">
+    <div class="data-section-title">Live data — campaign totals</div>
+    <div class="ad-stat-strip" id="airdef-stats">
+      <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Weapons launched</span></div>
+      <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-neutralised">—</span><span class="ad-stat-lbl">Neutralised</span></div>
+      <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-neut-rate">—</span><span class="ad-stat-lbl">Neutralisation rate</span></div>
+      <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-leaked">—</span><span class="ad-stat-lbl">Reached target</span></div>
+      <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Waves logged</span></div>
+      <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single night</span></div>
+    </div>
+    <div class="ad-substat" id="ads-substat">—</div>
+    <div class="ad-error" id="airdef-error" style="display:none"></div>
+  </div>
+
+  <!-- ── CHART 1: THE TWO BASES ──────────────────────────────────── -->
+  <div class="kb-section-title">NEUTRALISATION RATE OVER TIME — WHY THE DENOMINATOR MATTERS</div>
+  <div class="chart-wrap">
+    <div class="chart-box"><canvas id="airdef-basis-chart"></canvas></div>
+    <div class="chart-note">The shaded band is the window in which EW suppression was reported on its own line. The dashed series is the kinetic-only rate — the number you get from <code>destroyed ÷ launched</code>. Its dip and recovery are a reporting change, not a change in Ukrainian performance.</div>
+  </div>
+
+  <!-- ── CHART 2: BY WEAPON CLASS ────────────────────────────────── -->
+  <div class="kb-section-title">NEUTRALISATION RATE BY WEAPON CLASS</div>
+  <div class="chart-wrap">
+    <div class="chart-box"><canvas id="airdef-class-chart"></canvas></div>
+    <div class="chart-note">Both series on the corrected basis. Loitering munitions are neutralised at a far higher rate than ballistic and cruise missiles, and the gap is the central fact of the campaign: Russia substituted cheap mass for scarce precision. Months in which a class saw fewer than 15 launches are left blank rather than plotted, since a handful of weapons produces a rate that looks like signal and is not.</div>
+  </div>
+
+  <!-- ── VOLUME BANDS ────────────────────────────────────────────── -->
+  <div class="data-section">
+    <div class="data-section-title">Does mass saturate the defence?</div>
+    <p class="section-lede">Attack nights grouped by size. The third column is the corrected rate; the second is what a kinetic-only calculation returns. The fourth shows how much of each band falls inside the EW-reporting window — which is what drives the apparent dip in the middle bands.</p>
+    <div id="airdef-bands"><div class="ad-loading">Loading…</div></div>
+    <div class="ad-verdict">
+      <strong>No saturation threshold is visible in the corrected data.</strong> Neutralisation rises with attack size, not falls. Within each reporting period taken separately the relationship is monotonic or flat, and the largest raids are neutralised at the highest rate of all. An earlier version of this page reported a "saturation threshold" at 61–150 weapons per night; that band is roughly half-composed of nights inside the EW-reporting window — double any other band — and the finding was an artefact of the denominator. It has been withdrawn.
+    </div>
+  </div>
+
+  <!-- ── WEAPON BREAKDOWN ────────────────────────────────────────── -->
+  <div class="data-section">
+    <div class="data-section-title">By weapon type</div>
+    <div class="ad-weapon-cols">
+      <div id="airdef-col-left"></div>
+      <div id="airdef-col-right"></div>
+    </div>
+    <div class="ad-toggle-wrap" id="airdef-toggle-wrap" style="display:none">
+      <label><input type="checkbox" id="airdef-show-all"> Show all types</label>
+      <span id="airdef-weap-count"></span>
+    </div>
+  </div>
+
+  <!-- ── FINDINGS ────────────────────────────────────────────────── -->
   <div class="data-section">
     <div class="data-section-title">Key findings — original analysis</div>
-    <div class="insight-block"><div class="insight-label">Weather has no significant effect on interception rates</div><div class="insight-text">Analysis of 603 Shahed attack days cross-referenced with Open-Meteo ERA5 weather data found no statistically significant relationship between night-time weather and Ukrainian interception rates (r=0.051, p=0.21). Ukraine's air defence is weather-robust. Clear nights: 70.7%, Overcast: 72.2%, Adverse: 68.2% — within error margins.</div></div>
-    <div class="insight-block"><div class="insight-label">Saturation threshold: 61–150 weapons degrades performance</div><div class="insight-text">The 61–150 weapon volume band produces the lowest interception rates (66–67%), below the 74% overall mean. Counterintuitively, the highest-volume attacks (600+ weapons) achieve an 83% interception rate — above average. Mass swarms do not overwhelm Ukrainian air defence in the way commonly assumed. No attack night fell into the "overwhelmed" (&lt;55%) category.</div></div>
-    <div class="insight-block"><div class="insight-label">Shahed-as-decoy hypothesis not supported</div><div class="insight-text">Mixed salvos (Shahed + missile, n=497) produce a 73% interception rate vs 75% for Shahed-only (n=411). The 2-point difference is within error margins. Mixed nights use higher volumes (113 weapons vs 101), suggesting any marginal degradation reflects volume effects rather than a decoy function.</div></div>
-    <div class="insight-block"><div class="insight-label">Weapon mix: Shaheds now 85–90% of all launches</div><div class="insight-text">Shaheds have grown from ~45–50% of launches in late 2022 to 85–90% by 2025–2026. Monthly launch volumes reached 8,000+ by early 2026 — approximately 20× the campaign baseline. Russia has substituted cheap Shahed mass for expensive precision missile strikes as a primary strategic tool.</div></div>
-  </div>
 
-  <div class="data-section">
-    <div class="data-section-title">Live data — air defence statistics</div>
-    <div class="ad-stat-strip" id="airdef-stats">
-    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-total-launched">—</span><span class="ad-stat-lbl">Total launched</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:var(--accent3)" id="ads-total-destroyed">—</span><span class="ad-stat-lbl">Total intercepted</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#f0c040" id="ads-intercept-rate">—</span><span class="ad-stat-lbl">Overall intercept rate</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#e74c3c" id="ads-got-through">—</span><span class="ad-stat-lbl">Got through</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
-    <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
-  </div>
+    <div class="insight-block">
+      <div class="insight-label">Mass does not overwhelm the defence</div>
+      <div class="insight-text">The largest raids are neutralised at the highest rate: <strong>92.5%</strong> for nights of 600+ weapons, against 83.6% for nights of 20 or fewer. The relationship holds inside both reporting periods separately, so it is not an artefact of when large raids happened. The common assumption that swarm attacks saturate Ukrainian air defence is not supported. What large raids do achieve is absolute leakage — 7.5% of 1,449 weapons is still over a hundred impacts in a night.</div>
+    </div>
 
-  <!-- CHART -->
-  <div class="kb-section-title">INTERCEPTION RATE OVER TIME — DRONES vs MISSILES</div>
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:20px">
-    <canvas id="airdef-chart" height="140"></canvas>
-  </div>
-    <canvas id="airdef-chart" height="100" style="margin-top:14px"></canvas>
+    <div class="insight-block">
+      <div class="insight-label">Shahed-as-decoy hypothesis not supported</div>
+      <div class="insight-text">Mixed salvos combining loitering munitions with missiles (n=628 nights) are neutralised at <strong>86.6%</strong>, against <strong>88.5%</strong> for drone-only nights (n=450). The 1.9-point difference is within error margins. Mixed nights are larger on average (139 weapons against 125), so what little difference exists tracks volume rather than any decoy function. Missile-only nights, by contrast, are the hardest of all to defend at <strong>74.4%</strong> (n=83), holding at that level both inside and outside the EW-reporting window. This conclusion survived recalculation on the corrected basis unchanged.</div>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-label">Weapon mix: loitering munitions are now almost the entire threat</div>
+      <div class="insight-text">Shahed-class launches grew from 35% of the total in late 2022 to 93% in 2025. The 2026 labelled share reads lower only because a growing number of drone rows are logged as "Unknown UAV"; counting all drone rows, loitering munitions are roughly <strong>96%</strong> of launches. Monthly volume peaked at <strong>10,098</strong> in May 2026, around 20× the 2023 baseline. Russia has substituted cheap mass for expensive precision as its primary strategic instrument.</div>
+    </div>
+
+    <div class="insight-block insight-withdrawn">
+      <div class="insight-label">Withdrawn — weather effect on interception rates</div>
+      <div class="insight-text">This page previously reported that night-time weather has no statistically significant effect on interception rates (r=0.051, p=0.21, n=603 Shahed attack days, Open-Meteo ERA5). <strong>That null result is not currently established.</strong> It was computed on the kinetic-only basis, and a third of Shahed attack nights fall inside the EW-reporting window, across whose boundary the kinetic-only rate steps by 22.3 points for reasons that have nothing to do with weather. Adding a large weather-independent variance component to the dependent variable (per-night dispersion of 17.9 points against 12.6 on the corrected basis) attenuates any correlation toward zero. A near-zero r is what this test would return whether or not a weather effect exists. The analysis will be re-run on the corrected basis; until then no claim is made in either direction.</div>
+    </div>
   </div>
 
   <div class="data-section" style="margin-top:20px">
-    <div class="data-section-title">Methodology & data source</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.7">Data sourced from the Petro Ivaniuk dataset (Kaggle: piterfm/massive-missile-attacks-on-ukraine), compiled from Ukrainian Air Force official daily reports. Verified by CSIS as matching official figures. Coverage from 27 September 2022 to present, updated daily via automated GitHub Actions scraper. Original analysis by Andro Mathewson, PhD Candidate in War Studies, King's College London. Weather data: Open-Meteo Historical Archive API.</p>
+    <div class="data-section-title">Methodology &amp; data source</div>
+    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.7">Underlying collection by <strong>Petro Ivaniuk</strong> (Kaggle: <code>piterfm/massive-missile-attacks-on-ukraine</code>), compiled from Ukrainian Air Force official daily reports; independently verified by CSIS as matching official figures. Please credit that dataset directly in any downstream use, not only this tracker. Coverage from 28 September 2022 to present, refreshed daily via an automated GitHub Actions export. Rate methodology, confidence tiers and known artefacts are documented on the <a href="/methodology/">methodology page</a>. Original analysis by Andro Mathewson, PhD Candidate in War Studies, King's College London. Weather data: Open-Meteo Historical Archive API.</p>
+    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text3);line-height:1.7;margin-top:10px">Licensed <strong>CC BY-NC 4.0</strong>. Bulk extracts of the underlying wave-level data are available on request for non-commercial research — <a href="mailto:andro.mathewson95@gmail.com">get in touch</a>. Commercial use, including the training or enrichment of counter-UAS systems, requires separate written permission.</p>
   </div>
 </div>
 <script>
+/* ══════════════════════════════════════════════════════════════════
+   Air Defence Log — corrected methodology
+   neutralised = destroyed + not_reach_goal
+   Never divide destroyed by launched. See /methodology/
+   ══════════════════════════════════════════════════════════════════ */
+
 let AIRDEF_DATA = [];
-let airDefSort = {col:0, asc:false};
 
+// Static export is primary. SCRIPT_URL comes from /config.js and is only a fallback:
+// the Apps Script endpoint 404s for some signed-in Google users and rate-limits
+// parallel chunk requests, which is why this page must not depend on it.
+const APPS_SCRIPT_URL = (typeof SCRIPT_URL !== 'undefined' && SCRIPT_URL) ? SCRIPT_URL : '';
+const EW_WINDOW = ['2024-07','2025-07']; // months in which EW suppression was reported separately
 
-async function fetchTab(tab) {
-  if(!SCRIPT_URL||SCRIPT_URL.startsWith('YOUR_'))return null;
+/* ── field accessors ─────────────────────────────────────────────── */
+const adLaunched     = r => parseFloat(r.launched)      || 0;
+const adKinetic      = r => parseFloat(r.destroyed)     || 0;
+const adEW           = r => parseFloat(r.not_reach_goal)|| 0;
+const adNeutralised  = r => Math.min(adKinetic(r) + adEW(r), adLaunched(r));
+const inEWWindow     = ym => ym >= EW_WINDOW[0] && ym <= EW_WINDOW[1];
+
+/* ── formatting ──────────────────────────────────────────────────── */
+function fmtBig(n){
+  if(n===undefined||n===null||n==='—')return'—';
+  return Number(n).toLocaleString('en-GB').replace(/,/g,' ');
+}
+function pct(num,den,dp){
+  if(!den)return'—';
+  return (100*num/den).toFixed(dp===undefined?1:dp)+'%';
+}
+function rateClass(p){
+  if(p>=85)return'ad-rate-good';
+  if(p>=65)return'ad-rate-mid';
+  return'ad-rate-bad';
+}
+// never round up to a clean 100% unless every weapon was in fact neutralised
+function rateDisplay(neut,launched){
+  if(!launched)return 0;
+  const raw=100*neut/launched;
+  if(raw>=100)return 100;
+  return raw>99?99:Math.round(raw);
+}
+
+/* ── weapon classification ───────────────────────────────────────── */
+function isDrone(model){
+  if(!model)return false;
+  const m=model.toLowerCase();
+  return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
+         m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
+         m.includes('lancet')||m.includes('orlan')||m.includes('mohajer')||
+         m.includes('supercam')||m.includes('zala')||m.includes('молнія');
+}
+function isMissile(model){
+  if(!model)return false;
+  const m=model.toLowerCase();
+  return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
+         m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
+         m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
+         m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
+         m.includes('x-69')||m.includes('oreshnik')||m.includes('c-300')||
+         m.includes('c-400')||m.includes('s-300')||m.includes('s-400');
+}
+
+/* ── data loading: static export first, Apps Script as fallback ──── */
+async function fetchStatic(){
   try{
-    const [tabName, extra] = tab.split('&');
-    const extraParams = extra ? '&' + extra : '';
-    const url = `${SCRIPT_URL}?tab=${tabName}${extraParams}&t=${Date.now()}`;
-    const res = await fetch(url);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    if(!json.ok) throw new Error(json.error||'API error');
+    const r = await fetch('/data/airdefence.json', {cache:'no-cache'});
+    if(!r.ok) return null;
+    const d = await r.json();
+    return (Array.isArray(d) && d.length) ? d : null;
+  }catch(e){ return null; }
+}
 
-    // Handle chunked responses for large tabs (e.g. AirDefence)
-    if(json.totalChunks && json.totalChunks > 1){
-      let allData = [...(json.data||[])];
-      const fetches = [];
-      for(let c = 1; c < json.totalChunks; c++){
-        fetches.push(
-          fetch(`${SCRIPT_URL}?tab=${tabName}&chunk=${c}&t=${Date.now()}`)
-            .then(r=>r.json())
-            .then(j=>j.data||[])
-        );
+async function fetchLive(){
+  if(!APPS_SCRIPT_URL) return null;
+  const get = async (url, attempts=3) => {
+    for(let i=0;i<attempts;i++){
+      try{
+        const r = await fetch(url);
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        const j = await r.json();
+        if(j.ok===false) throw new Error(j.error||'API error');
+        return j;
+      }catch(e){
+        if(i===attempts-1) throw e;
+        await new Promise(res=>setTimeout(res, 400*Math.pow(2,i)));
       }
-      const chunks = await Promise.all(fetches);
-      chunks.forEach(ch => allData = allData.concat(ch));
-      return allData;
     }
-
-    return json.data||null;
+  };
+  try{
+    const first = await get(`${APPS_SCRIPT_URL}?tab=airdefence&t=${Date.now()}`);
+    let all = [...(first.data||[])];
+    if(first.totalChunks && first.totalChunks>1){
+      for(let c=1;c<first.totalChunks;c++){
+        const j = await get(`${APPS_SCRIPT_URL}?tab=airdefence&chunk=${c}&t=${Date.now()}`);
+        all = all.concat(j.data||[]);
+      }
+    }
+    return all.length ? all : null;
   }catch(e){
-    console.warn('fetchTab failed for',tab,e.message);
+    console.warn('live fetch failed:', e.message);
     return null;
   }
 }
 
-function fmtDate(s){
-  if(!s)return'—';
-  const p=s.split('-');
-  const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return`${parseInt(p[2])||''} ${m[(+p[1]||1)-1]||''} ${p[0]||''}`.trim();
+/* ── stat strip ──────────────────────────────────────────────────── */
+function renderStats(){
+  const L = AIRDEF_DATA.reduce((a,r)=>a+adLaunched(r),0);
+  const K = AIRDEF_DATA.reduce((a,r)=>a+adKinetic(r),0);
+  const E = AIRDEF_DATA.reduce((a,r)=>a+adEW(r),0);
+  const N = AIRDEF_DATA.reduce((a,r)=>a+adNeutralised(r),0);
+  const leaked = Math.max(L-N,0);
+
+  // largest single NIGHT (sum across waves sharing a date), not largest row
+  const byNight={};
+  AIRDEF_DATA.forEach(r=>{ if(r.date) byNight[r.date]=(byNight[r.date]||0)+adLaunched(r); });
+  const nights = Object.values(byNight);
+  const largest = nights.length ? Math.max(...nights) : 0;
+
+  const set=(id,v)=>{const el=document.getElementById(id); if(el)el.textContent=v;};
+  set('ads-total-launched', fmtBig(L));
+  set('ads-neutralised',    fmtBig(N));
+  set('ads-neut-rate',      pct(N,L));
+  set('ads-leaked',         fmtBig(leaked));
+  set('ads-attack-days',    fmtBig(AIRDEF_DATA.length));
+  set('ads-largest',        fmtBig(largest));
+
+  const dates = AIRDEF_DATA.map(r=>r.date).filter(Boolean).sort();
+  const sub = document.getElementById('ads-substat');
+  if(sub) sub.innerHTML =
+    `${fmtBig(K)} shot down + ${fmtBig(E)} EW-suppressed &nbsp;·&nbsp; `+
+    `kinetic-only basis would read ${pct(K,L)} &nbsp;·&nbsp; `+
+    `${Object.keys(byNight).length} attack nights &nbsp;·&nbsp; `+
+    `${dates[0]||'—'} to ${dates[dates.length-1]||'—'}`;
 }
 
-function dmgBadge(d){
-  const m={'Sunk':'b-sunk','Damaged':'b-damaged','Destroyed':'b-destroyed','Shot Down':'b-shotdown','Disrupted':'b-disrupted'};
-  return`<span class="badge ${m[d]||'b-unknown'}">${d||'—'}</span>`;
-}
-
-function outcomeBadge(o){
-  const m={'Destroyed target':'b-sunk','Damaged target':'b-damaged','UGV lost':'b-destroyed','Captured POW':'b-shotdown','Operational milestone':'b-disrupted'};
-  return`<span class="badge ${m[o]||'b-unknown'}">${o||'—'}</span>`;
-}
-
-function sideBadge(s){
-  return s==='Ukraine'?`<span class="badge b-ua">🇺🇦 Ukraine</span>`:`<span class="badge b-ru">🇷🇺 Russia</span>`;
-}
-
-function fmtNum(n){
-  // Format numbers with thousands separator e.g. 167920 -> "167 920"
-  if(n===undefined||n===null||n==='—')return'—';
-  const num=parseInt(String(n).replace(/[^0-9]/g,''),10);
-  if(isNaN(num))return String(n);
-  return num.toLocaleString('en-GB').replace(/,/g,' ');
-}
-
-function parseOutcomeNums(outcome){
-  // Parse "192 destroyed, 3949 damaged" or "3949 damaged" into {damaged, destroyed}
-  if(!outcome)return{damaged:0,destroyed:0};
-  const dstr=outcome.match(/(\d[\d\s]*)\s*destroyed/);
-  const ddmg=outcome.match(/(\d[\d\s]*)\s*damaged/);
-  // Also handle plain numeric outcome (summary stats)
-  const plain=outcome.match(/^[\d\s]+$/);
-  return{
-    damaged: ddmg?parseInt(ddmg[1].replace(/\s/g,''),10):0,
-    destroyed: dstr?parseInt(dstr[1].replace(/\s/g,''),10):(plain?parseInt(plain[0].replace(/\s/g,''),10):0),
-  };
-}
-
-function fmtBig(n){
-  if(!n&&n!==0)return'—';
-  return Number(n).toLocaleString('en-GB').replace(/,/g,' ');
-}
-
-function rateClass(pct){
-  if(pct>=75)return'ad-rate-good';
-  if(pct>=50)return'ad-rate-mid';
-  return'ad-rate-bad';
-}
-
-function exportCSV(tab){
-  let headers,rows;
-  if(tab==='usv'){
-    headers=['Date','Target','Target Type','USV Model','Location','Damage Assessment','Notes','Source URL'];
-    rows=USV_DATA.map(r=>[r.date,r.target,r.type,r.model,r.loc,r.damage,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
-  }else if(tab==='ugv'){
-    headers=['Date','Side','UGV System','Operation','Location','Outcome','Notes','Source URL'];
-    rows=UGV_DATA.map(r=>[r.date,r.side,r.system,`"${(r.op||'').replace(/"/g,'""')}"`,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
-  }else if(tab==='uav'){
-    headers=['Date','UAV System','Target','Target Type','Location','Outcome','Notes','Source URL'];
-    rows=UAV_DATA.map(r=>[r.date,r.system,r.target,r.type,r.loc,r.outcome,`"${(r.notes||'').replace(/"/g,'""')}"`,r.src].join(','));
-  }else if(tab==='airdef'){
-    headers=['Date','Weapon/Type','Launched','Intercepted','Got Through','Intercept Rate','Notes'];
-    rows=AIRDEF_DATA.map(r=>{
-      const launched=parseInt(r.launched)||0;
-      const destroyed=parseInt(r.destroyed)||0;
-      const through=launched-destroyed;
-      const rate=launched>0?Math.round(destroyed/launched*100)+'%':'—';
-      return[r.date,r.model||r.type||'—',launched,destroyed,through,rate,`"${(r.notes||'').replace(/"/g,'""')}"`].join(',');
-    });
-  }else return;
-  const csv=[headers.join(','),...rows].join('\n');
-  const a=Object.assign(document.createElement('a'),{
-    href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
-    download:`ust-${tab}-${new Date().toISOString().slice(0,10)}.csv`
+/* ── volume band table ───────────────────────────────────────────── */
+function renderBands(){
+  const byNight={};
+  AIRDEF_DATA.forEach(r=>{
+    if(!r.date)return;
+    const n = byNight[r.date] || (byNight[r.date]={l:0,k:0,e:0,ym:r.date.slice(0,7)});
+    n.l+=adLaunched(r); n.k+=adKinetic(r); n.e+=adEW(r);
   });
-  a.click();
-}
-function isDrone(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
-           m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
-           m.includes('lancet')||m.includes('orlan')||m.includes('mohajer');
-  }
-function isMissile(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
-           m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
-           m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
-           m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
-           m.includes('oreshnik');
-  }
-function buildChart(canvasId, data, label, color){
-  const el=document.getElementById(canvasId);
-  if(!el||!data.length)return;
-
-  // Count events per year-month
-  const counts={};
-  data.forEach(r=>{
-    if(!r.date||r.date.length<7)return;
-    const ym=r.date.slice(0,7); // "2024-03"
-    counts[ym]=(counts[ym]||0)+1;
-  });
-
-  const keys=Object.keys(counts).sort();
-  const labels=keys.map(k=>{
-    const [y,m]=k.split('-');
-    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
-  });
-  const values=keys.map(k=>counts[k]);
-
-  // Destroy existing chart if any
-  if(el._chart)el._chart.destroy();
-
-  el._chart=new Chart(el,{
-    type:'bar',
-    data:{
-      labels,
-      datasets:[{
-        label,
-        data:values,
-        backgroundColor:color+'99',
-        borderColor:color,
-        borderWidth:1,
-        borderRadius:2,
-      }]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'#0d1410',
-          borderColor:color,
-          borderWidth:1,
-          titleColor:'#c8d8c0',
-          bodyColor:'#8aaa88',
-          callbacks:{
-            title:items=>items[0].label,
-            label:item=>item.raw+' '+label.toLowerCase()
-          }
-        }
-      },
-      scales:{
-        x:{
-          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"}},
-          grid:{color:'#1e3022'},
-          border:{color:'#253d2a'}
-        },
-        y:{
-          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},stepSize:1},
-          grid:{color:'#1e3022'},
-          border:{color:'#253d2a'},
-          beginAtZero:true
-        }
+  const bands=[[1,20,'1–20'],[21,60,'21–60'],[61,150,'61–150'],
+               [151,300,'151–300'],[301,600,'301–600'],[601,1e9,'601+']];
+  let maxGap=0;
+  const rows=bands.map(([lo,hi,label])=>{
+    let L=0,K=0,E=0,n=0,inw=0;
+    Object.values(byNight).forEach(v=>{
+      if(v.l>=lo&&v.l<=hi){
+        L+=v.l; K+=v.k; E+=v.e; n++;
+        if(inEWWindow(v.ym)) inw+=v.l;
       }
-    }
-  });
+    });
+    const narrow = L?100*K/L:0;
+    const corr   = L?100*Math.min(K+E,L)/L:0;
+    const gap    = corr-narrow;
+    if(gap>maxGap) maxGap=gap;
+    return {label,n,L,narrow,corr,gap,share:L?100*inw/L:0};
+  }).filter(r=>r.L>0);
+
+  const el=document.getElementById('airdef-bands');
+  if(!el)return;
+  el.innerHTML = `<table class="bandtable">
+    <thead><tr>
+      <th>Nights of this size</th><th>Nights</th><th>Launched</th>
+      <th>Kinetic only</th><th>Neutralised</th><th>Gap</th><th>Inside EW window</th>
+    </tr></thead><tbody>
+    ${rows.map(r=>`<tr class="${r.gap>=maxGap-0.001?'band-hi':''}">
+      <td>${r.label}</td>
+      <td>${fmtBig(r.n)}</td>
+      <td>${fmtBig(Math.round(r.L))}</td>
+      <td class="c-narrow">${r.narrow.toFixed(1)}%</td>
+      <td class="c-corr">${r.corr.toFixed(1)}%</td>
+      <td>${r.gap.toFixed(1)}pt</td>
+      <td class="c-share">${r.share.toFixed(0)}%</td>
+    </tr>`).join('')}
+    </tbody></table>`;
 }
-function isDrone(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
-           m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
-           m.includes('lancet')||m.includes('orlan')||m.includes('mohajer');
-  }
-function isMissile(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
-           m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
-           m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
-           m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
-           m.includes('oreshnik');
-  }
 
-
-function renderAirDef(){
-  const s=(document.getElementById('airdef-search')||{}).value?.toLowerCase()||'';
-
-  // ── Stat strip from full dataset ─────────────────────────────────
-  const totalLaunched=AIRDEF_DATA.reduce((a,r)=>a+(parseFloat(r.launched)||0),0);
-  const totalDestroyed=AIRDEF_DATA.reduce((a,r)=>a+(parseFloat(r.destroyed)||0),0);
-  const gotThrough=totalLaunched-totalDestroyed;
-  const overallRate=totalLaunched>0?Math.round(totalDestroyed/totalLaunched*100):0;
-  const largest=Math.max(...AIRDEF_DATA.map(r=>parseFloat(r.launched)||0));
-  const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
-  setVal('ads-total-launched',fmtBig(totalLaunched));
-  setVal('ads-total-destroyed',fmtBig(totalDestroyed));
-  setVal('ads-intercept-rate',overallRate+'%');
-  setVal('ads-got-through',fmtBig(gotThrough));
-  setVal('ads-attack-days',fmtBig(AIRDEF_DATA.length));
-  setVal('ads-largest',fmtBig(largest));
-
-  // ── Weapon type breakdown ────────────────────────────────────────
+/* ── weapon type breakdown ───────────────────────────────────────── */
+function renderWeapons(){
   const byType={};
   AIRDEF_DATA.forEach(r=>{
     const t=r.model||r.type||'Unknown';
-    if(!byType[t])byType[t]={launched:0,destroyed:0};
-    byType[t].launched+=(parseFloat(r.launched)||0);
-    byType[t].destroyed+=(parseFloat(r.destroyed)||0);
+    if(!byType[t])byType[t]={launched:0,neut:0};
+    byType[t].launched+=adLaunched(r);
+    byType[t].neut+=adNeutralised(r);
   });
-  const typeArr=Object.entries(byType)
-    .map(([name,d])=>({name,launched:d.launched,destroyed:d.destroyed,
-      rate:d.launched>0?Math.round(d.destroyed/d.launched*100):0}))
+  const arr=Object.entries(byType)
+    .map(([name,d])=>({name,launched:d.launched,neut:d.neut,
+      rate:rateDisplay(d.neut,d.launched)}))
+    .filter(t=>t.launched>0)
     .sort((a,b)=>b.launched-a.launched);
-  const maxL=typeArr[0]?.launched||1;
-  const weapHeader=`<div class="ad-weapon-header"><span style="flex:1">Weapon / Type</span><span style="width:70px;text-align:right">Launched</span><span style="width:70px;text-align:right">Intercepted</span><span style="width:56px;text-align:right">Rate</span></div>`;
-  const buildWeapRows=arr=>arr.map(t=>`
+  if(!arr.length)return;
+  const maxL=arr[0].launched||1;
+
+  const header=`<div class="ad-weapon-header"><span style="flex:1">Weapon / type</span>`+
+    `<span style="width:70px;text-align:right">Launched</span>`+
+    `<span style="width:76px;text-align:right">Neutralised</span>`+
+    `<span style="width:56px;text-align:right">Rate</span></div>`;
+  const build=a=>a.map(t=>`
     <div class="ad-weapon-row">
       <div style="flex:1;min-width:0">
         <div class="ad-weapon-name">${t.name}</div>
         <div class="ad-weapon-bar"><div class="ad-weapon-bar-fill" style="width:${Math.round(t.launched/maxL*100)}%;background:var(--accent)"></div></div>
       </div>
-      <span class="ad-weapon-num" style="color:var(--text)">${fmtBig(t.launched)}</span>
-      <span class="ad-weapon-num" style="color:var(--accent3)">${fmtBig(t.destroyed)}</span>
+      <span class="ad-weapon-num" style="color:var(--text)">${fmtBig(Math.round(t.launched))}</span>
+      <span class="ad-weapon-num" style="color:var(--accent3)">${fmtBig(Math.round(t.neut))}</span>
       <span class="ad-rate-badge ${rateClass(t.rate)}" style="width:40px;text-align:center">${t.rate}%</span>
     </div>`).join('');
-  // Show top 10 by default, rest on demand
-  const showAll=document.getElementById('airdef-show-all')?.checked;
-  const displayArr=showAll?typeArr:typeArr.slice(0,10);
-  const mid=Math.ceil(displayArr.length/2);
-  document.getElementById('airdef-col-left').innerHTML=weapHeader+buildWeapRows(displayArr.slice(0,mid));
-  document.getElementById('airdef-col-right').innerHTML=weapHeader+buildWeapRows(displayArr.slice(mid));
-  const toggleEl=document.getElementById('airdef-toggle-wrap');
-  if(toggleEl)toggleEl.style.display=typeArr.length>10?'flex':'none';
-  const countEl=document.getElementById('airdef-weap-count');
-  if(countEl)countEl.textContent=showAll?'Showing all '+typeArr.length+' types':'Showing top 10 of '+typeArr.length+' types';
 
+  const showAll=document.getElementById('airdef-show-all')?.checked;
+  const shown=showAll?arr:arr.slice(0,10);
+  const mid=Math.ceil(shown.length/2);
+  const left=document.getElementById('airdef-col-left');
+  const right=document.getElementById('airdef-col-right');
+  if(left)  left.innerHTML  = header+build(shown.slice(0,mid));
+  if(right) right.innerHTML = header+build(shown.slice(mid));
+  const tw=document.getElementById('airdef-toggle-wrap');
+  if(tw) tw.style.display = arr.length>10?'flex':'none';
+  const ct=document.getElementById('airdef-weap-count');
+  if(ct) ct.textContent = showAll?`Showing all ${arr.length} types`:`Showing top 10 of ${arr.length} types`;
 }
 
-function buildAirDefChart(){
-  const el=document.getElementById('airdef-chart');
-  if(!el||!AIRDEF_DATA.length)return;
+/* ── shared Chart.js scaffolding ─────────────────────────────────── */
+const MONO = "'Share Tech Mono',monospace";
+const AXIS = '#526650', GRID = '#1e3022', EDGE = '#253d2a';
 
-  // Classify each row as drone, missile, or other
-  function isDrone(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('shahed')||m.includes('geran')||m.includes('gerbera')||
-           m.includes('uav')||m.includes('drone')||m.includes('reconnaissance')||
-           m.includes('lancet')||m.includes('orlan')||m.includes('mohajer');
-  }
-  function isMissile(model){
-    if(!model)return false;
-    const m=model.toLowerCase();
-    return m.includes('kalibr')||m.includes('kh-')||m.includes('iskander')||
-           m.includes('kinzhal')||m.includes('zircon')||m.includes('onyx')||
-           m.includes('kh101')||m.includes('cruise')||m.includes('ballistic')||
-           m.includes('x-101')||m.includes('x-22')||m.includes('x-59')||
-           m.includes('oreshnik');
-  }
+function monthLabels(keys){
+  return keys.map(k=>{
+    const [y,m]=k.split('-');
+    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
+  });
+}
 
-  // Aggregate monthly intercept rates
-  const drones={},missiles={};
+function rateAxes(titleText){
+  return {
+    x:{ticks:{color:AXIS,font:{size:9,family:MONO},maxRotation:45,maxTicksLimit:20},
+       grid:{color:GRID},border:{color:EDGE}},
+    y:{ticks:{color:AXIS,font:{size:10,family:MONO},callback:v=>v+'%'},
+       grid:{color:GRID},border:{color:EDGE},min:0,max:100,
+       title:{display:true,text:titleText,color:AXIS,font:{size:9,family:MONO}}}
+  };
+}
+
+function baseOptions(titleText){
+  return {
+    responsive:true,
+    maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{labels:{color:AXIS,font:{size:10,family:MONO},boxWidth:20,usePointStyle:true}},
+      tooltip:{
+        backgroundColor:'#0d1410',borderColor:EDGE,borderWidth:1,
+        titleColor:'#c8d8c0',bodyColor:'#8aaa88',
+        callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y!==null?c.parsed.y+'%':'—'}`}
+      }
+    },
+    scales:rateAxes(titleText)
+  };
+}
+
+// shades the EW-reporting window behind the plot
+const ewBandPlugin = {
+  id:'ewBand',
+  beforeDatasetsDraw(chart,args,opts){
+    const keys=opts&&opts.keys; if(!keys||!keys.length)return;
+    const first=keys.findIndex(inEWWindow);
+    if(first<0)return;
+    let last=first;
+    for(let i=first;i<keys.length;i++) if(inEWWindow(keys[i])) last=i;
+    const {ctx,chartArea:a,scales:{x}}=chart;
+    const x0=x.getPixelForValue(first), x1=x.getPixelForValue(last);
+    ctx.save();
+    ctx.fillStyle='rgba(240,192,64,0.07)';
+    ctx.fillRect(x0,a.top,Math.max(x1-x0,1),a.bottom-a.top);
+    ctx.strokeStyle='rgba(240,192,64,0.28)';
+    ctx.setLineDash([3,3]); ctx.lineWidth=1;
+    [x0,x1].forEach(px=>{ctx.beginPath();ctx.moveTo(px,a.top);ctx.lineTo(px,a.bottom);ctx.stroke();});
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(240,192,64,0.75)';
+    ctx.font='9px '+MONO;
+    ctx.fillText('EW reported separately', x0+5, a.top+12);
+    ctx.restore();
+  }
+};
+
+/* ── chart 1: the two bases ──────────────────────────────────────── */
+function buildBasisChart(){
+  const el=document.getElementById('airdef-basis-chart');
+  if(!el||!AIRDEF_DATA.length||typeof Chart==='undefined')return;
+  const mo={};
   AIRDEF_DATA.forEach(r=>{
     if(!r.date||r.date.length<7)return;
     const ym=r.date.slice(0,7);
-    const launched=parseFloat(r.launched)||0;
-    const destroyed=parseFloat(r.destroyed)||0;
-    if(!launched)return;
-    const bucket=isDrone(r.model)?drones:isMissile(r.model)?missiles:null;
-    if(!bucket)return;
-    if(!bucket[ym])bucket[ym]={launched:0,destroyed:0};
-    bucket[ym].launched+=launched;
-    bucket[ym].destroyed+=destroyed;
+    if(!mo[ym])mo[ym]={l:0,k:0,n:0};
+    mo[ym].l+=adLaunched(r); mo[ym].k+=adKinetic(r); mo[ym].n+=adNeutralised(r);
   });
-
-  // Build unified key list
-  const allKeys=[...new Set([...Object.keys(drones),...Object.keys(missiles)])].sort();
-  // Only show months where we have at least one category with data
-  const keys=allKeys.filter(k=>drones[k]||missiles[k]);
-
-  const labels=keys.map(k=>{
-    const[y,m]=k.split('-');
-    return new Date(+y,+m-1).toLocaleDateString('en-GB',{month:'short',year:'2-digit'});
-  });
-
-  const droneRates=keys.map(k=>{
-    const d=drones[k];
-    if(!d||!d.launched)return null;
-    return Math.round(d.destroyed/d.launched*100);
-  });
-  const missileRates=keys.map(k=>{
-    const d=missiles[k];
-    if(!d||!d.launched)return null;
-    return Math.round(d.destroyed/d.launched*100);
-  });
-
+  const keys=Object.keys(mo).filter(k=>mo[k].l>0).sort();
+  if(!keys.length)return;
   if(el._chart)el._chart.destroy();
   el._chart=new Chart(el,{
     type:'line',
-    data:{
-      labels,
-      datasets:[
-        {
-          label:'Drones / UAVs',
-          data:droneRates,
-          borderColor:'#6bbf78',
-          backgroundColor:'rgba(107,191,120,0.08)',
-          borderWidth:2,
-          pointRadius:2,
-          pointHoverRadius:5,
-          tension:0.3,
-          spanGaps:true,
-          fill:false
-        },
-        {
-          label:'Missiles',
-          data:missileRates,
-          borderColor:'#e74c3c',
-          backgroundColor:'rgba(231,76,60,0.08)',
-          borderWidth:2,
-          pointRadius:2,
-          pointHoverRadius:5,
-          tension:0.3,
-          spanGaps:true,
-          fill:false
-        },
-        {
-          label:'Overall avg',
-          data:(()=>{
-            // Compute overall monthly rate across all weapon types
-            const tot={};
-            AIRDEF_DATA.forEach(r=>{
-              if(!r.date||r.date.length<7)return;
-              const ym=r.date.slice(0,7);
-              const l=parseFloat(r.launched)||0, d=parseFloat(r.destroyed)||0;
-              if(!l)return;
-              if(!tot[ym])tot[ym]={l:0,d:0};
-              tot[ym].l+=l; tot[ym].d+=d;
-            });
-            return keys.map(k=>tot[k]&&tot[k].l?Math.round(tot[k].d/tot[k].l*100):null);
-          })(),
-          borderColor:'#f0c040',
-          backgroundColor:'transparent',
-          borderWidth:1.5,
-          borderDash:[5,4],
-          pointRadius:0,
-          pointHoverRadius:4,
-          tension:0.3,
-          spanGaps:true,
-          fill:false,
-          order:0
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{labels:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},boxWidth:20,usePointStyle:true}},
-        tooltip:{
-          backgroundColor:'#0d1410',
-          borderColor:'#253d2a',
-          borderWidth:1,
-          titleColor:'#c8d8c0',
-          bodyColor:'#8aaa88',
-          callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y !== null ? ctx.parsed.y+'%' : '—'}`}
-        }
-      },
-      scales:{
-        x:{ticks:{color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"},maxRotation:45,maxTicksLimit:24},grid:{color:'#1e3022'},border:{color:'#253d2a'}},
-        y:{
-          ticks:{color:'#526650',font:{size:10,family:"'Share Tech Mono',monospace"},callback:v=>v+'%'},
-          grid:{color:'#1e3022'},
-          border:{color:'#253d2a'},
-          min:0,max:100,
-          title:{display:true,text:'Intercept rate',color:'#526650',font:{size:9,family:"'Share Tech Mono',monospace"}}
-        }
-      }
-    }
+    data:{labels:monthLabels(keys),datasets:[
+      {label:'Neutralised (destroyed + EW)',data:keys.map(k=>Math.round(100*mo[k].n/mo[k].l)),
+       borderColor:'#5aa869',backgroundColor:'rgba(90,168,105,0.10)',borderWidth:2,
+       pointRadius:0,pointHoverRadius:5,tension:0.3,fill:true,order:1},
+      {label:'Kinetic only (destroyed ÷ launched)',data:keys.map(k=>Math.round(100*mo[k].k/mo[k].l)),
+       borderColor:'#4894c9',backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],
+       pointRadius:0,pointHoverRadius:5,tension:0.3,fill:false,order:0}
+    ]},
+    options:baseOptions('Rate of launched weapons'),
+    plugins:[ewBandPlugin]
   });
+  el._chart.options.plugins.ewBand={keys};
+  el._chart.update('none');
 }
 
-async function init() {
-  const el = document.getElementById('airdef-chart');
-  try {
-    const live = await fetchTab('airdefence');
-    if (live && live.length) {
-      AIRDEF_DATA = live;
-      renderAirDef();
-      if(typeof Chart !== 'undefined') buildAirDefChart();
+/* ── chart 2: by weapon class ────────────────────────────────────── */
+function buildClassChart(){
+  const el=document.getElementById('airdef-class-chart');
+  if(!el||!AIRDEF_DATA.length||typeof Chart==='undefined')return;
+  const dr={},ms={};
+  AIRDEF_DATA.forEach(r=>{
+    if(!r.date||r.date.length<7)return;
+    const l=adLaunched(r); if(!l)return;
+    const b=isDrone(r.model)?dr:isMissile(r.model)?ms:null;
+    if(!b)return;
+    const ym=r.date.slice(0,7);
+    if(!b[ym])b[ym]={l:0,n:0};
+    b[ym].l+=l; b[ym].n+=adNeutralised(r);
+  });
+  const keys=[...new Set([...Object.keys(dr),...Object.keys(ms)])].sort();
+  if(!keys.length)return;
+  // months with a handful of launches swing wildly and read as signal; suppress them
+  const MIN_N=15;
+  const series=src=>keys.map(k=>(src[k]&&src[k].l>=MIN_N)?Math.round(100*src[k].n/src[k].l):null);
+  if(el._chart)el._chart.destroy();
+  el._chart=new Chart(el,{
+    type:'line',
+    data:{labels:monthLabels(keys),datasets:[
+      {label:'Loitering munitions / UAVs',data:series(dr),
+       borderColor:'#5aa869',backgroundColor:'rgba(90,168,105,0.08)',borderWidth:2,
+       pointRadius:0,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false},
+      {label:'Ballistic & cruise missiles',data:series(ms),
+       borderColor:'#b5628f',backgroundColor:'transparent',borderWidth:2,
+       pointRadius:0,pointHoverRadius:5,tension:0.3,spanGaps:true,fill:false}
+    ]},
+    options:baseOptions('Neutralisation rate'),
+    plugins:[ewBandPlugin]
+  });
+  el._chart.options.plugins.ewBand={keys};
+  el._chart.update('none');
+}
+
+/* ── boot ────────────────────────────────────────────────────────── */
+function renderAll(){
+  renderStats();
+  renderBands();
+  renderWeapons();
+  buildBasisChart();
+  buildClassChart();
+}
+
+async function init(){
+  let data = await fetchStatic();
+  if(!data) data = await fetchLive();
+  if(!data || !data.length){
+    const err=document.getElementById('airdef-error');
+    if(err){
+      err.style.display='block';
+      err.textContent='Air defence data could not be loaded. Please reload, or report it if it persists.';
     }
-  } catch(e) { console.warn('Live data unavailable:', e.message); }
+    const bands=document.getElementById('airdef-bands');
+    if(bands) bands.innerHTML='';
+    return;
+  }
+  AIRDEF_DATA = data;
+  renderAll();
+  const cb=document.getElementById('airdef-show-all');
+  if(cb) cb.addEventListener('change', renderWeapons);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  if(typeof Chart !== 'undefined') init();
-  else {
-    const s = document.querySelector('script[src*="chart.js"]');
-    if(s) s.addEventListener('load', init);
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(typeof Chart!=='undefined') init();
+  else{
+    const s=document.querySelector('script[src*="chart.js"]');
+    if(s){ s.addEventListener('load', init); s.addEventListener('error', init); }
+    else init();
   }
 });
 </script>
-
 <footer class="page-footer">
   <span>© 2026 Andro Mathewson · King's College London · War Studies</span>
   <a href="/privacy.html">Privacy</a>
