@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Analyses — Ukraine War Unmanned Systems Tracker</title>
-<meta name="description" content="Original quantitative analyses of drone warfare in Ukraine by Andro Mathewson, PhD Candidate in War Studies at King's College London. Weather effects, saturation thresholds, salvo composition, weapon mix evolution, and geographic dispersion.">
+<meta name="description" content="Original quantitative analyses of drone warfare in Ukraine by Andro Mathewson, PhD Candidate in War Studies at King's College London. Salvo composition, weapon mix evolution, and geographic dispersion.">
 <meta name="author" content="Andro Mathewson">
 <link rel="canonical" href="https://unmannedsystemstracker.com/analyses/">
 <meta property="og:title" content="Analyses — Ukraine War Unmanned Systems Tracker">
-<meta property="og:description" content="Original quantitative analyses of drone warfare in Ukraine by Andro Mathewson, PhD Candidate in War Studies at King's College London. Weather effects, saturation thresholds, salvo composition, weapon mix evolution, and geographic dispersion.">
+<meta property="og:description" content="Original quantitative analyses of drone warfare in Ukraine by Andro Mathewson, PhD Candidate in War Studies at King's College London. Salvo composition, weapon mix evolution, and geographic dispersion.">
 <meta property="og:image" content="https://unmannedsystemstracker.com/preview.png">
 <meta property="og:url" content="https://unmannedsystemstracker.com/analyses/">
 <meta property="og:type" content="website">
@@ -395,55 +395,38 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 @media(max-width:600px){.page-hero,.page-content{padding-left:16px;padding-right:16px}.page-header{padding:0 14px}.page-footer{padding:12px 16px}}
 </style>
 </head>
-<body>
+<body><a href="https://unmannedsystemstracker.com/cdn-cgi/content?id=8wKCgzkN3nSax2IdOpDvPlh6Jz3s5o6s6R7U463kZ64-1790685281.1935096-1.2.1.1-geigEsVu734AYOAiMplgPlB_zMSJLmswap82BSXRPxVgUJf2EjpY87ZEz_KBLx1V" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 <header class="page-header">
   <a href="/" class="page-header-logo">Unmanned Systems <span>Tracker</span></a>
   <a href="/" class="page-header-back">← Back to tracker</a>
 </header>
 <div class="page-hero">
   <h1>Original <span>Analyses</span></h1>
-  <p>Original quantitative research using tracker data, conducted by Andro Mathewson, PhD Candidate in War Studies at King's College London. These are working findings rather than peer-reviewed conclusions. Methodology notes accompany each analysis. Data and code available on GitHub.</p>
+  <p>Original quantitative research using tracker data, conducted by Andro Mathewson, PhD Candidate in War Studies at King's College London. These are working findings rather than peer-reviewed conclusions. Methodology notes accompany each analysis. Data and code available on GitHub. Two analyses previously published here, on weather effects and on an air defence saturation threshold, have been withdrawn: both were computed on a rate basis that excluded electronically suppressed drones, and neither survived recalculation. The <a href="/methodology/" style="color:var(--accent3)">methodology page</a> sets out the correct basis.</p>
 </div>
 <div class="page-content">
 
   <div class="data-section">
-    <div class="data-section-title">Analysis 1 — Weather and Shahed interception rates · April 2026 · n=603 attack days</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.8;margin-bottom:14px">Cross-referencing 603 Shahed/Geran attack days (Oct 2022–Mar 2026) from the Petro Ivaniuk air defence dataset with night-time weather from the Open-Meteo Historical Archive API. The central question: does adverse weather degrade Ukraine's air defence performance?</p>
-    <div class="insight-block"><div class="insight-label">Finding: ~70% consistent across all weather conditions</div><div class="insight-text">Clear nights: 70.7% (n=110) · Overcast: 72.2% (n=193) · Adverse: 68.2% (n=300). The 4-point range is not statistically significant. Ukraine's interception rate is weather-robust.</div></div>
-    <div class="insight-block"><div class="insight-label">Finding: Cloud cover r=0.051, p=0.21 — not significant</div><div class="insight-text">OLS regression of night-time cloud cover against interception rate shows a near-zero relationship. Cloud cover explains less than 0.3% of variance in intercept outcomes.</div></div>
-    <div class="insight-block"><div class="insight-label">Finding: Russia does not exploit adverse weather</div><div class="insight-text">Launch volumes are highest on clear nights (150.4/day) vs adverse nights (129.6/day). No evidence Russia times swarms to exploit poor weather conditions.</div></div>
-    <details style="margin-top:12px"><summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em">▸ METHODOLOGY</summary><p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">Weather for Kyiv (50.45°N, 30.52°E). Night-time = 20:00–06:00 local. Attacks with &lt;10 Shaheds excluded. Clear = cloud cover &lt;30%, Overcast = 30–79%, Adverse = ≥80% or precipitation. OLS regression, Pearson correlation.</p></details>
-  </div>
-
-  <div class="data-section">
-    <div class="data-section-title">Analysis 2 — Air defence saturation threshold · April 2026 · n=955 attack nights</div>
-    <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.8;margin-bottom:14px">Tests whether Ukrainian air defence degrades under high launch volumes — identifying the saturation threshold above which interception rates fall significantly.</p>
-    <div class="insight-block"><div class="insight-label">Finding: Degradation zone is 61–150 weapons (66–67%)</div><div class="insight-text">The only volume band consistently below the 74% mean. Medium-intensity attacks degrade performance more than mass swarms.</div></div>
-    <div class="insight-block"><div class="insight-label">Finding: 600+ weapon attacks achieve 83% interception</div><div class="insight-text">Above the overall mean. Mass swarms do not overwhelm Ukrainian air defence. No nights fell into the overwhelmed (&lt;55%) category.</div></div>
-    <details style="margin-top:12px"><summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em">▸ METHODOLOGY</summary><p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">Volume buckets: 1–30 (n=285), 31–60 (n=153), 61–100 (n=166), 101–150 (n=153), 151–200 (n=98), 201–300 (n=36), 301–400 (n=18), 401–600 (n=36), 600+ (n=10). Classification: ≥70% manageable, 55–69% degraded, &lt;55% overwhelmed.</p></details>
-  </div>
-
-  <div class="data-section">
-    <div class="data-section-title">Analysis 3 — Salvo composition: testing the Shahed-as-decoy hypothesis · April 2026 · n=1,060 nights</div>
+    <div class="data-section-title">Analysis 1 — Salvo composition: testing the Shahed-as-decoy hypothesis · recomputed September 2026 · n=1,161 attack nights</div>
     <p style="font-family:var(--body);font-size:0.78rem;color:var(--text2);line-height:1.8;margin-bottom:14px">A widely cited claim holds that Russia uses Shaheds as decoys to saturate air defence and enable missile penetration. This analysis tests it directly.</p>
-    <div class="insight-block"><div class="insight-label">Finding: Hypothesis not supported — 73% vs 75%</div><div class="insight-text">Mixed salvos (Shahed + missile, n=497) produce 73% interception vs 75% for Shahed-only (n=411). The 2-point difference is within error margins.</div></div>
-    <div class="insight-block"><div class="insight-label">Finding: Missile-only nights achieve 80% interception</div><div class="insight-text">The highest interception rate of any salvo type. Ukraine's missile defence performs well independently of Shahed saturation.</div></div>
+    <div class="insight-block"><div class="insight-label">Finding: Hypothesis not supported — 86.6% vs 88.5%</div><div class="insight-text">Mixed salvos combining drones with missiles (n=628 nights) are neutralised at 86.6%, against 88.5% for drone-only nights (n=450). The 1.9-point difference is within error margins. Mixed nights are larger on average (139 weapons against 125), so what little difference exists tracks volume rather than any decoy function. Recomputed on the corrected basis, (destroyed + not_reach_goal) / launched; the conclusion is unchanged from the original April 2026 run, the figures are not.</div></div>
+    <div class="insight-block"><div class="insight-label">Finding: Missile-only nights are the hardest to defend — 74.4%</div><div class="insight-text">The lowest neutralisation rate of any salvo type (n=83 nights, 1,386 weapons), holding at 74.4% both inside and outside the EW-reporting window. Ballistic and cruise missiles remain substantially harder to stop than loitering munitions. This reverses an earlier version of this analysis, which reported 80% and described missile-only nights as the best-defended category; that figure was computed on the kinetic-only basis and was wrong. Sample is small, so treat as indicative.</div></div>
   </div>
 
   <div class="data-section">
-    <div class="data-section-title">Analysis 4 — Russian weapon mix evolution · April 2026 · Aug 2022–Mar 2026</div>
-    <div class="insight-block"><div class="insight-label">Finding: Shaheds now 85–90% of launches</div><div class="insight-text">Up from ~45–50% in late 2022. Monthly volume reached 8,000+ by early 2026 — approximately 20× the baseline. The campaign has become drone-dominant.</div></div>
-    <div class="insight-block"><div class="insight-label">Finding: Missiles declining proportionally, not in absolute terms</div><div class="insight-text">Under 10% proportionally by 2025–2026. The strategic emphasis has shifted to attrition via Shahed mass, with missiles reserved for high-value precision targets.</div></div>
+    <div class="data-section-title">Analysis 2 — Russian weapon mix evolution · recomputed September 2026 · Sep 2022–Sep 2026</div>
+    <div class="insight-block"><div class="insight-label">Finding: Drones are now 97% of all launches</div><div class="insight-text">Drone-class weapons rose from 39% of launches in late 2022 to 97% in both 2025 and 2026. The Shahed-labelled share alone reads 93% for 2025 and 78% for 2026, but only because a growing number of drone rows are logged as "Unknown UAV"; counting all drone rows removes that artefact. Monthly volume peaked at 10,098 in May 2026, roughly 25 times the 2023 monthly mean of 401.</div></div>
+    <div class="insight-block"><div class="insight-label">Finding: Missiles down to 3% of launches proportionally, not in absolute terms</div><div class="insight-text">From 61% of launches in late 2022 to 3% across 2025 and 2026. The strategic emphasis has shifted to attrition by drone mass, with missiles reserved for high-value precision targets. They remain the harder defensive problem: missile-only nights are neutralised at 74.4% against 88.5% for drone-only nights.</div></div>
   </div>
 
   <div class="data-section">
-    <div class="data-section-title">Analysis 5 — Geographic dispersion of Russian strikes · April 2026</div>
+    <div class="data-section-title">Analysis 3 — Geographic dispersion of Russian strikes · April 2026</div>
     <div class="insight-block"><div class="insight-label">Finding: Mean oblasts per attack tripled — ~3 to 8+ (mid-2025 to Mar 2026)</div><div class="insight-text">Wider geographic reach forces Ukraine to maintain air defence coverage across more regions simultaneously, creating resourcing pressure that volume attacks on a single axis do not.</div></div>
     <div class="insight-block"><div class="insight-label">Finding: Kharkiv most targeted — ~128 events</div><div class="insight-text">Kharkiv (~128) and Sumy (~115) lead due to front-line proximity. Kyiv (~96) and Dnipropetrovsk (~98) follow as primary strategic targets.</div></div>
   </div>
 
   <div style="margin-top:28px;padding-top:16px;border-top:1px solid var(--border2)">
-    <p style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);line-height:1.8">All analyses by <strong style="color:var(--text2)">Andro Mathewson</strong>, PhD Candidate in War Studies, King's College London. Data: Petro Ivaniuk / Ukrainian Air Force; Open-Meteo Historical Archive API; USF Pidrakhuyka. Code: <a href="https://github.com/Androm2018/ukraine-drone-weather-analysis" style="color:var(--accent3)">github.com/Androm2018</a>. Working findings — not peer-reviewed.</p>
+    <p style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);line-height:1.8">All analyses by <strong style="color:var(--text2)">Andro Mathewson</strong>, PhD Candidate in War Studies, King's College London. Data: Petro Ivaniuk / Ukrainian Air Force; USF Pidrakhuyka. Code: <a href="https://github.com/Androm2018/ukraine-drone-weather-analysis" style="color:var(--accent3)">github.com/Androm2018</a>. Working findings — not peer-reviewed.</p>
   </div>
 </div>
 
@@ -455,5 +438,5 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   <span style="margin-left:auto">unmannedsystemstracker.com</span>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a42b05ff7d2b586e',t:'MTc5MDY4NTI4MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
