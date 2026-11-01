@@ -824,28 +824,6 @@ p, li{ font-size: var(--fs-base); line-height: 1.7; }
 }
 .nav-tab.active .nav-lock{ color: var(--accent3); border-color: var(--accent); }
 
-/* ── Sub-navigation for the three drone logs ─────────────────────── */
-.sub-nav{
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  padding: 13px 32px; border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(58,125,68,.07), rgba(8,13,10,0));
-}
-.sub-nav-label{
-  font-family: var(--mono); font-size: var(--fs-micro);
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text3); margin-right: 4px;
-}
-.seg-btn{
-  font-family: var(--head); font-weight: 600; font-size: 0.8rem;
-  letter-spacing: 0.05em; color: var(--text3);
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 7px 15px; cursor: pointer; transition: all .18s;
-}
-.seg-btn:hover{ color: var(--text); border-color: var(--accent); }
-.seg-btn.active{
-  color: var(--bg); background: var(--accent3); border-color: var(--accent3);
-}
-@media(max-width:600px){ .sub-nav{ padding: 11px 16px; } }
 
 /* ── Reveal animations must never be load-bearing ────────────────────
    Previously .reveal set opacity:0 unconditionally, so if the
@@ -909,6 +887,17 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
   .header-right .share-label{display:none}
   .header-right > span{display:none}
   .header-right{gap:6px;flex-shrink:0}
+}
+
+/* ── Mobile header: give the nav room ────────────────────────────────
+   .logo-block is flex-shrink:0, so the wordmark took its full natural
+   width and squeezed nav down to about 35px of visible scroll area.
+   With seven tabs that is unusable. Keep the mark, drop the wordmark
+   and the divider padding until there is room for both. */
+@media(max-width:1100px){
+  .logo-block{ padding-right: 10px; margin-right: 8px; gap: 8px; }
+  .logo-text{ display: none; }
+  .nav-tab{ padding: 0 9px !important; }
 }
 
 </style>
@@ -982,7 +971,9 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
   </div>
   <nav>
     <button class="nav-tab active" data-nav="intro"  onclick="showTab('intro',this)">Overview</button>
-    <button class="nav-tab"        data-nav="drones" onclick="showTab('drones',this)">Drone Operations</button>
+    <button class="nav-tab"        data-nav="usv"    onclick="showTab('usv',this)">USV Strikes</button>
+    <button class="nav-tab"        data-nav="ugv"    onclick="showTab('ugv',this)">UGV Operations</button>
+    <button class="nav-tab"        data-nav="uav"    onclick="showTab('uav',this)">UAV Strikes</button>
     <button class="nav-tab"        data-nav="airdef" onclick="showTab('airdef',this)">Air Defence</button>
     <button class="nav-tab"        data-nav="rl"     onclick="showTab('rl',this)">Russian Losses</button>
     <button class="nav-tab"        data-nav="research" onclick="showTab('research',this)">Research<span class="nav-lock" aria-label="password protected">locked</span></button>
@@ -1012,14 +1003,7 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
 
 <main>
 
-<!-- Sub-navigation for the three drone logs. Lives outside the panels so it
-     persists while switching between them; hidden on every other tab. -->
-<div class="sub-nav" id="drone-switch" style="display:none">
-  <span class="sub-nav-label">Dataset</span>
-  <button class="seg-btn active" data-tab="usv" onclick="showTab('usv',this)">Naval · USV</button>
-  <button class="seg-btn"        data-tab="ugv" onclick="showTab('ugv',this)">Ground · UGV</button>
-  <button class="seg-btn"        data-tab="uav" onclick="showTab('uav',this)">Air · UAV &amp; FPV</button>
-</div>
+
 
 <!-- ══════════════════════════════════════════
      TAB 1 — INTRODUCTION
@@ -2171,15 +2155,7 @@ function sideBadge(s){
 //  TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
 const TAB_TITLES={intro:'Ukraine War Unmanned Systems Tracker',usv:'USV Strikes — Ukraine War Unmanned Systems Tracker',ugv:'UGV Operations — Ukraine War Unmanned Systems Tracker',uav:'UAV Kill Board — Ukraine War Unmanned Systems Tracker',airdef:'Air Defence — Ukraine War Unmanned Systems Tracker',rl:'Russian Losses & Advance — Ukraine War Unmanned Systems Tracker',sources:'Sources & Support — Ukraine War Unmanned Systems Tracker',research:'Research — Ukraine War Unmanned Systems Tracker'};
-// The three drone logs share one nav button and are switched by the sub-nav,
-// so the active NAV BUTTON and the visible PANEL are no longer the same thing.
-const DRONE_TABS=['usv','ugv','uav'];
-const NAV_FOR={intro:'intro',usv:'drones',ugv:'drones',uav:'drones',
-               airdef:'airdef',rl:'rl',sources:null,research:'research'};
-let lastDroneTab='usv';
-
 function showTab(id,btn){
-  if(id==='drones')id=lastDroneTab;          // group button opens the last-used log
   const panel=document.getElementById('tab-'+id);
   if(!panel)return;
 
@@ -2187,27 +2163,15 @@ function showTab(id,btn){
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   panel.classList.add('active');
 
-  const navKey=NAV_FOR[id];
-  if(navKey){
-    const navBtn=document.querySelector('.nav-tab[data-nav="'+navKey+'"]');
-    if(navBtn)navBtn.classList.add('active');
-  }
-
-  const seg=document.getElementById('drone-switch');
-  if(seg){
-    const isDrone=DRONE_TABS.includes(id);
-    seg.style.display=isDrone?'':'none';
-    if(isDrone){
-      lastDroneTab=id;
-      seg.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
-    }
-  }
+  // Sources has no nav button of its own; it lives in the footer.
+  const navBtn=document.querySelector('.nav-tab[data-nav="'+id+'"]');
+  if(navBtn)navBtn.classList.add('active');
 
   history.pushState({tab:id},document.title,'#'+id);
   document.title=TAB_TITLES[id]||TAB_TITLES.intro;
   if(id==='ugv'&&typeof buildUGVMonthlyChart==='function')buildUGVMonthlyChart();
   window.scrollTo({top:0,behavior:'instant'});
-  return id;   // callers need the RESOLVED id, not the group name
+  return id;
 }
 function showTabById(id){ showTab(id,null); }
 function checkResearchPw(){var pw=document.getElementById('research-pw').value;var h=0;for(var i=0;i<pw.length;i++){h=(Math.imul(31,h)+pw.charCodeAt(i))|0;}if(h===2111683212){document.getElementById('research-gate').style.display='none';document.getElementById('research-content').style.display='block';sessionStorage.setItem('ds_unlocked','1');}else{document.getElementById('research-pw-err').style.display='block';document.getElementById('research-pw').value='';}}
