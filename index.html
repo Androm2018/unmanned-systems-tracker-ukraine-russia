@@ -1083,7 +1083,7 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
     <div class="stat-cell" onclick="showTabById('uav')" role="link" tabindex="0">
       <div class="stat-v" id="is-uav">977,020</div>
       <div class="stat-l">Ukrainian drone strike sorties</div>
-      <div class="stat-note">USF, Jun&ndash;Dec 2025</div>
+      <div class="stat-note">USF, since Jun 2025</div>
     </div>
     <div class="stat-cell" onclick="showTabById('rl')" role="link" tabindex="0">
       <div class="stat-v" id="is-rl-kia">283,000+</div>
@@ -1384,10 +1384,10 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
     <div>
       <div class="section-title">UAV <span>Kill Board</span></div>
-      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Since USF creation: Jun 2025 – Oct 2026. Updated manually each quarter. &nbsp;·&nbsp; <span style="color:var(--accent3)">UPDATED: Sep 2026</span></div>
+      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Since USF creation: 11 Jun 2025 – 1 Nov 2026. &nbsp;·&nbsp; <span style="color:var(--accent3)">UPDATED: 1 Nov 2026</span></div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">2025 ANNUAL · JUN–DEC</span>
+      <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">CUMULATIVE · SINCE 11 JUN 2025</span>
       <a class="btn" href="/methodology/#data-access" style="text-decoration:none;white-space:nowrap">Bulk data on request →</a>
     </div>
   </div>
@@ -1398,7 +1398,7 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
     <button class="btn" onclick="showTabById('sources')" style="font-size:0.6rem;padding:4px 10px">Sources →</button>
   </div>
   <div class="disclaimer" style="margin-bottom:16px">
-    <b>⚠ DATA COVERAGE:</b> The category table below shows the <b>Jun–Dec 2025 annual totals</b>; monthly figures drive the charts only. Monthly coverage is uneven because USF publishes a variable set of fields: recon flights are missing for May and June 2026, destroyed targets for April and June 2026, and personnel wounded for every month before April 2026. Gaps are left empty rather than interpolated. USF also revised its category taxonomy in 2026 — from July, figures are reported under new and expanded headings (multirotor drones, UGVs, fixed-wing UAVs, Shaheds and Gerberas, antennas, vessels, power hubs among them), so category series do not run continuously across that break. Figures are Ukrainian claims, verified in the DELTA system, covering both damaged and destroyed targets.
+    <b>⚠ DATA COVERAGE:</b> The headline figures and category table show <b>cumulative totals since USF creation on 11 June 2025</b>, taken from the USF API; the monthly series drives the charts. Monthly coverage is uneven because USF publishes a variable set of fields: recon flights are missing for May and June 2026, destroyed targets for April and June 2026, and personnel wounded for every month before April 2026. Gaps are left empty rather than interpolated. USF also revised its category taxonomy in 2026 — from July, figures are reported under new and expanded headings (multirotor drones, UGVs, fixed-wing UAVs, Shaheds and Gerberas, antennas, vessels, power hubs among them), so category series do not run continuously across that break. Figures are Ukrainian claims, verified in the DELTA system, covering both damaged and destroyed targets.
   </div>
   <!-- HEADLINE STAT STRIP -->
   <div id="uav-stat-strip" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px">
@@ -2066,7 +2066,7 @@ async function loadAll() {
   document.getElementById('is-usv').textContent=USV_DATA.length;
   // UGV intro stat uses DELTA mission count, not event count
   document.getElementById('is-ugv').textContent='65,000+';
-  const _uavSF=EMBEDDED_UAV.find(r=>r.date==='yearly_2025'&&r.target==='strike flights');
+  const _uavSF=EMBEDDED_UAV.find(r=>r.date==='cumulative'&&r.target==='strike flights');
   if(_uavSF){const el=document.getElementById('is-uav');if(el)el.textContent=parseInt(_uavSF.outcome).toLocaleString('en-GB');}
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
   const usvInd=document.getElementById('usv-indicator');
@@ -2347,8 +2347,8 @@ function parseOutcomeNums(outcome){
 function renderUAV(){
   const s = (document.getElementById('uav-search')||{}).value?.toLowerCase()||'';
 
-  // Always show yearly_2025 data only
-  let rows = UAV_DATA.filter(r => r.date === 'yearly_2025');
+  // Category table shows cumulative totals since USF creation (11 Jun 2025)
+  let rows = UAV_DATA.filter(r => r.date === 'cumulative');
 
   const rcEl = document.getElementById('uav-rc');
   if(rcEl) rcEl.textContent = rows.length;
@@ -2720,53 +2720,41 @@ const EMBEDDED_KB=[
 
 const EMBEDDED_UAV=[
   // ── Annual totals (Jun 2025 – Mar 2026) ──
-  {date:"yearly_2025",target:"total damaged targets",outcome:"396719"},
-  {date:"yearly_2025",target:"total destroyed targets",outcome:"147987"},
-  {date:"yearly_2025",target:"strike flights",outcome:"977020"},
-  {date:"yearly_2025",target:"recon flights",outcome:"874494"},
-  {date:"yearly_2025",target:"enemy personnel hit",outcome:"109162"},
-  {date:"yearly_2025",target:"enemy personnel killed",outcome:"57802"},
-  {date:"yearly_2025",target:"enemy personnel wounded",outcome:"51360"},
-  // ── Monthly headline stats ──
-  {date:"monthly_2025-06",target:"strike flights",outcome:"49874"},{date:"monthly_2025-06",target:"recon flights",outcome:"59619"},{date:"monthly_2025-06",target:"damaged targets",outcome:"19653"},{date:"monthly_2025-06",target:"destroyed targets",outcome:"5024"},{date:"monthly_2025-06",target:"enemy personnel hit",outcome:"4521"},{date:"monthly_2025-06",target:"enemy personnel killed",outcome:"2548"},
-  {date:"monthly_2025-07",target:"strike flights",outcome:"55853"},{date:"monthly_2025-07",target:"recon flights",outcome:"64799"},{date:"monthly_2025-07",target:"damaged targets",outcome:"23433"},{date:"monthly_2025-07",target:"destroyed targets",outcome:"5887"},{date:"monthly_2025-07",target:"enemy personnel hit",outcome:"5134"},{date:"monthly_2025-07",target:"enemy personnel killed",outcome:"3018"},
-  {date:"monthly_2025-08",target:"strike flights",outcome:"58778"},{date:"monthly_2025-08",target:"recon flights",outcome:"53757"},{date:"monthly_2025-08",target:"damaged targets",outcome:"21266"},{date:"monthly_2025-08",target:"destroyed targets",outcome:"6566"},{date:"monthly_2025-08",target:"enemy personnel hit",outcome:"5354"},{date:"monthly_2025-08",target:"enemy personnel killed",outcome:"3165"},
-  {date:"monthly_2025-09",target:"strike flights",outcome:"60781"},{date:"monthly_2025-09",target:"recon flights",outcome:"57935"},{date:"monthly_2025-09",target:"damaged targets",outcome:"23532"},{date:"monthly_2025-09",target:"destroyed targets",outcome:"7896"},{date:"monthly_2025-09",target:"enemy personnel hit",outcome:"6659"},{date:"monthly_2025-09",target:"enemy personnel killed",outcome:"3787"},
-  {date:"monthly_2025-10",target:"strike flights",outcome:"65514"},{date:"monthly_2025-10",target:"recon flights",outcome:"58468"},{date:"monthly_2025-10",target:"damaged targets",outcome:"26067"},{date:"monthly_2025-10",target:"destroyed targets",outcome:"9055"},{date:"monthly_2025-10",target:"enemy personnel hit",outcome:"8060"},{date:"monthly_2025-10",target:"enemy personnel killed",outcome:"4729"},
-  {date:"monthly_2025-11",target:"strike flights",outcome:"64437"},{date:"monthly_2025-11",target:"recon flights",outcome:"52056"},{date:"monthly_2025-11",target:"damaged targets",outcome:"23450"},{date:"monthly_2025-11",target:"destroyed targets",outcome:"8735"},{date:"monthly_2025-11",target:"enemy personnel hit",outcome:"8473"},{date:"monthly_2025-11",target:"enemy personnel killed",outcome:"4868"},
-  {date:"monthly_2025-12",target:"strike flights",outcome:"72091"},{date:"monthly_2025-12",target:"recon flights",outcome:"58071"},{date:"monthly_2025-12",target:"damaged targets",outcome:"30519"},{date:"monthly_2025-12",target:"destroyed targets",outcome:"10919"},{date:"monthly_2025-12",target:"enemy personnel hit",outcome:"12037"},{date:"monthly_2025-12",target:"enemy personnel killed",outcome:"6462"},
-  {date:"monthly_2026-01",target:"strike flights",outcome:"71615"},{date:"monthly_2026-01",target:"recon flights",outcome:"62367"},{date:"monthly_2026-01",target:"damaged targets",outcome:"27762"},{date:"monthly_2026-01",target:"destroyed targets",outcome:"10216"},{date:"monthly_2026-01",target:"enemy personnel hit",outcome:"9381"},{date:"monthly_2026-01",target:"enemy personnel killed",outcome:"4885"},
-  {date:"monthly_2026-02",target:"strike flights",outcome:"64390"},{date:"monthly_2026-02",target:"recon flights",outcome:"58218"},{date:"monthly_2026-02",target:"damaged targets",outcome:"27332"},{date:"monthly_2026-02",target:"destroyed targets",outcome:"10690"},{date:"monthly_2026-02",target:"enemy personnel hit",outcome:"8672"},{date:"monthly_2026-02",target:"enemy personnel killed",outcome:"4790"},
-  {date:"monthly_2026-03",target:"strike flights",outcome:"85915"},{date:"monthly_2026-03",target:"recon flights",outcome:"77896"},{date:"monthly_2026-03",target:"damaged targets",outcome:"37246"},{date:"monthly_2026-03",target:"destroyed targets",outcome:"15504"},{date:"monthly_2026-03",target:"enemy personnel hit",outcome:"10404"},{date:"monthly_2026-03",target:"enemy personnel killed",outcome:"5158"},
-  // Category rows
-  {date:"yearly_2025",target:"Enemy personnel",type:"Personnel",outcome:"78656 damaged, 43385 destroyed"},
-  {date:"yearly_2025",target:"Drone launch positions",outcome:"7520 damaged, 261 destroyed"},
-  {date:"yearly_2025",target:"Antennas",outcome:"11564 damaged, 7407 destroyed"},
-  {date:"yearly_2025",target:"SAMs, SPADs",outcome:"113 damaged, 22 destroyed"},
-  {date:"yearly_2025",target:"Radars (system)",outcome:"32 damaged, 6 destroyed"},
-  {date:"yearly_2025",target:"Radars (portable)",outcome:"257 damaged, 124 destroyed"},
-  {date:"yearly_2025",target:"EW (system)",outcome:"23 damaged, 8 destroyed"},
-  {date:"yearly_2025",target:"EW (car + portable)",outcome:"2310 damaged, 1027 destroyed"},
-  {date:"yearly_2025",target:"Enemy wings",outcome:"14937 damaged, 14361 destroyed"},
-  {date:"yearly_2025",target:"Shaheds and Gerberas",outcome:"5045 damaged, 4885 destroyed"},
-  {date:"yearly_2025",target:"Tanks",outcome:"759 damaged, 126 destroyed"},
-  {date:"yearly_2025",target:"APCs, IFVs, ACVs",outcome:"1229 damaged, 296 destroyed"},
-  {date:"yearly_2025",target:"Guns, howitzers",outcome:"3742 damaged, 246 destroyed"},
-  {date:"yearly_2025",target:"Self-propelled artillery",outcome:"290 damaged, 37 destroyed"},
-  {date:"yearly_2025",target:"Mortars",outcome:"392 damaged, 94 destroyed"},
-  {date:"yearly_2025",target:"MRLS",outcome:"217 damaged, 55 destroyed"},
-  {date:"yearly_2025",target:"Light, Heavy, Special-purpose vehicles",outcome:"11730 damaged, 2630 destroyed"},
-  {date:"yearly_2025",target:"Motorcycles and military buggies",outcome:"7332 damaged, 2290 destroyed"},
-  {date:"yearly_2025",target:"Ammo, fuel and equipment depots",outcome:"2500 damaged, 1418 destroyed"},
-  {date:"yearly_2025",target:"Strategic infrastructure",outcome:"TOP SECRET"},
-  {date:"yearly_2025",target:"Tactical infrastructure",outcome:"255 damaged, 17 destroyed"},
-  {date:"yearly_2025",target:"Shelters",outcome:"73592 damaged, 3249 destroyed"},
-  {date:"yearly_2025",target:"Dugouts",outcome:"25481 damaged, 592 destroyed"},
-  {date:"yearly_2025",target:"Network equipment",outcome:"2288 damaged, 1100 destroyed"},
-  {date:"yearly_2025",target:"Cameras",outcome:"80 damaged, 51 destroyed"},
-  {date:"yearly_2025",target:"Enemy copter drones",outcome:"6252 damaged, 5817 destroyed"},
-  {date:"yearly_2025",target:"Enemy unmanned robotic complexes",outcome:"405 damaged, 149 destroyed"},
-  {date:"yearly_2025",target:"Other",outcome:"2971 damaged, 776 destroyed"},
+  {date:"cumulative",target:"total damaged targets",outcome:"632509"},
+  {date:"cumulative",target:"total destroyed targets",outcome:"241116"},
+  {date:"cumulative",target:"strike flights",outcome:"1555666"},
+  {date:"cumulative",target:"recon flights",outcome:"1315654"},
+  {date:"cumulative",target:"enemy personnel hit",outcome:"162144"},
+  {date:"cumulative",target:"enemy personnel killed",outcome:"82794"},
+  {date:"cumulative",target:"enemy personnel wounded",outcome:"79350"},
+  {date:"cumulative",target:"Enemy personnel",type:"Personnel",outcome:"162147 damaged, 82799 destroyed"},
+  {date:"cumulative",target:"Drone launch positions",outcome:"18535 damaged, 581 destroyed"},
+  {date:"cumulative",target:"Antennas",outcome:"33847 damaged, 19961 destroyed"},
+  {date:"cumulative",target:"SAMs, SPADs",outcome:"219 damaged, 41 destroyed"},
+  {date:"cumulative",target:"Aircraft and helicopters",outcome:"22 damaged, 6 destroyed"},
+  {date:"cumulative",target:"Vessels",outcome:"317 damaged, 0 destroyed"},
+  {date:"cumulative",target:"Power hubs",outcome:"541 damaged, 6 destroyed"},
+  {date:"cumulative",target:"Radars, ELINT, comms (systems)",outcome:"152 damaged, 20 destroyed"},
+  {date:"cumulative",target:"EW (system)",outcome:"33 damaged, 8 destroyed"},
+  {date:"cumulative",target:"EW and Radars (mounted & portable)",outcome:"6584 damaged, 2630 destroyed"},
+  {date:"cumulative",target:"Enemy fixed-wing UAVs",outcome:"72339 damaged, 70107 destroyed"},
+  {date:"cumulative",target:"Shaheds and Gerberas",outcome:"11783 damaged, 11253 destroyed"},
+  {date:"cumulative",target:"Tanks",outcome:"977 damaged, 169 destroyed"},
+  {date:"cumulative",target:"AFVs (APCs, IFVs)",outcome:"1702 damaged, 384 destroyed"},
+  {date:"cumulative",target:"Guns, howitzers",outcome:"6432 damaged, 505 destroyed"},
+  {date:"cumulative",target:"Self-propelled artillery",outcome:"444 damaged, 63 destroyed"},
+  {date:"cumulative",target:"Mortars",outcome:"455 damaged, 113 destroyed"},
+  {date:"cumulative",target:"MLRS",outcome:"356 damaged, 96 destroyed"},
+  {date:"cumulative",target:"Logistics, Engr. & special vehicles, refuelers",outcome:"34541 damaged, 7306 destroyed"},
+  {date:"cumulative",target:"Motorcycles and military buggies",outcome:"17111 damaged, 5213 destroyed"},
+  {date:"cumulative",target:"Ammo, fuel and equipment depots",outcome:"6550 damaged, 3651 destroyed"},
+  {date:"cumulative",target:"Strategic infrastructure",outcome:"TOP SECRET"},
+  {date:"cumulative",target:"Tactical infrastructure",outcome:"1041 damaged, 89 destroyed"},
+  {date:"cumulative",target:"Shelters and dugouts",outcome:"213500 damaged, 7121 destroyed"},
+  {date:"cumulative",target:"Network equipment and cameras",outcome:"5574 damaged, 2150 destroyed"},
+  {date:"cumulative",target:"Enemy multirotor drones",outcome:"23882 damaged, 22543 destroyed"},
+  {date:"cumulative",target:"Enemy UGVs",outcome:"1374 damaged, 427 destroyed"},
+  {date:"cumulative",target:"Other",outcome:"11604 damaged, 3869 destroyed"},
   {date:"monthly_2026-04",target:"strike flights",outcome:"95172"},
   {date:"monthly_2026-04",target:"recon flights",outcome:"76224"},
   {date:"monthly_2026-04",target:"damaged targets",outcome:"40151"},
