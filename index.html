@@ -772,6 +772,145 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   .ad-stat-strip{grid-template-columns:repeat(2,1fr) !important}
 
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   LEGIBILITY LAYER — appended last so it wins on the cascade.
+
+   The page had 18 distinct text sizes and 36 of 56 visible text elements
+   rendered below 10px, some as small as 5.1px. This collapses that into a
+   four-step scale with an 11px floor and trims the letter-spacing that
+   made small mono labels hard to read. The terminal aesthetic is intact:
+   same palette, same fonts, same uppercase labels, just readable.
+   ══════════════════════════════════════════════════════════════════════ */
+:root{
+  --fs-micro: 0.6875rem;  /* 11px — eyebrows, unit labels, tags   */
+  --fs-small: 0.8125rem;  /* 13px — badges, links, table meta     */
+  --fs-base:  0.9375rem;  /* 15px — body copy                     */
+  --fs-lg:    1.125rem;   /* 18px — section headings              */
+  --track-tight: 0.04em;  /* was up to 0.14em at 6px              */
+}
+
+/* ── 11px floor: the worst offenders ─────────────────────────────── */
+.ad-stat-lbl, .new-stat-l, .uav-stat-lbl, .kb-card-label, .kb-card-source,
+.source-card-type, .ad-unit-label, .apf-lbl, .apf-hint, .sdiv-num,
+.hero-eyebrow, .hero-attr, .new-support-tag, .new-support-pt,
+.share-label, .ctrl-label, .airdef-preset-btn, .uav-num-col{
+  font-size: var(--fs-micro) !important;
+  letter-spacing: var(--track-tight) !important;
+}
+
+/* ── 13px: interactive and repeated elements ─────────────────────── */
+.badge, .src-link, .model-tag, .source-card-link, .btn,
+.new-btn-outline, .new-btn-primary{
+  font-size: var(--fs-small) !important;
+  letter-spacing: var(--track-tight) !important;
+}
+
+/* ── Tables and body copy ────────────────────────────────────────── */
+table, td, th, tbody tr{ font-size: var(--fs-small); }
+p, li{ font-size: var(--fs-base); line-height: 1.7; }
+
+/* ── Navigation ──────────────────────────────────────────────────── */
+.nav-tab{
+  font-size: 0.78rem !important;
+  letter-spacing: 0.06em !important;
+  padding: 0 14px !important;
+  gap: 7px;
+}
+.nav-lock{
+  font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text3); border: 1px solid var(--border);
+  padding: 1px 5px; border-radius: 2px; font-weight: 400;
+}
+.nav-tab.active .nav-lock{ color: var(--accent3); border-color: var(--accent); }
+
+/* ── Sub-navigation for the three drone logs ─────────────────────── */
+.sub-nav{
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 13px 32px; border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(58,125,68,.07), rgba(8,13,10,0));
+}
+.sub-nav-label{
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text3); margin-right: 4px;
+}
+.seg-btn{
+  font-family: var(--head); font-weight: 600; font-size: 0.8rem;
+  letter-spacing: 0.05em; color: var(--text3);
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 7px 15px; cursor: pointer; transition: all .18s;
+}
+.seg-btn:hover{ color: var(--text); border-color: var(--accent); }
+.seg-btn.active{
+  color: var(--bg); background: var(--accent3); border-color: var(--accent3);
+}
+@media(max-width:600px){ .sub-nav{ padding: 11px 16px; } }
+
+/* ── Reveal animations must never be load-bearing ────────────────────
+   Previously .reveal set opacity:0 unconditionally, so if the
+   IntersectionObserver never fired the content stayed invisible. Now the
+   hiding only applies once JS has confirmed it is running, and anything
+   in the first screenful is exempt. */
+.reveal{ opacity: 1; transform: none; }
+html.js-reveal .reveal:not(.no-reveal){ opacity: 0; transform: translateY(18px); }
+html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce){
+  html.js-reveal .reveal{ opacity: 1 !important; transform: none !important;
+                          transition: none !important; }
+}
+
+/* ── Landing page ────────────────────────────────────────────────── */
+.hero{ min-height: 0 !important; padding: 54px 0 34px !important; }
+.hero-title, .hero h1{ font-size: clamp(2.6rem, 7vw, 5.2rem) !important; line-height: .92 !important; }
+.hero-sub, .hero p{ font-size: var(--fs-base) !important; max-width: 46ch; }
+
+/* Primary statistics: four that matter, at a size you can read */
+.stat-band{
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--border); border-block: 1px solid var(--border);
+}
+.stat-cell{ background: var(--bg); padding: 20px 22px; }
+.stat-v{
+  font-family: var(--head); font-weight: 900; font-size: 2.1rem;
+  line-height: 1; letter-spacing: -.02em; color: var(--text);
+}
+.stat-v.accent{ color: var(--accent3); }
+.stat-l{
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text3); margin-top: 7px;
+}
+.stat-note{ font-family: var(--body); font-size: var(--fs-micro); color: var(--text3); margin-top: 3px; }
+@media(max-width:900px){ .stat-band{ grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:480px){ .stat-band{ grid-template-columns: 1fr; } }
+
+/* Secondary figures, demoted out of the headline row */
+.stat-more{
+  display: flex; flex-wrap: wrap; gap: 0 26px;
+  padding: 13px 32px; border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: var(--fs-micro); color: var(--text3);
+}
+.stat-more b{ color: var(--text2); font-weight: 400; }
+@media(max-width:600px){ .stat-more{ padding: 11px 16px; gap: 0 16px; } }
+
+/* ── Compare panels: two charts, one shared time axis ────────────── */
+.cmp-stack{ display:flex; flex-direction:column; gap:4px; }
+.cmp-panel{ position:relative; height:150px; }
+.cmp-panel:last-child{ height:170px; }
+@media(max-width:600px){ .cmp-panel{height:130px} .cmp-panel:last-child{height:150px} }
+
+/* ── Mobile header overflow ──────────────────────────────────────────
+   .header-right (two share buttons plus the "Last updated" stamp) is 195px
+   wide and sat outside the viewport at phone widths, pushing the document
+   to 467px against a 390px screen. Drop the share wordmarks and the
+   timestamp there; the icons still work and the date is in the footer. */
+@media(max-width:600px){
+  .header-right .share-label{display:none}
+  .header-right > span{display:none}
+  .header-right{gap:6px;flex-shrink:0}
+}
+
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7620877350113591" crossorigin="anonymous"></script>
 <link rel="canonical" href="https://unmannedsystemstracker.com">
@@ -842,14 +981,11 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
   </div>
   <nav>
-    <button class="nav-tab active" onclick="showTab('intro',this)">Intro</button>
-    <button class="nav-tab" onclick="showTab('usv',this)">USV Strikes</button>
-    <button class="nav-tab" onclick="showTab('ugv',this)">UGV Operations</button>
-    <button class="nav-tab" onclick="showTab('uav',this)">UAV Strikes</button>
-    <button class="nav-tab" onclick="showTab('airdef',this)">Air Defence</button>
-    <button class="nav-tab" onclick="showTab('rl',this)">Russian Losses</button>
-    <button class="nav-tab" onclick="showTab('sources',this)">Sources</button>
-    <button class="nav-tab" onclick="showTab('research',this)">🔒 Research</button>
+    <button class="nav-tab active" data-nav="intro"  onclick="showTab('intro',this)">Overview</button>
+    <button class="nav-tab"        data-nav="drones" onclick="showTab('drones',this)">Drone Operations</button>
+    <button class="nav-tab"        data-nav="airdef" onclick="showTab('airdef',this)">Air Defence</button>
+    <button class="nav-tab"        data-nav="rl"     onclick="showTab('rl',this)">Russian Losses</button>
+    <button class="nav-tab"        data-nav="research" onclick="showTab('research',this)">Research<span class="nav-lock" aria-label="password protected">locked</span></button>
   </nav>
   <div class="header-right">
     <a class="share-btn" id="share-x" href="#" onclick="shareToX();return false;" title="Share on X">
@@ -875,6 +1011,15 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
 </div>
 
 <main>
+
+<!-- Sub-navigation for the three drone logs. Lives outside the panels so it
+     persists while switching between them; hidden on every other tab. -->
+<div class="sub-nav" id="drone-switch" style="display:none">
+  <span class="sub-nav-label">Dataset</span>
+  <button class="seg-btn active" data-tab="usv" onclick="showTab('usv',this)">Naval · USV</button>
+  <button class="seg-btn"        data-tab="ugv" onclick="showTab('ugv',this)">Ground · UGV</button>
+  <button class="seg-btn"        data-tab="uav" onclick="showTab('uav',this)">Air · UAV &amp; FPV</button>
+</div>
 
 <!-- ══════════════════════════════════════════
      TAB 1 — INTRODUCTION
@@ -937,39 +1082,38 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
     </div>
   </section>
 
-  <div class="new-stats reveal">
-    <div class="new-stat d1" onclick="showTabById('usv')">
-      <span class="new-stat-n g" id="is-usv">—</span>
-      <span class="new-stat-l">USV Strike Events</span>
+  <!-- Four headline figures, in narrative order: what Russia launched, how
+       much Ukraine stopped, how much Ukraine flew, the cost. The other four
+       figures moved to the secondary strip below. -->
+  <div class="stat-band no-reveal">
+    <div class="stat-cell" onclick="showTabById('airdef')" role="link" tabindex="0">
+      <div class="stat-v" id="is-ad-total">&mdash;</div>
+      <div class="stat-l">Aerial weapons launched at Ukraine</div>
+      <div class="stat-note">Since Sep 2022</div>
     </div>
-    <div class="new-stat d2" onclick="showTabById('ugv')">
-      <span class="new-stat-n b" id="is-ugv">—</span>
-      <span class="new-stat-l">UGV Missions H1 2026</span>
+    <div class="stat-cell" onclick="showTabById('airdef')" role="link" tabindex="0">
+      <div class="stat-v accent" id="is-ad-rate">&mdash;</div>
+      <div class="stat-l">Neutralised</div>
+      <div class="stat-note">Shot down or EW-suppressed</div>
     </div>
-    <div class="new-stat d3" onclick="showTabById('uav')">
-      <span class="new-stat-n a" id="is-uav">977,020</span>
-      <span class="new-stat-l">UAV Strike Flights</span>
+    <div class="stat-cell" onclick="showTabById('uav')" role="link" tabindex="0">
+      <div class="stat-v" id="is-uav">977,020</div>
+      <div class="stat-l">Ukrainian drone strike sorties</div>
+      <div class="stat-note">USF, Jun&ndash;Dec 2025</div>
     </div>
-    <div class="new-stat d4" onclick="showTabById('airdef')">
-      <span class="new-stat-n b" id="is-ad-total">—</span>
-      <span class="new-stat-l">Aerial Attacks on Ukraine</span>
+    <div class="stat-cell" onclick="showTabById('rl')" role="link" tabindex="0">
+      <div class="stat-v" id="is-rl-kia">283,000+</div>
+      <div class="stat-l">Russian military dead</div>
+      <div class="stat-note">Mediazona/BBC, named and verified &middot; 23 Oct 2026</div>
+      <div class="stat-note">The Economist models 374,000&ndash;770,000 killed</div>
     </div>
-    <div class="new-stat d5" onclick="showTabById('airdef')">
-      <span class="new-stat-n g" id="is-ad-intercepted">—</span>
-      <span class="new-stat-l">Neutralised</span>
-    </div>
-    <div class="new-stat d6" onclick="showTabById('airdef')">
-      <span class="new-stat-n a" id="is-ad-rate">—</span>
-      <span class="new-stat-l">Neutralisation Rate</span>
-    </div>
-    <div class="new-stat d7" onclick="showTabById('rl')">
-      <span class="new-stat-n r" id="is-rl-kia">248,800+</span>
-      <span class="new-stat-l">Russian KIA (Mediazona)</span>
-    </div>
-    <div class="new-stat d8" onclick="showTabById('research')">
-      <span class="new-stat-n g">~95%</span>
-      <span class="new-stat-l">RU Losses Drone-Caused (2026)</span>
-    </div>
+  </div>
+
+  <div class="stat-more no-reveal">
+    <span><b id="is-usv">&mdash;</b> USV strike events</span>
+    <span><b id="is-ugv">&mdash;</b> UGV missions, H1 2026</span>
+    <span><b id="is-ad-intercepted">&mdash;</b> weapons neutralised</span>
+    <span><b>~95%</b> of 2026 Russian losses drone-caused</span>
   </div>
 
   <div class="sdiv reveal">
@@ -1009,8 +1153,13 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
         </div>
       </div>
     </div>
-    <div class="new-chart-wrap">
-      <canvas id="intro-trends-chart"></canvas>
+    <!-- Two stacked panels sharing one time axis, rather than one frame with
+         two y-scales. A dual axis lets any two series be made to look
+         correlated by choosing the scales, which is not a claim this data
+         supports. -->
+    <div class="cmp-stack">
+      <div class="cmp-panel"><canvas id="intro-trends-chart"></canvas></div>
+      <div class="cmp-panel"><canvas id="intro-trends-chart-b"></canvas></div>
     </div>
   </div>
 
@@ -1052,6 +1201,8 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div class="disclaimer" style="margin:48px 40px 0;padding:16px 0 0;border-top:1px solid var(--border2)">
     UNMANNED SYSTEMS TRACKER · COMPILED FROM PUBLIC OSINT SOURCES · NOT AFFILIATED WITH ANY GOVERNMENT OR MILITARY ORGANISATION ·
     DATA PROVIDED FOR RESEARCH AND EDUCATIONAL PURPOSES ·
+    <a href="#sources" onclick="showTabById('sources');return false;" style="color:var(--accent3)">Sources</a> ·
+    <a href="/methodology/" style="color:var(--accent3)">Methodology &amp; Glossary</a> ·
     <a href="/privacy.html" style="color:var(--accent3)">Privacy Policy</a> ·
     <a href="/disclaimer.html" style="color:var(--accent3)">Disclaimer</a><br>
     <span style="color:var(--accent3)">50%</span> of advertising revenue from this site is donated to support Ukrainian military forces via <a href="https://u24.gov.ua" style="color:var(--accent3)">United24</a>
@@ -1249,7 +1400,7 @@ a.src-link:hover{color:var(--accent3);border-color:var(--accent3)}
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
     <div>
       <div class="section-title">UAV <span>Kill Board</span></div>
-      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Since USF creation: Jun 2025 – Sep 2026. Updated manually each quarter. &nbsp;·&nbsp; <span style="color:var(--accent3)">UPDATED: Sep 2026</span></div>
+      <div class="section-sub">USF PIDRAKHUYKA · UNMANNED SYSTEMS FORCES OF UKRAINE · VERIFIED HITS ONLY · Since USF creation: Jun 2025 – Oct 2026. Updated manually each quarter. &nbsp;·&nbsp; <span style="color:var(--accent3)">UPDATED: Sep 2026</span></div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
       <span style="font-family:var(--mono);font-size:0.62rem;color:var(--accent3);letter-spacing:0.1em;border:1px solid var(--border);padding:5px 10px;background:var(--bg3)">2025 ANNUAL · JUN–DEC</span>
@@ -2020,22 +2171,45 @@ function sideBadge(s){
 //  TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
 const TAB_TITLES={intro:'Ukraine War Unmanned Systems Tracker',usv:'USV Strikes — Ukraine War Unmanned Systems Tracker',ugv:'UGV Operations — Ukraine War Unmanned Systems Tracker',uav:'UAV Kill Board — Ukraine War Unmanned Systems Tracker',airdef:'Air Defence — Ukraine War Unmanned Systems Tracker',rl:'Russian Losses & Advance — Ukraine War Unmanned Systems Tracker',sources:'Sources & Support — Ukraine War Unmanned Systems Tracker',research:'Research — Ukraine War Unmanned Systems Tracker'};
+// The three drone logs share one nav button and are switched by the sub-nav,
+// so the active NAV BUTTON and the visible PANEL are no longer the same thing.
+const DRONE_TABS=['usv','ugv','uav'];
+const NAV_FOR={intro:'intro',usv:'drones',ugv:'drones',uav:'drones',
+               airdef:'airdef',rl:'rl',sources:null,research:'research'};
+let lastDroneTab='usv';
+
 function showTab(id,btn){
+  if(id==='drones')id=lastDroneTab;          // group button opens the last-used log
+  const panel=document.getElementById('tab-'+id);
+  if(!panel)return;
+
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  btn.classList.add('active');
-  // Update URL hash without triggering a scroll
+  panel.classList.add('active');
+
+  const navKey=NAV_FOR[id];
+  if(navKey){
+    const navBtn=document.querySelector('.nav-tab[data-nav="'+navKey+'"]');
+    if(navBtn)navBtn.classList.add('active');
+  }
+
+  const seg=document.getElementById('drone-switch');
+  if(seg){
+    const isDrone=DRONE_TABS.includes(id);
+    seg.style.display=isDrone?'':'none';
+    if(isDrone){
+      lastDroneTab=id;
+      seg.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+    }
+  }
+
   history.pushState({tab:id},document.title,'#'+id);
-  // Update browser tab title
   document.title=TAB_TITLES[id]||TAB_TITLES.intro;
-  // Charts that do not depend on loaded event data
   if(id==='ugv'&&typeof buildUGVMonthlyChart==='function')buildUGVMonthlyChart();
+  window.scrollTo({top:0,behavior:'instant'});
+  return id;   // callers need the RESOLVED id, not the group name
 }
-function showTabById(id){
-  const btn=[...document.querySelectorAll('.nav-tab')].find(b=>(b.getAttribute('onclick')||'').includes("'"+id+"'"));
-  if(btn)showTab(id,btn);
-}
+function showTabById(id){ showTab(id,null); }
 function checkResearchPw(){var pw=document.getElementById('research-pw').value;var h=0;for(var i=0;i<pw.length;i++){h=(Math.imul(31,h)+pw.charCodeAt(i))|0;}if(h===2111683212){document.getElementById('research-gate').style.display='none';document.getElementById('research-content').style.display='block';sessionStorage.setItem('ds_unlocked','1');}else{document.getElementById('research-pw-err').style.display='block';document.getElementById('research-pw').value='';}}
 function checkDsSession(){if(sessionStorage.getItem('ds_unlocked')==='1'){var g=document.getElementById('research-gate');var c=document.getElementById('research-content');if(g&&c){g.style.display='none';c.style.display='block';}}}
 // Hash routing — applied immediately for tab switch, but we also re-apply
@@ -2044,10 +2218,17 @@ function checkDsSession(){if(sessionStorage.getItem('ds_unlocked')==='1'){var g=
   let hash=location.hash.replace('#','');
   if(hash==='analyses')hash='research';   // analyses folded into protected research tab
   const valid=['intro','usv','ugv','uav','rl','airdef','sources','research'];
-  if(hash&&valid.includes(hash)){
+  if(!hash||!valid.includes(hash))return;
+  // Mark intro as not-active so the right tab stays open after loadAll
+  window._hashTab=hash;
+  // This script element sits above several of the tab panels, so their
+  // elements do not exist yet. Routing before the document is parsed silently
+  // failed and left the visitor on the intro tab until loadAll rescued it a
+  // few seconds later. Wait for the full DOM instead.
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>showTabById(hash),{once:true});
+  }else{
     showTabById(hash);
-    // Mark intro as not-active so the right tab stays open after loadAll
-    window._hashTab=hash;
   }
 })();
 
@@ -2283,7 +2464,7 @@ function buildUAVChart(){
 
   const periodEl=document.querySelector('#tab-uav input[name="uav-period"]:checked');
   const isDailyView=periodEl&&periodEl.value==='daily';
-  const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30,'2026-05':31,'2026-06':30,'2026-07':31,'2026-08':31,'2026-09':30};
+  const daysInMonth={'2025-06':30,'2025-07':31,'2025-08':31,'2025-09':30,'2025-10':31,'2025-11':30,'2025-12':31,'2026-01':31,'2026-02':28,'2026-03':31,'2026-04':30,'2026-05':31,'2026-06':30,'2026-07':31,'2026-08':31,'2026-09':30,'2026-10':31};
   const months=UAV_DATA
     .filter(r=>r.date&&r.date.startsWith('monthly_')&&r.target==='strike flights')
     .map(r=>r.date.replace('monthly_',''))
@@ -2548,9 +2729,10 @@ const EMBEDDED_UGV=[
   {date:"2025-12-01",side:"Russia",system:"Scorpion-M",op:"Kamikaze UGV deployment trials",loc:"Krasnohorivka, Donetsk",outcome:"Operational milestone",notes:"Russian volunteer-developed kamikaze UGV. Limited fielding reported.",src:"https://militaeraktuell.at",srcl:"Militär Aktuell"},
 ];
 const EMBEDDED_KB=[
-  {section:"card",label:"Confirmed KIA (named, verified)",value:"248,800+",color:"red",sub:"Individual soldiers confirmed dead by name via obituaries, social media & official sources. As of 11 Sep 2026. The real total is significantly higher.",source:"Mediazona / BBC News Russian · 200.zona.media · Updated Sep 2026"},
+    {section:"card",label:"Confirmed KIA (named, verified)",value:"283,000+",color:"red",sub:"Individual soldiers confirmed dead by name via obituaries, social media & official sources. As of 23 Oct 2026. This is a floor, not a total: it counts only the dead who could be individually identified, and the real figure is substantially higher.",source:"Mediazona / BBC News Russian \u00b7 200.zona.media \u00b7 Updated 23 Oct 2026"},
   {section:"card",label:"Statistical KIA estimate",value:"~352,000",color:"red",sub:"Total deaths estimated via National Probate Registry excess mortality model to end of 2025. Does not include foreign nationals fighting for Russia.",source:"Meduza / Mediazona probate registry analysis · May 2026"},
   {section:"card",label:"UK Intelligence estimate",value:"~500,000",color:"red",sub:"Highest on-the-record government estimate of total Russian military deaths since the war began. Includes killed and died of wounds.",source:"British Intelligence (GCHQ/DI) · May 2026"},
+  {section:"card",label:"Modelled KIA estimate (The Economist)",value:"374,000\u2013770,000",color:"red",sub:"Statistical model combining Western intelligence, defence ministry and independent researcher data, cross-checked against The Economist's own war tracker. Total casualties including wounded estimated at 1.4\u20132.1 million. A modelled range, not a count: the width of the interval is the uncertainty, and it should not be compared like-for-like with the named figure above.",source:"The Economist \u00b7 30 Oct 2026"},
   {section:"card",label:"Total casualties (KIA + WIA)",value:"1,118,000+",color:"red",sub:"Killed and wounded combined. Includes contract soldiers, mobilised personnel, and Wagner/volunteer fighters.",source:"UK Ministry of Defence Oct 2025 · SACEUR Gen. Cavoli Apr 2025"},
   {section:"card",label:"Tanks Destroyed / Captured",value:"3,000+",color:"amber",sub:"Total tank losses (DIA estimate). Oryx photo-confirmed 23,556+ total losses (all categories) as of June 2026.",source:"US DIA May 2025 · CSIS Jun 2025"},
   {section:"card",label:"Armoured Vehicles Lost",value:"10,000+",color:"amber",sub:"All ground combat vehicles (APCs, IFVs, SPGs). Oryx photo-confirmed total: 23,556 as of June 2026 (18,551 destroyed, 979 damaged, 1,199 abandoned, 2,827 captured).",source:"US DIA May 2025 · Oryx June 2026"},
@@ -2773,6 +2955,41 @@ const EMBEDDED_UAV=[
   {date:"monthly_2026-09",target:"Enemy multirotor drones",outcome:"3884 damaged, 3743 destroyed"},
   {date:"monthly_2026-09",target:"Enemy UGVs",outcome:"177 damaged, 47 destroyed"},
   {date:"monthly_2026-09",target:"Other",outcome:"1779 damaged, 639 destroyed"},
+  {date:"monthly_2026-10",target:"strike flights",outcome:"151499"},
+  {date:"monthly_2026-10",target:"recon flights",outcome:"104106"},
+  {date:"monthly_2026-10",target:"damaged targets",outcome:"64807"},
+  {date:"monthly_2026-10",target:"destroyed targets",outcome:"25809"},
+  {date:"monthly_2026-10",target:"enemy personnel hit",outcome:"16796"},
+  {date:"monthly_2026-10",target:"enemy personnel killed",outcome:"7926"},
+  {date:"monthly_2026-10",target:"enemy personnel wounded",outcome:"8870"},
+  {date:"monthly_2026-10",target:"Enemy personnel",outcome:"16796 damaged, 7926 destroyed"},
+  {date:"monthly_2026-10",target:"Drone launch positions",outcome:"1628 damaged, 32 destroyed"},
+  {date:"monthly_2026-10",target:"Antennas",outcome:"3808 damaged, 2188 destroyed"},
+  {date:"monthly_2026-10",target:"SAMs, SPADs",outcome:"5 damaged, 3 destroyed"},
+  {date:"monthly_2026-10",target:"Aircraft and helicopters",outcome:"1 damaged, 1 destroyed"},
+  {date:"monthly_2026-10",target:"Vessels",outcome:"8 damaged, 0 destroyed"},
+  {date:"monthly_2026-10",target:"Power hubs",outcome:"105 damaged, 3 destroyed"},
+  {date:"monthly_2026-10",target:"Radars, ELINT, comms (systems)",outcome:"12 damaged, 0 destroyed"},
+  {date:"monthly_2026-10",target:"EW (system)",outcome:"0 damaged, 0 destroyed"},
+  {date:"monthly_2026-10",target:"EW and Radars (mounted & portable)",outcome:"471 damaged, 165 destroyed"},
+  {date:"monthly_2026-10",target:"Enemy fixed-wing UAVs",outcome:"8846 damaged, 8578 destroyed"},
+  {date:"monthly_2026-10",target:"Shaheds and Gerberas",outcome:"832 damaged, 781 destroyed"},
+  {date:"monthly_2026-10",target:"Tanks",outcome:"18 damaged, 0 destroyed"},
+  {date:"monthly_2026-10",target:"AFVs (APCs, IFVs)",outcome:"60 damaged, 6 destroyed"},
+  {date:"monthly_2026-10",target:"Guns, howitzers",outcome:"225 damaged, 26 destroyed"},
+  {date:"monthly_2026-10",target:"Self-propelled artillery",outcome:"15 damaged, 1 destroyed"},
+  {date:"monthly_2026-10",target:"Mortars",outcome:"8 damaged, 2 destroyed"},
+  {date:"monthly_2026-10",target:"MLRS",outcome:"9 damaged, 3 destroyed"},
+  {date:"monthly_2026-10",target:"Logistics, Engr. & special vehicles, refuelers",outcome:"3297 damaged, 556 destroyed"},
+  {date:"monthly_2026-10",target:"Motorcycles and military buggies",outcome:"1380 damaged, 410 destroyed"},
+  {date:"monthly_2026-10",target:"Ammo, fuel and equipment depots",outcome:"574 damaged, 287 destroyed"},
+  {date:"monthly_2026-10",target:"Strategic infrastructure",outcome:"TOP SECRET"},
+  {date:"monthly_2026-10",target:"Tactical infrastructure",outcome:"188 damaged, 7 destroyed"},
+  {date:"monthly_2026-10",target:"Shelters and dugouts",outcome:"20495 damaged, 376 destroyed"},
+  {date:"monthly_2026-10",target:"Network equipment and cameras",outcome:"470 damaged, 145 destroyed"},
+  {date:"monthly_2026-10",target:"Enemy multirotor drones",outcome:"4028 damaged, 3825 destroyed"},
+  {date:"monthly_2026-10",target:"Enemy UGVs",outcome:"176 damaged, 33 destroyed"},
+  {date:"monthly_2026-10",target:"Other",outcome:"1316 damaged, 455 destroyed"},
 ];
 
 loadAll().catch(err=>{
@@ -3337,7 +3554,8 @@ function buildIntroTrendsChart(){
 // Build charts once data is loaded — hook into showTab too
 const _origShowTab=showTab;
 showTab=function(id,btn){
-  _origShowTab(id,btn);
+  // _origShowTab resolves the 'drones' group to a real panel id and returns it.
+  id=_origShowTab(id,btn)||id;
   if(id==='usv'&&USV_DATA.length)buildChart('usv-chart',USV_DATA,'Strikes','#6bbf78');
   if(id==='ugv'&&UGV_DATA.length)buildChart('ugv-chart',UGV_DATA,'Operations','#4a9fd4');
   if(id==='airdef'&&AIRDEF_DATA.length){renderAirDef();buildAirDefChart();buildAirDefFrequency();}
@@ -4036,117 +4254,63 @@ const COMPARE_LABELS_MAP = {
 const COMPARE_COLORS = { a:'#e74c3c', b:'#d4a017' };
 
 function buildCompareChart(){
-  const el=document.getElementById('intro-trends-chart');
-  if(!el||typeof Chart==='undefined')return;
-  if(el._chart)el._chart.destroy();
+  if(typeof Chart==='undefined')return;
+  const elA=document.getElementById('intro-trends-chart');
+  const elB=document.getElementById('intro-trends-chart-b');
+  if(!elA||!elB)return;
 
   const metA=document.getElementById('compare-metric-a')?.value||'terr';
   const metB=document.getElementById('compare-metric-b')?.value||'pers';
-  const dataA=COMPARE_DATA[metA];
-  const dataB=COMPARE_DATA[metB];
   const M="'Share Tech Mono',monospace";
+  const AXIS='#637a60', GRID='#1e3022', EDGE='#253d2a';
 
-  el._chart=new Chart(el,{
-    data:{
-      labels:COMPARE_LABELS,
-      datasets:[
-        {
-          type:'bar',
-          label:COMPARE_LABELS_MAP[metA],
-          data:dataA,
-          backgroundColor:dataA.map(v=>{
-            if(metA==='terr') return v<0?'rgba(107,191,120,0.75)':'rgba(231,76,60,0.65)';
-            return 'rgba(231,76,60,0.55)';
-          }),
-          borderRadius:2,
-          yAxisID:'y',
-          order:2,
+  const fmtTick=met=>v=>{
+    if(met==='intercept')return v+'%';
+    return Math.abs(v)>=1000?(v/1000).toFixed(0)+'k':v;
+  };
+
+  // One panel = one measure = one y-axis. The x-axis is identical on both,
+  // so the panels read against each other without sharing a scale.
+  function panel(el,met,kind,colour,showX){
+    if(el._chart)el._chart.destroy();
+    const data=COMPARE_DATA[met];
+    const label=COMPARE_LABELS_MAP[met];
+    const ds = kind==='bar'
+      ? {type:'bar',label,data,borderRadius:2,
+         backgroundColor:data.map(v=>(met==='terr'&&v<0)?'rgba(107,191,120,0.8)':colour+'bf')}
+      : {type:'line',label,data,borderColor:colour,
+         backgroundColor:colour+'14',borderWidth:2,pointRadius:0,pointHoverRadius:5,
+         tension:0.35,fill:true};
+    el._chart=new Chart(el,{
+      data:{labels:COMPARE_LABELS,datasets:[ds]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{display:false},
+          title:{display:true,text:label,align:'start',color:'#9abf92',
+                 font:{size:11,family:M},padding:{top:2,bottom:8}},
+          tooltip:{backgroundColor:'#0d1410',borderColor:EDGE,borderWidth:1,
+            titleColor:'#c8d8c0',bodyColor:'#8aaa88',padding:10,
+            callbacks:{label:ctx=>{
+              const v=ctx.raw;
+              const s=Math.abs(v)>=1000?(v<0?'-':'')+Math.round(Math.abs(v)).toLocaleString('en-GB')
+                                       :v+(met==='intercept'?'%':'');
+              return ' '+label+': '+s;
+            }}}
         },
-        {
-          type:'line',
-          label:COMPARE_LABELS_MAP[metB],
-          data:dataB,
-          borderColor:'#d4a017',
-          backgroundColor:'rgba(212,160,23,0.07)',
-          borderWidth:2,
-          pointRadius:3,
-          pointBackgroundColor:'#d4a017',
-          pointBorderColor:'#080d0a',
-          pointBorderWidth:1.5,
-          tension:0.35,
-          fill:true,
-          yAxisID:'y2',
-          order:1,
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'#0d1410',
-          borderColor:'#1e3022',
-          borderWidth:1,
-          titleColor:'#c8d8c0',
-          bodyColor:'#8aaa88',
-          padding:10,
-          callbacks:{
-            label:ctx=>{
-              const val=ctx.raw;
-              const met=ctx.datasetIndex===0?metA:metB;
-              const label=COMPARE_LABELS_MAP[met];
-              const fmt=Math.abs(val)>=1000?
-                (val<0?'-':'')+Math.round(Math.abs(val)).toLocaleString():
-                val+(met==='intercept'?'%':'');
-              return ` ${label}: ${fmt}`;
-            }
-          }
-        }
-      },
-      scales:{
-        x:{
-          ticks:{color:'#637a60',font:{size:8,family:M}},
-          grid:{color:'#1e3022'},
-          border:{color:'#253d2a'}
-        },
-        y:{
-          position:'left',
-          ticks:{
-            color:'rgba(231,76,60,0.7)',
-            font:{size:8,family:M},
-            callback:v=>Math.abs(v)>=1000?(v/1000).toFixed(0)+'k':v
-          },
-          grid:{color:'#1e3022'},
-          border:{color:'#253d2a'},
-          title:{
-            display:true,
-            text:COMPARE_LABELS_MAP[metA],
-            color:'#637a60',
-            font:{size:6,family:M}
-          }
-        },
-        y2:{
-          position:'right',
-          ticks:{
-            color:'rgba(212,160,23,0.7)',
-            font:{size:8,family:M},
-            callback:v=>Math.abs(v)>=1000?(v/1000).toFixed(0)+'k':v+(metB==='intercept'?'%':'')
-          },
-          grid:{display:false},
-          border:{color:'#253d2a'},
-          title:{
-            display:true,
-            text:COMPARE_LABELS_MAP[metB],
-            color:'#637a60',
-            font:{size:6,family:M}
-          }
+        scales:{
+          x:{ticks:{color:AXIS,font:{size:10,family:M},display:showX,maxRotation:0,autoSkipPadding:14},
+             grid:{color:GRID},border:{color:EDGE}},
+          y:{ticks:{color:AXIS,font:{size:10,family:M},callback:fmtTick(met),maxTicksLimit:5},
+             grid:{color:GRID},border:{color:EDGE}}
         }
       }
-    }
-  });
+    });
+  }
+
+  panel(elA,metA,'bar','#c0493c',false);
+  panel(elB,metB,'line','#d4a017',true);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -4272,12 +4436,22 @@ function renderAirDefChartSlice(startIdx, endIdx){
   });
 }
 
-// Scroll reveal
+// Scroll reveal.
+// Content is visible by default in CSS. We only opt into hiding it once we
+// know the observer exists and we are actually going to reveal it again, so a
+// JS failure or an unsupported browser can never leave the page blank.
 (function(){
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const targets=[...document.querySelectorAll('.reveal:not(.no-reveal)')];
+  if(!targets.length)return;
+  document.documentElement.classList.add('js-reveal');
   const ro=new IntersectionObserver(entries=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});
   },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
-  document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+  targets.forEach(el=>ro.observe(el));
+  // Belt and braces: if anything is still hidden after 3s, show it.
+  setTimeout(()=>targets.forEach(el=>el.classList.add('visible')),3000);
 })();
 </script>
 <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a42ae9809b4afe99',t:'MTc5MDY4NDExNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
