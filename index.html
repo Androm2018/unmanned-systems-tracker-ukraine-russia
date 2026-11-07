@@ -1633,6 +1633,7 @@ html.js-reveal .reveal.visible{ opacity: 1; transform: none; }
     <div class="ad-stat-cell"><span class="ad-stat-val" style="color:#5dade2" id="ads-ew">—</span><span class="ad-stat-lbl">— of which EW-suppressed</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-attack-days">—</span><span class="ad-stat-lbl">Attack waves logged</span></div>
     <div class="ad-stat-cell"><span class="ad-stat-val" id="ads-largest">—</span><span class="ad-stat-lbl">Largest single wave</span></div>
+    <div class="ad-stat-cell" style="grid-column:span 5"><span class="ad-stat-val" style="color:#f0c040" id="ads-bigday">&mdash;</span><span class="ad-stat-lbl" id="ads-bigday-lbl">Largest 24h drone attack</span></div>
   </div>
 
   <!-- CHART -->
@@ -3218,6 +3219,23 @@ function renderAirDef(){
   setVal('ads-got-through',fmtBig(gotThrough));
   setVal('ads-attack-days',fmtBig(SCOPE.length));
   setVal('ads-largest',fmtBig(largest));
+  // Largest 24-hour drone attack. Timed drone waves sharing a start date are summed,
+  // which is how the Air Force totals a day's attack: 13 May 2026 gives 1,428, matching
+  // the figure the Air Force published. Untimed daily recon tallies are excluded.
+  const droneDay={};
+  SCOPE.forEach(r=>{
+    const ts=String(r.time_start||'');
+    if(!/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(ts))return;
+    const md=String(r.model||'').toLowerCase();
+    if(!(md.includes('shahed')||md.includes('geran')||md.includes('gerbera')||md.includes('uav')))return;
+    const dk=ts.slice(0,10);
+    droneDay[dk]=(droneDay[dk]||0)+(parseFloat(r.launched)||0);
+  });
+  let bigDay=0,bigDayDate='';
+  for(const dk in droneDay){if(droneDay[dk]>bigDay){bigDay=droneDay[dk];bigDayDate=dk;}}
+  setVal('ads-bigday',fmtBig(bigDay));
+  const bdl=document.getElementById('ads-bigday-lbl');
+  if(bdl)bdl.textContent=bigDayDate?('Largest 24h drone attack \u00b7 '+fmtDate(bigDayDate)):'Largest 24h drone attack';
   setVal('ads-kinetic',fmtBig(totalKinetic));
   setVal('ads-ew',fmtBig(totalEW));
   const noteEl=document.getElementById('airdef-period-note');
