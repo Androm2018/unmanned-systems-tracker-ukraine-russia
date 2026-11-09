@@ -4020,7 +4020,7 @@ window.addEventListener('scroll',()=>{
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border2)">
     <div>
       <div class="section-title">Original <span>Analyses</span></div>
-      <div class="section-sub">ORIGINAL RESEARCH USING TRACKER DATA · PHD CANDIDATE IN WAR STUDIES · KING'S COLLEGE LONDON &nbsp;·&nbsp; <span style="color:var(--accent3)">UPDATED: July 2026</span></div>
+      <div class="section-sub">ORIGINAL RESEARCH USING TRACKER DATA · PHD CANDIDATE IN WAR STUDIES · KING'S COLLEGE LONDON &nbsp;·&nbsp; <span style="color:var(--accent3)">UPDATED: Nov 2026</span></div>
     </div>
   </div>
 
@@ -4039,79 +4039,58 @@ window.addEventListener('scroll',()=>{
 
   <div id="analyses-grid">
 
-  <!-- ANALYSIS 1 data-cat="interception": WEATHER -->
-  <div data-cat="interception" class="an-card">
+  <!-- RETRACTION — replaces withdrawn ANALYSIS 1 (weather) and ANALYSIS 2 (saturation) -->
+  <div data-cat="interception" class="an-card" style="border-left:3px solid #e74c3c">
     <div class="an-card-head">
-      <div class="an-card-title">Weather and Shahed Interception Rates</div>
-      <div class="an-card-date">April 2026 · n = 603 attack days · Shahed/Geran only · Oct 2022–Mar 2026</div>
+      <div class="an-card-title" style="color:#e74c3c">Withdrawn: Weather Effects and the Saturation Threshold</div>
+      <div class="an-card-date">Retracted 9 November 2026 · originally published April 2026</div>
     </div>
-    <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Air defence data: Petro Ivaniuk / Ukrainian Air Force · Weather: Open-Meteo Historical Archive API</div>
-    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Cross-referencing 603 Shahed/Geran attack days with night-time weather conditions from the Open-Meteo Historical Archive API. Each attack day was classified as Clear, Overcast, or Adverse based on cloud cover and precipitation.</p>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">~70% consistent across all weather</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Clear nights: 70.7% (n=110) · Overcast: 72.2% (n=193) · Adverse: 68.2% (n=300). The 4-point range across conditions is not statistically significant — Ukraine's interception rate is weather-robust.</p>
+    <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force &middot; Open-Meteo ERA5</div>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Two analyses previously published here have been withdrawn. Both rested on a reporting artefact in the source data that was not controlled for. They are described here instead of being deleted, because anyone who read them should know what was wrong with them.</p>
+      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid #e74c3c">
+        <div style="font-family:var(--mono);font-size:0.56rem;color:#e74c3c;margin-bottom:3px">The artefact</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">From July 2024 to July 2025 the Ukrainian Air Force reported electronic warfare suppression on a separate line. Before and after that window the same outcome folds into the destroyed count. Any rate computed as destroyed over launched therefore collapses and recovers across those two boundaries, by roughly 30 percentage points, with nothing having changed on the ground.</p>
       </div>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Cloud cover: r = 0.051, p = 0.21</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">OLS regression of night-time cloud cover against interception rate shows a near-zero relationship. Cloud cover explains less than 0.3% of variance in intercept outcomes.</p>
+      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid #e74c3c">
+        <div style="font-family:var(--mono);font-size:0.56rem;color:#e74c3c;margin-bottom:3px">Saturation threshold: withdrawn</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">The claimed degradation zone at 61 to 150 weapons was an artefact of composition. That band is 51 per cent made up of nights inside the separate-reporting window, roughly double the share in any other band, so it was always going to show a depressed rate. The threshold was a property of the reporting, not of the defence.</p>
       </div>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Russia does not exploit adverse weather</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Launch volumes are highest on clear nights (150.4/day) vs adverse nights (129.6/day). There is no evidence Russia times swarms to exploit poor weather conditions.</p>
+      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid #e74c3c">
+        <div style="font-family:var(--mono);font-size:0.56rem;color:#e74c3c;margin-bottom:3px">Weather null result: not established</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">A third of the Shahed nights in that sample fall inside the window. Recomputed on kinetic-only outcomes the rate steps 22.3 points across its boundary, and the standard deviation runs 17.9 against 12.6 outside it. The finding of no weather effect may well be correct, but this analysis did not establish it.</p>
+      </div>
+      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--accent3)">
+        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">What replaced the saturation work</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Recomputed on clean-reporting nights only, the neutralisation rate rises with salvo size rather than falling. In 2026 it runs from 80.6 per cent on the smallest nights to 91.6 per cent above 500 drones, and the pattern holds within each period separately. This is association and not cause: large salvos are directed at the most heavily defended areas, carry a higher share of cheap decoys and are detected earlier. It does mean the intuitive saturation effect does not appear in this data.</p>
       </div>
     <details style="margin-top:12px">
-      <summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em;list-style:none">▸ METHODOLOGY NOTE</summary>
-      <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">Weather retrieved for Kyiv (50.45°N, 30.52°E). Night-time = 20:00–06:00 local. Attacks with <10 Shaheds excluded. Clear = cloud cover <30%, Overcast = 30–79%, Adverse = ≥80% or precipitation present.</p>
+      <summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em;list-style:none">&#9656; METHODOLOGY NOTE</summary>
+      <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">The only rate comparable across the whole series is (destroyed + not_reach_goal) / launched. The replacement analysis excludes every night between July 2024 and July 2025 and groups timed Shahed, Geran and Gerbera rows by launch date. Underlying data available on request.</p>
     </details>
   </div>
-  <!-- ANALYSIS 2 data-cat="interception": SATURATION -->
-  <div data-cat="interception" class="an-card">
-    <div class="an-card-head">
-      <div class="an-card-title">Air Defence Saturation: Interception Rate vs Launch Volume</div>
-      <div class="an-card-date">April 2026 · n = 955 attack nights</div>
-    </div>
-    <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force</div>
-    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">Tests whether Ukrainian air defence degrades under high launch volumes — identifying the saturation threshold above which interception rates fall. Attack nights are bucketed by total weapons launched across nine volume bands.</p>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Degradation zone: 61–150 weapons (66–67%)</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">The only volume band that consistently falls below the 74% overall mean. Medium-intensity attacks — not mass salvos — are most effective at degrading performance.</p>
-      </div>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">High-volume resilience: 83% at 600+ weapons</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">At the highest attack volumes (n=10), interception recovers to 83% — above the overall mean. Mass swarms do not overwhelm Ukrainian air defence in the way commonly assumed.</p>
-      </div>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Non-linear relationship overall</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">The volume-to-interception relationship is non-linear. No attack nights fell into the overwhelmed category (<55%). The system appears structurally robust at both low and very high volumes.</p>
-      </div>
-    <details style="margin-top:12px">
-      <summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em;list-style:none">▸ METHODOLOGY NOTE</summary>
-      <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">Volume buckets: 1–30, 31–60, 61–100, 101–150, 151–200, 201–300, 301–400, 401–600, 600+. Classification: ≥70% = manageable, 55–69% = degraded, <55% = overwhelmed.</p>
-    </details>
-  </div>
-  <!-- ANALYSIS 3 data-cat="interception": SALVO -->
+  <!-- ANALYSIS 3 data-cat="interception": SALVO (corrected 9 Nov 2026) -->
   <div data-cat="interception" class="an-card">
     <div class="an-card-head">
       <div class="an-card-title">Salvo Composition: Testing the 'Shahed as Decoy' Hypothesis</div>
-      <div class="an-card-date">April 2026 · n = 1,060 attack nights</div>
+      <div class="an-card-date">Corrected 9 November 2026 &middot; n = 459 clean-reporting attack nights &middot; Aug 2025 onward</div>
     </div>
     <div style="font-family:var(--mono);font-size:0.48rem;color:var(--text3);letter-spacing:0.06em;margin-bottom:12px">Petro Ivaniuk / Ukrainian Air Force</div>
-    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">A widely cited claim holds that Russia uses Shaheds as decoys to saturate Ukrainian air defence and enable missile penetration. If true, mixed salvos (Shahed + missile) should produce lower overall interception rates than Shahed-only attacks.</p>
+    <p style="font-family:var(--body);font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:18px">A widely cited claim holds that Russia uses Shaheds as decoys to saturate Ukrainian air defence and enable missile penetration. If true, mixed salvos should produce lower overall neutralisation rates than drone-only attacks. Recomputed on nights outside the separate-reporting window, using (destroyed + not_reach_goal) / launched. The April 2026 version of this analysis used the contaminated series and two of its three findings were wrong.</p>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Hypothesis not supported: 73% vs 75%</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Mixed salvos (Shahed + missile, n=497) produce a 73% interception rate vs 75% for Shahed-only (n=411). The 2-point difference is within error margins — mixed salvos do not measurably degrade overall interception.</p>
+        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Hypothesis not supported: 85.1% vs 85.6%</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Mixed salvos (n=198 nights, 46,246 munitions) neutralise at 85.1 per cent against 85.6 per cent for drone-only nights (n=261, 44,676 munitions). Half a point apart on samples this large. Restricting to 2026 narrows it further, to 86.6 against 86.7. Mixed salvos do not measurably degrade interception, which is the one finding from the original that survives, and it survives more strongly on clean data.</p>
+      </div>
+      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid #e74c3c">
+        <div style="font-family:var(--mono);font-size:0.56rem;color:#e74c3c;margin-bottom:3px">Correction: missile-only nights cannot be assessed</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">The April version reported missile-only salvos at 80 per cent, the highest of any salvo type. That was wrong in both directions. On the full series the figure is 75.8 per cent, which is the lowest of the three, not the highest. On clean-reporting data it cannot be computed at all: there have been no missile-only nights since August 2025, because every night involving missiles since then has also involved drones. The original 80 per cent rested on 886 munitions across 95 nights, most of them predating the current air defence posture.</p>
       </div>
       <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Missiles intercepted well alone: 80%</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Missile-only salvos (n=82) produce the highest interception rate at 80%, suggesting Ukraine's missile defence performs well independently of Shahed saturation.</p>
-      </div>
-      <div style="margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border)">
-        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Volume may explain marginal degradation</div>
-        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Mixed nights use the highest mean volumes (113 weapons/night vs 101 Shahed-only). Any marginal degradation in mixed salvos likely reflects volume effects rather than a decoy function.</p>
+        <div style="font-family:var(--mono);font-size:0.56rem;color:var(--accent3);margin-bottom:3px">Mixed nights are simply larger</div>
+        <p style="font-family:var(--body);font-size:0.76rem;color:var(--text3);line-height:1.7">Mixed nights average 234 munitions against 171 for drone-only. Since the neutralisation rate rises with salvo size in this data, the volume difference should if anything favour mixed nights. That it does not, and the two are level, is a cleaner result than the original comparison produced.</p>
       </div>
     <details style="margin-top:12px">
-      <summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em;list-style:none">▸ METHODOLOGY NOTE</summary>
-      <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">Salvo types classified from model field: Shahed Only (n=411), Mixed Shahed + Missile (n=497), Missile Only (n=82), Other/Unknown (n=70). Error bars represent 95% confidence intervals.</p>
+      <summary style="font-family:var(--mono);font-size:0.5rem;color:var(--text3);cursor:pointer;letter-spacing:0.08em;list-style:none">&#9656; METHODOLOGY NOTE</summary>
+      <p style="font-family:var(--body);font-size:0.68rem;color:var(--text3);line-height:1.7;margin-top:8px;padding-left:10px">Nights classified by what was launched: drone-only, missile-only, or mixed. Shahed, Geran and Gerbera count as drones; reconnaissance UAV rows and untimed daily tallies are excluded. Window restricted to August 2025 onward, after the Air Force stopped reporting electronic warfare suppression separately. Rate is (destroyed + not_reach_goal) / launched throughout. Underlying data available on request.</p>
     </details>
   </div>
   <!-- ANALYSIS 4 data-cat="strategy": WEAPONMIX -->
